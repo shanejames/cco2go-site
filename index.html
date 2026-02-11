@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CCO2Go.ai — Fractional Chief Customer Officer for Startups</title>
+<meta name="description" content="Fractional CCO + AI-powered CS platform. Reduce churn from 22% to 7%, boost NRR from 85% to 115%. No $350K hire. Results from week one.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M60 22 L88 42 L88 66 C88 84 76 96 60 102 C44 96 32 84 32 66 L32 42 Z' fill='%233B82F6'/%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -17,6 +19,8 @@
     --green-glow: rgba(52, 211, 153, 0.15);
     --red: #F87171;
     --red-glow: rgba(248, 113, 113, 0.12);
+    --purple: #A78BFA;
+    --purple-glow: rgba(167, 139, 250, 0.12);
     --text-primary: #F1F5F9;
     --text-secondary: #94A3B8;
     --text-dim: #64748B;
@@ -25,7 +29,6 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
 
   body {
@@ -62,10 +65,7 @@
     font-weight: 500;
   }
   .top-bar a:hover { color: var(--accent-bright); }
-  .top-bar .icon {
-    font-size: 0.85rem;
-    opacity: 0.7;
-  }
+  .top-bar .icon { font-size: 0.85rem; opacity: 0.7; }
 
   /* ── NAV ── */
   nav {
@@ -238,18 +238,6 @@
   }
   .btn-primary:hover { background: #2563EB; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(59,130,246,0.35); }
 
-  .btn-ghost {
-    color: var(--text-secondary);
-    padding: 0.9rem 1.8rem;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 1rem;
-    transition: all 0.3s;
-    border: 1px solid var(--border);
-  }
-  .btn-ghost:hover { border-color: var(--text-dim); color: var(--text-primary); }
-
   /* ── METRICS BAR ── */
   .metrics-bar {
     display: grid;
@@ -296,10 +284,7 @@
     text-decoration-color: rgba(248,113,113,0.4);
   }
 
-  .metric-arrow {
-    color: var(--text-dim);
-    font-size: 1.2rem;
-  }
+  .metric-arrow { color: var(--text-dim); font-size: 1.2rem; }
 
   .metric-to {
     font-family: 'Instrument Serif', serif;
@@ -329,20 +314,23 @@
     letter-spacing: -0.02em;
     line-height: 1.15;
     margin-bottom: 1.2rem;
-    max-width: 650px;
+    max-width: 700px;
+  }
+  .section-title em {
+    font-style: italic;
+    color: var(--accent-bright);
   }
 
   .section-desc {
     color: var(--text-secondary);
     font-size: 1.05rem;
-    max-width: 550px;
+    max-width: 580px;
     margin-bottom: 3rem;
+    line-height: 1.7;
   }
 
   /* ── PROBLEM ── */
-  .problem-section {
-    border-top: 1px solid var(--border);
-  }
+  .problem-section { border-top: 1px solid var(--border); }
 
   .pain-grid {
     display: grid;
@@ -453,7 +441,7 @@
     letter-spacing: -0.01em;
   }
 
-  .solution-card p {
+  .solution-card > p {
     color: var(--text-secondary);
     font-size: 0.95rem;
     margin-bottom: 1.5rem;
@@ -480,6 +468,25 @@
   }
   .executive .feature-list li .check { color: var(--accent-bright); }
   .platform .feature-list li .check { color: var(--green); }
+
+  .platform-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--green);
+    text-decoration: none;
+    transition: all 0.3s;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid transparent;
+  }
+  .platform-link:hover {
+    color: #6EE7B7;
+    border-bottom-color: rgba(52, 211, 153, 0.3);
+    gap: 0.6rem;
+  }
 
   /* ── HOW IT WORKS ── */
   .steps-grid {
@@ -567,17 +574,65 @@
   .result-row:last-child { border-bottom: none; }
 
   .result-metric { color: var(--text-secondary); font-size: 0.9rem; }
-  .result-change {
-    font-weight: 600;
-    font-size: 0.9rem;
-  }
+  .result-change { font-weight: 600; font-size: 0.9rem; }
   .result-change.positive { color: var(--green); }
-  .result-change.negative { color: var(--red); }
+
+  /* ── WHO THIS IS FOR ── */
+  .audience-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1rem;
+  }
+
+  .audience-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.8rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .audience-card:hover {
+    border-color: var(--border-accent);
+    background: var(--bg-card-hover);
+  }
+  .audience-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .audience-card:hover::before { opacity: 1; }
+
+  .audience-icon {
+    font-size: 1.3rem;
+    margin-bottom: 0.8rem;
+    width: 40px; height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-glow);
+    border-radius: 10px;
+  }
+
+  .audience-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+  }
+
+  .audience-card p {
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    line-height: 1.55;
+  }
 
   /* ── ABOUT ── */
-  .about-section {
-    border-top: 1px solid var(--border);
-  }
+  .about-section { border-top: 1px solid var(--border); }
 
   .about-grid {
     display: grid;
@@ -691,11 +746,16 @@
     letter-spacing: -0.02em;
     margin-bottom: 1rem;
   }
+  .final-cta h2 em {
+    font-style: italic;
+    color: var(--accent-bright);
+  }
 
   .final-cta p {
     color: var(--text-secondary);
     font-size: 1.05rem;
     margin-bottom: 2.5rem;
+    line-height: 1.7;
   }
 
   .cta-details {
@@ -737,16 +797,59 @@
   .reveal {
     opacity: 1;
     transform: translateY(0);
-    transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .reveal.animate {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(40px);
   }
   .reveal.animate.visible {
     opacity: 1;
     transform: translateY(0);
   }
+
+  /* Staggered children */
+  .reveal .pain-card,
+  .reveal .solution-card,
+  .reveal .step-card,
+  .reveal .result-card,
+  .reveal .audience-card {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.animate .pain-card,
+  .reveal.animate .solution-card,
+  .reveal.animate .step-card,
+  .reveal.animate .result-card,
+  .reveal.animate .audience-card {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  .reveal.animate.visible .pain-card,
+  .reveal.animate.visible .solution-card,
+  .reveal.animate.visible .step-card,
+  .reveal.animate.visible .result-card,
+  .reveal.animate.visible .audience-card {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal.animate.visible .pain-card:nth-child(1),
+  .reveal.animate.visible .solution-card:nth-child(1),
+  .reveal.animate.visible .step-card:nth-child(1),
+  .reveal.animate.visible .result-card:nth-child(1),
+  .reveal.animate.visible .audience-card:nth-child(1) { transition-delay: 0.1s; }
+  .reveal.animate.visible .pain-card:nth-child(2),
+  .reveal.animate.visible .solution-card:nth-child(2),
+  .reveal.animate.visible .step-card:nth-child(2),
+  .reveal.animate.visible .result-card:nth-child(2),
+  .reveal.animate.visible .audience-card:nth-child(2) { transition-delay: 0.2s; }
+  .reveal.animate.visible .pain-card:nth-child(3),
+  .reveal.animate.visible .solution-card:nth-child(3),
+  .reveal.animate.visible .step-card:nth-child(3),
+  .reveal.animate.visible .result-card:nth-child(3),
+  .reveal.animate.visible .audience-card:nth-child(3) { transition-delay: 0.3s; }
+  .reveal.animate.visible .audience-card:nth-child(4) { transition-delay: 0.4s; }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
@@ -761,9 +864,17 @@
     .steps-grid::before { display: none; }
     .about-grid { grid-template-columns: 1fr; }
     .metrics-bar { grid-template-columns: 1fr; }
+    .audience-grid { grid-template-columns: 1fr 1fr; }
     nav { padding: 0.8rem 1.2rem; }
-    .logo { font-size: 1.2rem; }
+    .logo-main { font-size: 1.15rem; }
     section { padding: 4rem 1.2rem; }
+    .hero { padding: 8rem 1.2rem 3rem; }
+    .hero h1 { font-size: clamp(2.2rem, 8vw, 3.5rem); }
+  }
+
+  @media (max-width: 480px) {
+    .audience-grid { grid-template-columns: 1fr; }
+    .pain-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -790,17 +901,13 @@
         </linearGradient>
         <filter id="navGlow"><feGaussianBlur stdDeviation="2" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
       </defs>
-      <!-- Outer circle -->
       <circle cx="60" cy="60" r="54" fill="none" stroke="url(#navGrad1)" stroke-width="3" opacity="0.35"/>
-      <!-- Shield shape -->
       <path d="M60 22 L88 42 L88 66 C88 84 76 96 60 102 C44 96 32 84 32 66 L32 42 Z" fill="url(#navGrad2)" />
       <path d="M60 22 L88 42 L88 66 C88 84 76 96 60 102 C44 96 32 84 32 66 L32 42 Z" fill="none" stroke="url(#navGrad1)" stroke-width="2.5" stroke-linejoin="round" />
-      <!-- Globe lines inside shield -->
       <ellipse cx="60" cy="62" rx="22" ry="22" fill="none" stroke="#60A5FA" stroke-width="1.2" opacity="0.3" />
       <ellipse cx="60" cy="62" rx="10" ry="22" fill="none" stroke="#60A5FA" stroke-width="1.2" opacity="0.3" />
       <line x1="38" y1="55" x2="82" y2="55" stroke="#60A5FA" stroke-width="1" opacity="0.25" />
       <line x1="38" y1="69" x2="82" y2="69" stroke="#60A5FA" stroke-width="1" opacity="0.25" />
-      <!-- Upward arrow / growth -->
       <polyline points="44,78 54,64 63,70 80,48" fill="none" stroke="#34D399" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#navGlow)" />
       <circle cx="80" cy="48" r="3" fill="#34D399">
         <animate attributeName="r" values="3;4.5;3" dur="2s" repeatCount="indefinite" />
@@ -842,7 +949,7 @@
       </circle>
     </svg>
   </div>
-  <div class="hero-badge">Previously: Oracle · Onapsis · Manta/IBM · Tanium</div>
+  <div class="hero-badge"><span class="dot"></span> Serving Seed through Series C startups</div>
   <h1>Your Startup Is <em>Bleeding</em> Revenue. I Fix That.</h1>
   <p class="hero-sub">Fractional Chief Customer Officer + AI-powered CS platform.<br>No $350K hire. Measurable results from week one.</p>
   <div class="hero-cta-group">
@@ -883,23 +990,52 @@
 <!-- PROBLEM -->
 <section class="problem-section reveal">
   <div class="section-label">The Problem</div>
-  <h2 class="section-title">You can't afford a CCO. You can't afford not to have one.</h2>
-  <p class="section-desc">Most startups wait until churn becomes a crisis before investing in customer success leadership. By then, the damage is done.</p>
+  <h2 class="section-title">Sound familiar?</h2>
+  <p class="section-desc">You closed the deals. You built the product. But your customers keep leaving — and nobody in the building knows how to stop it.</p>
   <div class="pain-grid">
     <div class="pain-card">
       <div class="pain-icon">📉</div>
       <h3>Churn is eating your growth</h3>
-      <p>You're acquiring customers but losing them just as fast. Every churned account erases months of sales effort and CAC investment.</p>
+      <p>You're spending $50K+ to acquire each customer, then watching them walk after 8 months. Your board is starting to notice the leaky bucket.</p>
     </div>
     <div class="pain-card">
       <div class="pain-icon">🔥</div>
       <h3>Your CS team is firefighting</h3>
-      <p>No playbooks, no health scores, no proactive engagement. Your team reacts to problems instead of preventing them.</p>
+      <p>No playbooks. No health scores. No early warning system. Your team finds out a customer is churning when the cancellation email hits.</p>
     </div>
     <div class="pain-card">
       <div class="pain-icon">💰</div>
       <h3>A full-time CCO costs $350K+</h3>
-      <p>Salary, equity, benefits, ramp time. For a Series A-C startup, that's a bet-the-company hire that takes 6 months to show ROI.</p>
+      <p>Salary, equity, benefits, ramp time. For a Series A-C startup, that's a massive bet on one hire — and it takes 6+ months to see ROI.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHO THIS IS FOR -->
+<section class="reveal">
+  <div class="section-label">Built For</div>
+  <h2 class="section-title">If this is your stage, I'm your person.</h2>
+  <p class="section-desc">I work exclusively with B2B SaaS startups between Seed and Series C — the stage where customer success makes or breaks your next fundraise.</p>
+  <div class="audience-grid">
+    <div class="audience-card">
+      <div class="audience-icon">🚀</div>
+      <h3>Seed / Series A</h3>
+      <p>You have product-market fit but no CS function. You need the foundation built right, fast.</p>
+    </div>
+    <div class="audience-card">
+      <div class="audience-icon">📈</div>
+      <h3>Series B</h3>
+      <p>Growth is real but churn is scaling too. Your investors are asking about NRR and you don't have an answer.</p>
+    </div>
+    <div class="audience-card">
+      <div class="audience-icon">⚡</div>
+      <h3>Series C</h3>
+      <p>You need enterprise-grade CS operations before the next round. The bar is higher and the clock is ticking.</p>
+    </div>
+    <div class="audience-card">
+      <div class="audience-icon">🔄</div>
+      <h3>Turnaround</h3>
+      <p>Churn is a crisis. You need someone who's fixed this before — not someone who'll learn on your dime.</p>
     </div>
   </div>
 </section>
@@ -908,13 +1044,13 @@
 <section class="reveal">
   <div class="section-label">The Solution</div>
   <h2 class="section-title">You get the executive <em>and</em> the platform.</h2>
-  <p class="section-desc">This is what makes CCO2Go different. You don't just get strategic advice — you get a proprietary AI-powered CS engine deployed inside your organization.</p>
+  <p class="section-desc">This is what makes CCO2Go different. You don't just get advice — you get a battle-tested CS leader backed by a proprietary AI engine deployed inside your org.</p>
 
   <div class="solution-grid">
     <div class="solution-card executive">
       <div class="solution-tag">The Executive</div>
       <h3>Fractional CCO</h3>
-      <p>25+ years of C-suite customer success leadership — from Oracle to high-growth startups — available at a fraction of the cost.</p>
+      <p>25+ years of C-suite customer success leadership — from Oracle to high-growth startups — embedded in your team at a fraction of the cost.</p>
       <ul class="feature-list">
         <li><span class="check">✓</span> CS organization design & hiring strategy</li>
         <li><span class="check">✓</span> Churn root-cause analysis & remediation</li>
@@ -927,15 +1063,16 @@
     <div class="solution-card platform">
       <div class="solution-tag">The Platform</div>
       <h3>CCOPilot.ai</h3>
-      <p>A proprietary AI-powered customer success management platform — deployed as part of every engagement. No extra license fees.</p>
+      <p>A proprietary AI-powered customer success platform — deployed as part of every engagement.</p>
       <ul class="feature-list">
         <li><span class="check">✓</span> Predictive health scoring & risk alerts</li>
-        <li><span class="check">✓</span> 15+ AI agents for CS automation</li>
+        <li><span class="check">✓</span> 15 AI agents for CS automation</li>
         <li><span class="check">✓</span> Automated EBR/QBR generation</li>
         <li><span class="check">✓</span> Workflow orchestration engine</li>
         <li><span class="check">✓</span> Customer journey & lifecycle tracking</li>
         <li><span class="check">✓</span> ROI & value realization dashboards</li>
       </ul>
+      <a href="https://www.ccopilot.ai" target="_blank" class="platform-link">Explore CCOPilot.ai →</a>
     </div>
   </div>
 </section>
@@ -944,18 +1081,18 @@
 <section class="reveal">
   <div class="section-label">How It Works</div>
   <h2 class="section-title">From diagnosis to results in weeks, not quarters.</h2>
-  <p class="section-desc">A proven three-phase approach that delivers measurable impact fast.</p>
+  <p class="section-desc">A proven three-phase approach that delivers measurable impact fast — because your board doesn't grade on effort.</p>
 
   <div class="steps-grid">
     <div class="step-card">
       <div class="step-number">1</div>
       <h3>Diagnose</h3>
-      <p>Deep-dive into your churn data, customer journey, team structure, and processes. I identify the root causes — not symptoms — within the first two weeks.</p>
+      <p>Deep-dive into your churn data, customer journey, team structure, and processes. I find the root causes — not symptoms — within the first two weeks.</p>
     </div>
     <div class="step-card">
       <div class="step-number">2</div>
       <h3>Deploy</h3>
-      <p>Implement the playbooks, health scoring, and automation through CCOPilot.ai. Your team gets tools and frameworks on day one — not a slide deck of recommendations.</p>
+      <p>Implement playbooks, health scoring, and AI automation through CCOPilot.ai. Your team gets working tools on day one — not a slide deck of recommendations.</p>
     </div>
     <div class="step-card">
       <div class="step-number">3</div>
@@ -968,8 +1105,8 @@
 <!-- PROOF -->
 <section class="reveal" id="proof">
   <div class="section-label">Proven Results</div>
-  <h2 class="section-title">Real numbers from real engagements.</h2>
-  <p class="section-desc">Every metric represents revenue saved, recovered, or expanded for clients.</p>
+  <h2 class="section-title">Real numbers. Real engagements.</h2>
+  <p class="section-desc">Every metric below represents revenue saved, recovered, or expanded for startup clients.</p>
 
   <div class="results-grid">
     <div class="result-card">
@@ -994,11 +1131,11 @@
         <span class="result-change positive">Improved 15%</span>
       </div>
       <div class="result-row">
-        <span class="result-metric">Risk Signal Actions</span>
+        <span class="result-metric">At-Risk Account Signals</span>
         <span class="result-change positive">Reduced 20%</span>
       </div>
       <div class="result-row">
-        <span class="result-metric">CS Org Built From</span>
+        <span class="result-metric">CS Organization</span>
         <span class="result-change positive">Zero → Full Function</span>
       </div>
     </div>
@@ -1023,8 +1160,9 @@
       </div>
     </div>
     <div class="about-right">
-      <p>25+ years leading Customer Success, Professional Services, and Support organizations — from Oracle's enterprise CS division to high-growth cybersecurity startups.</p>
-      <p>I've built CS organizations from zero at multiple companies, turned around failing retention metrics, and designed the playbooks that VPs of CS still use years after I've moved on. Now I bring that same executive firepower to startups who need it most — without the $350K price tag.</p>
+      <p>25+ years leading Customer Success, Professional Services, and Support organizations — from Oracle's enterprise CS division to high-growth cybersecurity startups that needed results yesterday.</p>
+      <p>I've built CS organizations from zero at multiple companies, turned around failing retention metrics, and designed the playbooks that VPs of CS still use years after I've moved on. I also built CCOPilot.ai — a purpose-built AI platform — because I got tired of watching startups try to manage customer health in spreadsheets.</p>
+      <p>Now I bring that same executive firepower to startups who need it most — without the $350K price tag or the 6-month ramp.</p>
       <div class="testimonial-block">
         <p>"Shane joined when we had no formal customer success function and built it from the ground up. He's hard-working, process-oriented, and relentlessly focused on disciplined execution."</p>
         <span class="author">— Former Executive, Manta / IBM</span>
@@ -1035,8 +1173,8 @@
 
 <!-- FINAL CTA -->
 <section class="final-cta reveal">
-  <h2>Stop losing customers you didn't need to lose.</h2>
-  <p>Book a 20-minute strategy call. No pitch, no pressure — just an honest conversation about whether fractional CCO leadership is right for your stage.</p>
+  <h2>Stop losing customers you <em>didn't need to lose.</em></h2>
+  <p>Book a 20-minute strategy call. No pitch, no pressure — just an honest look at your churn data and whether fractional CCO leadership makes sense for your stage.</p>
   <a href="https://scheduler.zoom.us/r-shane-james/hello-i-am-an-event-card" class="btn-primary">Book Your Strategy Call →</a>
   <div class="cta-details">
     <span>⏱ 20 minutes</span>
@@ -1047,7 +1185,7 @@
 
 <!-- FOOTER -->
 <footer>
-  <p>© 2026 CCO2Go.ai · Tampa, FL · <a href="mailto:shane.james@cco2go.ai">shane.james@cco2go.ai</a> · <a href="tel:8136668427">(813) 666-8427</a></p>
+  <p>© 2026 CCO2Go.ai · Apollo Beach, FL · <a href="mailto:shane.james@cco2go.ai">shane.james@cco2go.ai</a> · <a href="tel:8136668427">(813) 666-8427</a></p>
 </footer>
 
 <!-- SCROLL REVEAL -->
@@ -1061,7 +1199,7 @@
         entry.target.classList.add('visible');
       }
     });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.08 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 
