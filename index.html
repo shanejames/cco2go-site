@@ -735,11 +735,15 @@
   }
 
   .reveal {
-    opacity: 0;
-    transform: translateY(30px);
+    opacity: 1;
+    transform: translateY(0);
     transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .reveal.visible {
+  .reveal.animate {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  .reveal.animate.visible {
     opacity: 1;
     transform: translateY(0);
   }
@@ -768,7 +772,7 @@
 <!-- TOP BAR -->
 <div class="top-bar">
   <a href="tel:8136668427"><span class="icon">📞</span> (813) 666-8427</a>
-  <a href="/cdn-cgi/l/email-protection#a8dbc0c9c6cd86c2c9c5cddbe8cbcbc79acfc786c9c1"><span class="icon">✉</span> <span class="__cf_email__" data-cfemail="710219101f145f1b101c14023112121e43161e5f1018">[email&#160;protected]</span></a>
+  <a href="mailto:shane.james@cco2go.ai"><span class="icon">✉</span> shane.james@cco2go.ai</a>
 </div>
 
 <!-- NAV -->
@@ -1043,8 +1047,23 @@
 
 <!-- FOOTER -->
 <footer>
-  <p>© 2026 CCO2Go.ai · Tampa, FL · <a href="/cdn-cgi/l/email-protection#3c4f545d525912565d51594f7c5f5f530e5b53125d55"><span class="__cf_email__" data-cfemail="d4a7bcb5bab1fabeb5b9b1a794b7b7bbe6b3bbfab5bd">[email&#160;protected]</span></a> · <a href="tel:8136668427">(813) 666-8427</a></p>
+  <p>© 2026 CCO2Go.ai · Tampa, FL · <a href="mailto:shane.james@cco2go.ai">shane.james@cco2go.ai</a> · <a href="tel:8136668427">(813) 666-8427</a></p>
 </footer>
 
 <!-- SCROLL REVEAL -->
-<script data-cfasync="false" src="/cdn-cgi/scrip
+<script>
+  document.querySelectorAll('.reveal').forEach(el => {
+    el.classList.add('animate');
+  });
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
