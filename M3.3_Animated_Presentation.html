@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 3.3 — Time to First Value | CCO2go.ai</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:   #0F1F4B;
+    --navy2:  #0a1538;
+    --teal:   #00A896;
+    --gold:   #F4A000;
+    --amber:  #F59E0B;
+    --amber2: #D97706;
+    --steel:  #4A5568;
+    --red:    #E05C5C;
+    --green:  #10B981;
+    --white:  #F0F4FF;
+    --accent: #F59E0B;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: var(--navy2); }
+
+  #nav {
+    position: fixed; top: 0; left: 0; right: 0; height: 48px; z-index: 100;
+    background: rgba(10,21,56,0.95); backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--amber);
+    display: flex; align-items: center; justify-content: space-between; padding: 0 24px;
+  }
+  #nav .brand { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--teal); }
+  #nav .module-label { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gold); letter-spacing: 0.1em; }
+  #nav .slide-counter { font-family: 'DM Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.4); }
+  #progress-bar { position: fixed; top: 50px; left: 0; height: 2px; z-index: 99; background: var(--accent); transition: width 0.4s ease; }
+
+  #stage { position: fixed; top: 50px; left: 0; right: 0; bottom: 0; }
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    padding: 44px 80px 76px;
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.55s ease, transform 0.55s ease; pointer-events: none;
+  }
+  .slide.active { opacity: 1; transform: translateY(0); pointer-events: all; }
+  .slide.exit { opacity: 0; transform: translateY(-28px); transition: opacity 0.35s ease, transform 0.35s ease; }
+
+  .footer { position: absolute; bottom: 14px; left: 0; right: 0; display: flex; justify-content: space-between; padding: 0 80px; font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.22); }
+
+  #prev, #next {
+    position: fixed; top: 50%; transform: translateY(-50%); z-index: 99;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.35); font-size: 22px; width: 44px; height: 44px;
+    border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+  }
+  #prev:hover, #next:hover { background: rgba(245,158,11,0.15); color: var(--accent); border-color: var(--accent); }
+  #prev { left: 14px; } #next { right: 14px; }
+
+  .eyebrow { font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 0.18em; color: var(--accent); text-transform: uppercase; margin-bottom: 16px; opacity: 0; transform: translateY(10px); transition: all 0.5s 0.1s ease; }
+  .slide.active .eyebrow { opacity: 1; transform: translateY(0); }
+
+  h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px, 7.5vw, 90px); color: var(--white); line-height: 0.95; text-align: center; opacity: 0; transform: translateY(16px); transition: all 0.5s 0.2s ease; }
+  .slide.active h1 { opacity: 1; transform: translateY(0); }
+
+  h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(32px, 4.5vw, 58px); color: var(--white); line-height: 1; text-align: center; opacity: 0; transform: translateY(14px); transition: all 0.5s 0.2s ease; }
+  .slide.active h2 { opacity: 1; transform: translateY(0); }
+
+  .subtitle { font-family: 'DM Sans', sans-serif; font-size: clamp(14px, 1.8vw, 19px); color: rgba(255,255,255,0.55); text-align: center; margin-top: 20px; max-width: 680px; line-height: 1.55; opacity: 0; transform: translateY(10px); transition: all 0.5s 0.35s ease; }
+  .slide.active .subtitle { opacity: 1; transform: translateY(0); }
+
+  .accent-line { width: 64px; height: 3px; background: var(--accent); margin: 20px auto; opacity: 0; transform: scaleX(0); transition: all 0.5s 0.3s ease; }
+  .slide.active .accent-line { opacity: 1; transform: scaleX(1); }
+
+  .quote-block { max-width: 780px; padding: 28px 36px; margin: 24px auto; border-left: 4px solid var(--accent); background: rgba(255,255,255,0.03); opacity: 0; transform: translateY(14px); transition: all 0.55s 0.25s ease; }
+  .slide.active .quote-block { opacity: 1; transform: translateY(0); }
+  .quote-text { font-family: 'DM Sans', sans-serif; font-size: clamp(16px, 2vw, 21px); color: var(--white); line-height: 1.65; font-style: italic; }
+
+  /* STAT BLOCKS */
+  .stat-row { display: flex; justify-content: center; gap: 28px; margin-top: 20px; flex-wrap: wrap; opacity: 0; transform: translateY(14px); transition: all 0.5s 0.3s ease; }
+  .slide.active .stat-row { opacity: 1; transform: translateY(0); }
+  .stat-card { text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(245,158,11,0.2); border-top: 3px solid var(--accent); border-radius: 6px; padding: 20px 28px; min-width: 150px; }
+  .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px, 5vw, 64px); color: var(--accent); line-height: 1; }
+  .stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.45); letter-spacing: 0.08em; margin-top: 6px; line-height: 1.4; }
+
+  /* WATERFALL */
+  .waterfall { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 860px; margin-top: 16px; }
+  .wf-stage { display: flex; align-items: stretch; gap: 0; border-radius: 5px; overflow: hidden; opacity: 0; transform: translateX(-18px); }
+  .slide.active .wf-stage:nth-child(1) { opacity:1; transform:translateX(0); transition: all 0.4s 0.1s ease; }
+  .slide.active .wf-stage:nth-child(2) { opacity:1; transform:translateX(0); transition: all 0.4s 0.2s ease; }
+  .slide.active .wf-stage:nth-child(3) { opacity:1; transform:translateX(0); transition: all 0.4s 0.3s ease; }
+  .slide.active .wf-stage:nth-child(4) { opacity:1; transform:translateX(0); transition: all 0.4s 0.4s ease; }
+  .slide.active .wf-stage:nth-child(5) { opacity:1; transform:translateX(0); transition: all 0.4s 0.5s ease; }
+  .slide.active .wf-stage:nth-child(6) { opacity:1; transform:translateX(0); transition: all 0.4s 0.6s ease; }
+  .wf-num { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--navy2); min-width: 52px; display: flex; align-items: center; justify-content: center; }
+  .wf-content { flex: 1; padding: 12px 18px; }
+  .wf-title { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; color: var(--white); }
+  .wf-desc { font-family: 'DM Sans', sans-serif; font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 3px; line-height: 1.45; }
+  .wf-stall { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(224,92,92,0.85); margin-top: 5px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .wf-s1 { background: rgba(245,158,11,0.18); } .wf-s1 .wf-num { background: var(--accent); }
+  .wf-s2 { background: rgba(245,158,11,0.14); } .wf-s2 .wf-num { background: rgba(245,158,11,0.7); }
+  .wf-s3 { background: rgba(245,158,11,0.10); } .wf-s3 .wf-num { background: rgba(245,158,11,0.5); }
+  .wf-s4 { background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); } .wf-s4 .wf-num { background: var(--green); }
+  .wf-s5 { background: rgba(245,158,11,0.08); } .wf-s5 .wf-num { background: rgba(245,158,11,0.35); }
+  .wf-s6 { background: rgba(0,168,150,0.12); border: 1px solid rgba(0,168,150,0.25); } .wf-s6 .wf-num { background: var(--teal); }
+
+  /* STAGE DETAIL */
+  .stage-detail { width: 100%; max-width: 860px; margin-top: 16px; opacity: 0; transform: translateY(14px); transition: all 0.5s 0.25s ease; }
+  .slide.active .stage-detail { opacity: 1; transform: translateY(0); }
+  .sd-header { display: flex; align-items: center; gap: 18px; padding: 16px 24px; border-radius: 5px 5px 0 0; }
+  .sd-num { font-family: 'Bebas Neue', sans-serif; font-size: 52px; line-height: 1; color: var(--navy2); }
+  .sd-title-wrap .sd-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 4px; }
+  .sd-title-wrap .sd-name { font-family: 'Bebas Neue', sans-serif; font-size: 34px; color: var(--white); line-height: 1; }
+  .sd-body { display: grid; grid-template-columns: 1fr 1fr; }
+  .sd-col { padding: 18px 22px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.65; color: rgba(255,255,255,0.75); }
+  .sd-col.left { border-right: none; border-radius: 0 0 0 5px; }
+  .sd-col.right { border-radius: 0 0 5px 0; }
+  .sd-col-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; }
+  .sd-col.left .sd-col-label { color: rgba(224,92,92,0.8); }
+  .sd-col.right .sd-col-label { color: rgba(16,185,129,0.9); }
+  .sd-col.right { color: rgba(255,255,255,0.85); }
+
+  /* BENCHMARK BARS */
+  .benchmark { width: 100%; max-width: 780px; margin-top: 16px; }
+  .bm-row { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; opacity: 0; transform: translateY(10px); }
+  .slide.active .bm-row:nth-child(1) { opacity:1; transform:translateY(0); transition: all 0.4s 0.15s ease; }
+  .slide.active .bm-row:nth-child(2) { opacity:1; transform:translateY(0); transition: all 0.4s 0.3s ease; }
+  .slide.active .bm-row:nth-child(3) { opacity:1; transform:translateY(0); transition: all 0.4s 0.45s ease; }
+  .slide.active .bm-row:nth-child(4) { opacity:1; transform:translateY(0); transition: all 0.4s 0.6s ease; }
+  .bm-label { font-family: 'DM Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.55); min-width: 120px; text-align: right; }
+  .bm-track { flex: 1; height: 10px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
+  .bm-fill { height: 100%; border-radius: 3px; }
+  .bm-val { font-family: 'Bebas Neue', sans-serif; font-size: 22px; min-width: 80px; }
+
+  /* ACTION GRID */
+  .action-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; width: 100%; max-width: 900px; margin-top: 16px; }
+  .action-item { background: rgba(255,255,255,0.04); border: 1px solid rgba(245,158,11,0.2); border-top: 3px solid var(--accent); border-radius: 5px; padding: 20px 18px; opacity: 0; transform: translateY(16px); }
+  .slide.active .action-item:nth-child(1) { opacity:1; transform:translateY(0); transition: all 0.4s 0.1s ease; }
+  .slide.active .action-item:nth-child(2) { opacity:1; transform:translateY(0); transition: all 0.4s 0.25s ease; }
+  .slide.active .action-item:nth-child(3) { opacity:1; transform:translateY(0); transition: all 0.4s 0.4s ease; }
+  .action-num { font-family: 'Bebas Neue', sans-serif; font-size: 42px; color: var(--accent); line-height: 1; margin-bottom: 10px; }
+  .action-title { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+  .action-body { font-family: 'DM Sans', sans-serif; font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+  /* VS COMPARE */
+  .vs-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0; max-width: 820px; width: 100%; margin-top: 20px; align-items: center; opacity: 0; transform: translateY(14px); transition: all 0.5s 0.25s ease; }
+  .slide.active .vs-grid { opacity: 1; transform: translateY(0); }
+  .vs-col { padding: 24px 22px; border-radius: 5px; }
+  .vs-col.bad { background: rgba(224,92,92,0.08); border: 1px solid rgba(224,92,92,0.2); border-top: 3px solid var(--red); }
+  .vs-col.good { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); border-top: 3px solid var(--green); }
+  .vs-sep { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: rgba(255,255,255,0.15); text-align: center; padding: 0 16px; }
+  .vs-tag { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 10px; }
+  .vs-col.bad .vs-tag { color: var(--red); }
+  .vs-col.good .vs-tag { color: var(--green); }
+  .vs-title { font-family: 'Bebas Neue', sans-serif; font-size: 26px; color: var(--white); line-height: 1.1; margin-bottom: 8px; }
+  .vs-body { font-family: 'DM Sans', sans-serif; font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <span class="brand">CCO2go.ai · Phase 1 · Week 3</span>
+  <span class="module-label">M3.3 — Time to First Value</span>
+  <span class="slide-counter" id="counter">1 / 12</span>
+</nav>
+<div id="progress-bar"></div>
+<button id="prev" onclick="navigate(-1)">&#8249;</button>
+<button id="next" onclick="navigate(1)">&#8250;</button>
+
+<div id="stage">
+
+  <!-- S1: TITLE -->
+  <div class="slide active" id="s1">
+    <div class="eyebrow">Module 3.3 · Week 3 — The Last Barrier</div>
+    <h1>Time to<br>First Value</h1>
+    <div class="accent-line"></div>
+    <p class="subtitle">The moment a customer first feels the product working for them. How fast you get there determines whether the relationship starts with momentum — or debt.</p>
+    <div class="stat-row">
+      <div class="stat-card"><div class="stat-num">6</div><div class="stat-label">Stages in the<br>Onboarding Waterfall</div></div>
+      <div class="stat-card"><div class="stat-num">T-30</div><div class="stat-label">When most churn<br>decisions are made</div></div>
+      <div class="stat-card"><div class="stat-num">1</div><div class="stat-label">Moment that sets<br>the entire relationship</div></div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>3.3 — Time to First Value</span></div>
+  </div>
+
+  <!-- S2: COLD OPEN -->
+  <div class="slide" id="s2">
+    <div class="eyebrow">Cold Open</div>
+    <h2>The Customer Made Up<br>Their Mind Before You Called</h2>
+    <div class="accent-line"></div>
+    <div class="quote-block">
+      <div class="quote-text">In most B2B SaaS companies, the customer's internal narrative about whether this was the right purchase is largely set within the first 30 days. Not the first year. Not after the QBR. The first 30 days. Your onboarding process either builds a story of momentum — or a story of doubt that compounds every month until renewal.</div>
+    </div>
+    <p class="subtitle">The best retention work doesn't happen at T-90 when churn is predicted. It happens at T+7, T+14, T+21. Most CS teams don't own that window — and they pay for it later.</p>
+    <div class="footer"><span>CCO2go.ai</span><span>3.3 — Time to First Value</span></div>
+  </div>
+
+  <!-- S3: WHAT IS TTFV -->
+  <div class="slide" id="s3">
+    <div class="eyebrow">Segment 1 · The Definition</div>
+    <h2>TTFV Is Not<br>Technical Setup</h2>
+    <div class="accent-line"></div>
+    <div class="vs-grid">
+      <div class="vs-col bad">
+        <div class="vs-tag">What Most Teams Measure</div>
+        <div class="vs-title">Time to Technical Activation</div>
+        <div class="vs-body">Integration complete. SSO configured. Seats provisioned. First login recorded. The customer is "live." The CS team moves to the next implementation.</div>
+      </div>
+      <div class="vs-sep">≠</div>
+      <div class="vs-col good">
+        <div class="vs-tag">What Actually Matters</div>
+        <div class="vs-title">Time to Perceived Value</div>
+        <div class="vs-body">The customer experiences a specific outcome they care about. They can name what changed. They would describe the product as "working" — in their language, for their goal.</div>
+      </div>
+    </div>
+    <p class="subtitle" style="margin-top:16px;">The gap between activation and perceived value is where renewals are lost. And it's almost entirely owned by CS.</p>
+    <div class="footer"><span>CCO2go.ai</span><span>3.3 — Time to First Value</span></div>
+  </div>
+
+  <!-- S4: THE WATERFALL OVERVIEW -->
+  <div class="slide" id="s4">
+    <div class="eyebrow">Segment 2 · The Framework</div>
+    <h2>The Onboarding Waterfall</h2>
+    <div class="waterfall">
+      <div class="wf-stage wf-s1"><div class="wf-num">1</div><div class="wf-content"><div class="wf-title">Handoff</div><div class="wf-desc">Sales-to-CS transfer. Goals, context, red flags.</div><div class="wf-stall">Stall risk: missing data, wrong expectations</div></div></div>
+      <div class="wf-stage wf-s2"><div class="wf-num">2</div><div class="wf-content"><div class="wf-title">Discovery</div><div class="wf-desc">Confirm what they actually bought it to do.</div><div class="wf-stall">Stall risk: assumed alignment that doesn't exist</div></div></div>
+      <div class="wf-stage wf-s3"><div class="wf-num">3</div><div class="wf-content"><div class="wf-title">Technical Setup</div><div class="wf-desc">Configuration, integration, user provisioning.</div><div class="wf-stall">Stall risk: IT dependencies, no internal champion</div></div></div>
+      <div class="wf-stage wf-s4"><div class="wf-num">4</div><div class="wf-content"><div class="wf-title">First Win ⚡</div><div class="wf-desc">The engineered moment. One specific, measurable outcome.</div><div class="wf-stall" style="color:rgba(16,185,129,0.9);">This is the moment TTFV is achieved</div></div></div>
+      <div class="wf-stage wf-s5"><div class="wf-num">5</div><div class="wf-content"><div class="wf-title">Adoption Expansion</div><div class="wf-desc">Additional users, use cases, and workflows activated.</div><div class="wf-stall">Stall risk: first win celebrated, then abandoned</div></div></div>
+      <div class="wf-stage wf-s6"><div class="wf-num">6</div><div class="wf-content"><div class="wf-title">Value Declaration</div><div class="wf-desc">Customer articulates value in their own words.</div><div class="wf-stall" style="color:rgba(0,168,150,0.9);">This is where renewal certainty begins</div></div></div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>3.3 — Time to First Value</span></div>
+  </div>
+
+  <!-- S5: HANDOFF + DISCOVERY -->
+  <div class="slide" id="s5">
+    <div class="eyebrow">Stages 1 &amp; 2 · The Information Problem</div>
+    <h2>The Handoff Is Broken<br>Before CS Touches It</h2>
+    <div class="accent-line"></div>
+    <div class="stage-detail">
+      <div class="sd-header wf-s1" style="border-radius:5px 5px 0 0;">
+        <div class="sd-num" style="color:#0a1538;">01</div>
+        <div class="sd-title-wrap">
+          <div class="sd-label" style="color:rgba(245,158,11,0.7);">Stage 1</div>
+          <div class="sd-name">The Handoff</div>
+        </div>
+      </div>
+      <div class="sd-body">
+        <div class="sd-col left">
+          <div class="sd-col-label">What typically transfers</div>
+          Contract value. Technical requirements. Signed SOW. "They're excited."
+        </div>
+        <div class="sd-col right">
+          <div class="sd-col-label">What actually needs to transfer</div>
+          The 3 business outcomes they bought it to achieve. The political landscape. The skeptic on the buying committee. The reason the last vendor failed. The internal deadline that nobody mentioned in the sales notes.
+        </div>
+      </div>
+    </div>
+    <div class="quote-block" style="margin-top:14px; max-width:780px;">
+      <div class="quote-text" style="font-size:15px;">The 5 non-negotiable handoff questions: (1) What specific outcome did they promise their team? (2) Who is the internal skeptic? (3) What does "failure" look like to the executive sponsor? (4) What did the previous vendor mess up? (5) What's their internal deadline that's driving urgency?</div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>3.3 — Time to First Value</span></div>
+  </div>
+
+  <!-- S6: TECHNICAL SETUP STALLS -->
+  <div class="slide" id="s6">
+    <div class="eyebrow">Stage 3 · The Silent Killer</div>
+    <h2>Technical Setup<br>Stalls Are CS Failures</h2>
+    <div class="accent-line"></div>
+    <div class="stage-detail">
+      <div class="sd-header wf-s3" style="border-radius:5px 5px 0 0;">
+        <div class="sd-num" style="color:#0a1538;">03</div>
+        <div class="sd-title-wrap">
+          <div class="sd-label" style="color:rgba(245,158,11,0.5);">Stage 3</div>
+          <div class="sd-name">Technical Setup</div>
+        </div>
+      </div>
+      <div class="sd-body">
+        <div class="sd-col left">
+          <div class="sd-col-label">The excuse</div>
+          "IT is blocking us." "Their security review is taking forever." "We're waiting on their admin to provision users." The stall is on their side — nothing CS can do.
+        </div>
+        <div class="sd-col right">
+          <div class="sd-col-label">The real problem</div>
+          CS didn't identify the internal champion who owns IT. CS didn't set a hard milestone date with consequences. CS didn't escalate to the executive sponsor when Day 10 passed with no progress. A technical stall that lasts more than 10 business days is a relationship stall.
+        </div>
+      </div>
+    </div>
+    <p class="subtitle" style="margin-top:14px;">Every day in Stage 3 without forward motion is a day the customer builds a mental narrative that this product is "hard to get running." That narrative survives the implementation.</p>
+    <div class="footer"><span>CCO2go.ai</span><span>3.3 — Time to First Value</span></div>
+  </div>
+
+  <!-- S7: THE FIRST WIN -->
+  <div class="slide" id="s7">
+    <div class="eyebrow">Stage 4 · The Most Important Moment</div>
+    <h2>The First Win<br>Must Be Engineered</h2>
+    <div class="accent-line"></div>
+    <div class="stage-detail">
+      <div class="sd-header wf-s4" style="border-radius:5px 5px 0 0;">
+        <div class="sd-num" style="color:white;">04</div>
+        <div class="sd-title-wrap">
+          <div class="sd-label" style="color:rgba(16,185,129,0.8);">Stage 4 — TTFV Achieved</div>
+          <div class="sd-name">The First Win</div>
+        </div>
+      </div>
+      <div class="sd-body">
+        <div class="sd-col left">
+          <div class="sd-col-label">What a bad first win looks like</div>
+          "You've completed onboarding!" Email sent. Admin dashboard is populated. The CSM checks the box. The customer has logged in twice. Nothing has changed in their workflow.
+        </div>
+        <div class="sd-col right">
+          <div class="sd-col-label">What a real first win looks like</div>
+          "In the first 14 days, we reduced your team's manual reporting time by 4 hours per week. Here's the before/after screenshot your manager asked for in the kick-off." Specific. Measured. In their language. Shareable internally.
+        </div>
+      </div>
+    </div>
+    <p class="subtitle" style="margin-top:14px;">The First Win must be designed in Stage 2 Discovery, built toward in Stage 3, and declared — not discovered accidentally — in Stage 4.</p>
+    <div class="footer"><span>CCO2go.ai</span><span>3.3 — Time to First Value</span></div>
+  </div>
+
+  <!-- S8: ADOPTION + VALUE DECLARATION -->
+  <div class="slide" id="s8">
+    <div class="eyebrow">Stages 5 &amp; 6 · The Compounding Effect</div>
+    <h2>After the First Win:<br>Expand or Stall</h2>
+    <div class="accent-line"></div>
+    <div class="vs-grid">
+      <div class="vs-col bad">
+        <div class="vs-tag">What Most Teams Do</div>
+        <div class="vs-title">Celebrate and Move On</div>
+        <div class="vs-body">TTFV is achieved, onboarding is marked complete, and the relationship shifts to steady-state. The first win was a launch event — not the beginning of an adoption engine. 3 months later: "We're not really using it as much as we expected to."</div>
+      </div>
+      <div class="vs-sep">vs</div>
+      <div class="vs-col good">
+        <div class="vs-tag">What Works</div>
+        <div class="vs-title">First Win → Next Win Sequence</div>
+        <div class="vs-body">First win → document it → share it with the champion's manager → identify the next use case → assign it a target date → build the second win in 30 days. Value Declaration happens when the customer starts narrating the wins themselves without prompting.</div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>3.3 — Time to First Value</span></div>
+  </div>
+
+  <!-- S9: BENCHMARKS -->
+  <div class="slide" id="s9">
+    <div class="eyebrow">The Measurement Layer</div>
+    <h2>What Good Looks Like:<br>TTFV Benchmarks</h2>
+    <div class="accent-line"></div>
+    <div class="benchmark">
+      <div class="bm-row">
+        <div class="bm-label">SMB / PLG</div>
+        <div class="bm-track"><div class="bm-fill" style="width:25%;background:linear-gradient(90deg,#10B981,#34D399);"></div></div>
+        <div class="bm-val" style="color:#10B981;">≤ 7 days</div>
+      </div>
+      <div class="bm-row">
+        <div class="bm-label">Mid-Market</div>
+        <div class="bm-track"><div class="bm-fill" style="width:45%;background:linear-gradient(90deg,#F59E0B,#FBBF24);"></div></div>
+        <div class="bm-val" style="color:#F59E0B;">14–21 days</div>
+      </div>
+      <div class="bm-row">
+        <div class="bm-label">Enterprise</div>
+        <div class="bm-track"><div class="bm-fill" style="width:70%;background:linear-gradient(90deg,#F59E0B,#E05C5C);"></div></div>
+        <div class="bm-val" style="color:#FBBF24;">30–45 days</div>
+      </div>
+      <div class="bm-row">
+        <div class="bm-label">Your target</div>
+        <div class="bm-track"><div class="bm-fill" style="width:35%;background:linear-gradient(90deg,#00A896,#4ADE80);"></div></div>
+        <div class="bm-val" style="color:#00A896;">Segment − 20%</div>
+      </div>
+    </div>
+    <p class="subtitle" style="margin-top:20px;">Track TTFV per CSM, per segment, per product line. The CSMs with the fastest average TTFV have the highest NRR. This is not a coincidence — it's causal.</p>
+    <div class="footer"><span>CCO2go.ai</span><span>3.3 — Time to First Value</span></div>
+  </div>
+
+  <!-- S10: THE AUDIT -->
+  <div class="slide" id="s10">
+    <div class="eyebrow">The Diagnostic</div>
+    <h2>The 6-Stage<br>Waterfall Audit</h2>
+    <div class="accent-line"></div>
+    <div class="quote-block">
+      <div class="quote-text" style="font-size:15px; font-style: normal;">For every customer onboarded in the last 90 days, answer: <strong style="color:var(--accent);">Which stage stalled longest?</strong> Stage 1 stalls = sales handoff problem. Stage 2 stalls = discovery problem. Stage 3 stalls = internal champion problem. Stage 4 stalls = first win definition problem. Stage 5 stalls = adoption strategy problem. Stage 6 stalls = value articulation problem. <strong style="color:var(--accent);">Each stall type has a different root cause and a different fix.</strong></div>
+    </div>
+    <p class="subtitle">Most teams diagnose Stage 3 IT delays as a technical problem. 80% of the time it's actually a Stage 2 discovery failure — the right internal champion was never identified.</p>
+    <div class="footer"><span>CCO2go.ai</span><span>3.3 — Time to First Value</span></div>
+  </div>
+
+  <!-- S11: DO THIS MONDAY -->
+  <div class="slide" id="s11">
+    <div class="eyebrow">Do This Monday</div>
+    <h2>3 Actions This Week</h2>
+    <div class="action-grid">
+      <div class="action-item">
+        <div class="action-num">1</div>
+        <div class="action-title">Measure Your Current TTFV</div>
+        <div class="action-body">For your last 5 onboarded accounts: when did the customer first articulate a specific outcome achieved? Not activation date. Not first login. The moment they said "this is working." If you don't know, that's the finding.</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">2</div>
+        <div class="action-title">Define the First Win</div>
+        <div class="action-body">For every current onboarding: write down what the First Win looks like in one sentence. Specific outcome, customer's language, measurable proof. If you can't write it, you haven't designed it. Go back to the discovery notes.</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">3</div>
+        <div class="action-title">Audit One Stalled Stage</div>
+        <div class="action-body">Pick one onboarding that's behind. Identify which waterfall stage is stalled. Name the actual root cause — not the symptom ("IT is slow") but the underlying failure ("we don't have an internal IT champion with a deadline"). Build the fix from there.</div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>3.3 — Time to First Value</span></div>
+  </div>
+
+  <!-- S12: PHASE 1 COMPLETE -->
+  <div class="slide" id="s12">
+    <div class="eyebrow">Phase 1 Complete</div>
+    <h1>PHASE 1<br>DONE</h1>
+    <div class="accent-line"></div>
+    <div class="stat-row">
+      <div class="stat-card"><div class="stat-num">NPS</div><div class="stat-label">Retired as a health signal</div></div>
+      <div class="stat-card"><div class="stat-num">NRR</div><div class="stat-label">Your actual scorecard</div></div>
+      <div class="stat-card"><div class="stat-num">TTFV</div><div class="stat-label">Now you're engineering it</div></div>
+    </div>
+    <p class="subtitle" style="margin-top:24px;">Phase 2 is where you build the operating model: killing the QBR, running the churn autopsy, constructing a real expansion motion, and deploying AI the right way. The diagnosis is done. Time to build.</p>
+    <div style="margin-top:28px; font-family:'DM Mono',monospace; font-size:12px; color:rgba(255,255,255,0.25); opacity:0; transform:translateY(10px); transition: all 0.5s 0.5s ease;" class="next-label">CCO2go.ai · CSM Training Program · Phase 1 Complete</div>
+    <div class="footer"><span>CCO2go.ai</span><span>Module 3.3 Complete · Phase 1 Done</span></div>
+  </div>
+
+</div>
+
+<script>
+const TOTAL = 12;
+let current = 1;
+function navigate(dir) {
+  const next = current + dir;
+  if (next < 1 || next > TOTAL) return;
+  const curr = document.getElementById('s' + current);
+  curr.classList.remove('active'); curr.classList.add('exit');
+  setTimeout(() => curr.classList.remove('exit'), 400);
+  current = next;
+  document.getElementById('s' + current).classList.add('active');
+  document.getElementById('counter').textContent = current + ' / ' + TOTAL;
+  document.getElementById('progress-bar').style.width = ((current / TOTAL) * 100) + '%';
+  if (current === TOTAL) {
+    const lbl = document.querySelector('#s' + TOTAL + ' .next-label');
+    if (lbl) { lbl.style.opacity='1'; lbl.style.transform='translateY(0)'; }
+  }
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') navigate(1);
+  if (e.key === 'ArrowLeft') navigate(-1);
+});
+document.getElementById('progress-bar').style.width = ((1 / TOTAL) * 100) + '%';
+</script>
+</body>
+</html>

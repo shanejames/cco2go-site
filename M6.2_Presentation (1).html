@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 6.2 — The Outcome Architect Operating Model | CCO2go.ai</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--accent:#4338CA;--al:#818CF8;--navy:#0F1F4B;--bg:#080F2B;--teal:#00A896;--gold:#F4A000;--danger:#DC2626;--green:#16A34A;--white:#FFF;--muted:#8B9FC4;--cb:rgba(67,56,202,.3);}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--white);font-family:'DM Sans',sans-serif;height:100vh;overflow:hidden;background-image:radial-gradient(ellipse at 20% 50%,rgba(67,56,202,.07) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(0,168,150,.04) 0%,transparent 50%);}
+  nav{position:fixed;top:0;left:0;right:0;height:48px;background:rgba(8,15,43,.95);border-bottom:2px solid var(--accent);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100;}
+  nav .brand{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;}
+  nav .ml{font-family:'DM Mono',monospace;font-size:11px;color:var(--al);}
+  nav .ctr{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);}
+  .pb{position:fixed;top:50px;left:0;height:2px;background:var(--accent);transition:width .4s ease;z-index:99;}
+  .sw{position:relative;width:100%;height:100vh;overflow:hidden;}
+  .slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:80px 80px 60px;opacity:0;transform:translateY(28px);transition:opacity .55s ease,transform .55s ease;pointer-events:none;}
+  .slide.active{opacity:1;transform:translateY(0);pointer-events:auto;}
+  .slide.exit{opacity:0;transform:translateY(-22px);transition:opacity .35s ease,transform .35s ease;}
+  .ey{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--al);margin-bottom:16px;opacity:0;transform:translateY(12px);transition:opacity .4s .1s ease,transform .4s .1s ease;}
+  .slide.active .ey{opacity:1;transform:translateY(0);}
+  h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,7vw,96px);line-height:.95;margin-bottom:20px;opacity:0;transform:translateY(16px);transition:opacity .4s .2s ease,transform .4s .2s ease;}
+  .slide.active h1{opacity:1;transform:translateY(0);}
+  h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,5vw,68px);line-height:1.0;margin-bottom:20px;opacity:0;transform:translateY(16px);transition:opacity .4s .2s ease,transform .4s .2s ease;}
+  .slide.active h2{opacity:1;transform:translateY(0);}
+  .acc{width:64px;height:4px;background:var(--accent);margin-bottom:28px;opacity:0;transition:opacity .4s .3s ease;}
+  .slide.active .acc{opacity:1;}
+  .bt{font-size:18px;line-height:1.65;color:rgba(255,255,255,.82);max-width:780px;opacity:0;transform:translateY(12px);transition:opacity .4s .35s ease,transform .4s .35s ease;}
+  .slide.active .bt{opacity:1;transform:translateY(0);}
+  .an{opacity:0;transform:translateY(12px);transition:opacity .4s .4s ease,transform .4s .4s ease;}
+  .slide.active .an{opacity:1;transform:translateY(0);}
+  .sc{display:flex;gap:20px;margin-top:8px;flex-wrap:wrap;}
+  .sc-card{background:rgba(255,255,255,.04);border:1px solid var(--cb);border-radius:8px;padding:18px 24px;min-width:150px;}
+  .sn{font-family:'Bebas Neue',sans-serif;font-size:52px;color:var(--al);line-height:1;}
+  .sl{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4;font-family:'DM Mono',monospace;}
+  .hb{background:rgba(67,56,202,.08);border:1px solid rgba(67,56,202,.3);border-left:4px solid var(--accent);border-radius:4px;padding:20px 24px;margin-top:12px;max-width:780px;}
+  .hb p{font-size:15px;line-height:1.6;color:rgba(255,255,255,.88);}
+
+  /* COMPARE GRID */
+  .cg{display:grid;grid-template-columns:1fr 1fr;gap:2px;max-width:880px;margin-top:12px;border-radius:6px;overflow:hidden;}
+  .cg-head{padding:10px 18px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;}
+  .cg-old .cg-head{background:rgba(220,38,38,.12);color:rgba(252,165,165,.8);}
+  .cg-new .cg-head{background:rgba(67,56,202,.2);color:var(--al);}
+  .cg-old .cg-head,.cg-new .cg-head{border-radius:0;}
+  .cg-row{display:contents;}
+  .cg-cell{padding:12px 18px;font-size:14px;line-height:1.55;border-bottom:1px solid rgba(255,255,255,.05);}
+  .cg-cell.old{background:rgba(220,38,38,.05);color:rgba(255,255,255,.65);}
+  .cg-cell.new{background:rgba(67,56,202,.07);color:rgba(255,255,255,.85);}
+  .cg-cell strong{font-weight:700;}
+  .cg-old,.cg-new{display:flex;flex-direction:column;}
+  .cg-old{border-radius:6px 0 0 6px;overflow:hidden;}
+  .cg-new{border-radius:0 6px 6px 0;overflow:hidden;}
+
+  /* RESPONSIBILITY STACK */
+  .rs{display:flex;flex-direction:column;gap:10px;max-width:840px;margin-top:10px;}
+  .rs-item{display:grid;grid-template-columns:180px 1fr;background:rgba(67,56,202,.07);border:1px solid var(--cb);border-radius:6px;overflow:hidden;opacity:0;transform:translateX(-14px);}
+  .slide.active .rs-item:nth-child(1){opacity:1;transform:translateX(0);transition:all .4s .1s ease;}
+  .slide.active .rs-item:nth-child(2){opacity:1;transform:translateX(0);transition:all .4s .22s ease;}
+  .slide.active .rs-item:nth-child(3){opacity:1;transform:translateX(0);transition:all .4s .34s ease;}
+  .slide.active .rs-item:nth-child(4){opacity:1;transform:translateX(0);transition:all .4s .46s ease;}
+  .rs-label{background:rgba(67,56,202,.2);border-right:1px solid var(--cb);padding:14px 16px;display:flex;align-items:center;}
+  .rs-name{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--al);line-height:1.1;}
+  .rs-content{padding:14px 18px;}
+  .rs-old{font-size:12px;color:rgba(252,165,165,.75);margin-bottom:5px;font-style:italic;}
+  .rs-new{font-size:14px;color:rgba(255,255,255,.88);line-height:1.5;}
+
+  /* CRITERIA LIST */
+  .cl{list-style:none;margin-top:8px;max-width:760px;}
+  .cl li{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:15px;line-height:1.5;}
+  .cl li:last-child{border-bottom:none;}
+  .cn{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--al);min-width:28px;margin-top:2px;line-height:1;}
+
+  /* MANIFESTO */
+  .mf{max-width:760px;margin-top:12px;display:flex;flex-direction:column;gap:10px;}
+  .mf-line{display:flex;gap:16px;align-items:flex-start;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);opacity:0;transform:translateY(10px);}
+  .slide.active .mf-line:nth-child(1){opacity:1;transform:translateY(0);transition:all .35s .1s ease;}
+  .slide.active .mf-line:nth-child(2){opacity:1;transform:translateY(0);transition:all .35s .2s ease;}
+  .slide.active .mf-line:nth-child(3){opacity:1;transform:translateY(0);transition:all .35s .3s ease;}
+  .slide.active .mf-line:nth-child(4){opacity:1;transform:translateY(0);transition:all .35s .4s ease;}
+  .slide.active .mf-line:nth-child(5){opacity:1;transform:translateY(0);transition:all .35s .5s ease;}
+  .mf-tick{color:var(--al);font-size:18px;margin-top:2px;line-height:1;font-weight:700;}
+  .mf-text{font-size:15px;line-height:1.6;color:rgba(255,255,255,.82);}
+  .mf-em{color:var(--al);font-weight:700;}
+
+  /* ACTION GRID */
+  .ag{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:900px;margin-top:14px;}
+  .ag-item{background:rgba(67,56,202,.08);border:1px solid var(--cb);border-top:3px solid var(--accent);border-radius:6px;padding:20px 18px;opacity:0;transform:translateY(14px);}
+  .slide.active .ag-item:nth-child(1){opacity:1;transform:translateY(0);transition:all .4s .1s ease;}
+  .slide.active .ag-item:nth-child(2){opacity:1;transform:translateY(0);transition:all .4s .25s ease;}
+  .slide.active .ag-item:nth-child(3){opacity:1;transform:translateY(0);transition:all .4s .4s ease;}
+  .ag-num{font-family:'Bebas Neue',sans-serif;font-size:42px;color:var(--al);line-height:1;margin-bottom:10px;}
+  .ag-title{font-size:15px;font-weight:700;color:var(--white);margin-bottom:8px;}
+  .ag-body{font-size:13px;color:var(--muted);line-height:1.6;}
+
+  footer{position:fixed;bottom:14px;left:80px;right:80px;display:flex;justify-content:space-between;pointer-events:none;}
+  .fb{font-family:'DM Mono',monospace;font-size:10px;color:rgba(139,159,196,.4);}
+  .fm{font-family:'DM Mono',monospace;font-size:10px;color:rgba(67,56,202,.5);}
+  .kh{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);font-family:'DM Mono',monospace;font-size:10px;color:rgba(139,159,196,.3);}
+  #prev,#next{position:fixed;top:50%;transform:translateY(-50%);z-index:99;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.35);font-size:22px;width:44px;height:44px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+  #prev:hover,#next:hover{background:rgba(67,56,202,.2);color:var(--al);border-color:var(--al);}
+  #prev{left:14px;}#next{right:14px;}
+</style>
+</head>
+<body>
+<nav><span class="brand">CCO2go.ai &middot; Phase 2 &middot; Week 6</span><span class="ml">M6.2 &mdash; The Outcome Architect Operating Model</span><span class="ctr" id="ctr">1 / 12</span></nav>
+<div class="pb" id="prg"></div>
+<button id="prev" onclick="navigate(-1)">&#8249;</button>
+<button id="next" onclick="navigate(1)">&#8250;</button>
+<div class="sw">
+
+<!-- S1: TITLE -->
+<div class="slide active">
+  <div class="ey">Module 6.2 &middot; Week 6 &mdash; The Operating Model</div>
+  <h1>The Outcome<br>Architect<br>Operating Model</h1>
+  <div class="acc"></div>
+  <p class="bt">The job description being rewritten at high-performing CS organizations. What changes when the mandate shifts from service delivery to value creation — and what it demands from every person in the function.</p>
+  <div class="sc an" style="margin-top:20px;">
+    <div class="sc-card"><div class="sn">4</div><div class="sl">core responsibilities<br>fundamentally redefined</div></div>
+    <div class="sc-card"><div class="sn">2030</div><div class="sl">when this title becomes<br>industry standard</div></div>
+    <div class="sc-card"><div class="sn">1</div><div class="sl">mandate: provable<br>business outcomes</div></div>
+  </div>
+  <footer><span class="fb">CCO2go.ai</span><span class="fm">6.2 — Outcome Architect</span></footer>
+</div>
+
+<!-- S2: COLD OPEN -->
+<div class="slide">
+  <div class="ey">Cold Open &middot; The Rewrite</div>
+  <h2>Someone Is Writing<br>This Job Description Right Now</h2>
+  <div class="acc"></div>
+  <p class="bt">At the best CS organizations in 2026, a new role is quietly being staffed. It doesn't say "Customer Success Manager" at the top. It says "Outcome Architect" or "Customer Value Lead" or "Commercial CS Director." The title varies. The mandate doesn't.</p>
+  <div class="hb an">
+    <p>The mandate: <strong>own provable business outcomes for a portfolio of accounts, translate those outcomes into commercial expansion, and operate AI-augmented systems that make this scalable across 30+ accounts simultaneously.</strong> This is not a support role with a revenue target bolted on. It's a fundamentally different job that requires a fundamentally different operating model.</p>
+  </div>
+  <footer><span class="fb">CCO2go.ai</span><span class="fm">6.2 — Outcome Architect</span></footer>
+</div>
+
+<!-- S3: OLD VS NEW COMPARISON -->
+<div class="slide">
+  <div class="ey">Segment 1 &middot; The Contrast</div>
+  <h2>CSM vs. Outcome Architect:<br>Not a Promotion — a Reframe</h2>
+  <div class="acc"></div>
+  <div class="cg an" style="margin-top:0;">
+    <div class="cg-old">
+      <div class="cg-head">Traditional CSM</div>
+      <div class="cg-cell old">Manages the relationship. Success = no churn, no complaints.</div>
+      <div class="cg-cell old">Responds to signals. Escalates when bad. Celebrates when quiet.</div>
+      <div class="cg-cell old">Tracks adoption metrics. Reports on product usage.</div>
+      <div class="cg-cell old">Runs QBRs. Presents slides. Waits for renewal conversation.</div>
+      <div class="cg-cell old">Measured by retention rate and NPS.</div>
+    </div>
+    <div class="cg-new">
+      <div class="cg-head">Outcome Architect</div>
+      <div class="cg-cell new">Owns the customer's business result. Success = provable value delivered.</div>
+      <div class="cg-cell new">Interprets behavioral signals to predict risk and expansion 90 days out.</div>
+      <div class="cg-cell new">Tracks business outcomes. Reports on what changed in the customer's operation.</div>
+      <div class="cg-cell new">Runs VPCs. Quantifies ROI. Initiates expansion conversations proactively.</div>
+      <div class="cg-cell new">Measured by NRR, CSQL pipeline, and time-to-value per account.</div>
+    </div>
+  </div>
+  <footer><span class="fb">CCO2go.ai</span><span class="fm">6.2 — Outcome Architect</span></footer>
+</div>
+
+<!-- S4: THE 4 RESPONSIBILITIES -->
+<div class="slide">
+  <div class="ey">Segment 2 &middot; The 4 Core Responsibilities</div>
+  <h2>What the Role<br>Actually Requires</h2>
+  <div class="acc"></div>
+  <div class="rs">
+    <div class="rs-item">
+      <div class="rs-label"><div class="rs-name">Value Ownership</div></div>
+      <div class="rs-content"><div class="rs-old">Old: maintain the relationship, keep the customer happy</div><div class="rs-new">Define, track, and prove specific business outcomes for every account in the portfolio. If the customer can't name what changed in their business, the OA failed.</div></div>
+    </div>
+    <div class="rs-item">
+      <div class="rs-label"><div class="rs-name">Commercial Motion</div></div>
+      <div class="rs-content"><div class="rs-old">Old: "we're not salespeople" — expansion handled by sales</div><div class="rs-new">Generate and qualify CSQLs proactively. Own the expansion conversation from signal identification through close coordination with sales or directly.</div></div>
+    </div>
+    <div class="rs-item">
+      <div class="rs-label"><div class="rs-name">AI Operation</div></div>
+      <div class="rs-content"><div class="rs-old">Old: use CS platform, log notes, update health score manually</div><div class="rs-new">Direct a system of 15+ agents. Interpret AI-generated risk and expansion signals. Intervene when the system flags it. Override when context demands it.</div></div>
+    </div>
+    <div class="rs-item">
+      <div class="rs-label"><div class="rs-name">Executive Bridge</div></div>
+      <div class="rs-content"><div class="rs-old">Old: escalate executive issues to the CCO</div><div class="rs-new">Operate at VP and C-suite level inside customer organizations. Speak financial language. Present the NRR compounding case. Build multi-threaded executive relationships proactively.</div></div>
+    </div>
+  </div>
+  <footer><span class="fb">CCO2go.ai</span><span class="fm">6.2 — Outcome Architect</span></footer>
+</div>
+
+<!-- S5: THE COMMERCIAL LENS -->
+<div class="slide">
+  <div class="ey">Segment 3 &middot; The Most Uncomfortable Shift</div>
+  <h2>The Commercial Lens<br>Is Not Optional</h2>
+  <div class="acc"></div>
+  <p class="bt">The single biggest mindset barrier to Outcome Architect performance: the belief that commercial conversations are someone else's job. They're not. Here's how the language changes:</p>
+  <div class="rs an" style="margin-top:14px;">
+    <div class="rs-item">
+      <div class="rs-label"><div class="rs-name">From</div></div>
+      <div class="rs-content"><div class="rs-new" style="color:rgba(252,165,165,.8); font-style:italic;">"Just checking in to see how things are going."</div></div>
+    </div>
+    <div class="rs-item">
+      <div class="rs-label" style="background:rgba(67,56,202,.3);"><div class="rs-name" style="color:#4ADE80;">To</div></div>
+      <div class="rs-content"><div class="rs-new">"Based on your usage data, your team is running the report export workflow 40% faster than 90 days ago. That maps to about 6 hours per analyst per week. I want to show you what two additional use cases would do to that number — and what it would cost."</div></div>
+    </div>
+  </div>
+  <div class="hb an" style="margin-top:12px;">
+    <p>This is not selling. This is value engineering. The Outcome Architect knows the customer's business well enough to quantify what's possible — and has earned the relationship equity to present it without it feeling like a pitch.</p>
+  </div>
+  <footer><span class="fb">CCO2go.ai</span><span class="fm">6.2 — Outcome Architect</span></footer>
+</div>
+
+<!-- S6: WHAT OAs KNOW -->
+<div class="slide">
+  <div class="ey">Segment 4 &middot; The Knowledge Stack</div>
+  <h2>What Outcome Architects<br>Know That CSMs Don't</h2>
+  <div class="acc"></div>
+  <ul class="cl an">
+    <li><div class="cn">01</div><div><strong>Their customer's P&amp;L impact.</strong> Not just product usage — what the product is worth to the customer's business in dollar terms. They can articulate it. The customer agrees with the number.</div></li>
+    <li><div class="cn">02</div><div><strong>The customer's next business priority.</strong> Before the customer's CSM has a call scheduled about it. Sourced from executive conversations, industry signals, and AI agent monitoring.</div></li>
+    <li><div class="cn">03</div><div><strong>Their own CSQL pipeline.</strong> Which accounts have expansion-ready signals right now. What the expansion thesis is. What the revenue potential is. What's blocking it.</div></li>
+    <li><div class="cn">04</div><div><strong>When to call the executive.</strong> Not reactively when there's a problem. Proactively when there's an opportunity the executive needs to know about — before their team tells them.</div></li>
+    <li><div class="cn">05</div><div><strong>Which agent fired on which account yesterday.</strong> And whether the AI's recommendation aligns with their contextual knowledge of the relationship — or needs to be overridden.</div></li>
+  </ul>
+  <footer><span class="fb">CCO2go.ai</span><span class="fm">6.2 — Outcome Architect</span></footer>
+</div>
+
+<!-- S7: HIRING CRITERIA -->
+<div class="slide">
+  <div class="ey">Segment 5 &middot; Building the Team</div>
+  <h2>The Hiring Criteria<br>Has Changed</h2>
+  <div class="acc"></div>
+  <p class="bt" style="font-size:16px; margin-bottom:16px;">The interview test that separates CSMs from Outcome Architects: Give them a complex account scenario and ask them to write a 90-day plan. No coaching. No template. Two archetypes emerge:</p>
+  <div class="cg an" style="margin-top:0;">
+    <div class="cg-old">
+      <div class="cg-head">Relationship Manager Profile</div>
+      <div class="cg-cell old">Plans more meetings and check-ins</div>
+      <div class="cg-cell old">Focuses on ensuring the customer is "happy"</div>
+      <div class="cg-cell old">Describes activities: calls, EBRs, training sessions</div>
+      <div class="cg-cell old">Can't name a specific business outcome target</div>
+      <div class="cg-cell old">Mentions "building trust" as a strategy</div>
+    </div>
+    <div class="cg-new">
+      <div class="cg-head">Outcome Architect Profile</div>
+      <div class="cg-cell new">Defines 3 specific business outcomes with measurement criteria</div>
+      <div class="cg-cell new">Identifies the highest-risk and highest-expansion accounts first</div>
+      <div class="cg-cell new">Describes interventions: what changes, by when, proven how</div>
+      <div class="cg-cell new">Names the executive sponsor and what they need to see in 90 days</div>
+      <div class="cg-cell new">Identifies where AI coverage replaces their time and where it doesn't</div>
+    </div>
+  </div>
+  <footer><span class="fb">CCO2go.ai</span><span class="fm">6.2 — Outcome Architect</span></footer>
+</div>
+
+<!-- S8: BUILDING TOWARD THE OA ROLE -->
+<div class="slide">
+  <div class="ey">Segment 6 &middot; The Transition Path</div>
+  <h2>You Don't Flip a Switch.<br>You Build the Stack.</h2>
+  <div class="acc"></div>
+  <p class="bt" style="font-size:16px;">Most CSMs can't become Outcome Architects overnight. The gap isn't desire — it's capability stack. Here's what needs to be built, in order:</p>
+  <div class="rs an" style="margin-top:14px;">
+    <div class="rs-item">
+      <div class="rs-label" style="background:rgba(245,158,11,.15);border-right-color:rgba(245,158,11,.3);"><div class="rs-name" style="color:#FBBF24;">Month 1</div></div>
+      <div class="rs-content"><div class="rs-new"><strong>Business outcome literacy.</strong> For every account: document the business result they bought the product to achieve. Get the customer to confirm it. Establish a measurement baseline.</div></div>
+    </div>
+    <div class="rs-item">
+      <div class="rs-label" style="background:rgba(67,56,202,.25);"><div class="rs-name">Month 2</div></div>
+      <div class="rs-content"><div class="rs-new"><strong>Financial language fluency.</strong> Learn to translate product metrics to business metrics. Practice the CFO-language conversation with internal colleagues before taking it to customers.</div></div>
+    </div>
+    <div class="rs-item">
+      <div class="rs-label" style="background:rgba(0,168,150,.15);border-right-color:rgba(0,168,150,.3);"><div class="rs-name" style="color:#2DD4BF;">Month 3</div></div>
+      <div class="rs-content"><div class="rs-new"><strong>Commercial motion activation.</strong> Identify 3 accounts with expansion-ready signals. Build the thesis. Present it internally first. Run the expansion conversation — with your manager observing — on the best-fit account.</div></div>
+    </div>
+  </div>
+  <footer><span class="fb">CCO2go.ai</span><span class="fm">6.2 — Outcome Architect</span></footer>
+</div>
+
+<!-- S9: OA IN DIGITAL-FIRST -->
+<div class="slide">
+  <div class="ey">Segment 7 &middot; The Operating Context</div>
+  <h2>The OA in a<br>Digital-First Organization</h2>
+  <div class="acc"></div>
+  <p class="bt" style="font-size:16px; margin-bottom:16px;">This module connects directly to M6.1 (Five Pillars) and M6.3 (Digital-First CS). The Outcome Architect is the human layer inside a digital-first system:</p>
+  <ul class="cl an">
+    <li><div class="cn">→</div><div><strong>AI handles scale.</strong> Monitoring, routine outreach, health scoring, early warning. The OA doesn't do these. The OA reviews the exceptions and acts on the signals.</div></li>
+    <li><div class="cn">→</div><div><strong>The OA handles complexity.</strong> High-stakes conversations, executive relationships, non-standard situations, commercial negotiations. Things that require judgment, context, and relationship equity.</div></li>
+    <li><div class="cn">→</div><div><strong>The OA manages the system.</strong> Reviews agent recommendations daily. Adjusts weights and escalation thresholds. Identifies where AI is confidently wrong and fixes the model input.</div></li>
+    <li><div class="cn">→</div><div><strong>The OA defines success.</strong> Business outcome targets are human decisions. No AI decides what "good" looks like for a customer. That's the OA's judgment — and they're accountable to it.</div></li>
+  </ul>
+  <footer><span class="fb">CCO2go.ai</span><span class="fm">6.2 — Outcome Architect</span></footer>
+</div>
+
+<!-- S10: THE MANIFESTO LINES -->
+<div class="slide">
+  <div class="ey">The Core Convictions</div>
+  <h2>What Every Outcome<br>Architect Believes</h2>
+  <div class="acc"></div>
+  <div class="mf">
+    <div class="mf-line"><div class="mf-tick">→</div><div class="mf-text">My job is not to <em>maintain</em> a relationship. My job is to <span class="mf-em">engineer a business outcome</span> and prove it happened.</div></div>
+    <div class="mf-line"><div class="mf-tick">→</div><div class="mf-text">If I'm not having commercial conversations, I'm leaving value on the table that the customer paid for and hasn't received yet.</div></div>
+    <div class="mf-line"><div class="mf-tick">→</div><div class="mf-text">AI doesn't replace my judgment. It gives me more data to make <span class="mf-em">better decisions faster</span> — and frees me to do the work only humans can do.</div></div>
+    <div class="mf-line"><div class="mf-tick">→</div><div class="mf-text">A quiet account is not a healthy account. Silence is a <span class="mf-em">signal to investigate</span>, not a signal to celebrate.</div></div>
+    <div class="mf-line"><div class="mf-tick">→</div><div class="mf-text">My customers' executives should know my name — not because there was a crisis, but because I <span class="mf-em">brought them something valuable</span> before they knew they needed it.</div></div>
+  </div>
+  <footer><span class="fb">CCO2go.ai</span><span class="fm">6.2 — Outcome Architect</span></footer>
+</div>
+
+<!-- S11: DO THIS MONDAY -->
+<div class="slide">
+  <div class="ey">Do This Monday</div>
+  <h2>3 Actions This Week</h2>
+  <div class="acc"></div>
+  <div class="ag">
+    <div class="ag-item">
+      <div class="ag-num">1</div>
+      <div class="ag-title">Write the Business Outcome</div>
+      <div class="ag-body">For your top 5 accounts: write one sentence describing the specific business outcome they purchased the product to achieve. Not the features they use — the business result. If you can't write it, schedule a call this week to get it confirmed directly from the champion.</div>
+    </div>
+    <div class="ag-item">
+      <div class="ag-num">2</div>
+      <div class="ag-title">Score Yourself Honestly</div>
+      <div class="ag-body">Rate yourself 1–5 on the 4 core OA responsibilities: Value Ownership, Commercial Motion, AI Operation, Executive Bridge. Where's the lowest score? That's the development priority for next 30 days. Name one specific action that would move it from a 2 to a 3.</div>
+    </div>
+    <div class="ag-item">
+      <div class="ag-num">3</div>
+      <div class="ag-title">Identify One CSQL</div>
+      <div class="ag-body">Using behavioral signals — not gut feel — identify one account that has expansion potential right now. Write the 2-sentence expansion thesis: what they could do next, and what the business impact would be. That's your first Outcome Architect commercial conversation.</div>
+    </div>
+  </div>
+  <footer><span class="fb">CCO2go.ai</span><span class="fm">6.2 — Outcome Architect</span></footer>
+</div>
+
+<!-- S12: PHASE 2 DONE / PHASE 3 PREVIEW -->
+<div class="slide">
+  <div class="ey">Phase 2 Complete</div>
+  <h1>Phase 2<br>Done.</h1>
+  <div class="acc"></div>
+  <p class="bt">You've rebuilt the engagement model. Killed the QBR. Run the churn autopsy. Built the expansion motion. Stood up the Five Pillars. Designed the digital-first system. And defined the person who runs it.</p>
+  <div class="sc an" style="margin-top:20px;">
+    <div class="sc-card"><div class="sn">6</div><div class="sl">weeks of operating model<br>rebuilt from first principles</div></div>
+    <div class="sc-card"><div class="sn" style="color:#4ADE80;">Phase 3</div><div class="sl">Prove it. Health scores,<br>CFO language, 15 agents,<br>90-day war plan.</div></div>
+  </div>
+  <div style="margin-top:28px;font-family:'DM Mono',monospace;font-size:12px;color:rgba(255,255,255,.22);opacity:0;transform:translateY(10px);transition:all .5s .5s ease;" class="next-label">CCO2go.ai · CSM Training Program · Phase 2 Complete</div>
+  <footer><span class="fb">CCO2go.ai</span><span class="fm">Module 6.2 Complete · Phase 2 Done</span></footer>
+</div>
+
+</div>
+<span class="kh">← → or spacebar to navigate</span>
+
+<script>
+const TOTAL = 12;
+let cur = 1;
+const slides = document.querySelectorAll('.slide');
+function navigate(dir) {
+  const next = cur + dir;
+  if (next < 1 || next > TOTAL) return;
+  slides[cur-1].classList.remove('active');
+  slides[cur-1].classList.add('exit');
+  setTimeout(() => slides[cur-1].classList.remove('exit'), 400);
+  cur = next;
+  slides[cur-1].classList.add('active');
+  document.getElementById('ctr').textContent = cur + ' / ' + TOTAL;
+  document.getElementById('prg').style.width = ((cur/TOTAL)*100) + '%';
+  if (cur === TOTAL) {
+    const lbl = slides[cur-1].querySelector('.next-label');
+    if (lbl) { lbl.style.opacity='1'; lbl.style.transform='translateY(0)'; }
+  }
+}
+document.addEventListener('keydown', e => {
+  if (e.key==='ArrowRight'||e.key===' ') navigate(1);
+  if (e.key==='ArrowLeft') navigate(-1);
+});
+document.getElementById('prg').style.width = ((1/TOTAL)*100) + '%';
+</script>
+</body>
+</html>
