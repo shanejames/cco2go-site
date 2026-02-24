@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCO2go.ai — Sales Playbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #141720;
+    --surface2: #1c2030;
+    --border: #252a3a;
+    --gold: #c9a84c;
+    --gold-dim: #7d6530;
+    --text: #e8eaf0;
+    --text-muted: #7a8099;
+    --text-dim: #4a5068;
+    --accent-blue: #4a7fa5;
+    --accent-green: #3d8b6e;
+    --accent-red: #b05a4a;
+    --accent-amber: #b88c3a;
+    --tag-bg: #1a1f2e;
+    --radius: 8px;
+    --transition: all 0.2s ease;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+  }
+
+  /* ── SIDEBAR ─────────────────────────────────────────── */
+  .sidebar {
+    width: 280px;
+    min-width: 280px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .logo-area {
+    padding: 28px 24px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo-area .brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--gold);
+    letter-spacing: 0.5px;
+  }
+
+  .logo-area .subtitle {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 4px;
+  }
+
+  .sidebar-section {
+    padding: 20px 24px 8px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-dim);
+  }
+
+  .scenario-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 12px 12px;
+  }
+
+  .scenario-list::-webkit-scrollbar { width: 4px; }
+  .scenario-list::-webkit-scrollbar-track { background: transparent; }
+  .scenario-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .scenario-btn {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    cursor: pointer;
+    margin-bottom: 4px;
+    transition: var(--transition);
+  }
+
+  .scenario-btn:hover { background: var(--surface2); }
+  .scenario-btn.active { background: rgba(201, 168, 76, 0.1); border: 1px solid var(--gold-dim); }
+  .scenario-btn.active .sc-num { color: var(--gold); }
+
+  .sc-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .sc-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .sc-objection {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 3px;
+  }
+
+  .sc-outcome {
+    display: inline-block;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-top: 6px;
+    background: rgba(61, 139, 110, 0.15);
+    color: var(--accent-green);
+    border: 1px solid rgba(61, 139, 110, 0.3);
+  }
+
+  .sidebar-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  .practice-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+
+  .practice-toggle span {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .toggle-switch {
+    width: 36px;
+    height: 20px;
+    background: var(--border);
+    border-radius: 10px;
+    position: relative;
+    transition: var(--transition);
+    cursor: pointer;
+  }
+
+  .toggle-switch.on { background: var(--gold-dim); }
+
+  .toggle-knob {
+    width: 14px;
+    height: 14px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    transition: var(--transition);
+  }
+
+  .toggle-switch.on .toggle-knob { left: 19px; }
+
+  /* ── MAIN CONTENT ────────────────────────────────────── */
+  .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 32px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .scenario-header .scenario-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  .scenario-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--text);
+    margin-top: 4px;
+  }
+
+  .top-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .tab-btn {
+    padding: 7px 16px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: none;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+
+  .tab-btn:hover { background: var(--surface2); color: var(--text); }
+  .tab-btn.active { background: var(--gold-dim); border-color: var(--gold); color: var(--gold); }
+
+  .content-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 28px 32px;
+    display: flex;
+    gap: 24px;
+  }
+
+  .content-area::-webkit-scrollbar { width: 4px; }
+  .content-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* ── PANELS ──────────────────────────────────────────── */
+  .panel-left { flex: 1; }
+  .panel-right {
+    width: 280px;
+    min-width: 280px;
+  }
+
+  /* ── SETUP CARD ──────────────────────────────────────── */
+  .setup-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .setup-card h3 {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  .setup-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .setup-item label {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    margin-bottom: 3px;
+  }
+
+  .setup-item .val {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .setup-item.full { grid-column: 1 / -1; }
+
+  .challenge-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    padding: 4px 10px;
+    border-radius: 4px;
+    background: rgba(176, 90, 74, 0.12);
+    color: var(--accent-red);
+    border: 1px solid rgba(176, 90, 74, 0.3);
+    margin-top: 6px;
+  }
+
+  /* ── CONVERSATION ────────────────────────────────────── */
+  .convo-section h3 {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .exchange {
+    margin-bottom: 24px;
+    animation: fadeIn 0.3s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .exchange-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .exchange-label.shane { color: var(--gold); }
+  .exchange-label.prospect { color: var(--accent-blue); }
+
+  .bubble {
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text);
+    position: relative;
+  }
+
+  .bubble.shane {
+    background: rgba(201, 168, 76, 0.06);
+    border: 1px solid rgba(201, 168, 76, 0.2);
+    margin-left: 0;
+    margin-right: 40px;
+  }
+
+  .bubble.prospect {
+    background: rgba(74, 127, 165, 0.06);
+    border: 1px solid rgba(74, 127, 165, 0.2);
+    margin-left: 40px;
+    margin-right: 0;
+  }
+
+  .technique-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    padding: 2px 7px;
+    border-radius: 3px;
+    background: rgba(201, 168, 76, 0.12);
+    color: var(--gold);
+    border: 1px solid rgba(201, 168, 76, 0.2);
+    margin-left: 8px;
+    vertical-align: middle;
+    cursor: help;
+  }
+
+  .debrief-block {
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: var(--surface2);
+    border-left: 2px solid var(--gold-dim);
+    border-radius: 0 4px 4px 0;
+    font-size: 12px;
+    color: var(--text-muted);
+    display: none;
+  }
+
+  .debrief-block.visible { display: block; }
+
+  .debrief-block strong { color: var(--text); }
+
+  /* ── PRACTICE MODE ───────────────────────────────────── */
+  .practice-prompt {
+    background: var(--surface2);
+    border: 1px dashed var(--gold-dim);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin: 20px 0;
+    text-align: center;
+  }
+
+  .practice-prompt p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  .practice-prompt .prospect-line {
+    font-size: 14px;
+    color: var(--accent-blue);
+    font-style: italic;
+    margin-bottom: 14px;
+    line-height: 1.6;
+  }
+
+  .reveal-btn {
+    padding: 8px 20px;
+    background: var(--gold-dim);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    transition: var(--transition);
+  }
+
+  .reveal-btn:hover { background: rgba(201, 168, 76, 0.2); }
+
+  .hidden-response { display: none; }
+  .hidden-response.shown { display: block; }
+
+  /* ── RIGHT PANEL ─────────────────────────────────────── */
+  .sticky-panel {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .side-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+  }
+
+  .side-card h4 {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+  }
+
+  .technique-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+  }
+
+  .technique-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+
+  .technique-text { font-size: 12px; line-height: 1.5; color: var(--text-muted); }
+  .technique-text strong { color: var(--text); display: block; font-size: 12px; }
+
+  .outcome-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: rgba(61, 139, 110, 0.08);
+    border: 1px solid rgba(61, 139, 110, 0.25);
+    border-radius: var(--radius);
+    font-size: 12px;
+    color: var(--accent-green);
+  }
+
+  .outcome-icon { font-size: 16px; }
+
+  .warning-item {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+    align-items: flex-start;
+  }
+
+  .warning-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-amber);
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+
+  /* ── PROGRESS BAR ────────────────────────────────────── */
+  .progress-bar {
+    height: 2px;
+    background: var(--border);
+    border-radius: 1px;
+    margin-top: 12px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+    border-radius: 1px;
+    transition: width 0.5s ease;
+  }
+
+  .progress-label {
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-top: 4px;
+    text-align: right;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── QUICK REF ───────────────────────────────────────── */
+  .quick-ref-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .ref-pill {
+    padding: 8px 10px;
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .ref-pill:hover { border-color: var(--gold-dim); color: var(--text); }
+  .ref-pill .pill-num { display: block; font-family: 'DM Mono', monospace; color: var(--gold); font-size: 13px; font-weight: 500; }
+
+  /* ── TOAST ───────────────────────────────────────────── */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--surface2);
+    border: 1px solid var(--gold-dim);
+    color: var(--gold);
+    padding: 10px 18px;
+    border-radius: var(--radius);
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  /* ── TABS VIEW ───────────────────────────────────────── */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* ── SUMMARY TABLE ───────────────────────────────────── */
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .summary-table th {
+    text-align: left;
+    padding: 10px 14px;
+    background: var(--surface2);
+    color: var(--text-dim);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .summary-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+  }
+
+  .summary-table tr:hover td { background: var(--surface2); }
+
+  .pill-green { background: rgba(61, 139, 110, 0.12); color: var(--accent-green); padding: 2px 8px; border-radius: 4px; font-size: 11px; border: 1px solid rgba(61, 139, 110, 0.2); }
+  .pill-red { background: rgba(176, 90, 74, 0.12); color: var(--accent-red); padding: 2px 8px; border-radius: 4px; font-size: 11px; border: 1px solid rgba(176, 90, 74, 0.2); }
+  .pill-blue { background: rgba(74, 127, 165, 0.12); color: var(--accent-blue); padding: 2px 8px; border-radius: 4px; font-size: 11px; border: 1px solid rgba(74, 127, 165, 0.2); }
+
+  /* Patterns tab */
+  .pattern-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    margin-bottom: 14px;
+  }
+
+  .pattern-card h4 { color: var(--gold); font-size: 14px; margin-bottom: 8px; font-family: 'Playfair Display', serif; }
+  .pattern-card p { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+
+  @media (max-width: 900px) {
+    .panel-right { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="logo-area">
+    <div class="brand">CCO2go.ai</div>
+    <div class="subtitle">Sales Playbook · Field Edition</div>
+    <div class="progress-bar" style="margin-top:14px;">
+      <div class="progress-fill" id="globalProgress" style="width:0%"></div>
+    </div>
+    <div class="progress-label" id="globalProgressLabel">0 of 4 reviewed</div>
+  </div>
+
+  <div class="sidebar-section">CCO2go Scenarios</div>
+  <div class="scenario-list">
+
+    <button class="scenario-btn active" onclick="loadScenario('nina', this)">
+      <div class="sc-num">Scenario 01</div>
+      <div class="sc-name">Nina Patel</div>
+      <div class="sc-objection">Skeptical of consultants</div>
+      <span class="sc-outcome">Board call locked</span>
+    </button>
+
+    <button class="scenario-btn" onclick="loadScenario('tom', this)">
+      <div class="sc-num">Scenario 02</div>
+      <div class="sc-name">Tom Brennan</div>
+      <div class="sc-objection">CFO price grinder</div>
+      <span class="sc-outcome">CFO approved · 6 months</span>
+    </button>
+
+    <button class="scenario-btn" onclick="loadScenario('david', this)">
+      <div class="sc-num">Scenario 03</div>
+      <div class="sc-name">David Park</div>
+      <div class="sc-objection">"We built it internally"</div>
+      <span class="sc-outcome">Full team demo scheduled</span>
+    </button>
+
+    <button class="scenario-btn" onclick="loadScenario('brian', this)">
+      <div class="sc-num">Scenario 04</div>
+      <div class="sc-name">Brian Holloway</div>
+      <div class="sc-objection">"We're not ready yet"</div>
+      <span class="sc-outcome">Closed · $6,500/mo</span>
+    </button>
+
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="practice-toggle" onclick="togglePracticeMode()" id="practiceToggle">
+      <span>Practice Mode</span>
+      <div class="toggle-switch" id="toggleSwitch"><div class="toggle-knob"></div></div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="top-bar">
+    <div class="scenario-header">
+      <div class="scenario-num" id="topScenarioNum">Scenario 01 · Series A Founder</div>
+      <h1 id="topScenarioTitle">Nina Patel — Skeptical of Consultants</h1>
+    </div>
+    <div class="top-actions">
+      <button class="tab-btn active" onclick="switchTab('conversation', this)">Conversation</button>
+      <button class="tab-btn" onclick="switchTab('summary', this)">Summary</button>
+      <button class="tab-btn" onclick="switchTab('patterns', this)">Patterns</button>
+    </div>
+  </div>
+
+  <div class="content-area">
+    <div class="panel-left">
+
+      <!-- CONVERSATION TAB -->
+      <div id="tab-conversation" class="tab-content active">
+        <div id="scenarioContent"></div>
+      </div>
+
+      <!-- SUMMARY TAB -->
+      <div id="tab-summary" class="tab-content">
+        <div class="setup-card" style="margin-bottom:0">
+          <h3>All Scenarios — Quick Reference</h3>
+          <table class="summary-table">
+            <thead>
+              <tr>
+                <th>Prospect</th>
+                <th>Company Stage</th>
+                <th>Core Objection</th>
+                <th>Key Technique</th>
+                <th>Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Nina Patel</strong><br><span style="font-size:11px;color:var(--text-muted)">CEO, SaaS</span></td>
+                <td><span class="pill-blue">Series A · $1.2M ARR</span></td>
+                <td>Burned by consultants, skeptical</td>
+                <td>2-hour free discovery risk reversal</td>
+                <td><span class="pill-green">Board meeting + proposal</span></td>
+              </tr>
+              <tr>
+                <td><strong>Tom Brennan</strong><br><span style="font-size:11px;color:var(--text-muted)">CFO</span></td>
+                <td><span class="pill-blue">Series B · $8M ARR</span></td>
+                <td>Competing budget, prove ROI</td>
+                <td>Full-time CCO comp comparison + VoC positioning</td>
+                <td><span class="pill-green">CFO approved · 6 months</span></td>
+              </tr>
+              <tr>
+                <td><strong>David Park</strong><br><span style="font-size:11px;color:var(--text-muted)">VP CS</span></td>
+                <td><span class="pill-blue">Series B · $12M ARR</span></td>
+                <td>"We already built something"</td>
+                <td>Sunk cost reframe + AI depth gap reveal</td>
+                <td><span class="pill-green">Full team demo scheduled</span></td>
+              </tr>
+              <tr>
+                <td><strong>Brian Holloway</strong><br><span style="font-size:11px;color:var(--text-muted)">COO</span></td>
+                <td><span class="pill-blue">Series A · $3.2M ARR</span></td>
+                <td>"Not the right time"</td>
+                <td>Cost of delay math + timing flip</td>
+                <td><span class="pill-green">Closed · $6,500/mo</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PATTERNS TAB -->
+      <div id="tab-patterns" class="tab-content">
+        <div class="pattern-card">
+          <h4>The Trust Asymmetry Problem</h4>
+          <p>Every CCO2go prospect carries baggage — failed consultants, wasted spend, broken promises. You're not selling against competitors; you're selling against their previous experience. The consistent win is to name this tension early, offer a risk-free first move, and let them conclude you're different rather than asserting it.</p>
+        </div>
+        <div class="pattern-card">
+          <h4>CFOs Buy Outcomes, Not Platforms</h4>
+          <p>In every scenario with financial stakeholders, the turning point was translating capability into a defensible ROI story. Churn percentages, cost of inaction, and headcount comparisons ($350K CCO vs $6,500/mo) created the mental permission to say yes. Features didn't close these deals — math did.</p>
+        </div>
+        <div class="pattern-card">
+          <h4>The Voice of Customer Card</h4>
+          <p>In both the Tom Brennan and David Park scenarios, the decisive pivot was surfacing that Product and Marketing are guessing without CS data. Positioning CCO2go as the source of customer truth — not just a retention tool — elevates the conversation from "CS cost" to "company intelligence asset." This is underused and should be your opening frame more often.</p>
+        </div>
+        <div class="pattern-card">
+          <h4>Timing Objections Are Cost Objections in Disguise</h4>
+          <p>Brian Holloway said "not the right time." What he meant was "I can't justify the spend right now." The close wasn't about urgency tactics — it was about quantifying the cost of delay so he could see the inaction was actually the expensive choice. Never accept a timing objection at face value.</p>
+        </div>
+        <div class="pattern-card">
+          <h4>The "Architect" Differentiator</h4>
+          <p>Across all scenarios, the single most powerful credibility moment is when you reveal you built the CCOPilot platform yourself. This lands hardest with technical buyers (David Park) and skeptics who've been sold empty promises (Nina Patel). Lead with it earlier. Don't bury it in the middle of pricing discussions.</p>
+        </div>
+        <div class="pattern-card">
+          <h4>Area to Sharpen: Pricing Confidence</h4>
+          <p>In multiple scenarios, you offered multiple pricing structures simultaneously — hourly, packages, outcomes, and software bundled. Flexibility is good; option overload stalls closes. Consider leading with one recommendation and only unlocking alternatives when pushed. You're not a menu; you're an advisor.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT PANEL (sticky) -->
+    <div class="panel-right">
+      <div class="sticky-panel" id="rightPanel"></div>
+    </div>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let practiceMode = false;
+let reviewedScenarios = new Set();
+
+const scenarios = {
+
+  nina: {
+    num: 'Scenario 01 · Series A Founder',
+    title: 'Nina Patel — Skeptical of Consultants',
+    setup: {
+      prospect: 'Nina Patel',
+      role: 'CEO, Series A SaaS',
+      metrics: '$1.2M ARR · 18% churn',
+      challenge: 'Burned by 2 failed CS hires. Skeptical + asking cost upfront.',
+      context: '85 customers. Losing ~15/year @ $14K ARR each = $210K annual churn bleed.'
+    },
+    techniques: [
+      { name: 'Risk Reversal', desc: '2-hour free discovery removes the "expensive experiment" fear' },
+      { name: 'Integrity Anchor', desc: '"I can\'t guarantee outcomes" builds more trust than promises' },
+      { name: 'Architect Differentiator', desc: 'You built the platform — not just advising, delivering a complete system' },
+      { name: 'Outcome-Based Pricing', desc: 'Offered flexible models; let her pick her comfort level' },
+      { name: 'Board Meeting Offer', desc: 'Joining the board call makes the engagement real and irreversible' }
+    ],
+    warnings: [
+      'Multiple pricing options presented at once — consider leading with one',
+      'Don\'t drop the free 2-hour offer too early; it\'s more powerful after she states skepticism'
+    ],
+    outcome: 'Board meeting + proposal locked. "I came in ready to say no. You changed my mind."',
+    exchanges: [
+      {
+        type: 'prospect',
+        speaker: 'Nina Patel',
+        text: '"Look Shane, I\'ve read your stuff and it\'s impressive. But I\'ve hired two customer success experts in the past year and neither moved the needle. Why would this be any different? And before you pitch me — what\'s this going to cost? I don\'t have budget for another expensive experiment."',
+        debrief: 'She\'s hit skepticism AND price in one breath. The trap: answering price first signals you\'re just another vendor. Resist it.'
+      },
+      {
+        type: 'shane',
+        speaker: 'Shane',
+        text: 'First of all, thank you for the compliments. My reputation is backed up by many examples of success. I can\'t ever guarantee your outcomes will match the case study — but here\'s what I will do: spend up to 2 hours with you at no cost. We discuss your pain points, understand what\'s causing the outcomes you don\'t want, and build a joint plan together. If you like what you hear, great. If not — no cost, no hard feelings. Either way, you walk away with something valuable.',
+        tags: ['Risk Reversal', 'Integrity Anchor'],
+        debrief: 'Brilliant sequence: (1) acknowledge reputation without overselling, (2) refuse to guarantee — this is the trust spike, (3) risk reversal removes all pressure. She can\'t say no to free value.'
+      },
+      {
+        type: 'prospect',
+        speaker: 'Nina',
+        text: '"Wait — two hours, no strings? I appreciate that you\'re not just throwing a number at me. Honestly, the fact that you\'re not guaranteeing the same results makes me trust you more. But I\'ve been through discovery calls before that turned into 3-hour sales pitches. What exactly do we cover, and what do I walk away with even if I don\'t hire you?"',
+        debrief: 'She\'s interested. Now she\'s testing whether the offer is genuine or a bait-and-switch. Answer specifically.'
+      },
+      {
+        type: 'shane',
+        speaker: 'Shane',
+        text: 'You have 85 customers and you\'re losing 15 a year at 18% churn. At $14K ARR each, that\'s over $200K walking out the door annually. In those two hours, we\'d map the root causes — is it product? Support? Onboarding? We\'d look at your customer segments, identify who\'s at risk and why, and I\'d give you a framework you can act on immediately. You won\'t need me for that. But you\'ll probably want to.',
+        tags: ['ROI Math', 'Specificity'],
+        debrief: 'Doing her ROI math for her ($200K/year) before she asks is a power move. Now the 2 hours have a dollar value attached. The last line — "you won\'t need me, but you\'ll want to" — is confident without being pushy.'
+      },
+      {
+        type: 'prospect',
+        speaker: 'Nina',
+        text: '"$200K... I knew it was bad but seeing it like that is sobering. Okay, I\'m in for the two hours. But I need to tell you — my board meeting is in 3 weeks. If I\'m bringing in another consultant, I need to show them why this is different."',
+        debrief: 'She just handed you the close setup. She needs ammunition for her board. Give her you as the ammunition.'
+      },
+      {
+        type: 'shane',
+        speaker: 'Shane',
+        text: 'Perfect. Let me offer to join that board meeting. Not to pitch — to answer the hard questions directly. I\'ve sat in boardrooms for 25 years. I know what Series A investors ask about CS. I\'ll show them the data from the first 2 hours, our diagnosis, and what a 6-month engagement produces. They\'ll leave the room knowing this is different because they\'ll have seen it in action.',
+        tags: ['Board Offer', 'Architect Differentiator'],
+        debrief: 'Offering to join the board call transforms the sale from "consultant engagement" to "partner with skin in the game." This is the move that separated you from the last two consultants immediately.'
+      }
+    ]
+  },
+
+  tom: {
+    num: 'Scenario 02 · Series B CFO',
+    title: 'Tom Brennan — The Price Grinder',
+    setup: {
+      prospect: 'Tom Brennan',
+      role: 'CFO, Series B SaaS',
+      metrics: '$8M ARR · 3 competing budget items',
+      challenge: 'Prior $40K consultant produced a useless playbook. Needs to defend ROI to board.',
+      context: 'Rachel (VP CS) brought you in. Tom is the gatekeeper. He has three other "churn solutions" on the table.'
+    },
+    techniques: [
+      { name: 'Knock-Off Analogy', desc: 'Reframing cheap as risky — "You don\'t want the knock-off surgery"' },
+      { name: 'CCO Comp Comparison', desc: '$29K/mo full-time CCO vs $6,500/mo — makes the ask look like a bargain' },
+      { name: 'Voice of Customer Play', desc: 'CS is the source of truth for Product and Marketing — not a line item' },
+      { name: '30/60/90 Milestones', desc: 'Customer interviews, radical candor, actionable reports — not vague outcomes' },
+      { name: 'Personalization', desc: '"Tom, you\'ll have interesting conversations about your customers" — made it personal' }
+    ],
+    warnings: [
+      'CFOs don\'t trust promises — every claim needs a timeline or specific deliverable',
+      'Don\'t compete with Product and Marketing for budget; position CS as their enabler'
+    ],
+    outcome: 'Tom approved $6,500/mo for 6 months. "That was 14 minutes. You\'re efficient. I like that."',
+    exchanges: [
+      {
+        type: 'prospect',
+        speaker: 'Tom Brennan',
+        text: '"I\'m going to be direct, Shane. Rachel likes you. But I\'ve got three line items on my budget right now all promising to reduce churn. Marketing says better onboarding content. Product says fixing the mobile app. And now you\'re telling me your platform will do it. How do I know this isn\'t just another $78K line item I\'m defending to the board in six months with nothing to show for it? The last consultant cost us $40K and gave us a playbook nobody uses."',
+        debrief: 'This is the hardest prospect in the playbook. He\'s not hostile — he\'s appropriately skeptical. Don\'t defend. Reframe.'
+      },
+      {
+        type: 'shane',
+        speaker: 'Shane',
+        text: 'Tom, I hear you — and that $40K playbook story is exactly why I want to be direct with you too. I don\'t do playbooks. I do outcomes. But more importantly: how can Product know what to fix, or Marketing know what messaging lands, if neither of them truly know what customers think? Rachel\'s team is the only one actually talking to customers. CS isn\'t a budget line item competing with Product and Marketing — it\'s the intelligence source they both need. You don\'t have a churn problem. You have a "we don\'t know our customers" problem.',
+        tags: ['VoC Play', 'Reframe'],
+        debrief: 'The pivot from "CS vs Product/Marketing" to "CS feeds Product and Marketing" resets the whole conversation. Tom came in to cut budget; now he\'s hearing that cutting CS means Product and Marketing are flying blind.'
+      },
+      {
+        type: 'prospect',
+        speaker: 'Tom',
+        text: '"Hm. That\'s actually a fair point. Product and Marketing are guessing. Rachel\'s team is the one actually talking to customers. But here\'s my math problem: $4K platform plus however many hours... we\'re talking $6,500 a month. $78K a year. That\'s a real number. Walk me through why I don\'t just hire someone full-time."',
+        debrief: 'He\'s moved. Now he\'s testing the build-vs-buy math. He wants to be convinced — give him the ammunition.'
+      },
+      {
+        type: 'shane',
+        speaker: 'Shane',
+        text: 'Fair question. A CCO costs $350K a year in salary alone — $29K a month before benefits, equity, or ramp time. And you\'d wait 6 months to find them and another 6 to see results. You\'d also need them to bring their own platform or buy one. With me, you get the CCO experience, the platform built by that CCO, and you can stop in 6 months if you don\'t like what you see. No long-term employment commitment. And if we cut churn even 5% — at $8M ARR — that\'s $400K in retained revenue. The $78K pays for itself in the first quarter.',
+        tags: ['CCO Comp Comparison', 'ROI Math'],
+        debrief: 'Stack: (1) make full-time hire look expensive, (2) add the risk of a bad hire, (3) tie platform to CCO expertise, (4) do the retention math so he doesn\'t have to.'
+      },
+      {
+        type: 'prospect',
+        speaker: 'Tom',
+        text: '"The full-time CCO comparison is fair. But here\'s my real concern: everyone has their hand out telling me the same story. Churn goes down, revenue goes up. You\'re telling me your platform will do it. How do I know you\'re different from the last guy who cost us $40K?"',
+        debrief: 'He\'s asking for differentiation evidence, not more ROI math. This is where specificity of execution wins.'
+      },
+      {
+        type: 'shane',
+        speaker: 'Shane',
+        text: 'The last consultant gave you a document. Here\'s what I give you: in the first 30 days, I personally interview your at-risk customers. Radical candor with your management team — I\'ll tell you what your customers actually think, not what you want to hear. By day 60, your team has the platform running, health scores on every customer, automated alerts. By day 90, Tom — you will personally be able to have informed, interesting conversations about your customers. Not dashboards. Real insight. And I\'ll be in the room with you for that day-30 readout if you want me there.',
+        tags: ['30/60/90 Milestones', 'Personalization'],
+        debrief: 'Making Tom personally part of the deliverable ("you will have interesting conversations") was the moment the deal closed. CFOs don\'t just want their company to win — they want to be seen as smart for saying yes.'
+      }
+    ]
+  },
+
+  david: {
+    num: 'Scenario 03 · Series B VP',
+    title: 'David Park — "We Built It Internally"',
+    setup: {
+      prospect: 'David Park',
+      role: 'VP Customer Success, Series B SaaS',
+      metrics: '$12M ARR · "Custom-built CS tools"',
+      challenge: 'Team built internal CS tooling. Sunk cost attachment. Needs to justify spend to leadership.',
+      context: 'David\'s team spent 8 months building dashboards and scripts. They\'re proud of it. He\'s not going to say it\'s broken even if it is.'
+    },
+    techniques: [
+      { name: 'Sunk Cost Reframe', desc: 'Acknowledge the work; redirect to what it can\'t do going forward' },
+      { name: 'AI Depth Gap', desc: 'Internal tools can\'t run AI agents, sentiment analysis, or churn prediction' },
+      { name: 'Complement Not Replace', desc: '"We can connect to what you built" removes the defensiveness' },
+      { name: 'Team Demo Offer', desc: 'Letting his team evaluate it gives David political cover to change course' },
+      { name: 'Build Cost Math', desc: 'What does 8 months of engineer time cost vs. licensing the platform?' }
+    ],
+    warnings: [
+      'Never attack what they built — you\'ll trigger defensiveness and kill the deal',
+      'David needs to save face with his team; give him a narrative that makes the pivot look like a smart upgrade, not a failure'
+    ],
+    outcome: 'Full team demo scheduled. David said: "I\'d want my team to see this before I say anything to leadership."',
+    exchanges: [
+      {
+        type: 'prospect',
+        speaker: 'David Park',
+        text: '"Look, I appreciate the outreach, but we\'ve actually built our own CS tooling internally. Our engineers spent 8 months on it. We\'ve got health score dashboards, automated alerts, and our own playbook templates. I\'m not sure what you\'d add that we don\'t already have."',
+        debrief: 'Classic sunk cost defense. He\'s not lying — they probably did build something. Your job is to find the gap without implying they wasted 8 months.'
+      },
+      {
+        type: 'shane',
+        speaker: 'Shane',
+        text: 'Eight months of engineering time is a real investment, and I respect that. What you built is yours and it understands your data model in a way no external tool will out-of-the-box. But I\'d ask you this: can your system tell you, right now, which customer is 30 days from churning based on product usage signals, support ticket sentiment, and engagement decay — and then automatically trigger the right playbook response without a CSM having to touch it? Because that\'s what our AI agents do. Not replacing what you built. Running on top of it.',
+        tags: ['Sunk Cost Reframe', 'AI Depth Gap'],
+        debrief: 'Specific capability question does two things: (1) it doesn\'t attack the existing tool, (2) it reveals a gap they probably can\'t close with internal builds without significant continued investment.'
+      },
+      {
+        type: 'prospect',
+        speaker: 'David',
+        text: '"The AI piece... no, we don\'t have that. We have rule-based alerts. If health score drops below X, flag it. But we\'re not doing anything with sentiment or predictive signals. How does that actually work in practice?"',
+        debrief: 'He\'s curious. The defense just dropped. Now demonstrate — don\'t explain.'
+      },
+      {
+        type: 'shane',
+        speaker: 'Shane',
+        text: 'Our agents monitor support tickets, NPS responses, email engagement, and product usage simultaneously. When they detect a pattern — say, three tickets in two weeks, NPS drop, and declining logins — the system doesn\'t just alert your CSM. It recommends the specific playbook, drafts the outreach email, and logs the action. Your CSM reviews and approves in 90 seconds. You built the foundation. We add the intelligence layer. And here\'s what I\'d offer: let your team see it. Not a sales call — a technical demo where your engineers can ask every question they want about how it integrates.',
+        tags: ['Complement Not Replace', 'Team Demo Offer'],
+        debrief: 'Offering a technical demo for his engineers is the move. It gives David political cover — he\'s not making a unilateral decision, he\'s being a good leader by involving his team in evaluation.'
+      },
+      {
+        type: 'prospect',
+        speaker: 'David',
+        text: '"That\'s actually... pretty compelling. We\'ve been talking about adding ML to our alerting for six months but our engineering team is stretched. What does the integration actually look like? And what\'s the cost conversation?"',
+        debrief: 'He just admitted his team can\'t build what you\'re describing. The cost question now comes from a "how do we afford this" frame, not a "why would we pay for this" frame. Different conversation.'
+      },
+      {
+        type: 'shane',
+        speaker: 'Shane',
+        text: 'Integration is API-based — your engineers will actually appreciate how it\'s architected because we built it for exactly this kind of environment. On cost: if your team spent 8 months of engineer time, you\'re looking at $200K+ of sunk development cost, plus ongoing maintenance. The platform is $4K a month with all upgrades included — and your engineers stop maintaining a CS tool and go back to building product. On the demo: I\'d want 90 minutes, your two lead CSMs and whoever owns the internal tooling. No slides. Live system, real questions.',
+        tags: ['Build Cost Math', 'Complement Not Replace'],
+        debrief: 'Build cost math is the close for technical buyers. $200K sunk + ongoing maintenance vs $48K/year with zero maintenance burden is an easy CFO conversation for David to have.'
+      }
+    ]
+  },
+
+  brian: {
+    num: 'Scenario 04 · Series A COO',
+    title: 'Brian Holloway — "We\'re Not Ready Yet"',
+    setup: {
+      prospect: 'Brian Holloway',
+      role: 'COO, Series A SaaS',
+      metrics: '$3.2M ARR · Hiring push in progress',
+      challenge: '"We need to hire more CSMs first before we invest in a platform." Classic delay tactic.',
+      context: 'They\'re 6 months into a growth sprint. Brian is overwhelmed and using "not ready" as a proxy for "I can\'t deal with one more thing right now."'
+    },
+    techniques: [
+      { name: 'Timing Flip', desc: 'The platform is most valuable during the hiring sprint, not after' },
+      { name: 'Cost of Delay Math', desc: 'Every month of delay = quantifiable churn at current rate' },
+      { name: 'Ease of Start', desc: 'Reduce the perceived effort: "You don\'t need to be ready, we make you ready"' },
+      { name: 'CSM Leverage Argument', desc: 'New CSMs onboard faster with a platform than without one' },
+      { name: 'Pilot Structure', desc: 'Offer a contained 30-day start to lower the entry barrier' }
+    ],
+    warnings: [
+      'Don\'t push too hard on urgency — it confirms that the ask requires effort he doesn\'t have',
+      'The real objection is bandwidth, not budget. Solve the bandwidth problem.'
+    ],
+    outcome: 'Closed at $6,500/mo for 6 months. "You\'re right — waiting doesn\'t make this easier."',
+    exchanges: [
+      {
+        type: 'prospect',
+        speaker: 'Brian Holloway',
+        text: '"Shane, I\'m not saying no. I\'m saying not now. We\'re in the middle of a hiring push — two new CSMs starting next month. I want to get them trained, get some processes in place, and then evaluate tools. Right now it\'s just not the right time to add another thing to the plate."',
+        debrief: 'The polite version of a stall. He\'s not wrong that timing matters — but he\'s wrong about which direction it favors. The platform is more valuable now, not less.'
+      },
+      {
+        type: 'shane',
+        speaker: 'Shane',
+        text: 'Brian, I want to push back on something — respectfully. What happens when your two new CSMs start next month without a system? They\'ll spend their first 60 days building their own spreadsheets, their own processes, their own way of tracking health. You\'ll have three CSMs doing things three different ways. Then you\'ll want to standardize — and that\'s actually harder than starting with a system. The platform doesn\'t slow your onboarding down. It becomes the onboarding.',
+        tags: ['Timing Flip', 'CSM Leverage Argument'],
+        debrief: 'This directly inverts his logic. Waiting doesn\'t make the problem smaller — it creates a re-work problem on top of the original problem. This is the key insight he hasn\'t considered.'
+      },
+      {
+        type: 'prospect',
+        speaker: 'Brian',
+        text: '"I hadn\'t thought about it that way. But honestly, the time commitment is the thing. I don\'t have bandwidth to manage a new vendor implementation right now. Who on my team owns this and what does it actually take to get live?"',
+        debrief: 'He\'s now asking "how hard is it" not "why should I." You\'ve crossed the interest threshold. Now reduce perceived effort.'
+      },
+      {
+        type: 'shane',
+        speaker: 'Shane',
+        text: 'I own the implementation. Your team\'s job is to answer questions about your customer data and show up to two 1-hour sessions in week one. After that, we run — your CSMs start using it, I\'m monitoring and configuring in the background. You don\'t need to manage it. And here\'s the other thing, Brian — every month you wait, at your current churn rate, you\'re losing roughly $80K in ARR. Not in theory. In customers who leave while you\'re getting ready. Six months of delay is $480K. That\'s not a reason to rush — it\'s a reason to start now so you\'re ready before the next wave of risk.',
+        tags: ['Ease of Start', 'Cost of Delay Math'],
+        debrief: 'Two moves: (1) remove the implementation burden completely — "I own it," (2) make the delay tangible with a monthly dollar figure. $80K/month lost is not abstract; it\'s a real cost of his "not yet."'
+      },
+      {
+        type: 'prospect',
+        speaker: 'Brian',
+        text: '"$80K a month... okay that\'s harder to ignore. What does the first 30 days actually look like? And what\'s the minimum we need to do to get live?"',
+        debrief: 'He\'s planning the start, not evaluating whether to start. The close is here — confirm the path and ask for the commitment.'
+      },
+      {
+        type: 'shane',
+        speaker: 'Shane',
+        text: 'Week one: data connection and customer import — I handle this with one of your team members for two hours. Week two: health score calibration for your specific business model. I build it; you review it. Week three: your CSMs get onboarded — 1 hour, live system. Week four: first AI agent running, first at-risk customers identified. You\'re fully live in 30 days without disrupting a single thing on your plate. Let\'s start the 1st. I\'ll send the SOW today.',
+        tags: ['Ease of Start', 'Pilot Structure'],
+        debrief: 'The day-by-day plan makes "getting live" feel small and concrete. Ending with "I\'ll send the SOW today" moves the conversation from decision to execution. He says yes because there\'s nothing left to evaluate.'
+      }
+    ]
+  }
+};
+
+let currentScenario = 'nina';
+let currentTab = 'conversation';
+
+function loadScenario(key, btn) {
+  currentScenario = key;
+  reviewedScenarios.add(key);
+  updateProgress();
+
+  document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const s = scenarios[key];
+  document.getElementById('topScenarioNum').textContent = s.num;
+  document.getElementById('topScenarioTitle').textContent = s.title;
+
+  renderConversation(s);
+  renderRightPanel(s);
+}
+
+function renderConversation(s) {
+  let html = '';
+
+  // Setup card
+  html += `<div class="setup-card">
+    <h3>Scenario Setup</h3>
+    <div class="setup-grid">
+      <div class="setup-item">
+        <label>Prospect</label>
+        <div class="val">${s.setup.prospect}</div>
+      </div>
+      <div class="setup-item">
+        <label>Role</label>
+        <div class="val">${s.setup.role}</div>
+      </div>
+      <div class="setup-item">
+        <label>Company Metrics</label>
+        <div class="val">${s.setup.metrics}</div>
+      </div>
+      <div class="setup-item">
+        <label>Context</label>
+        <div class="val" style="font-size:12px;color:var(--text-muted)">${s.setup.context}</div>
+      </div>
+      <div class="setup-item full">
+        <label>Core Challenge</label>
+        <div class="challenge-tag">${s.setup.challenge}</div>
+      </div>
+    </div>
+  </div>`;
+
+  html += `<div class="convo-section"><h3>Full Conversation</h3>`;
+
+  s.exchanges.forEach((ex, i) => {
+    const isPractice = practiceMode && ex.type === 'shane';
+    const tags = (ex.tags || []).map(t => `<span class="technique-tag" title="${getTagDesc(s, t)}">${t}</span>`).join('');
+
+    if (isPractice) {
+      html += `<div class="exchange" style="animation-delay:${i * 0.05}s">
+        <div class="exchange-label prospect">${ex.speaker} (Prospect)</div>
+        <div class="bubble prospect">${ex.text}</div>
+        ${ex.debrief ? `<div class="debrief-block visible" style="margin-top:8px">${ex.debrief}</div>` : ''}
+
+        <div class="practice-prompt" style="margin-top:12px">
+          <p>🎯 <strong>Your turn</strong> — How do you respond?</p>
+          <p class="prospect-line">Think through your approach before revealing the playbook answer.</p>
+          <button class="reveal-btn" onclick="revealResponse(${i})">Reveal Response</button>
+        </div>
+        <div class="hidden-response" id="response-${i}">
+          <div style="margin-top:12px">
+            <div class="exchange-label shane">Shane (Playbook)</div>
+            <div class="bubble shane">${ex.text} ${tags}</div>
+            ${ex.debrief ? `<div class="debrief-block visible">${ex.debrief}</div>` : ''}
+          </div>
+        </div>
+      </div>`;
+    } else if (ex.type === 'prospect') {
+      html += `<div class="exchange" style="animation-delay:${i * 0.05}s">
+        <div class="exchange-label prospect">${ex.speaker}</div>
+        <div class="bubble prospect">${ex.text}</div>
+        ${ex.debrief ? `<div class="debrief-block visible">${ex.debrief}</div>` : ''}
+      </div>`;
+    } else {
+      html += `<div class="exchange" style="animation-delay:${i * 0.05}s">
+        <div class="exchange-label shane">Shane</div>
+        <div class="bubble shane">${ex.text} ${tags}</div>
+        ${ex.debrief ? `<div class="debrief-block visible">${ex.debrief}</div>` : ''}
+      </div>`;
+    }
+  });
+
+  html += `</div>`;
+  document.getElementById('scenarioContent').innerHTML = html;
+}
+
+function getTagDesc(s, tagName) {
+  const t = s.techniques.find(t => t.name === tagName);
+  return t ? t.desc : tagName;
+}
+
+function revealResponse(index) {
+  const el = document.getElementById(`response-${index}`);
+  if (el) {
+    el.classList.add('shown');
+    el.previousElementSibling.style.display = 'none';
+    showToast('Playbook response revealed');
+  }
+}
+
+function renderRightPanel(s) {
+  let html = '';
+
+  // Outcome
+  html += `<div class="side-card">
+    <h4>Outcome</h4>
+    <div class="outcome-badge">
+      <span class="outcome-icon">✓</span>
+      <span>${s.outcome}</span>
+    </div>
+  </div>`;
+
+  // Key techniques
+  html += `<div class="side-card">
+    <h4>Techniques Used</h4>`;
+  s.techniques.forEach(t => {
+    html += `<div class="technique-item">
+      <div class="technique-dot"></div>
+      <div class="technique-text"><strong>${t.name}</strong>${t.desc}</div>
+    </div>`;
+  });
+  html += `</div>`;
+
+  // Watch for
+  html += `<div class="side-card">
+    <h4>Watch For</h4>`;
+  s.warnings.forEach(w => {
+    html += `<div class="warning-item">
+      <div class="warning-dot"></div>
+      <div>${w}</div>
+    </div>`;
+  });
+  html += `</div>`;
+
+  // Quick nav
+  html += `<div class="side-card">
+    <h4>Quick Jump</h4>
+    <div class="quick-ref-grid">`;
+  Object.entries(scenarios).forEach(([key, sc]) => {
+    const num = sc.num.split(' ')[1];
+    html += `<div class="ref-pill" onclick="document.querySelector('[onclick*=\\'${key}\\']').click()">
+      <span class="pill-num">${num}</span>
+      ${sc.setup.prospect.split(' ')[0]}
+    </div>`;
+  });
+  html += `</div></div>`;
+
+  document.getElementById('rightPanel').innerHTML = html;
+}
+
+function switchTab(tabName, btn) {
+  currentTab = tabName;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.getElementById(`tab-${tabName}`).classList.add('active');
+}
+
+function togglePracticeMode() {
+  practiceMode = !practiceMode;
+  const sw = document.getElementById('toggleSwitch');
+  sw.classList.toggle('on', practiceMode);
+  showToast(practiceMode ? 'Practice Mode ON — Shane\'s responses hidden' : 'Practice Mode OFF');
+  renderConversation(scenarios[currentScenario]);
+}
+
+function updateProgress() {
+  const count = reviewedScenarios.size;
+  const pct = (count / 4) * 100;
+  document.getElementById('globalProgress').style.width = pct + '%';
+  document.getElementById('globalProgressLabel').textContent = `${count} of 4 reviewed`;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// Init
+loadScenario('nina', document.querySelector('.scenario-btn.active'));
+</script>
+</body>
+</html>
