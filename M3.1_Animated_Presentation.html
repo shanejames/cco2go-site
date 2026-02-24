@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 3.1 — The 5 Moments That Matter | CCO2go.ai</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:   #0F1F4B;
+    --navy2:  #0a1538;
+    --teal:   #00A896;
+    --gold:   #F4A000;
+    --red:    #E05C5C;
+    --steel:  #4A5568;
+    --white:  #F0F4FF;
+    --accent: #E05C5C;
+    --orange: #FF6B35;
+    --blue:   #4A90D9;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: var(--navy2); }
+
+  #nav {
+    position: fixed; top: 0; left: 0; right: 0; height: 48px; z-index: 100;
+    background: rgba(10,21,56,0.95); backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--red);
+    display: flex; align-items: center; justify-content: space-between; padding: 0 24px;
+  }
+  #nav .brand { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--teal); }
+  #nav .module-label { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gold); letter-spacing: 0.1em; }
+  #nav .slide-counter { font-family: 'DM Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.4); }
+  #progress-bar { position: fixed; top: 50px; left: 0; height: 2px; z-index: 99; background: var(--accent); transition: width 0.4s ease; }
+
+  #stage { position: fixed; top: 50px; left: 0; right: 0; bottom: 0; }
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    padding: 44px 80px 76px;
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.55s ease, transform 0.55s ease; pointer-events: none;
+  }
+  .slide.active { opacity: 1; transform: translateY(0); pointer-events: all; }
+  .slide.exit { opacity: 0; transform: translateY(-28px); transition: opacity 0.35s ease, transform 0.35s ease; }
+
+  .footer {
+    position: absolute; bottom: 14px; left: 0; right: 0;
+    display: flex; justify-content: space-between; padding: 0 80px;
+    font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.22);
+  }
+
+  #prev, #next {
+    position: fixed; top: 50%; transform: translateY(-50%); z-index: 99;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.35); font-size: 22px; width: 44px; height: 44px;
+    border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  #prev:hover, #next:hover { background: rgba(224,92,92,0.15); color: var(--accent); border-color: var(--accent); }
+  #prev { left: 14px; } #next { right: 14px; }
+
+  .eyebrow { font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 0.18em; color: var(--accent); text-transform: uppercase; margin-bottom: 16px; opacity: 0; transform: translateY(10px); transition: all 0.5s 0.1s ease; }
+  .slide.active .eyebrow { opacity: 1; transform: translateY(0); }
+
+  h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px, 7.5vw, 90px); color: var(--white); line-height: 0.95; text-align: center; opacity: 0; transform: translateY(16px); transition: all 0.5s 0.2s ease; }
+  .slide.active h1 { opacity: 1; transform: translateY(0); }
+
+  h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(32px, 4.5vw, 58px); color: var(--white); line-height: 1; text-align: center; opacity: 0; transform: translateY(14px); transition: all 0.5s 0.2s ease; }
+  .slide.active h2 { opacity: 1; transform: translateY(0); }
+
+  .subtitle { font-family: 'DM Sans', sans-serif; font-size: clamp(14px, 1.8vw, 19px); color: rgba(255,255,255,0.55); text-align: center; margin-top: 20px; max-width: 680px; line-height: 1.55; opacity: 0; transform: translateY(10px); transition: all 0.5s 0.35s ease; }
+  .slide.active .subtitle { opacity: 1; transform: translateY(0); }
+
+  .accent-line { width: 64px; height: 3px; background: var(--accent); margin: 20px auto; opacity: 0; transform: scaleX(0); transition: all 0.5s 0.3s ease; }
+  .slide.active .accent-line { opacity: 1; transform: scaleX(1); }
+
+  .quote-block { max-width: 780px; padding: 28px 36px; margin: 24px auto; border-left: 4px solid var(--accent); background: rgba(255,255,255,0.03); opacity: 0; transform: translateY(14px); transition: all 0.55s 0.25s ease; }
+  .slide.active .quote-block { opacity: 1; transform: translateY(0); }
+  .quote-text { font-family: 'DM Sans', sans-serif; font-size: clamp(16px, 2vw, 21px); color: var(--white); line-height: 1.65; font-style: italic; }
+
+  /* TIMELINE — 5 MOMENTS OVERVIEW */
+  .timeline { width: 100%; max-width: 920px; margin-top: 20px; position: relative; }
+  .tl-track { height: 3px; background: rgba(255,255,255,0.08); margin: 0 40px; position: relative; }
+  .tl-track-fill { position: absolute; left: 0; top: 0; height: 100%; background: var(--accent); width: 0; transition: width 1.2s 0.4s ease; }
+  .slide.active .tl-track-fill { width: 100%; }
+  .tl-items { display: flex; justify-content: space-between; margin-top: 0; }
+  .tl-item { display: flex; flex-direction: column; align-items: center; position: relative; flex: 1; opacity: 0; transform: translateY(16px); }
+  .slide.active .tl-item:nth-child(1) { opacity:1; transform:translateY(0); transition: all 0.4s 0.2s ease; }
+  .slide.active .tl-item:nth-child(2) { opacity:1; transform:translateY(0); transition: all 0.4s 0.35s ease; }
+  .slide.active .tl-item:nth-child(3) { opacity:1; transform:translateY(0); transition: all 0.4s 0.5s ease; }
+  .slide.active .tl-item:nth-child(4) { opacity:1; transform:translateY(0); transition: all 0.4s 0.65s ease; }
+  .slide.active .tl-item:nth-child(5) { opacity:1; transform:translateY(0); transition: all 0.4s 0.8s ease; }
+  .tl-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--accent); margin-bottom: 12px; margin-top: -8px; border: 2px solid var(--navy2); }
+  .tl-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 6px; }
+  .tl-name { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--white); text-align: center; line-height: 1.1; }
+  .tl-timing { font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 5px; text-align: center; }
+
+  /* MOMENT DETAIL CARD */
+  .moment-card { width: 100%; max-width: 860px; margin-top: 20px; }
+  .mc-header { padding: 18px 24px; border-radius: 4px 4px 0 0; display: flex; align-items: center; gap: 16px; opacity: 0; transform: translateY(12px); transition: all 0.5s 0.15s ease; }
+  .slide.active .mc-header { opacity: 1; transform: translateY(0); }
+  .mc-num { font-family: 'Bebas Neue', sans-serif; font-size: 52px; line-height: 1; color: white; min-width: 44px; }
+  .mc-title { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: white; line-height: 1; }
+  .mc-timing { font-family: 'DM Mono', monospace; font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 4px; }
+  .mc-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .mc-col { padding: 20px 24px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); opacity: 0; transform: translateY(10px); }
+  .mc-col:nth-child(1) { border-radius: 0 0 0 4px; transition: all 0.45s 0.3s ease; }
+  .mc-col:nth-child(2) { border-radius: 0 0 4px 0; border-left: none; transition: all 0.45s 0.42s ease; }
+  .slide.active .mc-col { opacity: 1; transform: translateY(0); }
+  .mc-col-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 10px; }
+  .mc-col-content { font-family: 'DM Sans', sans-serif; font-size: 14px; color: rgba(255,255,255,0.72); line-height: 1.6; }
+  .mc-col-content li { margin-bottom: 6px; list-style: none; padding-left: 14px; position: relative; }
+  .mc-col-content li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+
+  /* DUAL MOMENT LAYOUT */
+  .dual-moment { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; max-width: 920px; width: 100%; margin-top: 24px; }
+  .dm-card { padding: 22px 20px; border-radius: 5px; opacity: 0; transform: translateY(18px); }
+  .dm-card:nth-child(1) { transition: all 0.5s 0.15s ease; }
+  .dm-card:nth-child(2) { transition: all 0.5s 0.35s ease; }
+  .slide.active .dm-card { opacity: 1; transform: translateY(0); }
+  .dm-num { font-family: 'Bebas Neue', sans-serif; font-size: 48px; line-height: 1; margin-bottom: 6px; }
+  .dm-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--white); margin-bottom: 8px; }
+  .dm-timing { font-family: 'DM Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 14px; }
+  .dm-body { font-family: 'DM Sans', sans-serif; font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.6; }
+
+  /* ACTION */
+  .action-grid { display: flex; gap: 18px; max-width: 920px; width: 100%; margin-top: 26px; }
+  .action-item { flex: 1; padding: 20px 16px; text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(224,92,92,0.25); border-top: 3px solid var(--accent); border-radius: 4px; opacity: 0; transform: translateY(20px); }
+  .slide.active .action-item:nth-child(1) { opacity:1; transform:translateY(0); transition: all 0.45s 0.2s ease; }
+  .slide.active .action-item:nth-child(2) { opacity:1; transform:translateY(0); transition: all 0.45s 0.35s ease; }
+  .slide.active .action-item:nth-child(3) { opacity:1; transform:translateY(0); transition: all 0.45s 0.5s ease; }
+  .action-num { font-family: 'Bebas Neue', sans-serif; font-size: 44px; color: var(--accent); line-height: 1; }
+  .action-title { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700; color: var(--white); margin: 7px 0 5px; }
+  .action-body { font-family: 'DM Sans', sans-serif; font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+
+  .bg-mesh { position: fixed; inset: 0; pointer-events: none; z-index: 0; background: radial-gradient(ellipse 80% 60% at 70% 20%, rgba(224,92,92,0.06) 0%, transparent 60%), radial-gradient(ellipse 60% 40% at 20% 80%, rgba(0,168,150,0.05) 0%, transparent 60%); }
+</style>
+</head>
+<body>
+<div class="bg-mesh"></div>
+<div id="nav">
+  <div class="brand">CCO2go.ai</div>
+  <div class="module-label">MODULE 3.1 — THE 5 MOMENTS THAT MATTER</div>
+  <div class="slide-counter" id="counter">1 / 12</div>
+</div>
+<div id="progress-bar"></div>
+<button id="prev" onclick="navigate(-1)">&#8592;</button>
+<button id="next" onclick="navigate(1)">&#8594;</button>
+
+<div id="stage">
+
+  <!-- S1: TITLE -->
+  <div class="slide active" id="s1">
+    <div class="eyebrow">Week 3 · Knowing When to Act</div>
+    <h1>THE 5 MOMENTS<br>THAT MATTER</h1>
+    <div class="accent-line"></div>
+    <div class="subtitle">Module 3.1 &nbsp;·&nbsp; CSM Training Program Phase 1</div>
+    <div class="footer"><span>CCO2go.ai · Shane James</span><span>MODULE 3.1</span></div>
+  </div>
+
+  <!-- S2: THE PATTERN -->
+  <div class="slide" id="s2">
+    <div class="eyebrow">The Core Insight</div>
+    <h2>Customer Relationships<br>Don't Fail Randomly</h2>
+    <div class="accent-line"></div>
+    <div class="quote-block">
+      <div class="quote-text">They fail at predictable moments. The CSMs who avoid surprises at renewal aren't smarter — they're watching for different things.</div>
+    </div>
+    <div class="subtitle">Five inflection points appear in almost every account, in almost every industry, on a predictable timeline. Know them. Track them. Act on them.</div>
+    <div class="footer"><span>CCO2go.ai</span><span>3.1 — The 5 Moments</span></div>
+  </div>
+
+  <!-- S3: OVERVIEW TIMELINE -->
+  <div class="slide" id="s3">
+    <div class="eyebrow">The Full Framework</div>
+    <h2>The 5 Moments — at a Glance</h2>
+    <div class="timeline" style="margin-top:32px;">
+      <div class="tl-track"><div class="tl-track-fill"></div></div>
+      <div class="tl-items" style="margin-top:12px;">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-num">01</div>
+          <div class="tl-name">Adoption<br>Cliff</div>
+          <div class="tl-timing">Wks 3–8</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="background:var(--orange)"></div>
+          <div class="tl-num" style="color:var(--orange)">02</div>
+          <div class="tl-name">Champion<br>Change</div>
+          <div class="tl-timing">Any time</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="background:var(--gold)"></div>
+          <div class="tl-num" style="color:var(--gold)">03</div>
+          <div class="tl-name">Support<br>Velocity</div>
+          <div class="tl-timing">Ongoing</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="background:var(--teal)"></div>
+          <div class="tl-num" style="color:var(--teal)">04</div>
+          <div class="tl-name">Expansion<br>Window</div>
+          <div class="tl-timing">T-90–120</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="background:var(--blue)"></div>
+          <div class="tl-num" style="color:var(--blue)">05</div>
+          <div class="tl-name">Renewal<br>Gravity Well</div>
+          <div class="tl-timing">T-180</div>
+        </div>
+      </div>
+    </div>
+    <div class="subtitle" style="margin-top:28px;">These are not surprises. They are scheduled. Every one is predictable.</div>
+    <div class="footer"><span>CCO2go.ai</span><span>3.1 — The 5 Moments</span></div>
+  </div>
+
+  <!-- S4: MOMENT 1 -->
+  <div class="slide" id="s4">
+    <div class="eyebrow">Moment 01</div>
+    <div class="moment-card">
+      <div class="mc-header" style="background: rgba(224,92,92,0.2); border-left: 4px solid var(--red);">
+        <div class="mc-num">01</div>
+        <div>
+          <div class="mc-title">THE ADOPTION CLIFF</div>
+          <div class="mc-timing">Window: Weeks 3–8 post go-live · The most commonly missed inflection point</div>
+        </div>
+      </div>
+      <div class="mc-body">
+        <div class="mc-col">
+          <div class="mc-col-label">Warning Signals</div>
+          <div class="mc-col-content">
+            <ul>
+              <li>Usage frequency declining after initial peak</li>
+              <li>Gap between seats purchased and seats active</li>
+              <li>Users who logged in week 1 and haven't since</li>
+              <li>Champion re-focused on other priorities</li>
+            </ul>
+          </div>
+        </div>
+        <div class="mc-col">
+          <div class="mc-col-label">Your Response</div>
+          <div class="mc-col-content">
+            <ul>
+              <li>Structured adoption review call — not a check-in email</li>
+              <li>Confirm priority use case from discovery notes</li>
+              <li>Surface adoption blockers explicitly</li>
+              <li>Act before week 10 — behavioral patterns form fast</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>3.1 — The 5 Moments</span></div>
+  </div>
+
+  <!-- S5: MOMENT 2 -->
+  <div class="slide" id="s5">
+    <div class="eyebrow">Moment 02</div>
+    <div class="moment-card">
+      <div class="mc-header" style="background: rgba(255,107,53,0.2); border-left: 4px solid var(--orange);">
+        <div class="mc-num" style="color:var(--orange)">02</div>
+        <div>
+          <div class="mc-title">CHAMPION CHANGE</div>
+          <div class="mc-timing">Window: Any time · Detect it early — the signals are there before the email</div>
+        </div>
+      </div>
+      <div class="mc-body">
+        <div class="mc-col">
+          <div class="mc-col-label">Early Signals</div>
+          <div class="mc-col-content">
+            <ul>
+              <li>LinkedIn activity: "open to work," profile updates</li>
+              <li>Engagement drop — hours to days response time</li>
+              <li>Repeated missed meetings or sudden conflicts</li>
+              <li>Reduced energy or advocacy in calls</li>
+            </ul>
+          </div>
+        </div>
+        <div class="mc-col">
+          <div class="mc-col-label">Your Response</div>
+          <div class="mc-col-content">
+            <ul>
+              <li>Quietly accelerate multi-threading — not interrogate</li>
+              <li>Build sponsor relationship now, before the transition</li>
+              <li>Strengthen senior user relationships</li>
+              <li>See Module 2.2 for the 48-Hour Protocol post-departure</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>3.1 — The 5 Moments</span></div>
+  </div>
+
+  <!-- S6: MOMENT 3 -->
+  <div class="slide" id="s6">
+    <div class="eyebrow">Moment 03</div>
+    <div class="moment-card">
+      <div class="mc-header" style="background: rgba(244,160,0,0.15); border-left: 4px solid var(--gold);">
+        <div class="mc-num" style="color:var(--gold)">03</div>
+        <div>
+          <div class="mc-title">SUPPORT ESCALATION VELOCITY</div>
+          <div class="mc-timing">Window: Ongoing · Not about one ticket — the pattern is the signal</div>
+        </div>
+      </div>
+      <div class="mc-body">
+        <div class="mc-col">
+          <div class="mc-col-label">Warning Signals</div>
+          <div class="mc-col-content">
+            <ul>
+              <li>Volume spike: 1/mo for months → 5 in two weeks</li>
+              <li>Resolution time rising: one-touch → multi-contact</li>
+              <li>Tone shift: polite inquiry → "this is unacceptable"</li>
+              <li>Repeated issues with same root cause</li>
+            </ul>
+          </div>
+        </div>
+        <div class="mc-col">
+          <div class="mc-col-label">Your Response</div>
+          <div class="mc-col-content">
+            <ul>
+              <li>Review Tier 1 support activity weekly, Tier 2 monthly</li>
+              <li>Proactive outreach before they escalate to your VP</li>
+              <li>"I noticed a few recent tickets — nothing larger going on?"</li>
+              <li>This converts potential detractors into advocates</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>3.1 — The 5 Moments</span></div>
+  </div>
+
+  <!-- S7: MOMENTS 4 & 5 -->
+  <div class="slide" id="s7">
+    <div class="eyebrow">Moments 04 & 05 — The Opportunity Windows</div>
+    <h2>Not Warning Signs.<br>Windows.</h2>
+    <div class="dual-moment">
+      <div class="dm-card" style="background:rgba(0,168,150,0.1); border:1px solid rgba(0,168,150,0.3); border-top:3px solid var(--teal);">
+        <div class="dm-num" style="color:var(--teal)">04</div>
+        <div class="dm-title">EXPANSION WINDOW</div>
+        <div class="dm-timing">Opens: T-90 to T-120 before their budget cycle</div>
+        <div class="dm-body">Every company has budget cycles. If you don't know when theirs is, you'll arrive with a proposal after the money is already allocated.<br><br>Know their fiscal year end, their planning timeline, and any internal initiatives that create expansion opportunity. The window closes fast.</div>
+      </div>
+      <div class="dm-card" style="background:rgba(74,144,217,0.1); border:1px solid rgba(74,144,217,0.3); border-top:3px solid var(--blue);">
+        <div class="dm-num" style="color:var(--blue)">05</div>
+        <div class="dm-title">RENEWAL GRAVITY WELL</div>
+        <div class="dm-timing">Starts: T-180 (6 months before renewal)</div>
+        <div class="dm-body">A renewal is not a transaction. It's the outcome of the last six months. If you start at T-90, you're reacting to a trajectory already set.<br><br>At T-180: sponsor check-in, health score review, begin value inventory. Build the story before the conversation starts.</div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>3.1 — The 5 Moments</span></div>
+  </div>
+
+  <!-- S8: EXPANSION DETAIL -->
+  <div class="slide" id="s8">
+    <div class="eyebrow">Moment 04 — Deep Dive</div>
+    <h2>The Expansion Window<br>Opens 90–120 Days Early</h2>
+    <div class="accent-line"></div>
+    <div class="quote-block">
+      <div class="quote-text">The customer decides in November. The CSM comes with a proposal in January. The opportunity is gone. You cannot position expansion without knowing when the money gets allocated.</div>
+    </div>
+    <div class="subtitle">For every Tier 1 account: know their fiscal year end, their annual planning timeline, and the internal initiatives that could create a natural expansion conversation.</div>
+    <div class="footer"><span>CCO2go.ai</span><span>3.1 — The 5 Moments</span></div>
+  </div>
+
+  <!-- S9: RENEWAL DETAIL -->
+  <div class="slide" id="s9">
+    <div class="eyebrow">Moment 05 — Deep Dive</div>
+    <h2>T-180: Before the Trajectory<br>Is Already Set</h2>
+    <div class="accent-line"></div>
+    <div class="quote-block">
+      <div class="quote-text">A renewal is not a transaction — it's the outcome of everything that happened in the prior six months. If you start at T-90, you're reacting. Start at T-180 and you can still change the story.</div>
+    </div>
+    <div class="subtitle">T-180 action: Sponsor check-in on business outcomes · Health score review to surface what needs fixing · Begin your value inventory — the documented evidence of what changed because this customer chose you.</div>
+    <div class="footer"><span>CCO2go.ai</span><span>3.1 — The 5 Moments</span></div>
+  </div>
+
+  <!-- S10: FULL RECAP -->
+  <div class="slide" id="s10">
+    <div class="eyebrow">The Complete Framework</div>
+    <h2>5 Moments. All Predictable.<br>None Optional.</h2>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; max-width:900px; width:100%; margin-top:24px;">
+      <div style="padding:16px 14px; background:rgba(224,92,92,0.1); border:1px solid rgba(224,92,92,0.25); border-radius:4px; opacity:0; transform:translateY(14px); transition:all 0.4s 0.1s ease;" class="recap-card">
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--red);letter-spacing:.1em;margin-bottom:6px;">01 · WKS 3–8</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;color:var(--white);margin-bottom:5px;">Adoption Cliff</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:12px;color:rgba(255,255,255,0.5);">Usage drop + low activation = adoption review call this week</div>
+      </div>
+      <div style="padding:16px 14px; background:rgba(255,107,53,0.1); border:1px solid rgba(255,107,53,0.25); border-radius:4px; opacity:0; transform:translateY(14px); transition:all 0.4s 0.2s ease;" class="recap-card">
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--orange);letter-spacing:.1em;margin-bottom:6px;">02 · ANY TIME</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;color:var(--white);margin-bottom:5px;">Champion Change</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:12px;color:rgba(255,255,255,0.5);">Detect signals early. Multi-thread before the departure, not after.</div>
+      </div>
+      <div style="padding:16px 14px; background:rgba(244,160,0,0.1); border:1px solid rgba(244,160,0,0.25); border-radius:4px; opacity:0; transform:translateY(14px); transition:all 0.4s 0.3s ease;" class="recap-card">
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:.1em;margin-bottom:6px;">03 · ONGOING</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;color:var(--white);margin-bottom:5px;">Support Velocity</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:12px;color:rgba(255,255,255,0.5);">Volume spikes and tone shifts precede satisfaction drops. Get ahead of it.</div>
+      </div>
+      <div style="padding:16px 14px; background:rgba(0,168,150,0.1); border:1px solid rgba(0,168,150,0.25); border-radius:4px; grid-column:1/2; opacity:0; transform:translateY(14px); transition:all 0.4s 0.4s ease;" class="recap-card">
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--teal);letter-spacing:.1em;margin-bottom:6px;">04 · T-90 TO T-120</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;color:var(--white);margin-bottom:5px;">Expansion Window</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:12px;color:rgba(255,255,255,0.5);">Know their budget cycle. Start the value conversation before the money is allocated.</div>
+      </div>
+      <div style="padding:16px 14px; background:rgba(74,144,217,0.1); border:1px solid rgba(74,144,217,0.25); border-radius:4px; grid-column:2/4; opacity:0; transform:translateY(14px); transition:all 0.4s 0.5s ease;" class="recap-card">
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--blue);letter-spacing:.1em;margin-bottom:6px;">05 · T-180 FROM RENEWAL</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;color:var(--white);margin-bottom:5px;">Renewal Gravity Well</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:12px;color:rgba(255,255,255,0.5);">Renewal = the outcome of the last 6 months. T-90 is too late to change the story. T-180 is where you start.</div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>3.1 — The 5 Moments</span></div>
+  </div>
+
+  <!-- S11: DO THIS MONDAY -->
+  <div class="slide" id="s11">
+    <div class="eyebrow">Do This Monday</div>
+    <h2>3 Actions This Week</h2>
+    <div class="action-grid">
+      <div class="action-item">
+        <div class="action-num">1</div>
+        <div class="action-title">Map the 5 Moments</div>
+        <div class="action-body">Top 5 accounts — where is each relative to each moment? Adoption Cliff? Champion signals? Support spike? Act on what you find today.</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">2</div>
+        <div class="action-title">Flag T-180 Renewals</div>
+        <div class="action-body">Pull all accounts renewing in the next 6 months. No value story? No sponsor relationship? No recent health review? Those are your risk accounts.</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">3</div>
+        <div class="action-title">Find Expansion Windows</div>
+        <div class="action-body">Top 5 Tier 1 accounts — do you know their budget cycle? If not, your next touchpoint must include that question. No cycle knowledge = no expansion strategy.</div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>3.1 — The 5 Moments</span></div>
+  </div>
+
+  <!-- S12: END -->
+  <div class="slide" id="s12">
+    <div class="eyebrow">Up Next</div>
+    <h1>MODULE 3.2</h1>
+    <div class="accent-line"></div>
+    <h2 style="font-size:32px; margin-top:12px; opacity:0.7;">Negative Touchpoints</h2>
+    <div class="subtitle" style="margin-top:28px;">The five interaction types that damage customer relationships — often without the CSM realizing it's happening. Sometimes the problem isn't what you're missing. It's what you're doing.</div>
+    <div style="margin-top:32px; font-family:'DM Mono',monospace; font-size:12px; color:rgba(255,255,255,0.25); opacity:0; transform:translateY(10px); transition: all 0.5s 0.5s ease;" class="next-label">CCO2go.ai · CSM Training Program Phase 1 · Week 3</div>
+    <div class="footer"><span>CCO2go.ai</span><span>Module 3.1 Complete</span></div>
+  </div>
+
+</div>
+
+<script>
+const TOTAL = 12;
+let current = 1;
+
+function navigate(dir) {
+  const next = current + dir;
+  if (next < 1 || next > TOTAL) return;
+  const curr = document.getElementById('s' + current);
+  curr.classList.remove('active');
+  curr.classList.add('exit');
+  setTimeout(() => curr.classList.remove('exit'), 400);
+  current = next;
+  const ns = document.getElementById('s' + current);
+  ns.classList.add('active');
+  document.getElementById('counter').textContent = current + ' / ' + TOTAL;
+  document.getElementById('progress-bar').style.width = ((current / TOTAL) * 100) + '%';
+  if (current === 10) {
+    document.querySelectorAll('.recap-card').forEach(el => { el.style.opacity='1'; el.style.transform='translateY(0)'; });
+  }
+  if (current === TOTAL) {
+    const lbl = document.querySelector('#s' + TOTAL + ' .next-label');
+    if (lbl) { lbl.style.opacity='1'; lbl.style.transform='translateY(0)'; }
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') navigate(1);
+  if (e.key === 'ArrowLeft') navigate(-1);
+});
+document.getElementById('progress-bar').style.width = ((1 / TOTAL) * 100) + '%';
+</script>
+</body>
+</html>

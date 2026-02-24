@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Section L — M7.3 CFO Conversation + M8.1 Onboarding Waterfall Audit</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--ga:#CA8A04;--gal:#EAB308;--tl:#0D9488;--tll:#14B8A6;--navy:#0F1F4B;--bg:#080F2B;--teal:#00A896;--gold:#F4A000;--danger:#DC2626;--green:#16A34A;--white:#FFF;--muted:#8B9FC4;--amber:#D97706;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--white);font-family:'DM Sans',sans-serif;height:100vh;overflow:hidden;background-image:radial-gradient(ellipse at 25% 50%,rgba(202,138,4,.05) 0%,transparent 55%),radial-gradient(ellipse at 75% 20%,rgba(13,148,136,.04) 0%,transparent 55%);}
+  nav{position:fixed;top:0;left:0;right:0;height:48px;background:rgba(8,15,43,.95);border-bottom:2px solid var(--cur-acc,var(--ga));display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100;}
+  .brand{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;}
+  .ml{font-family:'DM Mono',monospace;font-size:11px;color:var(--gal);transition:color .3s;}
+  .ctr{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);}
+  .pb{position:fixed;top:50px;left:0;height:2px;background:var(--ga);transition:width .4s ease;z-index:99;}
+  .sw{position:relative;width:100%;height:100vh;overflow:hidden;}
+  .slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:80px 80px 60px;opacity:0;transform:translateY(28px);transition:opacity .55s ease,transform .55s ease;pointer-events:none;}
+  .slide.active{opacity:1;transform:translateY(0);pointer-events:auto;}
+  .ey{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px;opacity:0;transform:translateY(12px);transition:opacity .4s .1s ease,transform .4s .1s ease;}
+  .slide.active .ey{opacity:1;transform:translateY(0);}
+  .ey.ga{color:var(--gal);}
+  .ey.tl{color:var(--tll);}
+  h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(50px,7vw,90px);line-height:.95;margin-bottom:20px;opacity:0;transform:translateY(16px);transition:opacity .4s .2s ease,transform .4s .2s ease;}
+  .slide.active h1{opacity:1;transform:translateY(0);}
+  h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,4.5vw,62px);line-height:1.0;margin-bottom:20px;opacity:0;transform:translateY(16px);transition:opacity .4s .2s ease,transform .4s .2s ease;}
+  .slide.active h2{opacity:1;transform:translateY(0);}
+  .acc{width:64px;height:4px;margin-bottom:28px;opacity:0;transition:opacity .4s .3s ease;}
+  .acc.ga{background:var(--ga);}
+  .acc.tl{background:var(--tl);}
+  .slide.active .acc{opacity:1;}
+  .bt{font-size:17px;line-height:1.65;color:rgba(255,255,255,.82);max-width:780px;opacity:0;transform:translateY(12px);transition:opacity .4s .35s ease,transform .4s .35s ease;}
+  .slide.active .bt{opacity:1;transform:translateY(0);}
+  .an{opacity:0;transform:translateY(12px);transition:opacity .4s .4s ease,transform .4s .4s ease;}
+  .slide.active .an{opacity:1;transform:translateY(0);}
+  .mod-badge{display:inline-block;border-radius:4px;padding:4px 14px;font-family:'DM Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;}
+  .mod-badge.ga{background:rgba(202,138,4,.12);border:1px solid rgba(202,138,4,.35);color:var(--gal);}
+  .mod-badge.tl{background:rgba(13,148,136,.12);border:1px solid rgba(13,148,136,.35);color:var(--tll);}
+  .sc{display:flex;gap:18px;margin-top:10px;flex-wrap:wrap;}
+  .sc-card{background:rgba(255,255,255,.04);border-radius:8px;padding:16px 22px;min-width:140px;}
+  .sc-card.ga{border:1px solid rgba(202,138,4,.3);}
+  .sc-card.tl{border:1px solid rgba(13,148,136,.3);}
+  .sn{font-family:'Bebas Neue',sans-serif;font-size:44px;line-height:1;}
+  .sn.ga{color:var(--gal);}
+  .sn.tl{color:var(--tll);}
+  .sl2{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4;font-family:'DM Mono',monospace;}
+  .hb{border-left:4px solid;border-radius:4px;padding:16px 20px;margin-top:12px;max-width:780px;}
+  .hb.ga{background:rgba(202,138,4,.07);border-color:var(--ga);}
+  .hb.tl{background:rgba(13,148,136,.07);border-color:var(--tl);}
+  .hb p{font-size:15px;line-height:1.6;color:rgba(255,255,255,.88);}
+  /* NRR table */
+  .nrr-table{border-collapse:collapse;margin-top:8px;font-size:13px;}
+  .nrr-table th,.nrr-table td{padding:10px 20px;text-align:center;}
+  .nrr-table th{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.06em;}
+  .nrr-table td{border-top:1px solid rgba(255,255,255,.07);}
+  .nrr-yr{font-weight:700;color:var(--muted);}
+  .nrr-bad{color:#FCA5A5;font-weight:700;}
+  .nrr-mid{color:rgba(255,255,255,.7);}
+  .nrr-good{color:#86EFAC;font-weight:700;}
+  /* CFO questions */
+  .cfo-list{list-style:none;margin-top:10px;max-width:760px;}
+  .cfo-list li{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:14px;line-height:1.5;}
+  .cfo-list li:last-child{border-bottom:none;}
+  .cfo-q{font-style:italic;color:rgba(255,255,255,.5);font-size:12px;margin-top:2px;}
+  .cfo-num{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--gal);min-width:26px;line-height:1;}
+  /* One-pager sections */
+  .op-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:820px;margin-top:8px;}
+  .op-card{border-radius:6px;padding:13px 15px;background:rgba(202,138,4,.05);border:1px solid rgba(202,138,4,.15);}
+  .op-card.last{background:rgba(202,138,4,.1);border-color:rgba(202,138,4,.35);grid-column:1/3;}
+  .op-num{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--gal);line-height:1;}
+  .op-title{font-weight:700;font-size:13px;color:var(--white);margin:2px 0 4px;}
+  .op-desc{font-size:12px;line-height:1.5;color:rgba(255,255,255,.7);}
+  /* Waterfall stages */
+  .wf-stage{display:flex;gap:14px;padding:8px 12px;border-radius:5px;margin-bottom:5px;align-items:center;}
+  .wf-stage.s1{background:rgba(13,148,136,.05);border-left:3px solid rgba(13,148,136,.3);}
+  .wf-stage.s2{background:rgba(13,148,136,.07);border-left:3px solid rgba(13,148,136,.4);}
+  .wf-stage.s3{background:rgba(255,99,71,.08);border-left:3px solid rgba(255,99,71,.4);}
+  .wf-stage.s4{background:rgba(13,148,136,.09);border-left:3px solid rgba(13,148,136,.5);}
+  .wf-stage.s5{background:rgba(255,99,71,.1);border-left:3px solid rgba(255,99,71,.5);}
+  .wf-stage.s6{background:rgba(22,163,74,.08);border-left:3px solid rgba(22,163,74,.4);}
+  .wf-num{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--tll);min-width:28px;line-height:1;}
+  .wf-label{font-weight:700;font-size:13px;color:var(--white);}
+  .wf-sla{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.4);margin-top:1px;}
+  .wf-fix{font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;line-height:1.4;}
+  /* Benchmark bars */
+  .bench-row{display:flex;gap:12px;align-items:center;margin-bottom:8px;}
+  .bench-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);width:100px;text-align:right;flex-shrink:0;}
+  .bench-track{flex:1;height:22px;background:rgba(255,255,255,.05);border-radius:3px;position:relative;max-width:380px;}
+  .bench-fill{height:100%;border-radius:3px;}
+  .bench-val{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-family:'DM Mono',monospace;font-size:11px;font-weight:700;}
+  .bench-industry{position:absolute;top:50%;transform:translateY(-50%);height:100%;border-radius:3px;}
+  footer{position:fixed;bottom:14px;left:80px;right:80px;display:flex;justify-content:space-between;pointer-events:none;}
+  .fb{font-family:'DM Mono',monospace;font-size:10px;color:rgba(139,159,196,.4);}
+  .fm{font-family:'DM Mono',monospace;font-size:10px;}
+  .kh{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);font-family:'DM Mono',monospace;font-size:10px;color:rgba(139,159,196,.3);}
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:820px;margin-top:8px;}
+  .sp-card{border-radius:6px;padding:15px 17px;}
+  .sp-danger{background:rgba(220,38,38,.07);border:1px solid rgba(220,38,38,.25);}
+  .sp-good{background:rgba(22,163,74,.07);border:1px solid rgba(22,163,74,.25);}
+  .sp-label{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;margin-bottom:7px;}
+  .sp-danger .sp-label{color:var(--danger);}
+  .sp-good .sp-label{color:var(--green);}
+  .sp-text{font-size:13px;line-height:1.7;color:rgba(255,255,255,.8);}
+</style>
+</head>
+<body>
+<nav id="nav"><span class="brand">CCO2go.ai &middot; Phase 3 &mdash; The Proof</span><span class="ml" id="nav-ml">M7.3 &mdash; The CFO Conversation</span><span class="ctr" id="ctr">1 / 14</span></nav>
+<div class="pb" id="prg"></div>
+<div class="sw">
+
+<!-- S1: TITLE 7.3 -->
+<div class="slide">
+  <div class="mod-badge ga">Module 7.3 &middot; Week 7 &mdash; The Proof of Value</div>
+  <div class="ey ga">Module 7.3 &middot; Phase 3 — The Proof</div>
+  <h1>The CFO Conversation:<br>CS as a Revenue Function</h1>
+  <div class="acc ga"></div>
+  <p class="bt">Every CS team produces a report. Almost none walk into a budget conversation holding the one metric the CFO is actually asking for: cost per retained-and-grown dollar of ARR.</p>
+  <div class="sc an">
+    <div class="sc-card ga"><div class="sn ga">5</div><div class="sl2">CFO questions to answer<br>before being asked</div></div>
+    <div class="sc-card ga"><div class="sn ga">$9.1M</div><div class="sl2">gap between 85% and 115%<br>NRR over 3 years on $10M base</div></div>
+    <div class="sc-card ga"><div class="sn ga">1-pg</div><div class="sl2">investment case<br>leave-behind format</div></div>
+  </div>
+</div>
+
+<!-- S2: NRR COMPOUNDING -->
+<div class="slide">
+  <div class="ey ga">Segment 2 &middot; The Macro Case</div>
+  <h2>The NRR Compounding Table</h2>
+  <div class="acc ga"></div>
+  <p class="bt">Put this in front of the CFO before you talk about budget. Let them do the math.</p>
+  <table class="nrr-table an">
+    <thead>
+      <tr>
+        <th style="color:var(--muted);">Year</th>
+        <th style="color:#FCA5A5;">85% NRR</th>
+        <th style="color:rgba(255,255,255,.5);">95% NRR</th>
+        <th style="color:#86EFAC;">115% NRR</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="nrr-yr">Start</td><td class="nrr-mid">$10M</td><td class="nrr-mid">$10M</td><td class="nrr-mid">$10M</td></tr>
+      <tr><td class="nrr-yr">Year 1</td><td class="nrr-bad">$8.5M</td><td class="nrr-mid">$9.5M</td><td class="nrr-good">$11.5M</td></tr>
+      <tr><td class="nrr-yr">Year 2</td><td class="nrr-bad">$7.2M</td><td class="nrr-mid">$9.0M</td><td class="nrr-good">$13.2M</td></tr>
+      <tr><td class="nrr-yr">Year 3</td><td class="nrr-bad">$6.1M</td><td class="nrr-mid">$8.6M</td><td class="nrr-good">$15.2M</td></tr>
+    </tbody>
+  </table>
+  <div class="hb ga an" style="margin-top:14px;">
+    <p>The <strong style="color:var(--gal);">$9.1M gap</strong> between 85% and 115% NRR over 3 years from the same $10M ARR base is attributable to one function. NRR is not an operating metric — it is the single most powerful compounding lever available to a SaaS company after product-market fit.</p>
+  </div>
+</div>
+
+<!-- S3: 5 CFO QUESTIONS -->
+<div class="slide">
+  <div class="ey ga">Segment 3 &middot; Be Prepared</div>
+  <h2>The 5 CFO Questions —<br>and How to Answer Each One</h2>
+  <div class="acc ga"></div>
+  <ul class="cfo-list an">
+    <li>
+      <div class="cfo-num">1</div>
+      <div><div style="font-weight:700;font-size:14px;color:var(--white);margin-bottom:3px;">What does it cost us when a customer churns?</div><div class="cfo-q">CAC to replace + revenue gap during replacement cycle. A churned $50K account costs $200K–$350K to replace. That number changes the conversation.</div></div>
+    </li>
+    <li>
+      <div class="cfo-num">2</div>
+      <div><div style="font-weight:700;font-size:14px;color:var(--white);margin-bottom:3px;">What does a save play intervention cost?</div><div class="cfo-q">$240–$540 per play (8–12 CSM hours). Compare to CAC of $20K–$120K per account. The ROI math is immediately visible.</div></div>
+    </li>
+    <li>
+      <div class="cfo-num">3</div>
+      <div><div style="font-weight:700;font-size:14px;color:var(--white);margin-bottom:3px;">What does the save play system return?</div><div class="cfo-q">Accounts saved × avg ARR ÷ CS save play cost. Target: 10:1 or better. If below 5:1 — check your CAC, close rate, or account qualification.</div></div>
+    </li>
+    <li>
+      <div class="cfo-num">4</div>
+      <div><div style="font-weight:700;font-size:14px;color:var(--white);margin-bottom:3px;">What does expansion cost vs. acquisition?</div><div class="cfo-q">3–5× cheaper per dollar of ARR. This is the investment argument in one number. Calculate it from your own data before the meeting.</div></div>
+    </li>
+    <li>
+      <div class="cfo-num">5</div>
+      <div><div style="font-weight:700;font-size:14px;color:var(--white);margin-bottom:3px;">What's our NRR trajectory and what moves it?</div><div class="cfo-q">Current NRR. 4-quarter trend. Projected at current trajectory. Projected with CS investment. Express the delta as a dollar amount at Year 3.</div></div>
+    </li>
+  </ul>
+</div>
+
+<!-- S4: RUNNING THE ROOM -->
+<div class="slide">
+  <div class="ey ga">Segment 4 &middot; Execution</div>
+  <h2>Running the Room: 3 Moves,<br>3 Mistakes</h2>
+  <div class="acc ga"></div>
+  <div class="split an">
+    <div class="sp-card sp-good">
+      <div class="sp-label">Make These 3 Moves</div>
+      <div class="sp-text"><strong>1.</strong> Lead with the NRR compounding table. Frame before numbers.<br><br><strong>2.</strong> State your cost per retained ARR dollar before being asked. Don't wait for the question.<br><br><strong>3.</strong> Make The Ask specific, bounded, timed. "Two hires at $280K. Projected return: 3.0× year one. Reported quarterly." That's a capital deployment request — not a budget ask.</div>
+    </div>
+    <div class="sp-card sp-danger">
+      <div class="sp-label">Avoid These 3 Mistakes</div>
+      <div class="sp-text"><strong>1.</strong> Leading with CSAT. Signals CS thinks of itself as a service function.<br><br><strong>2.</strong> Presenting cost without return. That's a budget conversation, not an investment one. CFOs fund investments. They negotiate budgets.<br><br><strong>3.</strong> Vague timelines. "Next few quarters" = no accountability hook = no reason to believe the return is real.</div>
+    </div>
+  </div>
+</div>
+
+<!-- S5: ONE-PAGER -->
+<div class="slide">
+  <div class="ey ga">Segment 5 &middot; The Leave-Behind</div>
+  <h2>The 5-Section Investment<br>Case One-Pager</h2>
+  <div class="acc ga"></div>
+  <div class="op-grid an">
+    <div class="op-card">
+      <div class="op-num">1</div>
+      <div class="op-title">Current State</div>
+      <div class="op-desc">ARR base. Current NRR. CS cost as % of ARR. The three input numbers everything else derives from.</div>
+    </div>
+    <div class="op-card">
+      <div class="op-num">2</div>
+      <div class="op-title">Cost of Inaction</div>
+      <div class="op-desc">NRR at current trajectory, Year 3, expressed in dollars. The NRR compounding argument applied to your specific numbers.</div>
+    </div>
+    <div class="op-card">
+      <div class="op-num">3</div>
+      <div class="op-title">The Investment</div>
+      <div class="op-desc">Specific request. Headcount, tooling, or both. Fully-loaded annual cost. No ranges.</div>
+    </div>
+    <div class="op-card">
+      <div class="op-num">4</div>
+      <div class="op-title">Projected Return</div>
+      <div class="op-desc">Churn prevented + expansion sourced = total return. ROI multiple. Year 1, Year 2.</div>
+    </div>
+    <div class="op-card last" style="grid-column:1/3;">
+      <div class="op-num" style="color:var(--gal);font-size:30px;">5 — The Accountability Mechanism</div>
+      <div class="op-title" style="font-size:14px;margin-top:4px;">How you'll report return quarterly. What metrics. What baseline. When you'll declare success or not.</div>
+      <div class="op-desc" style="margin-top:6px;">Almost nobody offers this unprompted. When you do, you've demonstrated that you're thinking about this as a capital deployment decision — not a resourcing request. That's the conversation CFOs want to have.</div>
+    </div>
+  </div>
+</div>
+
+<!-- S6: DO THIS MONDAY 7.3 -->
+<div class="slide">
+  <div class="ey ga">Segment 6 &middot; Action</div>
+  <h2>Do This Monday</h2>
+  <div class="acc ga"></div>
+  <ul style="list-style:none;margin-top:8px;max-width:700px;" class="an">
+    <li style="display:flex;gap:14px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:15px;line-height:1.5;">
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--gal);min-width:26px;line-height:1;">1</span>
+      <div>Calculate your cost per retained-and-grown ARR dollar. CS fully-loaded cost ÷ (ARR retained + expansion sourced). You need this before any CFO conversation.</div>
+    </li>
+    <li style="display:flex;gap:14px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:15px;line-height:1.5;">
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--gal);min-width:26px;line-height:1;">2</span>
+      <div>Run the NRR compounding calculation on your own ARR base. Current trajectory at Year 3. Then +5 NRR points at Year 3. The dollar gap between those two lines is the CFO argument.</div>
+    </li>
+    <li style="display:flex;gap:14px;padding:13px 0;font-size:15px;line-height:1.5;">
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--gal);min-width:26px;line-height:1;">3</span>
+      <div>Draft the 5-section one-pager. Don't wait for the meeting to be scheduled. The data gaps you find while building it are your instrumentation priorities.</div>
+    </li>
+  </ul>
+  <div class="hb ga an" style="margin-top:14px;">
+    <p>The CFO conversation is not an obstacle to resources. It is the mechanism for getting resources. Build the case.</p>
+  </div>
+</div>
+
+<!-- === MODULE 8.1 === -->
+<!-- S7: TITLE 8.1 -->
+<div class="slide">
+  <div class="mod-badge tl">Module 8.1 &middot; Week 8 &mdash; Operational Scale</div>
+  <div class="ey tl">Module 8.1 &middot; Phase 3 — The Proof</div>
+  <h2 style="font-size:clamp(40px,5.5vw,76px);">The Onboarding Waterfall Audit:<br>6 Stages, 6 Conversion Rates</h2>
+  <div class="acc tl"></div>
+  <p class="bt">Most onboarding processes lose 30–50% of customers before they achieve their first business outcome. Most CS orgs can't see exactly where the leak is. This module fixes that.</p>
+  <div class="sc an">
+    <div class="sc-card tl"><div class="sn tl">30–50%</div><div class="sl2">of new customers lost<br>before first business outcome<br>in most onboarding processes</div></div>
+    <div class="sc-card tl"><div class="sn tl">Stage 5</div><div class="sl2">most skipped stage.<br>No Stage 5 = no<br>renewal story.</div></div>
+    <div class="sc-card tl"><div class="sn tl">35%</div><div class="sl2">industry avg at Stage 4→5.<br>Target: 60%.<br>Mostly a process gap.</div></div>
+  </div>
+</div>
+
+<!-- S8: 6 WATERFALL STAGES -->
+<div class="slide">
+  <div class="ey tl">Segment 3 &middot; The 6-Stage Waterfall</div>
+  <h2>The 6-Stage Onboarding Waterfall</h2>
+  <div class="acc tl"></div>
+  <div style="max-width:860px;margin-top:6px;" class="an">
+    <div class="wf-stage s1">
+      <div class="wf-num">1</div>
+      <div><div class="wf-label">Kickoff → First Login</div><div class="wf-sla">≤2d SMB · ≤5d MM · ≤10d Ent</div><div class="wf-fix">Drop: provisioning friction. Fix: CSM-triggered login prompt at Hour 24 if no activity.</div></div>
+    </div>
+    <div class="wf-stage s2">
+      <div class="wf-num">2</div>
+      <div><div class="wf-label">First Login → First Feature Use</div><div class="wf-sla">≤3d SMB · ≤7d MM · ≤14d Ent</div><div class="wf-fix">Drop: first session with no meaningful action. Fix: guided first-use flow + CSM-visible progress dashboard.</div></div>
+    </div>
+    <div class="wf-stage s3">
+      <div class="wf-num" style="color:#FF9999;">3</div>
+      <div><div class="wf-label" style="color:#FF9999;">First Feature Use → Core Workflow Built ← HIGHEST LEAK</div><div class="wf-sla">≤7d SMB · ≤21d MM · ≤45d Ent</div><div class="wf-fix">Drop: product adopted as tool, not system. Fix: template library + workflow review call triggered Day 5 post-activation.</div></div>
+    </div>
+    <div class="wf-stage s4">
+      <div class="wf-num">4</div>
+      <div><div class="wf-label">Core Workflow → Multi-User Adoption</div><div class="wf-sla">≤21d SMB · ≤45d MM · ≤90d Ent</div><div class="wf-fix">Drop: champion-only plateau. Fix: expansion champion pack delivered at Stage 3 completion.</div></div>
+    </div>
+    <div class="wf-stage s5">
+      <div class="wf-num" style="color:#FF9999;">5</div>
+      <div><div class="wf-label" style="color:#FF9999;">Multi-User → Business Outcome Documented ← MOST SKIPPED</div><div class="wf-sla">≤30d SMB · ≤60d MM · ≤120d Ent</div><div class="wf-fix">Drop: no formalized value story. Fix: CSM-led Outcome Mapping session at Day 20 post-multi-user adoption.</div></div>
+    </div>
+    <div class="wf-stage s6">
+      <div class="wf-num" style="color:#86EFAC;">6</div>
+      <div><div class="wf-label" style="color:#86EFAC;">Business Outcome → Expansion Signal ← Expansion Staircase begins here</div><div class="wf-sla">≤90d SMB · ≤120d MM · ≤180d Ent</div><div class="wf-fix">Stage 5 must be complete or Stage 6 cannot fire. Stage 6 completion rate = expansion flywheel entry rate.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S9: BENCHMARKS -->
+<div class="slide">
+  <div class="ey tl">Segment 5 &middot; Benchmarks</div>
+  <h2>Conversion Rate Benchmarks<br>by Stage</h2>
+  <div class="acc tl"></div>
+  <p class="bt" style="margin-bottom:16px;">Target rates for a well-performing onboarding operation. Industry averages shown where materially different.</p>
+  <div style="max-width:560px;" class="an">
+    <div class="bench-row"><div class="bench-label">Stage 1→2</div><div class="bench-track"><div class="bench-fill" style="width:90%;background:rgba(20,184,166,.5);"></div><div class="bench-val" style="color:var(--tll);">90%</div></div></div>
+    <div class="bench-row"><div class="bench-label">Stage 2→3</div><div class="bench-track" style="position:relative;overflow:visible;">
+      <div class="bench-fill" style="width:55%;background:rgba(251,146,60,.35);position:absolute;height:100%;border-radius:3px;"></div>
+      <div class="bench-fill" style="width:70%;background:rgba(20,184,166,.5);"></div>
+      <div class="bench-val" style="color:var(--tll);">70%</div>
+    </div><span style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(251,146,60,.7);margin-left:8px;">ind. 55%</span></div>
+    <div class="bench-row"><div class="bench-label">Stage 3→4</div><div class="bench-track"><div class="bench-fill" style="width:65%;background:rgba(20,184,166,.5);"></div><div class="bench-val" style="color:var(--tll);">65%</div></div></div>
+    <div class="bench-row"><div class="bench-label" style="color:#FCA5A5;">Stage 4→5</div>
+      <div class="bench-track" style="position:relative;overflow:visible;">
+        <div class="bench-fill" style="width:35%;background:rgba(220,38,38,.4);position:absolute;height:100%;border-radius:3px;"></div>
+        <div class="bench-fill" style="width:60%;background:rgba(20,184,166,.5);"></div>
+        <div class="bench-val" style="color:var(--tll);">60%</div>
+      </div>
+      <span style="font-family:'DM Mono',monospace;font-size:10px;color:#FCA5A5;margin-left:8px;">ind. 35% ← largest gap</span>
+    </div>
+    <div class="bench-row"><div class="bench-label">Stage 5→6</div><div class="bench-track"><div class="bench-fill" style="width:50%;background:rgba(22,163,74,.5);"></div><div class="bench-val" style="color:#86EFAC;">50%</div></div></div>
+  </div>
+  <div class="hb tl an" style="margin-top:14px;">
+    <p>Stage 4→5 has the largest benchmark gap: industry average is 35% vs. 60% target. This is mostly a <strong>process gap</strong>, not a product gap. The fix is the Outcome Mapping session — not a feature request.</p>
+  </div>
+</div>
+
+<!-- S10: DO THIS MONDAY 8.1 -->
+<div class="slide">
+  <div class="ey tl">Segment 6 &middot; Action</div>
+  <h2>Do This Monday</h2>
+  <div class="acc tl"></div>
+  <ul style="list-style:none;margin-top:8px;max-width:700px;" class="an">
+    <li style="display:flex;gap:14px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:15px;line-height:1.5;">
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--tll);min-width:26px;line-height:1;">1</span>
+      <div>Pull last 20 customers signed 60+ days ago. Try to stage each one. How many reached Stage 5? If you can't stage half of them because data doesn't exist — instrumentation problem. Fix that before process improvement.</div>
+    </li>
+    <li style="display:flex;gap:14px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:15px;line-height:1.5;">
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--tll);min-width:26px;line-height:1;">2</span>
+      <div>Calculate your Stage 4→5 conversion rate. Business outcome documented in 90 days as % of new customers. Below 40% = well below benchmark. Every renewal conversation is happening without a value story.</div>
+    </li>
+    <li style="display:flex;gap:14px;padding:13px 0;font-size:15px;line-height:1.5;">
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--tll);min-width:26px;line-height:1;">3</span>
+      <div>Identify one stage transition with no documented fix. Write the fix this week. Not a project — a documented CSM action with a trigger condition and a timeline.</div>
+    </li>
+  </ul>
+  <div class="hb tl an" style="margin-top:14px;">
+    <p>Every "we're not getting value" churn traces back to a Waterfall that leaked at Stage 3, 4, or 5 — and wasn't fixed because nobody was measuring it. Measure it. Fix the biggest leak. Then the next.</p>
+  </div>
+</div>
+
+<!-- S11: SECTION L RECAP -->
+<div class="slide">
+  <div class="ey" style="color:rgba(139,159,196,.7);">Section L &middot; Week 7 + Week 8 Summary</div>
+  <h2>Section L Complete</h2>
+  <div class="acc ga"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:820px;margin-top:12px;" class="an">
+    <div style="background:rgba(202,138,4,.07);border:1px solid rgba(202,138,4,.25);border-radius:6px;padding:18px 20px;">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--gal);text-transform:uppercase;margin-bottom:8px;">Module 7.3 — CFO Conversation</div>
+      <div style="font-size:13px;line-height:1.7;color:rgba(255,255,255,.8);">NRR compounding table ($9.1M gap at 3 years). 5 CFO questions with specific answers. Running the room: 3 moves and 3 mistakes. The 5-section investment case one-pager with the Accountability Mechanism as differentiator.</div>
+    </div>
+    <div style="background:rgba(13,148,136,.07);border:1px solid rgba(13,148,136,.25);border-radius:6px;padding:18px 20px;">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--tll);text-transform:uppercase;margin-bottom:8px;">Module 8.1 — Onboarding Waterfall Audit</div>
+      <div style="font-size:13px;line-height:1.7;color:rgba(255,255,255,.8);">6-stage waterfall with SLA benchmarks, drop patterns, and documented fixes. Stage 3 = highest leak point. Stage 5 = most skipped. Stage 4→5 = largest benchmark gap (35% vs. 60% target). The 4-step audit process.</div>
+    </div>
+  </div>
+  <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:6px;padding:14px 18px;max-width:820px;margin-top:12px;" class="an">
+    <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(139,159,196,.6);text-transform:uppercase;margin-bottom:6px;">Phase 3 Progress</div>
+    <div style="font-size:13px;color:rgba(255,255,255,.7);">4 of 9 modules complete. Next: Section M — Module 8.2 (AI Agents Deep Dive, Blue #1D4ED8) + Module 8.3 (CS Operations Playbook, Rose #BE185D). Week 8: Operational Scale continues.</div>
+  </div>
+</div>
+
+</div>
+<footer><span class="fb">CCO2go.ai &middot; Your Customers Are Lying to You &middot; 2026</span><span class="fm" id="ft-mod" style="color:rgba(202,138,4,.5);">M7.3 &mdash; The CFO Conversation</span></footer>
+<div class="kh">&larr; &rarr; or SPACE to navigate</div>
+<script>
+  const s=document.querySelectorAll('.slide'),c=document.getElementById('ctr'),p=document.getElementById('prg'),ml=document.getElementById('nav-ml'),ft=document.getElementById('ft-mod');
+  let cur=0;const tot=s.length;
+  const labels=['M7.3 — The CFO Conversation','M7.3 — The CFO Conversation','M7.3 — The CFO Conversation','M7.3 — The CFO Conversation','M7.3 — The CFO Conversation','M7.3 — The CFO Conversation','M8.1 — Onboarding Waterfall Audit','M8.1 — Onboarding Waterfall Audit','M8.1 — Onboarding Waterfall Audit','M8.1 — Onboarding Waterfall Audit','Section L Complete'];
+  const ftColors=['rgba(202,138,4,.5)','rgba(202,138,4,.5)','rgba(202,138,4,.5)','rgba(202,138,4,.5)','rgba(202,138,4,.5)','rgba(202,138,4,.5)','rgba(13,148,136,.5)','rgba(13,148,136,.5)','rgba(13,148,136,.5)','rgba(13,148,136,.5)','rgba(139,159,196,.4)'];
+  const navBorders=['var(--ga)','var(--ga)','var(--ga)','var(--ga)','var(--ga)','var(--ga)','var(--tl)','var(--tl)','var(--tl)','var(--tl)','rgba(139,159,196,.4)'];
+  function nav(d){s[cur].classList.remove('active');cur=Math.max(0,Math.min(tot-1,cur+d));s[cur].classList.add('active');c.textContent=`${cur+1} / ${tot}`;p.style.width=`${((cur+1)/tot)*100}%`;ml.textContent=labels[cur]||labels[0];ft.textContent=labels[cur]||labels[0];ft.style.color=ftColors[cur]||ftColors[0];document.getElementById('nav').style.borderBottomColor=navBorders[cur]||navBorders[0];p.style.background=cur<6?'var(--ga)':'var(--tl)';}
+  document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();nav(1);}if(e.key==='ArrowLeft'){e.preventDefault();nav(-1);}});
+  c.textContent=`1 / ${tot}`;p.style.width=`${(1/tot)*100}%`;
+</script>
+</body>
+</html>

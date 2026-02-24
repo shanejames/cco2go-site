@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 5.1 — Expansion Revenue: Stop Asking Permission</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #65A30D;
+    --accent-light: #A3E635;
+    --navy: #0F1F4B;
+    --bg: #080F2B;
+    --teal: #00A896;
+    --gold: #F4A000;
+    --danger: #EF4444;
+    --white: #FFFFFF;
+    --muted: #8B9FC4;
+    --card-bg: rgba(255,255,255,0.04);
+    --card-border: rgba(101,163,13,0.3);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg); color: var(--white);
+    font-family: 'DM Sans', sans-serif; height: 100vh; overflow: hidden;
+    background-image: radial-gradient(ellipse at 20% 50%, rgba(101,163,13,0.07) 0%, transparent 60%),
+                      radial-gradient(ellipse at 80% 20%, rgba(0,168,150,0.04) 0%, transparent 50%);
+  }
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; height: 48px;
+    background: rgba(8,15,43,0.95); border-bottom: 2px solid var(--accent);
+    display: flex; align-items: center; justify-content: space-between; padding: 0 24px; z-index: 100;
+  }
+  nav .brand { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  nav .module-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent-light); letter-spacing: 0.06em; }
+  nav .counter { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+  .progress-bar { position: fixed; top: 50px; left: 0; height: 2px; background: var(--accent); transition: width 0.4s ease; z-index: 99; }
+  .slides-wrapper { position: relative; width: 100%; height: 100vh; overflow: hidden; }
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+    padding: 80px 80px 60px;
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.55s ease, transform 0.55s ease; pointer-events: none;
+  }
+  .slide.active { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .eyebrow {
+    font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent-light); margin-bottom: 16px;
+    opacity: 0; transform: translateY(12px); transition: opacity 0.4s 0.1s ease, transform 0.4s 0.1s ease;
+  }
+  .slide.active .eyebrow { opacity: 1; transform: translateY(0); }
+  h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px, 7vw, 96px); line-height: 0.95; color: var(--white); margin-bottom: 20px;
+    opacity: 0; transform: translateY(16px); transition: opacity 0.4s 0.2s ease, transform 0.4s 0.2s ease; }
+  .slide.active h1 { opacity: 1; transform: translateY(0); }
+  h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(38px, 5vw, 68px); line-height: 1.0; color: var(--white); margin-bottom: 20px;
+    opacity: 0; transform: translateY(16px); transition: opacity 0.4s 0.2s ease, transform 0.4s 0.2s ease; }
+  .slide.active h2 { opacity: 1; transform: translateY(0); }
+  .accent-line { width: 64px; height: 4px; background: var(--accent); margin-bottom: 28px; opacity: 0; transition: opacity 0.4s 0.3s ease; }
+  .slide.active .accent-line { opacity: 1; }
+  .body-text { font-size: 18px; line-height: 1.65; color: rgba(255,255,255,0.82); max-width: 780px;
+    opacity: 0; transform: translateY(12px); transition: opacity 0.4s 0.35s ease, transform 0.4s 0.35s ease; }
+  .slide.active .body-text { opacity: 1; transform: translateY(0); }
+  .stat-row { display: flex; gap: 24px; margin-top: 8px; flex-wrap: wrap;
+    opacity: 0; transform: translateY(12px); transition: opacity 0.4s 0.4s ease, transform 0.4s 0.4s ease; }
+  .slide.active .stat-row { opacity: 1; transform: translateY(0); }
+  .stat-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 20px 28px; min-width: 160px; }
+  .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 52px; color: var(--accent-light); line-height: 1; }
+  .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; line-height: 1.4; font-family: 'DM Mono', monospace; letter-spacing: 0.04em; }
+
+  /* Framing comparison */
+  .framing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px; max-width: 820px;
+    opacity: 0; transform: translateY(12px); transition: opacity 0.4s 0.4s ease, transform 0.4s 0.4s ease; }
+  .slide.active .framing-grid { opacity: 1; transform: translateY(0); }
+  .framing-card { border-radius: 8px; padding: 20px 24px; }
+  .framing-card.bad { background: rgba(127,29,29,0.3); border: 1px solid rgba(239,68,68,0.3); border-top: 3px solid var(--danger); }
+  .framing-card.good { background: rgba(20,83,45,0.3); border: 1px solid rgba(101,163,13,0.3); border-top: 3px solid var(--accent); }
+  .framing-card .label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+  .framing-card.bad .label { color: var(--danger); }
+  .framing-card.good .label { color: var(--accent-light); }
+  .framing-card .quote { font-family: 'Georgia', serif; font-size: 14px; line-height: 1.6; font-style: italic; }
+  .framing-card.bad .quote { color: rgba(252,165,165,0.9); }
+  .framing-card.good .quote { color: rgba(134,239,172,0.9); }
+
+  /* CSQL 4 components */
+  .csql-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; max-width: 820px;
+    opacity: 0; transform: translateY(12px); transition: opacity 0.4s 0.4s ease, transform 0.4s 0.4s ease; }
+  .slide.active .csql-grid { opacity: 1; transform: translateY(0); }
+  .csql-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 6px; padding: 16px 20px; }
+  .csql-card .c-title { font-weight: 700; font-size: 14px; color: var(--accent-light); margin-bottom: 6px; }
+  .csql-card .c-desc { font-size: 13px; color: var(--muted); line-height: 1.4; }
+
+  /* Expansion staircase */
+  .staircase { margin-top: 8px; max-width: 760px;
+    opacity: 0; transform: translateY(12px); transition: opacity 0.4s 0.4s ease, transform 0.4s 0.4s ease; }
+  .slide.active .staircase { opacity: 1; transform: translateY(0); }
+  .stair { display: flex; gap: 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .stair:last-child { border-bottom: none; }
+  .stair-num { font-family: 'Bebas Neue', sans-serif; font-size: 42px; min-width: 52px; display: flex; align-items: center; justify-content: center; padding: 12px 0; }
+  .stair.active-step .stair-num { color: var(--accent-light); }
+  .stair.inactive-step .stair-num { color: rgba(255,255,255,0.2); }
+  .stair-body { padding: 12px 0 12px 16px; display: flex; align-items: center; }
+  .stair-title { font-size: 15px; }
+  .stair.active-step .stair-title { font-weight: 700; color: var(--white); }
+  .stair.inactive-step .stair-title { color: rgba(255,255,255,0.3); }
+  .stair-tag { font-family: 'DM Mono', monospace; font-size: 11px; margin-left: 12px; padding: 2px 8px; border-radius: 4px; }
+  .stair.active-step .stair-tag { background: rgba(101,163,13,0.2); color: var(--accent-light); border: 1px solid rgba(101,163,13,0.4); }
+
+  /* Adoption meter */
+  .adoption-meter { margin-top: 20px; max-width: 700px;
+    opacity: 0; transform: translateY(12px); transition: opacity 0.4s 0.5s ease, transform 0.4s 0.5s ease; }
+  .slide.active .adoption-meter { opacity: 1; transform: translateY(0); }
+  .meter-bar { height: 12px; background: rgba(255,255,255,0.1); border-radius: 6px; overflow: hidden; margin: 8px 0 4px; }
+  .meter-fill { height: 100%; border-radius: 6px; transition: width 1s 0.6s ease; }
+  .meter-labels { display: flex; justify-content: space-between; font-family: 'DM Mono', monospace; font-size: 11px; }
+
+  /* Checklist */
+  .checklist { list-style: none; margin-top: 8px; max-width: 700px;
+    opacity: 0; transform: translateY(12px); transition: opacity 0.4s 0.4s ease, transform 0.4s 0.4s ease; }
+  .slide.active .checklist { opacity: 1; transform: translateY(0); }
+  .checklist li { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 16px; line-height: 1.5; }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist .num { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--accent-light); min-width: 28px; margin-top: 2px; line-height: 1; }
+
+  .highlight-box {
+    background: rgba(101,163,13,0.08); border: 1px solid rgba(101,163,13,0.3); border-left: 4px solid var(--accent);
+    border-radius: 4px; padding: 20px 24px; margin-top: 12px; max-width: 780px;
+    opacity: 0; transform: translateY(12px); transition: opacity 0.4s 0.45s ease, transform 0.4s 0.45s ease;
+  }
+  .slide.active .highlight-box { opacity: 1; transform: translateY(0); }
+  .highlight-box p { font-size: 15px; line-height: 1.6; color: rgba(255,255,255,0.88); }
+
+  footer { position: fixed; bottom: 14px; left: 80px; right: 80px; display: flex; justify-content: space-between; align-items: center; pointer-events: none; }
+  .footer-brand { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(139,159,196,0.4); letter-spacing: 0.1em; }
+  .footer-module { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(101,163,13,0.5); letter-spacing: 0.08em; }
+  .kbd-hint { position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%); font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(139,159,196,0.3); letter-spacing: 0.1em; }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="brand">CCO2go.ai · Phase 2 · Week 5</span>
+  <span class="module-label">M5.1 — Stop Asking Permission</span>
+  <span class="counter" id="counter">1 / 13</span>
+</nav>
+<div class="progress-bar" id="progress"></div>
+
+<div class="slides-wrapper">
+
+  <!-- SLIDE 1: TITLE -->
+  <div class="slide active">
+    <div class="eyebrow">Module 5.1 · Week 5 — The Revenue Engine</div>
+    <h1>Stop Asking Permission</h1>
+    <div class="accent-line"></div>
+    <p class="body-text" style="font-size:18px; color:rgba(255,255,255,0.7);">The expansion motion CS should have had from the beginning.</p>
+    <div class="stat-row" style="margin-top:24px;">
+      <div class="stat-card">
+        <div class="stat-num">50%+</div>
+        <div class="stat-label">of new ARR from existing<br>customers (top SaaS)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">5–7×</div>
+        <div class="stat-label">higher CAC vs.<br>expansion cost</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">+33%</div>
+        <div class="stat-label">expansion revenue with<br>formal CS motion</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: THE EXCUSE -->
+  <div class="slide">
+    <div class="eyebrow">Segment 1 · Cold Open</div>
+    <h2>"We're Not Salespeople."</h2>
+    <div class="accent-line"></div>
+    <p class="body-text">That instinct — being a voice for the customer's interests — was correct. But somewhere along the way it stopped being a positioning statement and became an excuse.</p>
+    <div class="stat-row" style="margin-top:20px; flex-direction:column; gap:10px; max-width:680px;">
+      <div class="stat-card" style="min-width:unset; padding:12px 20px; border-color:rgba(239,68,68,0.3);">
+        <p style="font-size:14px; color:rgba(252,165,165,0.9);">❌ An excuse to stay quiet when customers are ready to grow</p>
+      </div>
+      <div class="stat-card" style="min-width:unset; padding:12px 20px; border-color:rgba(239,68,68,0.3);">
+        <p style="font-size:14px; color:rgba(252,165,165,0.9);">❌ An excuse not to build systems that turn customer value into revenue</p>
+      </div>
+      <div class="stat-card" style="min-width:unset; padding:12px 20px; border-color:rgba(239,68,68,0.3);">
+        <p style="font-size:14px; color:rgba(252,165,165,0.9);">❌ An excuse that is costing real money every single quarter</p>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <p>Today we build the expansion motion CS should have had from the beginning. <strong>Not a sales motion. An outcome motion. There is a difference.</strong></p>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: THE MATH -->
+  <div class="slide">
+    <div class="eyebrow">Segment 2 · The Financial Case</div>
+    <h2>The Math Is Beyond Debate</h2>
+    <div class="accent-line"></div>
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-num">50%+</div>
+        <div class="stat-label">of new ARR at top SaaS<br>from existing customers</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">5–7×</div>
+        <div class="stat-label">higher cost to acquire<br>vs. expand</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">120%+</div>
+        <div class="stat-label">NRR at companies with<br>formal expansion motion</div>
+      </div>
+    </div>
+    <p class="body-text" style="margin-top:20px;">Most CS teams have no formal expansion motion. What they have is an informal practice where CSMs mention opportunities in Slack and sometimes someone follows up.</p>
+    <div class="highlight-box">
+      <p>That is not a motion. That is an accident. And accidents don't compound.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: THE CSQL -->
+  <div class="slide">
+    <div class="eyebrow">Segment 3 · The Structure</div>
+    <h2>The CSQL: Post-Sale MQL</h2>
+    <div class="accent-line"></div>
+    <p class="body-text">The Customer Success Qualified Lead — expansion opportunity identified by CS based on account signals, conversation data, and usage behavior. Companies spend enormous resources on MQL rigor. Most have no equivalent for CSQLs.</p>
+    <div class="csql-grid">
+      <div class="csql-card">
+        <div class="c-title">Signal Identification</div>
+        <div class="c-desc">Usage growth at ceiling, new stakeholders, budget cycle timing, feature adoption capacity</div>
+      </div>
+      <div class="csql-card">
+        <div class="c-title">Qualification Standards</div>
+        <div class="c-desc">3 criteria that make it a CSQL vs. a wish. Write it down. If three people give three answers — you have opinions, not a process.</div>
+      </div>
+      <div class="csql-card">
+        <div class="c-title">48-Hour SLA</div>
+        <div class="c-desc">Every CSQL gets a response within 48 hours. Buying windows close fast. CSQLs sitting untouched for a week lose momentum.</div>
+      </div>
+      <div class="csql-card">
+        <div class="c-title">Measurement</div>
+        <div class="c-desc">Volume, conversion rate, average deal size, time to close — tracked exactly like any pipeline metric.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: FATAL FRAMING -->
+  <div class="slide">
+    <div class="eyebrow">Segment 4 · The Framing Error</div>
+    <h2>The Fatal Framing Error</h2>
+    <div class="accent-line"></div>
+    <div class="framing-grid">
+      <div class="framing-card bad">
+        <div class="label">✗ Triggers Procurement</div>
+        <div class="quote">"We have a new feature we'd like to tell you about."</div>
+      </div>
+      <div class="framing-card good">
+        <div class="label">✓ Opens a Conversation</div>
+        <div class="quote">"Based on your usage patterns, you're generating $400K in annual value. Companies with similar profiles see an additional $200K from the advanced analytics module. Given your Q3 cycle, would it make sense to explore this?"</div>
+      </div>
+    </div>
+    <div class="highlight-box" style="margin-top:16px;">
+      <p>You're not asking for money. You're offering insight. Not selling — advising. That framing changes everything.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: OUTCOME ARCHITECT FRAME -->
+  <div class="slide">
+    <div class="eyebrow">Segment 4 · The Role Reframe</div>
+    <h2>The Outcome Architect<br>Doesn't Sell</h2>
+    <div class="accent-line"></div>
+    <p class="body-text">The Outcome Architect identifies where the customer is leaving value on the table — and offers a specific path to get to it.</p>
+    <div class="stat-row" style="margin-top:20px; flex-direction:column; gap:12px; max-width:700px;">
+      <div class="stat-card" style="min-width:unset; padding:14px 20px; display:flex; gap:16px;">
+        <span style="font-family:'DM Mono',monospace; font-size:13px; color:var(--danger); min-width:80px;">Salesperson</span>
+        <span style="font-size:14px; color:rgba(255,255,255,0.6);">Asks for money → triggers procurement → creates resistance</span>
+      </div>
+      <div class="stat-card" style="min-width:unset; padding:14px 20px; display:flex; gap:16px; border-color:rgba(101,163,13,0.4);">
+        <span style="font-family:'DM Mono',monospace; font-size:13px; color:var(--accent-light); min-width:80px;">Outcome Architect</span>
+        <span style="font-size:14px; color:rgba(255,255,255,0.88);">Offers insight → connects to business objective → opens conversation</span>
+      </div>
+    </div>
+    <div class="highlight-box" style="margin-top:16px;">
+      <p>You're not triggering a procurement process. You're opening a conversation the customer actually wants to have.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: EXPANSION STAIRCASE STEP 1 -->
+  <div class="slide">
+    <div class="eyebrow">Segment 5 · The Expansion Staircase</div>
+    <h2>Step 1: Full Adoption<br>(The Non-Negotiable)</h2>
+    <div class="accent-line"></div>
+    <div class="staircase">
+      <div class="stair active-step">
+        <div class="stair-num">1</div>
+        <div class="stair-body"><span class="stair-title">Full Adoption — confirm customer uses everything they bought</span><span class="stair-tag">THIS MODULE</span></div>
+      </div>
+      <div class="stair inactive-step">
+        <div class="stair-num">2</div>
+        <div class="stair-body"><span class="stair-title">Value Expansion — identify adjacent use cases</span></div>
+      </div>
+      <div class="stair inactive-step">
+        <div class="stair-num">3</div>
+        <div class="stair-body"><span class="stair-title">Seat Expansion — grow user base within account</span></div>
+      </div>
+      <div class="stair inactive-step">
+        <div class="stair-num">4</div>
+        <div class="stair-body"><span class="stair-title">Tier Upgrade — move to higher product tier</span></div>
+      </div>
+      <div class="stair inactive-step">
+        <div class="stair-num">5</div>
+        <div class="stair-body"><span class="stair-title">Strategic Partnership — multi-year, cross-functional commitment</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: ADOPTION RULE -->
+  <div class="slide">
+    <div class="eyebrow">Segment 5 · The 70% Rule</div>
+    <h2>The Adoption Gate</h2>
+    <div class="accent-line"></div>
+    <p class="body-text">If your customer is using 40% of the features they're paying for and you propose expansion — you haven't failed the expansion conversation. You've confirmed the current product isn't delivering value. The most effective argument for churn.</p>
+    <div class="adoption-meter">
+      <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+        <span style="font-size:13px; color:var(--muted);">Feature adoption rate</span>
+        <span style="font-family:'DM Mono',monospace; font-size:12px; color:var(--accent-light);">70% threshold</span>
+      </div>
+      <div class="meter-bar">
+        <div class="meter-fill" id="meterFill" style="width:0%; background: linear-gradient(90deg, #EF4444 0%, #EF4444 69%, #65A30D 70%, #65A30D 100%);"></div>
+      </div>
+      <div class="meter-labels">
+        <span style="color:var(--danger);">0%</span>
+        <span style="color:rgba(255,255,255,0.3);">|</span>
+        <span style="color:var(--accent-light);">70% — expansion gate</span>
+        <span style="color:rgba(255,255,255,0.3);">|</span>
+        <span style="color:var(--accent-light);">100%</span>
+      </div>
+    </div>
+    <div class="stat-row" style="margin-top:20px; gap:14px;">
+      <div class="stat-card" style="padding:14px 20px; min-width:unset; border-color:rgba(239,68,68,0.3);">
+        <div style="font-family:'DM Mono',monospace; font-size:11px; color:var(--danger); margin-bottom:6px;">BELOW 70%</div>
+        <p style="font-size:13px; color:rgba(255,255,255,0.75);">Conversation = value delivery, not expansion</p>
+      </div>
+      <div class="stat-card" style="padding:14px 20px; min-width:unset; border-color:rgba(101,163,13,0.4);">
+        <div style="font-family:'DM Mono',monospace; font-size:11px; color:var(--accent-light); margin-bottom:6px;">ABOVE 70%</div>
+        <p style="font-size:13px; color:rgba(255,255,255,0.75);">Expansion conversation is appropriate — proceed</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: DO THIS MONDAY -->
+  <div class="slide">
+    <div class="eyebrow">Segment 6 · Action</div>
+    <h2>Do This Monday</h2>
+    <div class="accent-line"></div>
+    <ul class="checklist">
+      <li>
+        <span class="num">1</span>
+        <div>Count expansion opportunities surfaced by CS last quarter vs. converted to closed revenue. If conversion below <strong style="color:var(--accent-light);">30%</strong> — process problem, not pipeline problem.</div>
+      </li>
+      <li>
+        <span class="num">2</span>
+        <div>Build your CSQL definition today. What 3 signals constitute a qualified expansion opportunity in your business? <strong>Write it down.</strong> If three people give three different answers — you have opinions, not a process.</div>
+      </li>
+      <li>
+        <span class="num">3</span>
+        <div>Schedule one expansion conversation this week using <strong style="color:var(--accent-light);">value framing</strong> — not feature pitch. Open with their data. Connect to their objective. Quantify the upside. Ask a question.</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- SLIDE 10: THE COMPOUNDING CASE -->
+  <div class="slide">
+    <div class="eyebrow">Segment 6 · The Compounding Case</div>
+    <h2>You Already Have<br>Everything You Need</h2>
+    <div class="accent-line"></div>
+    <div class="stat-row" style="flex-direction:column; gap:14px; max-width:720px;">
+      <div class="stat-card" style="min-width:unset; padding:16px 24px; display:flex; gap:20px; align-items:center;">
+        <div style="font-family:'DM Mono',monospace; font-size:11px; color:var(--accent-light); min-width:100px; text-transform:uppercase;">The Relationship</div>
+        <div style="font-size:14px; color:rgba(255,255,255,0.8);">Built over months of delivery. No sales team chasing new logos has this.</div>
+      </div>
+      <div class="stat-card" style="min-width:unset; padding:16px 24px; display:flex; gap:20px; align-items:center;">
+        <div style="font-family:'DM Mono',monospace; font-size:11px; color:var(--accent-light); min-width:100px; text-transform:uppercase;">The Data</div>
+        <div style="font-size:14px; color:rgba(255,255,255,0.8);">Usage patterns, adoption rates, business outcomes. Real-time. Proprietary.</div>
+      </div>
+      <div class="stat-card" style="min-width:unset; padding:16px 24px; display:flex; gap:20px; align-items:center;">
+        <div style="font-family:'DM Mono',monospace; font-size:11px; color:var(--accent-light); min-width:100px; text-transform:uppercase;">The Knowledge</div>
+        <div style="font-size:14px; color:rgba(255,255,255,0.8);">You know more about what this customer needs than any outbound rep ever will.</div>
+      </div>
+    </div>
+    <div class="highlight-box" style="margin-top:16px;">
+      <p><strong>Stop asking permission to use it.</strong> Start Monday.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 11: CLOSE -->
+  <div class="slide">
+    <div class="eyebrow">Module 5.1 · Close</div>
+    <h1>The Expansion Motion<br>Starts Monday.</h1>
+    <div class="accent-line"></div>
+    <p class="body-text" style="font-size:20px; color:rgba(255,255,255,0.7);">Stop being comfortable. Start Monday.</p>
+    <div class="highlight-box" style="margin-top:24px;">
+      <p><em>"Not a sales motion. An outcome motion. You already have the relationship, the data, and the knowledge. Stop asking permission to use it."</em></p>
+    </div>
+  </div>
+
+  <!-- SLIDE 12: NEXT MODULE -->
+  <div class="slide">
+    <div class="eyebrow">Phase 2 — The Build · Section H</div>
+    <h2>Up Next: Module 5.2</h2>
+    <div class="accent-line"></div>
+    <p class="body-text" style="font-size:20px; font-weight:600; color:#7C3AED;">The Expansion Staircase</p>
+    <p class="body-text" style="margin-top:12px;">Module 5.1 introduced Step 1: Full Adoption. Module 5.2 completes the picture — all five steps from current contract value to maximum account potential, with the specific conversation and signals required to advance each stage.</p>
+    <div class="stat-row" style="margin-top:24px;">
+      <div class="stat-card">
+        <div class="stat-num">5</div>
+        <div class="stat-label">steps from current<br>to max account value</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">3×</div>
+        <div class="stat-label">higher LTV at accounts<br>with full staircase execution</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span class="footer-brand">CCO2go.ai · Your Customers Are Lying to You · 2026</span>
+  <span class="footer-module">M5.1 · Expansion Revenue: Stop Asking Permission</span>
+</footer>
+<div class="kbd-hint">← → or SPACE to navigate</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  let current = 0;
+  const total = slides.length;
+  function navigate(dir) {
+    slides[current].classList.remove('active');
+    current = Math.max(0, Math.min(total - 1, current + dir));
+    slides[current].classList.add('active');
+    counter.textContent = `${current + 1} / ${total}`;
+    progress.style.width = `${((current + 1) / total) * 100}%`;
+    // Animate meter on slide 8
+    if (current === 7) {
+      setTimeout(() => {
+        const fill = document.getElementById('meterFill');
+        if (fill) fill.style.width = '100%';
+      }, 200);
+    }
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); navigate(1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); navigate(-1); }
+  });
+  counter.textContent = `1 / ${total}`;
+  progress.style.width = `${(1 / total) * 100}%`;
+</script>
+</body>
+</html>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 1.2 — The NRR Truth Test | CSM Training</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --navy:#0F1F4B;--navy2:#192654;--teal:#00A896;--gold:#F4A000;
+    --danger:#E05C5C;--success:#2EC4A5;--white:#FFFFFF;
+    --offwht:#EEF2FA;--steel:#B8C7E0;--muted:#7A93C0;--dark:#060E24;
+    --purple:#8B5CF6;
+  }
+  html,body{width:100%;height:100%;background:var(--dark);overflow:hidden;font-family:'DM Sans',sans-serif}
+
+  #nav{position:fixed;top:0;left:0;right:0;height:48px;background:rgba(6,14,36,0.95);
+    border-bottom:1px solid rgba(0,168,150,0.3);display:flex;align-items:center;
+    justify-content:space-between;padding:0 24px;z-index:100;backdrop-filter:blur(8px)}
+  #nav .brand{font-family:'DM Mono',monospace;font-size:11px;color:var(--teal);letter-spacing:2px;text-transform:uppercase}
+  #nav .controls{display:flex;gap:8px;align-items:center}
+  #nav button{background:none;border:1px solid rgba(0,168,150,0.4);color:var(--teal);
+    padding:4px 14px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:12px;
+    border-radius:3px;transition:all 0.2s}
+  #nav button:hover{background:var(--teal);color:var(--navy)}
+  #nav button:disabled{opacity:0.3;cursor:default}
+  #slide-counter{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);min-width:60px;text-align:center}
+
+  #progress{position:fixed;top:48px;left:0;right:0;height:2px;background:rgba(255,255,255,0.05);z-index:99}
+  #progress-fill{height:100%;background:var(--gold);transition:width 0.4s ease}
+
+  #stage{position:fixed;top:50px;left:0;right:0;bottom:0}
+  .slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    background:var(--navy);opacity:0;pointer-events:none;
+    transition:opacity 0.5s ease,transform 0.5s ease;transform:translateX(60px);padding:40px 60px}
+  .slide.active{opacity:1;pointer-events:auto;transform:translateX(0)}
+  .slide.out{opacity:0;transform:translateX(-60px)}
+  .slide-inner{width:100%;max-width:1100px;height:100%;display:flex;flex-direction:column;justify-content:center}
+
+  .eyebrow{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:3px;
+    text-transform:uppercase;margin-bottom:16px;opacity:0;animation:fadeUp 0.5s ease 0.1s forwards}
+  .slide-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,6vw,72px);
+    color:var(--white);line-height:0.95;margin-bottom:20px;opacity:0;animation:fadeUp 0.5s ease 0.2s forwards}
+  .slide-title .accent{color:var(--gold)}
+  .slide-title .danger{color:var(--danger)}
+  .slide-title .teal{color:var(--teal)}
+  .subtitle{font-size:clamp(14px,1.8vw,18px);color:var(--steel);font-weight:300;
+    line-height:1.6;max-width:700px;opacity:0;animation:fadeUp 0.5s ease 0.3s forwards}
+  .subtitle strong{color:var(--white);font-weight:500}
+  .divline{width:60px;height:3px;background:var(--gold);margin:20px 0;
+    opacity:0;animation:fadeUp 0.4s ease 0.25s forwards}
+
+  /* MECHANISM CARDS */
+  .mech-grid{display:flex;flex-direction:column;gap:14px;margin-top:24px}
+  .mech-card{background:var(--navy2);padding:18px 22px;border-left:5px solid var(--danger);
+    border-radius:0 4px 4px 0;opacity:0;transform:translateX(-20px);
+    transition:opacity 0.4s ease,transform 0.4s ease}
+  .mech-card.revealed{opacity:1;transform:translateX(0)}
+  .mech-title{font-size:16px;font-weight:700;color:var(--white);margin-bottom:6px}
+  .mech-title span{color:var(--danger)}
+  .mech-body{font-size:13px;color:var(--steel);font-weight:300;line-height:1.6}
+
+  /* 5 STEP FRAMEWORK */
+  .steps-grid{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+  .step-row{display:flex;align-items:flex-start;gap:18px;background:var(--navy2);
+    padding:14px 18px;border-radius:4px;
+    opacity:0;transform:translateY(10px);transition:opacity 0.4s ease,transform 0.4s ease}
+  .step-row.revealed{opacity:1;transform:translateY(0)}
+  .step-num{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--gold);
+    line-height:1;min-width:30px}
+  .step-content{}
+  .step-title{font-size:14px;font-weight:700;color:var(--white);margin-bottom:4px}
+  .step-body{font-size:12px;color:var(--steel);font-weight:300;line-height:1.5}
+
+  /* COMPOUND MATH */
+  .compound-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:24px;
+    opacity:0;animation:fadeUp 0.5s ease 0.3s forwards}
+  .compound-card{padding:24px 20px;border-radius:4px;text-align:center;position:relative;overflow:hidden}
+  .compound-card.bad{background:rgba(224,92,92,0.1);border:1px solid rgba(224,92,92,0.3)}
+  .compound-card.mid{background:rgba(0,168,150,0.07);border:1px solid rgba(0,168,150,0.25)}
+  .compound-card.good{background:rgba(46,196,165,0.12);border:1px solid rgba(46,196,165,0.4)}
+  .compound-nrr{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;margin-bottom:12px}
+  .compound-result{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,3.5vw,48px);margin-bottom:8px}
+  .compound-label{font-size:12px;color:var(--steel);font-weight:300;line-height:1.4}
+  .compound-trend{font-size:20px;margin-top:8px}
+
+  /* COHORT BREAKDOWN */
+  .cohort-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:24px;
+    opacity:0;animation:fadeUp 0.5s ease 0.3s forwards}
+  .cohort-card{background:var(--navy2);padding:24px;border-radius:4px}
+  .cohort-seg{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:10px;text-transform:uppercase}
+  .cohort-num{font-family:'Bebas Neue',sans-serif;font-size:52px;margin-bottom:8px}
+  .cohort-note{font-size:12px;color:var(--steel);line-height:1.5;font-weight:300}
+
+  /* BIG QUOTE */
+  .big-quote{font-family:'Bebas Neue',sans-serif;font-size:clamp(26px,4vw,52px);
+    color:var(--white);line-height:1.05;border-left:6px solid var(--gold);
+    padding:20px 28px;background:var(--navy2);
+    opacity:0;animation:fadeUp 0.6s ease 0.2s forwards}
+  .big-quote span{color:var(--gold)}
+
+  /* MONDAY */
+  .monday-list{display:flex;flex-direction:column;gap:14px;margin-top:24px}
+  .monday-item{display:flex;gap:20px;align-items:flex-start;background:var(--navy2);
+    padding:16px 20px;border-radius:4px;border-left:4px solid var(--gold);
+    opacity:0;transform:translateY(10px);transition:opacity 0.4s ease,transform 0.4s ease}
+  .monday-item.revealed{opacity:1;transform:translateY(0)}
+  .monday-n{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--gold);line-height:1;min-width:28px}
+  .monday-text{font-size:13px;color:var(--steel);font-weight:300;line-height:1.6}
+  .monday-text strong{color:var(--white);font-weight:500}
+
+  /* GAMING VISUAL */
+  .game-label{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);
+    letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+
+  .slide-footer{position:absolute;bottom:14px;left:60px;right:60px;
+    display:flex;justify-content:space-between;align-items:center;
+    opacity:0;animation:fadeIn 0.4s ease 0.5s forwards}
+  .footer-brand{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase}
+  .footer-module{font-family:'DM Mono',monospace;font-size:10px;color:rgba(244,160,0,0.5)}
+
+  #slide-0 .bg-accent{position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--gold)}
+  #slide-0 .tag-row{display:flex;gap:10px;margin-top:24px;opacity:0;animation:fadeUp 0.5s ease 0.45s forwards}
+  #slide-0 .tag{padding:5px 14px;border:1px solid var(--gold);color:var(--gold);
+    font-size:11px;font-family:'DM Mono',monospace;letter-spacing:1px}
+
+  #slide-end{background:var(--dark)}
+  #slide-end .end-inner{text-align:center;opacity:0;animation:fadeIn 0.8s ease 0.3s forwards}
+
+  .scrollable{overflow-y:auto;max-height:calc(100vh - 120px)}
+  .scrollable::-webkit-scrollbar{width:4px}
+  .scrollable::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+  #key-hint{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);
+    font-family:'DM Mono',monospace;font-size:10px;color:rgba(122,147,192,0.5);
+    letter-spacing:1px;pointer-events:none;transition:opacity 0.5s}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+</style>
+</head>
+<body>
+<div id="nav">
+  <div class="brand">CCO2go.ai · CSM Training</div>
+  <div class="controls">
+    <button id="btn-prev" onclick="navigate(-1)" disabled>← Prev</button>
+    <div id="slide-counter">1 / 13</div>
+    <button id="btn-next" onclick="navigate(1)">Next →</button>
+  </div>
+</div>
+<div id="progress"><div id="progress-fill"></div></div>
+
+<div id="stage">
+
+<!-- SLIDE 0: TITLE -->
+<div class="slide active" id="slide-0">
+  <div class="bg-accent"></div>
+  <div class="slide-inner">
+    <div class="eyebrow">Phase 1 · Week 1 · Module 1.2</div>
+    <div class="slide-title">The <span class="accent">NRR</span><br>Truth Test</div>
+    <div class="subtitle">Your NRR is probably inflated. Here's how to find the real number — the one that holds up when an acquirer runs their own analysis on your data room.</div>
+    <div class="tag-row">
+      <div class="tag">8–12 min</div><div class="tag">Commercial Confidence</div><div class="tag">5-Step Framework</div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <div class="footer-brand">R. Shane James · CCO2go.ai</div>
+    <div class="footer-module">Module 1.2 of 9</div>
+  </div>
+</div>
+
+<!-- SLIDE 1: THE FINANCIAL CASE -->
+<div class="slide" id="slide-1">
+  <div class="slide-inner">
+    <div class="eyebrow">Why NRR Is the Metric That Matters</div>
+    <div class="slide-title">The Numbers<br>Are <span class="teal">Settled</span></div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px;opacity:0;animation:fadeUp 0.5s ease 0.3s forwards">
+      <div style="background:var(--navy2);padding:20px 14px;text-align:center;border-top:3px solid var(--gold)">
+        <div style="font-family:'Bebas Neue';font-size:44px;color:var(--gold)">106%</div>
+        <div style="font-size:11px;color:var(--steel);margin-top:6px">Median B2B SaaS NRR 2025</div>
+      </div>
+      <div style="background:var(--navy2);padding:20px 14px;text-align:center;border-top:3px solid var(--teal)">
+        <div style="font-family:'Bebas Neue';font-size:44px;color:var(--teal)">115–125%</div>
+        <div style="font-size:11px;color:var(--steel);margin-top:6px">Top quartile NRR range</div>
+      </div>
+      <div style="background:var(--navy2);padding:20px 14px;text-align:center;border-top:3px solid var(--success)">
+        <div style="font-family:'Bebas Neue';font-size:44px;color:var(--success)">2–3×</div>
+        <div style="font-size:11px;color:var(--steel);margin-top:6px">Higher valuation multiple above 120% NRR</div>
+      </div>
+      <div style="background:var(--navy2);padding:20px 14px;text-align:center;border-top:3px solid var(--purple)">
+        <div style="font-family:'Bebas Neue';font-size:44px;color:var(--purple)">2.5×</div>
+        <div style="font-size:11px;color:var(--steel);margin-top:6px">Faster growth rate for high-NRR companies</div>
+      </div>
+    </div>
+    <div class="subtitle" style="animation-delay:0.5s;margin-top:20px">The financial case for NRR is settled. The problem is the gap between <strong>reported NRR and real NRR</strong> — and most CS teams have no idea that gap exists.</div>
+  </div>
+  <div class="slide-footer"><div class="footer-brand">R. Shane James · CCO2go.ai</div><div class="footer-module">Module 1.2 of 9</div></div>
+</div>
+
+<!-- SLIDE 2: THE SHELL GAME -->
+<div class="slide" id="slide-2">
+  <div class="slide-inner">
+    <div class="eyebrow">Why NRR Gets Inflated</div>
+    <div class="slide-title">The NRR<br><span class="danger">Shell Game</span></div>
+    <div class="mech-grid" id="mech-grid">
+      <div class="mech-card">
+        <div class="mech-title"><span>01 —</span> The Price Increase Rebrand</div>
+        <div class="mech-body">An 8% price increase shows up as "expansion" — even when customers aren't buying more or using more. Strip this out and most companies' NRR drops 5–8 points immediately.</div>
+      </div>
+      <div class="mech-card">
+        <div class="mech-title"><span>02 —</span> The Forced Bundle</div>
+        <div class="mech-body">A new product gets bundled into renewal contracts. Customers say yes because unbundling is more work than accepting. Revenue goes up — but the customer didn't choose to expand.</div>
+      </div>
+      <div class="mech-card">
+        <div class="mech-title"><span>03 —</span> The Rebase</div>
+        <div class="mech-body">An account drops from 100 seats to 60, then adds 10 back. The 10 seats are counted as "expansion" — the 40 that left are ignored. Counting additions without subtractions is how fiction becomes a board metric.</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer"><div class="footer-brand">R. Shane James · CCO2go.ai</div><div class="footer-module">Module 1.2 of 9</div></div>
+</div>
+
+<!-- SLIDE 3: TRUE NRR INTRO -->
+<div class="slide" id="slide-3">
+  <div class="slide-inner">
+    <div class="eyebrow">The Framework</div>
+    <div class="big-quote">Your True NRR is the number that holds up<br>when an acquirer <span>runs their own analysis</span><br>on your data room.</div>
+    <div class="divline" style="margin-top:28px"></div>
+    <div class="subtitle" style="animation-delay:0.45s">None of the three mechanisms are illegal. Some are industry standard. All of them create a class of companies that believe they're growing when they're stagnating. The Truth Test strips them out, one by one.</div>
+  </div>
+  <div class="slide-footer"><div class="footer-brand">R. Shane James · CCO2go.ai</div><div class="footer-module">Module 1.2 of 9</div></div>
+</div>
+
+<!-- SLIDE 4: 5-STEP TEST -->
+<div class="slide" id="slide-4">
+  <div class="slide-inner scrollable">
+    <div class="eyebrow">The 5-Step NRR Truth Test</div>
+    <div class="slide-title">Build Your<br><span class="accent">True NRR</span></div>
+    <div class="steps-grid" id="steps-grid">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Strip Out Price Increases</div>
+          <div class="step-body">Remove revenue from contractual price escalators. If organic NRR drops 5+ points, you have a pricing problem masquerading as a growth story.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Audit Your Expansion Deals</div>
+          <div class="step-body">For each positive-expansion account: did the customer actively choose to buy more, or did revenue increase through a mechanism they didn't initiate? &gt;30% passive = inflated NRR.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Net Contraction in the Same Period</div>
+          <div class="step-body">Account A adds 20 seats. Account B loses 15. Net expansion is 5, not 20. Run expansion and contraction together — never separately.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Cohort NRR, Not Aggregate</div>
+          <div class="step-body">110% aggregate may hide Enterprise at 130% and SMB at 75%. Break it down by segment and cohort — that's where the real story lives.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">Calculate Your True NRR</div>
+          <div class="step-body">After stripping price increases, forced bundles, and rebased calculations — this is your number. The starting point for every strategic decision.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer"><div class="footer-brand">R. Shane James · CCO2go.ai</div><div class="footer-module">Module 1.2 of 9</div></div>
+</div>
+
+<!-- SLIDE 5: COHORT BREAKDOWN -->
+<div class="slide" id="slide-5">
+  <div class="slide-inner">
+    <div class="eyebrow">Why Cohort NRR Matters — Step 4 Deep Dive</div>
+    <div class="slide-title">Aggregate<br>Hides the <span class="danger">Truth</span></div>
+    <div class="cohort-grid">
+      <div style="background:var(--navy2);padding:24px;border-radius:4px;grid-column:1/-1;border-top:3px solid var(--gold)">
+        <div class="game-label">Reported Aggregate</div>
+        <div style="font-family:'Bebas Neue';font-size:64px;color:var(--gold)">110%</div>
+        <div style="font-size:13px;color:var(--steel)">Looks healthy. Board is happy. CS team gets credit.</div>
+      </div>
+      <div style="background:var(--navy2);padding:24px;border-radius:4px;border-top:3px solid var(--success)">
+        <div class="game-label">Enterprise Cohort</div>
+        <div style="font-family:'Bebas Neue';font-size:52px;color:var(--success)">130%</div>
+        <div style="font-size:12px;color:var(--steel)">Strong expansion. Enterprise is deeply embedded and growing.</div>
+      </div>
+      <div style="background:var(--navy2);padding:24px;border-radius:4px;border-top:3px solid var(--danger)">
+        <div class="game-label">SMB Cohort</div>
+        <div style="font-family:'Bebas Neue';font-size:52px;color:var(--danger)">75%</div>
+        <div style="font-size:12px;color:var(--steel)">Significant churn. SMB is eroding fast. Enterprise results are masking a serious problem in the segment that should be scaling.</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer"><div class="footer-brand">R. Shane James · CCO2go.ai</div><div class="footer-module">Module 1.2 of 9</div></div>
+</div>
+
+<!-- SLIDE 6: COMPOUNDING MATH -->
+<div class="slide" id="slide-6">
+  <div class="slide-inner">
+    <div class="eyebrow">The Math That Changes How You Think About This Job</div>
+    <div class="slide-title">$1M ARR · <span class="accent">5 Years</span><br>Three Scenarios</div>
+    <div class="compound-grid">
+      <div class="compound-card bad">
+        <div class="compound-nrr" style="color:var(--danger)">85% NRR</div>
+        <div class="compound-result" style="color:var(--danger)">$444K</div>
+        <div class="compound-label">Lost more than half the original cohort. Net-new acquisition is just replacement, not growth.</div>
+        <div class="compound-trend">📉</div>
+      </div>
+      <div class="compound-card mid">
+        <div class="compound-nrr" style="color:var(--teal)">105% NRR</div>
+        <div class="compound-result" style="color:var(--teal)">$1.28M</div>
+        <div class="compound-label">Modest growth from installed base. Net-new acquisition is genuinely additive.</div>
+        <div class="compound-trend">📈</div>
+      </div>
+      <div class="compound-card good">
+        <div class="compound-nrr" style="color:var(--success)">115% NRR</div>
+        <div class="compound-result" style="color:var(--success)">$2.01M</div>
+        <div class="compound-label">Doubled revenue from same cohort. Zero new customers acquired. Same starting point.</div>
+        <div class="compound-trend">🚀</div>
+      </div>
+    </div>
+    <div class="subtitle" style="animation-delay:0.5s;margin-top:20px"><strong>4.5× the revenue.</strong> Same customers. Same starting point. That gap is the entire business case for customer success as a growth engine — not a support function.</div>
+  </div>
+  <div class="slide-footer"><div class="footer-brand">R. Shane James · CCO2go.ai</div><div class="footer-module">Module 1.2 of 9</div></div>
+</div>
+
+<!-- SLIDE 7: WHAT TO DO -->
+<div class="slide" id="slide-7">
+  <div class="slide-inner">
+    <div class="eyebrow">Your Starting Point</div>
+    <div class="slide-title">What The<br><span class="accent">Real Number</span><br>Tells You</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:24px;opacity:0;animation:fadeUp 0.5s ease 0.3s forwards">
+      <div style="background:var(--navy2);padding:22px;border-radius:4px;border-left:4px solid var(--teal)">
+        <div style="font-family:'DM Mono';font-size:10px;color:var(--teal);letter-spacing:2px;margin-bottom:10px">IF TRUE NRR &lt; 100%</div>
+        <div style="font-size:13px;color:var(--steel);line-height:1.6">You are shrinking from the inside. No matter how many new logos sales closes, you are running to stand still. Fix the foundation before building higher.</div>
+      </div>
+      <div style="background:var(--navy2);padding:22px;border-radius:4px;border-left:4px solid var(--gold)">
+        <div style="font-family:'DM Mono';font-size:10px;color:var(--gold);letter-spacing:2px;margin-bottom:10px">IF TRUE NRR 100–108%</div>
+        <div style="font-size:13px;color:var(--steel);line-height:1.6">Solid foundation. The path to top-quartile is identifying which segment and which cohort is closest to 115% — and replicating what's working there.</div>
+      </div>
+      <div style="background:var(--navy2);padding:22px;border-radius:4px;border-left:4px solid var(--success)">
+        <div style="font-family:'DM Mono';font-size:10px;color:var(--success);letter-spacing:2px;margin-bottom:10px">IF TRUE NRR 108–120%</div>
+        <div style="font-size:13px;color:var(--steel);line-height:1.6">Top-quartile performance. Your CS motion is working. The focus is systematizing expansion signals and protecting the accounts driving the score.</div>
+      </div>
+      <div style="background:var(--navy2);padding:22px;border-radius:4px;border-left:4px solid var(--purple)">
+        <div style="font-family:'DM Mono';font-size:10px;color:var(--purple);letter-spacing:2px;margin-bottom:10px">IF TRUE NRR &gt; 120%</div>
+        <div style="font-size:13px;color:var(--steel);line-height:1.6">World-class. You have a repeatable expansion engine. Document the playbook now — before you scale the team and lose the institutional knowledge that's driving it.</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer"><div class="footer-brand">R. Shane James · CCO2go.ai</div><div class="footer-module">Module 1.2 of 9</div></div>
+</div>
+
+<!-- SLIDE 8: DO THIS MONDAY -->
+<div class="slide" id="slide-8">
+  <div class="slide-inner">
+    <div class="eyebrow">Before You Watch Module 1.3</div>
+    <div class="slide-title">Do This <span class="accent">Monday</span></div>
+    <div class="monday-list" id="monday-list">
+      <div class="monday-item">
+        <div class="monday-n">1</div>
+        <div class="monday-text"><strong>Run Step 1 of the Truth Test:</strong> Pull your NRR report for the last 4 quarters. Strip out price-increase-driven revenue. Write the gap between reported NRR and organic NRR. One number.</div>
+      </div>
+      <div class="monday-item">
+        <div class="monday-n">2</div>
+        <div class="monday-text"><strong>Audit your top 3 expansion accounts</strong> from last quarter. For each: did the customer actively choose to expand, or did revenue increase passively? One sentence per account. No hedging.</div>
+      </div>
+      <div class="monday-item">
+        <div class="monday-n">3</div>
+        <div class="monday-text"><strong>Calculate cohort NRR for one segment</strong> — SMB, mid-market, or enterprise. The number that surprises you most is where you focus first.</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer"><div class="footer-brand">R. Shane James · CCO2go.ai</div><div class="footer-module">Module 1.2 of 9</div></div>
+</div>
+
+<!-- SLIDE END -->
+<div class="slide" id="slide-end">
+  <div class="slide-inner" style="align-items:center;text-align:center">
+    <div class="end-inner" style="opacity:0;animation:fadeIn 0.8s ease 0.3s forwards">
+      <div style="font-family:'DM Mono';font-size:12px;color:var(--gold);letter-spacing:4px;margin-bottom:24px">CCO2go.ai · CSM Training Program · Phase 1</div>
+      <div style="font-family:'Bebas Neue';font-size:clamp(32px,5vw,64px);color:var(--white);line-height:0.95;margin-bottom:8px">Module 1.2</div>
+      <div style="font-family:'Bebas Neue';font-size:clamp(32px,5vw,64px);color:var(--gold);line-height:0.95;margin-bottom:24px">Complete</div>
+      <div style="width:60px;height:3px;background:var(--gold);margin:0 auto 24px"></div>
+      <div class="subtitle" style="text-align:center;max-width:520px;margin:0 auto">The number on your board deck is not the number that matters. <strong style="color:var(--white)">The True NRR is.</strong></div>
+      <div style="margin-top:28px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.1);font-size:14px;color:var(--steel)">
+        Up Next: <strong style="color:var(--gold)">Module 1.3 — Reading Health Scores</strong><br>
+        <span style="font-size:12px;color:var(--muted)">Login frequency is not adoption. What actually predicts whether a customer stays.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /stage -->
+<div id="key-hint">← → arrow keys or click buttons to navigate</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let current = 0;
+
+function navigate(dir) {
+  const prev = current;
+  current = Math.max(0, Math.min(total-1, current+dir));
+  if (current===prev) return;
+  slides[prev].classList.remove('active');
+  slides[prev].classList.add('out');
+  setTimeout(()=>slides[prev].classList.remove('out'),500);
+  slides[current].classList.add('active');
+  // re-trigger animations
+  const els = slides[current].querySelectorAll('[style*="animation"],.eyebrow,.slide-title,.subtitle,.divline,.slide-footer,.big-quote,.compound-grid,.cohort-grid');
+  els.forEach(el=>{el.style.animation='none';void el.offsetWidth;el.style.animation='';});
+  document.getElementById('slide-counter').textContent=`${current+1} / ${total}`;
+  document.getElementById('progress-fill').style.width=`${((current+1)/total)*100}%`;
+  document.getElementById('btn-prev').disabled=current===0;
+  document.getElementById('btn-next').disabled=current===total-1;
+  if(current===2) animateMechs();
+  if(current===4) animateSteps();
+  if(current===8) animateMonday();
+}
+
+function animateMechs(){
+  document.querySelectorAll('#mech-grid .mech-card').forEach((c,i)=>{
+    setTimeout(()=>c.classList.add('revealed'),i*200+100);
+  });
+}
+function animateSteps(){
+  document.querySelectorAll('#steps-grid .step-row').forEach((r,i)=>{
+    setTimeout(()=>r.classList.add('revealed'),i*150+100);
+  });
+}
+function animateMonday(){
+  document.querySelectorAll('#monday-list .monday-item').forEach((item,i)=>{
+    setTimeout(()=>item.classList.add('revealed'),i*200+100);
+  });
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' ')navigate(1);
+  if(e.key==='ArrowLeft')navigate(-1);
+});
+setTimeout(()=>document.getElementById('key-hint').style.opacity='0',4000);
+document.getElementById('progress-fill').style.width=`${(1/total)*100}%`;
+</script>
+</body>
+</html>

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 2.2 — Champion Mapping | CCO2go.ai</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:   #0F1F4B;
+    --navy2:  #0a1538;
+    --teal:   #00A896;
+    --gold:   #F4A000;
+    --orange: #FF6B35;
+    --steel:  #4A5568;
+    --light:  #EEF2FA;
+    --danger: #D9534F;
+    --white:  #F0F4FF;
+    --accent: #FF6B35;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: var(--navy2); }
+
+  #nav {
+    position: fixed; top: 0; left: 0; right: 0; height: 48px; z-index: 100;
+    background: rgba(10,21,56,0.95); backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--orange);
+    display: flex; align-items: center; justify-content: space-between; padding: 0 24px;
+  }
+  #nav .brand { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--teal); letter-spacing: 0.08em; }
+  #nav .module-label { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gold); letter-spacing: 0.1em; }
+  #nav .slide-counter { font-family: 'DM Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.4); }
+
+  #progress-bar {
+    position: fixed; top: 50px; left: 0; height: 2px; z-index: 99;
+    background: var(--accent); transition: width 0.4s ease;
+  }
+
+  #stage { position: fixed; top: 50px; left: 0; right: 0; bottom: 0; }
+
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    padding: 48px 80px 80px;
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+    pointer-events: none;
+  }
+  .slide.active { opacity: 1; transform: translateY(0); pointer-events: all; }
+  .slide.exit { opacity: 0; transform: translateY(-28px); transition: opacity 0.35s ease, transform 0.35s ease; }
+
+  .footer {
+    position: absolute; bottom: 14px; left: 0; right: 0;
+    display: flex; justify-content: space-between; padding: 0 80px;
+    font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.22); letter-spacing: 0.06em;
+  }
+
+  #prev, #next {
+    position: fixed; top: 50%; transform: translateY(-50%); z-index: 99;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.35); font-size: 22px; width: 44px; height: 44px;
+    border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  #prev:hover, #next:hover { background: rgba(255,107,53,0.15); color: var(--accent); border-color: var(--accent); }
+  #prev { left: 14px; }
+  #next { right: 14px; }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 0.18em;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 16px;
+    opacity: 0; transform: translateY(10px); transition: all 0.5s 0.1s ease;
+  }
+  .slide.active .eyebrow { opacity: 1; transform: translateY(0); }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(56px, 8vw, 96px);
+    color: var(--white); line-height: 0.95; text-align: center; letter-spacing: 0.02em;
+    opacity: 0; transform: translateY(16px); transition: all 0.5s 0.2s ease;
+  }
+  .slide.active h1 { opacity: 1; transform: translateY(0); }
+
+  h2 {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px, 5vw, 64px);
+    color: var(--white); line-height: 1; text-align: center; letter-spacing: 0.02em;
+    opacity: 0; transform: translateY(14px); transition: all 0.5s 0.2s ease;
+  }
+  .slide.active h2 { opacity: 1; transform: translateY(0); }
+
+  .subtitle {
+    font-family: 'DM Sans', sans-serif; font-size: clamp(15px, 2vw, 20px);
+    color: rgba(255,255,255,0.55); text-align: center; margin-top: 20px; max-width: 680px; line-height: 1.55;
+    opacity: 0; transform: translateY(10px); transition: all 0.5s 0.35s ease;
+  }
+  .slide.active .subtitle { opacity: 1; transform: translateY(0); }
+
+  .accent-line {
+    width: 64px; height: 3px; background: var(--accent); margin: 20px auto;
+    opacity: 0; transform: scaleX(0); transition: all 0.5s 0.3s ease;
+  }
+  .slide.active .accent-line { opacity: 1; transform: scaleX(1); }
+
+  .stat-block {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(64px, 9vw, 108px);
+    color: var(--accent); line-height: 1; text-align: center; margin: 12px 0;
+    opacity: 0; transform: scale(0.85); transition: all 0.5s 0.25s ease;
+  }
+  .slide.active .stat-block { opacity: 1; transform: scale(1); }
+  .stat-label {
+    font-family: 'DM Sans', sans-serif; font-size: clamp(13px, 1.6vw, 17px);
+    color: rgba(255,255,255,0.5); text-align: center; letter-spacing: 0.04em;
+    opacity: 0; transition: opacity 0.5s 0.4s ease;
+  }
+  .slide.active .stat-label { opacity: 1; }
+
+  /* 3-ROLE CARDS */
+  .role-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;
+    width: 100%; max-width: 940px; margin-top: 28px;
+  }
+  .role-card {
+    padding: 24px 20px; border-radius: 6px; text-align: center;
+    opacity: 0; transform: translateY(24px);
+  }
+  .role-card.champion { background: rgba(0,168,150,0.1); border: 1px solid rgba(0,168,150,0.3); border-top: 3px solid var(--teal); transition: all 0.5s 0.2s ease; }
+  .role-card.sponsor   { background: rgba(255,107,53,0.1); border: 1px solid rgba(255,107,53,0.3); border-top: 3px solid var(--orange); transition: all 0.5s 0.35s ease; }
+  .role-card.user      { background: rgba(244,160,0,0.1);  border: 1px solid rgba(244,160,0,0.3);  border-top: 3px solid var(--gold);   transition: all 0.5s 0.5s ease; }
+  .slide.active .role-card { opacity: 1; transform: translateY(0); }
+  .role-icon { font-size: 32px; margin-bottom: 12px; }
+  .role-name { font-family: 'Bebas Neue', sans-serif; font-size: 30px; letter-spacing: 0.06em; margin-bottom: 8px; color: var(--white); }
+  .role-def { font-family: 'DM Sans', sans-serif; font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.5; }
+
+  /* PROTOCOL TIMELINE */
+  .protocol-steps { width: 100%; max-width: 820px; margin-top: 28px; }
+  .proto-step {
+    display: flex; gap: 20px; align-items: flex-start; padding: 16px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    opacity: 0; transform: translateX(-20px);
+  }
+  .slide.active .proto-step { opacity: 1; transform: translateX(0); }
+  .proto-step:nth-child(1) { transition: all 0.4s 0.15s ease; }
+  .proto-step:nth-child(2) { transition: all 0.4s 0.28s ease; }
+  .proto-step:nth-child(3) { transition: all 0.4s 0.41s ease; }
+  .proto-step:nth-child(4) { transition: all 0.4s 0.54s ease; }
+  .proto-time { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--accent); min-width: 100px; padding-top: 2px; }
+  .proto-content-title { font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+  .proto-content-body { font-family: 'DM Sans', sans-serif; font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.5; }
+
+  /* MAP TABLE */
+  .map-table { width: 100%; max-width: 860px; margin-top: 24px; border-collapse: collapse; }
+  .map-table th, .map-table td {
+    padding: 12px 16px; text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    font-family: 'DM Sans', sans-serif; font-size: 14px;
+  }
+  .map-table th { color: var(--accent); font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .map-table td { color: rgba(255,255,255,0.7); }
+  .map-table tr { opacity: 0; transform: translateY(10px); }
+  .slide.active .map-table tr { opacity: 1; transform: translateY(0); }
+  .slide.active .map-table tr:nth-child(1) { transition: all 0.4s 0.1s ease; }
+  .slide.active .map-table tr:nth-child(2) { transition: all 0.4s 0.2s ease; }
+  .slide.active .map-table tr:nth-child(3) { transition: all 0.4s 0.3s ease; }
+  .slide.active .map-table tr:nth-child(4) { transition: all 0.4s 0.4s ease; }
+  .slide.active .map-table tr:nth-child(5) { transition: all 0.4s 0.5s ease; }
+  .slide.active .map-table tr:nth-child(6) { transition: all 0.4s 0.6s ease; }
+
+  /* AUDIT GRID */
+  .audit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 860px; width: 100%; margin-top: 24px; }
+  .audit-col {
+    padding: 20px; border-radius: 4px;
+    opacity: 0; transform: translateY(18px);
+  }
+  .audit-col.covered { background: rgba(0,168,150,0.08); border: 1px solid rgba(0,168,150,0.2); transition: all 0.5s 0.2s ease; }
+  .audit-col.risk    { background: rgba(255,107,53,0.08); border: 1px solid rgba(255,107,53,0.3); transition: all 0.5s 0.35s ease; }
+  .slide.active .audit-col { opacity: 1; transform: translateY(0); }
+  .audit-col-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; }
+  .audit-col.covered .audit-col-label { color: var(--teal); }
+  .audit-col.risk .audit-col-label { color: var(--orange); }
+  .audit-item { font-family: 'DM Sans', sans-serif; font-size: 14px; color: rgba(255,255,255,0.65); padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); line-height: 1.4; }
+
+  /* QUOTE */
+  .quote-block {
+    max-width: 780px; padding: 28px 36px; margin: 24px auto;
+    border-left: 4px solid var(--accent); background: rgba(255,255,255,0.03);
+    opacity: 0; transform: translateY(14px); transition: all 0.55s 0.25s ease;
+  }
+  .slide.active .quote-block { opacity: 1; transform: translateY(0); }
+  .quote-text { font-family: 'DM Sans', sans-serif; font-size: clamp(17px, 2.2vw, 22px); color: var(--white); line-height: 1.6; font-style: italic; }
+
+  /* ACTION */
+  .action-grid { display: flex; gap: 20px; max-width: 920px; width: 100%; margin-top: 28px; }
+  .action-item {
+    flex: 1; padding: 22px 18px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,107,53,0.25);
+    border-top: 3px solid var(--accent); border-radius: 4px; text-align: center;
+    opacity: 0; transform: translateY(20px);
+  }
+  .slide.active .action-item { opacity: 1; transform: translateY(0); }
+  .action-item:nth-child(1) { transition: all 0.45s 0.2s ease; }
+  .action-item:nth-child(2) { transition: all 0.45s 0.35s ease; }
+  .action-item:nth-child(3) { transition: all 0.45s 0.5s ease; }
+  .action-num { font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: var(--accent); line-height: 1; }
+  .action-title { font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 700; color: var(--white); margin: 8px 0 6px; }
+  .action-body { font-family: 'DM Sans', sans-serif; font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+
+  /* DUAL STAT */
+  .dual-stat { display: flex; gap: 60px; align-items: flex-end; margin-top: 24px; }
+  .stat-unit { text-align: center; }
+
+  /* BG */
+  .bg-mesh {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background: radial-gradient(ellipse 80% 60% at 70% 20%, rgba(255,107,53,0.05) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 20% 80%, rgba(0,168,150,0.05) 0%, transparent 60%);
+  }
+</style>
+</head>
+<body>
+<div class="bg-mesh"></div>
+
+<div id="nav">
+  <div class="brand">CCO2go.ai</div>
+  <div class="module-label">MODULE 2.2 — CHAMPION MAPPING</div>
+  <div class="slide-counter" id="counter">1 / 12</div>
+</div>
+<div id="progress-bar"></div>
+
+<button id="prev" onclick="navigate(-1)">&#8592;</button>
+<button id="next" onclick="navigate(1)">&#8594;</button>
+
+<div id="stage">
+
+  <!-- SLIDE 1: TITLE -->
+  <div class="slide active" id="s1">
+    <div class="eyebrow">Week 2 · Stakeholder Architecture & Coverage</div>
+    <h1>CHAMPION<br>MAPPING</h1>
+    <div class="accent-line"></div>
+    <div class="subtitle">Module 2.2 &nbsp;·&nbsp; CSM Training Program Phase 1</div>
+    <div class="footer"><span>CCO2go.ai · Shane James</span><span>MODULE 2.2</span></div>
+  </div>
+
+  <!-- SLIDE 2: COLD OPEN QUESTION -->
+  <div class="slide" id="s2">
+    <div class="eyebrow">The Question That Reveals Your Risk</div>
+    <h2>Who Would You Call<br>If Your Champion<br>Quit Tomorrow?</h2>
+    <div class="accent-line"></div>
+    <div class="quote-block">
+      <div class="quote-text">If you hesitated — even for a half-second — that account is at risk. Right now. Today.</div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.2 — Champion Mapping</span></div>
+  </div>
+
+  <!-- SLIDE 3: DATA -->
+  <div class="slide" id="s3">
+    <div class="eyebrow">The Business Case</div>
+    <h2 style="margin-bottom:32px;">Single-Threading Is<br>a Risk Management Problem</h2>
+    <div class="dual-stat">
+      <div class="stat-unit">
+        <div class="stat-block">2.3×</div>
+        <div class="stat-label">churn rate for<br>single-threaded vs.<br>multi-threaded accounts</div>
+      </div>
+      <div class="stat-unit">
+        <div class="stat-block" style="color:var(--gold)">71%</div>
+        <div class="stat-label">of churn events involve<br>a champion departure<br>in the 6 months prior</div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.2 — Champion Mapping</span></div>
+  </div>
+
+  <!-- SLIDE 4: 3 ROLES -->
+  <div class="slide" id="s4">
+    <div class="eyebrow">The Foundation of Coverage</div>
+    <h2>Three Roles. All Required.</h2>
+    <div class="role-grid">
+      <div class="role-card champion">
+        <div class="role-icon">🏆</div>
+        <div class="role-name">Champion</div>
+        <div class="role-def">Uses the product. Advocates internally. Your internal sales rep. Has influence — not always authority.</div>
+      </div>
+      <div class="role-card sponsor">
+        <div class="role-icon">💰</div>
+        <div class="role-name">Sponsor</div>
+        <div class="role-def">Owns the budget. Judges on ROI. Invisible day-to-day — then suddenly the only one who matters at renewal.</div>
+      </div>
+      <div class="role-card user">
+        <div class="role-icon">⚙️</div>
+        <div class="role-name">User</div>
+        <div class="role-def">Daily operator. Adoption rate is your leading indicator. No active users = no renewal story.</div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.2 — Champion Mapping</span></div>
+  </div>
+
+  <!-- SLIDE 5: SPONSOR NEGLECT -->
+  <div class="slide" id="s5">
+    <div class="eyebrow">The Most Neglected Relationship</div>
+    <h2>The Sponsor Is Invisible<br>Until It's Too Late</h2>
+    <div class="accent-line"></div>
+    <div class="quote-block">
+      <div class="quote-text">Most CSMs have no relationship with the sponsor. They're introducing themselves for the first time at the worst possible moment — renewal.</div>
+    </div>
+    <div class="subtitle">The sponsor doesn't submit tickets. Doesn't attend syncs. They judge your product entirely on business outcomes and they can cancel without your champion's blessing.</div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.2 — Champion Mapping</span></div>
+  </div>
+
+  <!-- SLIDE 6: 48-HR PROTOCOL -->
+  <div class="slide" id="s6">
+    <div class="eyebrow">When a Champion Departs</div>
+    <h2>The 48-Hour Departure Protocol</h2>
+    <div class="protocol-steps">
+      <div class="proto-step">
+        <div class="proto-time">HOUR 0</div>
+        <div>
+          <div class="proto-content-title">Clock Starts</div>
+          <div class="proto-content-body">You find out. Email, LinkedIn, a call — doesn't matter. The window begins now.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-time">HOURS 0–4</div>
+        <div>
+          <div class="proto-content-title">Containment</div>
+          <div class="proto-content-body">Replacement named? Transition plan? Has the sponsor been told? Gather information. Don't react.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-time">HOURS 4–24</div>
+        <div>
+          <div class="proto-content-title">Sponsor Contact</div>
+          <div class="proto-content-body">Reach out to confirm continuity — not to sell, not to escalate. If you have no sponsor relationship, this is the cost of single-threading.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-time">HOURS 24–48</div>
+        <div>
+          <div class="proto-content-title">Mobilization</div>
+          <div class="proto-content-body">Reach users. Identify the incoming champion. Schedule introduction. Document the full account story for continuity.</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.2 — Champion Mapping</span></div>
+  </div>
+
+  <!-- SLIDE 7: PROTOCOL OUTCOME -->
+  <div class="slide" id="s7">
+    <div class="eyebrow">Why Speed Matters</div>
+    <h2>The 48-Hour Window<br>Sets the Trajectory</h2>
+    <div class="accent-line"></div>
+    <div class="quote-block">
+      <div class="quote-text">Accounts where the CSM moves quickly and strategically survive champion departures. Accounts where the CSM waits for things to "stabilize" — those churn at renewal.</div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.2 — Champion Mapping</span></div>
+  </div>
+
+  <!-- SLIDE 8: STAKEHOLDER MAP FIELDS -->
+  <div class="slide" id="s8">
+    <div class="eyebrow">The Preventive Tool</div>
+    <h2>The Stakeholder Map:<br>5 Fields Per Contact</h2>
+    <table class="map-table">
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>What You're Tracking</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Name & Role</td><td>Title, department, tenure</td></tr>
+        <tr><td>Relationship to Product</td><td>Champion / Sponsor / User</td></tr>
+        <tr><td>Attitude Toward Vendor</td><td>Engaged / Neutral / Skeptical</td></tr>
+        <tr><td>Influence Level</td><td>Decision-maker / Recommender / Affected party</td></tr>
+        <tr><td>Last Meaningful Interaction</td><td>Not a CC — the last time you actually spoke</td></tr>
+      </tbody>
+    </table>
+    <div class="subtitle" style="margin-top:20px;">Updated quarterly. Six-month-old maps are history, not intelligence.</div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.2 — Champion Mapping</span></div>
+  </div>
+
+  <!-- SLIDE 9: COVERAGE FLOOR -->
+  <div class="slide" id="s9">
+    <div class="eyebrow">Minimum Coverage Standard</div>
+    <h2>The Tier 1 Floor</h2>
+    <div class="accent-line"></div>
+    <div style="display:flex; gap:40px; margin-top:28px; max-width:800px; width:100%;">
+      <div class="audit-grid" style="width:100%; grid-template-columns:1fr;">
+        <div class="audit-col covered">
+          <div class="audit-col-label">✓ Fully Covered</div>
+          <div class="audit-item">Named Champion — identified and relationship active</div>
+          <div class="audit-item">Sponsor Contact — direct relationship established, not just known</div>
+          <div class="audit-item">Active User(s) — engagement confirmed, adoption tracked</div>
+          <div class="audit-item">Stakeholder map updated in last 90 days</div>
+        </div>
+        <div class="audit-col risk">
+          <div class="audit-col-label">⚠ At-Risk Signals</div>
+          <div class="audit-item">Only one named contact in the account</div>
+          <div class="audit-item">No direct relationship with budget owner</div>
+          <div class="audit-item">Last sponsor interaction was more than 6 months ago</div>
+          <div class="audit-item">Map hasn't been updated since deal closed</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.2 — Champion Mapping</span></div>
+  </div>
+
+  <!-- SLIDE 10: BUILDING THE MAP -->
+  <div class="slide" id="s10">
+    <div class="eyebrow">How to Build Coverage Proactively</div>
+    <h2>Your Stakeholder Map Starts<br>in Discovery</h2>
+    <div class="accent-line"></div>
+    <div class="quote-block">
+      <div class="quote-text">The accounts that survive champion departures are the ones where the CSM already knew the next three people to call.</div>
+    </div>
+    <div class="subtitle">The 5 Handoff Questions surface names. Discovery calls add context. Every touchpoint adds a data point. The map builds itself — if you're paying attention.</div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.2 — Champion Mapping</span></div>
+  </div>
+
+  <!-- SLIDE 11: DO THIS MONDAY -->
+  <div class="slide" id="s11">
+    <div class="eyebrow">Do This Monday</div>
+    <h2>3 Actions This Week</h2>
+    <div class="action-grid">
+      <div class="action-item">
+        <div class="action-num">1</div>
+        <div class="action-title">Coverage Audit</div>
+        <div class="action-body">Top 10 accounts. Name the Champion, Sponsor, and User for each. Can't name all three? That account is single-threaded. Circle it.</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">2</div>
+        <div class="action-title">One Touchpoint Per At-Risk</div>
+        <div class="action-body">Every single-threaded account gets one new relationship touchpoint this week. Not next month. This week.</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">3</div>
+        <div class="action-title">Build One Full Map</div>
+        <div class="action-body">Your top Tier 1 account. All 5 fields for every contact. This is the most important hour you'll spend this month.</div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.2 — Champion Mapping</span></div>
+  </div>
+
+  <!-- SLIDE 12: END -->
+  <div class="slide" id="s12">
+    <div class="eyebrow">Up Next</div>
+    <h1>MODULE 2.3</h1>
+    <div class="accent-line"></div>
+    <h2 style="font-size:32px; margin-top:12px; opacity:0.7;">Segmentation</h2>
+    <div class="subtitle" style="margin-top:28px;">Tier-based coverage, how to allocate your time across a full book of business, and what "thin coverage" looks like before it costs you.</div>
+    <div style="margin-top:32px; font-family:'DM Mono',monospace; font-size:12px; color:rgba(255,255,255,0.25); opacity:0; transform:translateY(10px); transition: all 0.5s 0.5s ease;" class="next-label">CCO2go.ai · CSM Training Program Phase 1 · Week 2</div>
+    <div class="footer"><span>CCO2go.ai</span><span>Module 2.2 Complete</span></div>
+  </div>
+
+</div>
+
+<script>
+const TOTAL = 12;
+let current = 1;
+
+function navigate(dir) {
+  const next = current + dir;
+  if (next < 1 || next > TOTAL) return;
+  const curr = document.getElementById('s' + current);
+  curr.classList.remove('active');
+  curr.classList.add('exit');
+  setTimeout(() => curr.classList.remove('exit'), 400);
+  current = next;
+  const newSlide = document.getElementById('s' + current);
+  newSlide.classList.add('active');
+  document.getElementById('counter').textContent = current + ' / ' + TOTAL;
+  document.getElementById('progress-bar').style.width = ((current / TOTAL) * 100) + '%';
+  if (current === 12) {
+    const label = document.querySelector('#s12 .next-label');
+    if (label) { label.style.opacity = '1'; label.style.transform = 'translateY(0)'; }
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') navigate(1);
+  if (e.key === 'ArrowLeft') navigate(-1);
+});
+
+document.getElementById('progress-bar').style.width = ((1 / TOTAL) * 100) + '%';
+</script>
+</body>
+</html>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 3.2 — Negative Touchpoints | CCO2go.ai</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:   #0F1F4B;
+    --navy2:  #0a1538;
+    --teal:   #00A896;
+    --gold:   #F4A000;
+    --amber:  #F59E0B;
+    --amber2: #D97706;
+    --steel:  #4A5568;
+    --red:    #E05C5C;
+    --white:  #F0F4FF;
+    --accent: #F59E0B;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: var(--navy2); }
+
+  #nav {
+    position: fixed; top: 0; left: 0; right: 0; height: 48px; z-index: 100;
+    background: rgba(10,21,56,0.95); backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--amber);
+    display: flex; align-items: center; justify-content: space-between; padding: 0 24px;
+  }
+  #nav .brand { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--teal); }
+  #nav .module-label { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gold); letter-spacing: 0.1em; }
+  #nav .slide-counter { font-family: 'DM Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.4); }
+  #progress-bar { position: fixed; top: 50px; left: 0; height: 2px; z-index: 99; background: var(--accent); transition: width 0.4s ease; }
+
+  #stage { position: fixed; top: 50px; left: 0; right: 0; bottom: 0; }
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    padding: 44px 80px 76px;
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.55s ease, transform 0.55s ease; pointer-events: none;
+  }
+  .slide.active { opacity: 1; transform: translateY(0); pointer-events: all; }
+  .slide.exit { opacity: 0; transform: translateY(-28px); transition: opacity 0.35s ease, transform 0.35s ease; }
+
+  .footer { position: absolute; bottom: 14px; left: 0; right: 0; display: flex; justify-content: space-between; padding: 0 80px; font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.22); }
+
+  #prev, #next {
+    position: fixed; top: 50%; transform: translateY(-50%); z-index: 99;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.35); font-size: 22px; width: 44px; height: 44px;
+    border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+  }
+  #prev:hover, #next:hover { background: rgba(245,158,11,0.15); color: var(--accent); border-color: var(--accent); }
+  #prev { left: 14px; } #next { right: 14px; }
+
+  .eyebrow { font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 0.18em; color: var(--accent); text-transform: uppercase; margin-bottom: 16px; opacity: 0; transform: translateY(10px); transition: all 0.5s 0.1s ease; }
+  .slide.active .eyebrow { opacity: 1; transform: translateY(0); }
+
+  h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px, 7.5vw, 90px); color: var(--white); line-height: 0.95; text-align: center; opacity: 0; transform: translateY(16px); transition: all 0.5s 0.2s ease; }
+  .slide.active h1 { opacity: 1; transform: translateY(0); }
+
+  h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(32px, 4.5vw, 58px); color: var(--white); line-height: 1; text-align: center; opacity: 0; transform: translateY(14px); transition: all 0.5s 0.2s ease; }
+  .slide.active h2 { opacity: 1; transform: translateY(0); }
+
+  .subtitle { font-family: 'DM Sans', sans-serif; font-size: clamp(14px, 1.8vw, 19px); color: rgba(255,255,255,0.55); text-align: center; margin-top: 20px; max-width: 680px; line-height: 1.55; opacity: 0; transform: translateY(10px); transition: all 0.5s 0.35s ease; }
+  .slide.active .subtitle { opacity: 1; transform: translateY(0); }
+
+  .accent-line { width: 64px; height: 3px; background: var(--accent); margin: 20px auto; opacity: 0; transform: scaleX(0); transition: all 0.5s 0.3s ease; }
+  .slide.active .accent-line { opacity: 1; transform: scaleX(1); }
+
+  .quote-block { max-width: 780px; padding: 28px 36px; margin: 24px auto; border-left: 4px solid var(--accent); background: rgba(255,255,255,0.03); opacity: 0; transform: translateY(14px); transition: all 0.55s 0.25s ease; }
+  .slide.active .quote-block { opacity: 1; transform: translateY(0); }
+  .quote-text { font-family: 'DM Sans', sans-serif; font-size: clamp(16px, 2vw, 21px); color: var(--white); line-height: 1.65; font-style: italic; }
+
+  /* COST STAT */
+  .cost-block { text-align: center; margin-top: 16px; opacity: 0; transform: scale(0.88); transition: all 0.55s 0.2s ease; }
+  .slide.active .cost-block { opacity: 1; transform: scale(1); }
+  .cost-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(72px, 10vw, 120px); color: var(--accent); line-height: 1; }
+  .cost-label { font-family: 'DM Sans', sans-serif; font-size: clamp(14px, 1.8vw, 18px); color: rgba(255,255,255,0.5); letter-spacing: 0.04em; margin-top: 6px; }
+
+  /* SIGNAL VS CALENDAR */
+  .sig-cal { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; max-width: 820px; width: 100%; margin-top: 24px; }
+  .sc-card { padding: 24px 22px; border-radius: 5px; opacity: 0; transform: translateY(18px); }
+  .sc-card.signal   { background: rgba(0,168,150,0.1); border: 1px solid rgba(0,168,150,0.3); border-top: 3px solid var(--teal); transition: all 0.5s 0.15s ease; }
+  .sc-card.calendar { background: rgba(224,92,92,0.1); border: 1px solid rgba(224,92,92,0.3); border-top: 3px solid var(--red); transition: all 0.5s 0.35s ease; }
+  .slide.active .sc-card { opacity: 1; transform: translateY(0); }
+  .sc-type { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 8px; }
+  .sc-card.signal .sc-type { color: var(--teal); }
+  .sc-card.calendar .sc-type { color: var(--red); }
+  .sc-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--white); margin-bottom: 8px; }
+  .sc-body { font-family: 'DM Sans', sans-serif; font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.6; }
+
+  /* 5 TYPES GRID */
+  .types-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 880px; width: 100%; margin-top: 20px; }
+  .type-pill { display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: rgba(255,255,255,0.04); border: 1px solid rgba(245,158,11,0.2); border-left: 3px solid var(--accent); border-radius: 4px; opacity: 0; transform: translateX(-16px); }
+  .slide.active .type-pill:nth-child(1) { opacity:1; transform:translateX(0); transition: all 0.4s 0.1s ease; }
+  .slide.active .type-pill:nth-child(2) { opacity:1; transform:translateX(0); transition: all 0.4s 0.2s ease; }
+  .slide.active .type-pill:nth-child(3) { opacity:1; transform:translateX(0); transition: all 0.4s 0.3s ease; }
+  .slide.active .type-pill:nth-child(4) { opacity:1; transform:translateX(0); transition: all 0.4s 0.4s ease; }
+  .slide.active .type-pill:nth-child(5) { opacity:1; transform:translateX(0); transition: all 0.4s 0.5s ease; grid-column: 1 / -1; }
+  .type-num { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--accent); min-width: 28px; }
+  .type-info-name { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; color: var(--white); }
+  .type-info-desc { font-family: 'DM Sans', sans-serif; font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+
+  /* TYPE DETAIL (before/fix layout) */
+  .type-detail { width: 100%; max-width: 880px; margin-top: 20px; }
+  .td-header { padding: 16px 22px; display: flex; gap: 14px; align-items: center; border-radius: 4px 4px 0 0; opacity: 0; transform: translateY(12px); transition: all 0.5s 0.1s ease; }
+  .slide.active .td-header { opacity: 1; transform: translateY(0); }
+  .td-num { font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: white; line-height: 1; }
+  .td-name { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: white; line-height: 1.1; }
+  .td-body { display: grid; grid-template-columns: 1fr 1fr; }
+  .td-col { padding: 20px 22px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); opacity: 0; transform: translateY(10px); }
+  .td-col.what { border-radius: 0 0 0 4px; border-right: none; transition: all 0.45s 0.25s ease; }
+  .td-col.fix  { border-radius: 0 0 4px 0; transition: all 0.45s 0.4s ease; }
+  .slide.active .td-col { opacity: 1; transform: translateY(0); }
+  .td-col-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; }
+  .td-col.what .td-col-label { color: rgba(224,92,92,0.8); }
+  .td-col.fix  .td-col-label { color: rgba(0,168,150,0.8); }
+  .td-col-text { font-family: 'DM Sans', sans-serif; font-size: 14px; color: rgba(255,255,255,0.72); line-height: 1.65; font-style: italic; }
+  .td-col.fix .td-col-text { font-style: normal; color: rgba(255,255,255,0.8); }
+
+  /* TEST FLOW */
+  .test-flow { width: 100%; max-width: 820px; margin-top: 24px; }
+  .tf-step { display: flex; gap: 20px; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.06); opacity: 0; transform: translateY(12px); }
+  .slide.active .tf-step:nth-child(1) { opacity:1; transform:translateY(0); transition: all 0.4s 0.15s ease; }
+  .slide.active .tf-step:nth-child(2) { opacity:1; transform:translateY(0); transition: all 0.4s 0.3s ease; }
+  .slide.active .tf-step:nth-child(3) { opacity:1; transform:translateY(0); transition: all 0.4s 0.45s ease; }
+  .tf-q { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--accent); min-width: 90px; line-height: 1.5; }
+  .tf-ans-title { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+  .tf-ans-body { font-family: 'DM Sans', sans-serif; font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.55; }
+
+  /* ACTION */
+  .action-grid { display: flex; gap: 18px; max-width: 920px; width: 100%; margin-top: 26px; }
+  .action-item { flex: 1; padding: 20px 16px; text-align: center; background: rgba(255,255,255,0.04); border: 1px solid rgba(245,158,11,0.25); border-top: 3px solid var(--accent); border-radius: 4px; opacity: 0; transform: translateY(20px); }
+  .slide.active .action-item:nth-child(1) { opacity:1; transform:translateY(0); transition: all 0.45s 0.2s ease; }
+  .slide.active .action-item:nth-child(2) { opacity:1; transform:translateY(0); transition: all 0.45s 0.35s ease; }
+  .slide.active .action-item:nth-child(3) { opacity:1; transform:translateY(0); transition: all 0.45s 0.5s ease; }
+  .action-num { font-family: 'Bebas Neue', sans-serif; font-size: 44px; color: var(--accent); line-height: 1; }
+  .action-title { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700; color: var(--white); margin: 7px 0 5px; }
+  .action-body { font-family: 'DM Sans', sans-serif; font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+
+  .bg-mesh { position: fixed; inset: 0; pointer-events: none; z-index: 0; background: radial-gradient(ellipse 80% 60% at 70% 20%, rgba(245,158,11,0.06) 0%, transparent 60%), radial-gradient(ellipse 60% 40% at 20% 80%, rgba(0,168,150,0.05) 0%, transparent 60%); }
+</style>
+</head>
+<body>
+<div class="bg-mesh"></div>
+<div id="nav">
+  <div class="brand">CCO2go.ai</div>
+  <div class="module-label">MODULE 3.2 — NEGATIVE TOUCHPOINTS</div>
+  <div class="slide-counter" id="counter">1 / 12</div>
+</div>
+<div id="progress-bar"></div>
+<button id="prev" onclick="navigate(-1)">&#8592;</button>
+<button id="next" onclick="navigate(1)">&#8594;</button>
+
+<div id="stage">
+
+  <!-- S1: TITLE -->
+  <div class="slide active" id="s1">
+    <div class="eyebrow">Week 3 · The Damage You're Doing Without Knowing It</div>
+    <h1>NEGATIVE<br>TOUCHPOINTS</h1>
+    <div class="accent-line"></div>
+    <div class="subtitle">Module 3.2 &nbsp;·&nbsp; CSM Training Program Phase 1</div>
+    <div class="footer"><span>CCO2go.ai · Shane James</span><span>MODULE 3.2</span></div>
+  </div>
+
+  <!-- S2: CORE PREMISE -->
+  <div class="slide" id="s2">
+    <div class="eyebrow">The Blind Spot</div>
+    <h2>The Problem Isn't<br>Only What You're Missing</h2>
+    <div class="accent-line"></div>
+    <div class="quote-block">
+      <div class="quote-text">Capable, well-intentioned CSMs erode customer trust one interaction at a time — not through neglect, but through specific patterns that feel normal from the inside and feel like friction from the customer's side.</div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>3.2 — Negative Touchpoints</span></div>
+  </div>
+
+  <!-- S3: COST -->
+  <div class="slide" id="s3">
+    <div class="eyebrow">The Financial Reality</div>
+    <h2>Negative Touchpoints Compound</h2>
+    <div class="cost-block">
+      <div class="cost-num">$17K</div>
+      <div class="cost-label">Estimated annual cost per CSM in lost renewal revenue,<br>reduced expansion, and avoidable churn</div>
+    </div>
+    <div class="subtitle" style="margin-top:24px;">Not an inconvenience. A compounding pattern that erodes NRR the same way positive relationship-building builds it — just in the wrong direction.</div>
+    <div class="footer"><span>CCO2go.ai</span><span>3.2 — Negative Touchpoints</span></div>
+  </div>
+
+  <!-- S4: SIGNAL VS CALENDAR -->
+  <div class="slide" id="s4">
+    <div class="eyebrow">The Structural Distinction</div>
+    <h2>Signal-Triggered<br>vs. Calendar-Triggered</h2>
+    <div class="sig-cal">
+      <div class="sc-card signal">
+        <div class="sc-type">Signal-Triggered ✓</div>
+        <div class="sc-title">Something Happened</div>
+        <div class="sc-body">Usage dropped. A milestone was hit. Support velocity spiked. Renewal is T-180. Champion change detected. There is a reason, and the customer can see it.</div>
+      </div>
+      <div class="sc-card calendar">
+        <div class="sc-type">Calendar-Triggered ⚠</div>
+        <div class="sc-title">It's Thursday</div>
+        <div class="sc-body">The recurring cadence says to reach out. No specific reason. The customer shows up, nothing meaningful happens, and leaves having spent an hour that added no value to their business.</div>
+      </div>
+    </div>
+    <div class="subtitle" style="margin-top:20px;">Calendar-triggered touchpoints with no purpose accumulate into a customer who sees your engagement as an obligation, not an asset.</div>
+    <div class="footer"><span>CCO2go.ai</span><span>3.2 — Negative Touchpoints</span></div>
+  </div>
+
+  <!-- S5: ALL 5 TYPES OVERVIEW -->
+  <div class="slide" id="s5">
+    <div class="eyebrow">The Five Types</div>
+    <h2>Patterns That Feel Normal.<br>Cost More Than You Think.</h2>
+    <div class="types-grid">
+      <div class="type-pill">
+        <div class="type-num">1</div>
+        <div>
+          <div class="type-info-name">Purposeless Check-In</div>
+          <div class="type-info-desc">"Just checking in to see how things are going."</div>
+        </div>
+      </div>
+      <div class="type-pill">
+        <div class="type-num">2</div>
+        <div>
+          <div class="type-info-name">Feature Dump</div>
+          <div class="type-info-desc">Product updates with no customer-specific context.</div>
+        </div>
+      </div>
+      <div class="type-pill">
+        <div class="type-num">3</div>
+        <div>
+          <div class="type-info-name">Repetitive Ask</div>
+          <div class="type-info-desc">Asking for information the customer already gave you.</div>
+        </div>
+      </div>
+      <div class="type-pill">
+        <div class="type-num">4</div>
+        <div>
+          <div class="type-info-name">Escalation Ambush</div>
+          <div class="type-info-desc">Customer learns about changes from someone other than their CSM.</div>
+        </div>
+      </div>
+      <div class="type-pill" style="grid-column:1/-1">
+        <div class="type-num">5</div>
+        <div>
+          <div class="type-info-name">Hollow Business Review</div>
+          <div class="type-info-desc">EBR/QBR full of usage data but empty of customer outcome narrative. The most expensive type because it looks like a positive touchpoint.</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>3.2 — Negative Touchpoints</span></div>
+  </div>
+
+  <!-- S6: TYPE 1 DETAIL -->
+  <div class="slide" id="s6">
+    <div class="eyebrow">Type 01</div>
+    <div class="type-detail">
+      <div class="td-header" style="background:rgba(245,158,11,0.15); border-left:4px solid var(--amber);">
+        <div class="td-num">01</div>
+        <div><div class="td-name">PURPOSELESS CHECK-IN</div></div>
+      </div>
+      <div class="td-body">
+        <div class="td-col what">
+          <div class="td-col-label">What the Customer Hears</div>
+          <div class="td-col-text">"You don't know what's important to me. You don't have a specific reason to reach out. You're using me to fulfill a cadence requirement."</div>
+        </div>
+        <div class="td-col fix">
+          <div class="td-col-label">The Fix</div>
+          <div class="td-col-text">Before any outreach, answer: what specific value will the customer take away? A usage insight, benchmark, industry update, or next-step milestone are all reasons. "Hi, checking in" is not.</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>3.2 — Negative Touchpoints</span></div>
+  </div>
+
+  <!-- S7: TYPES 2 & 3 -->
+  <div class="slide" id="s7">
+    <div class="eyebrow">Types 02 & 03</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:900px; width:100%; margin-top:8px;">
+      <div>
+        <div class="td-header" style="background:rgba(245,158,11,0.12); border-left:4px solid var(--amber); border-radius:4px 4px 0 0;">
+          <div class="td-num" style="font-size:36px">02</div>
+          <div><div class="td-name" style="font-size:24px">FEATURE DUMP</div></div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr;">
+          <div class="td-col what" style="border-radius:0; border-right:1px solid rgba(255,255,255,0.06); transition:all 0.45s 0.25s ease; padding:16px 18px;">
+            <div class="td-col-label">Customer Hears</div>
+            <div class="td-col-text">"Figure out which features matter to you on your own."</div>
+          </div>
+          <div class="td-col fix" style="border-radius:0 0 4px 4px; border-top:none; transition:all 0.45s 0.4s ease; padding:16px 18px;">
+            <div class="td-col-label">Fix</div>
+            <div class="td-col-text">Translate every announcement to this customer's specific goals. Four minutes of research. The difference is being known vs. being on a list.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="td-header" style="background:rgba(245,158,11,0.12); border-left:4px solid var(--amber); border-radius:4px 4px 0 0; transition:all 0.5s 0.2s ease;">
+          <div class="td-num" style="font-size:36px">03</div>
+          <div><div class="td-name" style="font-size:24px">REPETITIVE ASK</div></div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr;">
+          <div class="td-col what" style="border-radius:0; border-right:1px solid rgba(255,255,255,0.06); transition:all 0.45s 0.35s ease; padding:16px 18px;">
+            <div class="td-col-label">Customer Hears</div>
+            <div class="td-col-text">"This relationship isn't important enough for you to remember what I've told you."</div>
+          </div>
+          <div class="td-col fix" style="border-radius:0 0 4px 4px; border-top:none; transition:all 0.45s 0.5s ease; padding:16px 18px;">
+            <div class="td-col-label">Fix</div>
+            <div class="td-col-text">Everything into the CRM immediately. Review before every call. Three minutes. Non-negotiable.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>3.2 — Negative Touchpoints</span></div>
+  </div>
+
+  <!-- S8: TYPES 4 & 5 -->
+  <div class="slide" id="s8">
+    <div class="eyebrow">Types 04 & 05 — The High-Stakes Ones</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:900px; width:100%; margin-top:8px;">
+      <div>
+        <div class="td-header" style="background:rgba(217,83,79,0.15); border-left:4px solid var(--red); border-radius:4px 4px 0 0; transition:all 0.5s 0.1s ease;">
+          <div class="td-num" style="font-size:36px; color:var(--red)">04</div>
+          <div><div class="td-name" style="font-size:22px">ESCALATION AMBUSH</div></div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr;">
+          <div class="td-col what" style="border-radius:0; border-right:1px solid rgba(255,255,255,0.06); transition:all 0.45s 0.25s ease; padding:16px 18px;">
+            <div class="td-col-label">Customer Hears</div>
+            <div class="td-col-text">"I'm a revenue line, not a relationship. My CSM can't give me real information."</div>
+          </div>
+          <div class="td-col fix" style="border-radius:0 0 4px 4px; border-top:none; transition:all 0.45s 0.4s ease; padding:16px 18px;">
+            <div class="td-col-label">Fix</div>
+            <div class="td-col-text">Advocate internally for proactive communication. Be first with information — or first with context and a plan. Second with news, first with clarity is still valuable.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="td-header" style="background:rgba(107,70,193,0.15); border-left:4px solid #8B5CF6; border-radius:4px 4px 0 0; transition:all 0.5s 0.2s ease;">
+          <div class="td-num" style="font-size:36px; color:#8B5CF6">05</div>
+          <div><div class="td-name" style="font-size:22px">HOLLOW BUSINESS REVIEW</div></div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr;">
+          <div class="td-col what" style="border-radius:0; border-right:1px solid rgba(255,255,255,0.06); transition:all 0.45s 0.35s ease; padding:16px 18px;">
+            <div class="td-col-label">Customer Hears</div>
+            <div class="td-col-text">"This review was about your metrics, not my outcomes. You showed me what you tracked."</div>
+          </div>
+          <div class="td-col fix" style="border-radius:0 0 4px 4px; border-top:none; transition:all 0.45s 0.5s ease; padding:16px 18px;">
+            <div class="td-col-label">Fix</div>
+            <div class="td-col-text">Open with their goals. Show progress against those goals. Close with what's next. Data serves the story — it doesn't replace it.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>3.2 — Negative Touchpoints</span></div>
+  </div>
+
+  <!-- S9: THE TOUCHPOINT TEST -->
+  <div class="slide" id="s9">
+    <div class="eyebrow">The Practical Filter</div>
+    <h2>The Touchpoint Test</h2>
+    <div class="test-flow">
+      <div class="tf-step">
+        <div class="tf-q">STEP 1</div>
+        <div>
+          <div class="tf-ans-title">Signal-triggered or calendar-triggered?</div>
+          <div class="tf-ans-body">Something specific happened → you're on solid ground. It's on the calendar → proceed to Step 2.</div>
+        </div>
+      </div>
+      <div class="tf-step">
+        <div class="tf-q">STEP 2</div>
+        <div>
+          <div class="tf-ans-title">What specific value does this deliver, right now?</div>
+          <div class="tf-ans-body">Answer it concretely → the touchpoint is justified. Can't answer it concretely → do not send.</div>
+        </div>
+      </div>
+      <div class="tf-step">
+        <div class="tf-q">STEP 3</div>
+        <div>
+          <div class="tf-ans-title">No clear value? Reschedule or repurpose first.</div>
+          <div class="tf-ans-body">Don't cancel — upgrade. Give it a reason. Every interaction the customer has with you should be something they'd describe as useful.</div>
+        </div>
+      </div>
+    </div>
+    <div class="subtitle" style="margin-top:20px;">Not frequency. Quality. Accounts where every touchpoint has a reason are accounts where customers say "my CSM always has something valuable to share."</div>
+    <div class="footer"><span>CCO2go.ai</span><span>3.2 — Negative Touchpoints</span></div>
+  </div>
+
+  <!-- S10: MEMORY ASYMMETRY -->
+  <div class="slide" id="s10">
+    <div class="eyebrow">The Asymmetry That Changes Everything</div>
+    <h2>Customers Remember<br>Friction Longer Than Value</h2>
+    <div class="accent-line"></div>
+    <div class="quote-block">
+      <div class="quote-text">Your customers don't remember every good thing you've done. But they remember every time you wasted their time. Negative touchpoints accumulate in customer memory in a way that positive ones often don't.</div>
+    </div>
+    <div class="subtitle">The only way to counteract the asymmetry: make every interaction earn its place. Not occasionally. Every time.</div>
+    <div class="footer"><span>CCO2go.ai</span><span>3.2 — Negative Touchpoints</span></div>
+  </div>
+
+  <!-- S11: DO THIS MONDAY -->
+  <div class="slide" id="s11">
+    <div class="eyebrow">Do This Monday</div>
+    <h2>3 Actions This Week</h2>
+    <div class="action-grid">
+      <div class="action-item">
+        <div class="action-num">1</div>
+        <div class="action-title">30-Day Touchpoint Audit</div>
+        <div class="action-body">Last 30 days of outreach. Signal vs. calendar. Did calendar-triggered ones deliver specific value? Be honest — this is a diagnostic, not a judgment.</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">2</div>
+        <div class="action-title">Name Your Type</div>
+        <div class="action-body">Which of the 5 shows up most in your recent history? Purposeless check-in, feature dump, repetitive ask, escalation ambush, or hollow review? Name it. Own it.</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">3</div>
+        <div class="action-title">Redesign One Touchpoint</div>
+        <div class="action-body">Pick the one that needs the most upgrade. Add agenda. Add customer-specific context. Restructure the EBR opening. One touchpoint. Ship the improved version.</div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>3.2 — Negative Touchpoints</span></div>
+  </div>
+
+  <!-- S12: END -->
+  <div class="slide" id="s12">
+    <div class="eyebrow">Final Module of Phase 1</div>
+    <h1>MODULE 3.3</h1>
+    <div class="accent-line"></div>
+    <h2 style="font-size:32px; margin-top:12px; opacity:0.7;">Time to First Value</h2>
+    <div class="subtitle" style="margin-top:28px;">When does the customer actually feel the product working for them? How do you accelerate that moment? And why everything in this training program ultimately points to getting there faster.</div>
+    <div style="margin-top:32px; font-family:'DM Mono',monospace; font-size:12px; color:rgba(255,255,255,0.25); opacity:0; transform:translateY(10px); transition: all 0.5s 0.5s ease;" class="next-label">CCO2go.ai · CSM Training Program Phase 1 · Week 3</div>
+    <div class="footer"><span>CCO2go.ai</span><span>Module 3.2 Complete</span></div>
+  </div>
+
+</div>
+
+<script>
+const TOTAL = 12;
+let current = 1;
+function navigate(dir) {
+  const next = current + dir;
+  if (next < 1 || next > TOTAL) return;
+  const curr = document.getElementById('s' + current);
+  curr.classList.remove('active'); curr.classList.add('exit');
+  setTimeout(() => curr.classList.remove('exit'), 400);
+  current = next;
+  document.getElementById('s' + current).classList.add('active');
+  document.getElementById('counter').textContent = current + ' / ' + TOTAL;
+  document.getElementById('progress-bar').style.width = ((current / TOTAL) * 100) + '%';
+  if (current === TOTAL) {
+    const lbl = document.querySelector('#s' + TOTAL + ' .next-label');
+    if (lbl) { lbl.style.opacity='1'; lbl.style.transform='translateY(0)'; }
+  }
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') navigate(1);
+  if (e.key === 'ArrowLeft') navigate(-1);
+});
+document.getElementById('progress-bar').style.width = ((1 / TOTAL) * 100) + '%';
+</script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Module 6.1 — The Five Pillars Rebuilt for Machines</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--accent:#4338CA;--al:#818CF8;--navy:#0F1F4B;--bg:#080F2B;--teal:#00A896;--gold:#F4A000;--danger:#DC2626;--green:#16A34A;--white:#FFF;--muted:#8B9FC4;--cb:rgba(67,56,202,.3);}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--white);font-family:'DM Sans',sans-serif;height:100vh;overflow:hidden;background-image:radial-gradient(ellipse at 20% 50%,rgba(67,56,202,.07) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(0,168,150,.04) 0%,transparent 50%);}
+  nav{position:fixed;top:0;left:0;right:0;height:48px;background:rgba(8,15,43,.95);border-bottom:2px solid var(--accent);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100;}
+  nav .brand{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;}
+  nav .ml{font-family:'DM Mono',monospace;font-size:11px;color:var(--al);}
+  nav .ctr{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);}
+  .pb{position:fixed;top:50px;left:0;height:2px;background:var(--accent);transition:width .4s ease;z-index:99;}
+  .sw{position:relative;width:100%;height:100vh;overflow:hidden;}
+  .slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:80px 80px 60px;opacity:0;transform:translateY(28px);transition:opacity .55s ease,transform .55s ease;pointer-events:none;}
+  .slide.active{opacity:1;transform:translateY(0);pointer-events:auto;}
+  .ey{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--al);margin-bottom:16px;opacity:0;transform:translateY(12px);transition:opacity .4s .1s ease,transform .4s .1s ease;}
+  .slide.active .ey{opacity:1;transform:translateY(0);}
+  h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,7vw,96px);line-height:.95;margin-bottom:20px;opacity:0;transform:translateY(16px);transition:opacity .4s .2s ease,transform .4s .2s ease;}
+  .slide.active h1{opacity:1;transform:translateY(0);}
+  h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,5vw,68px);line-height:1.0;margin-bottom:20px;opacity:0;transform:translateY(16px);transition:opacity .4s .2s ease,transform .4s .2s ease;}
+  .slide.active h2{opacity:1;transform:translateY(0);}
+  .acc{width:64px;height:4px;background:var(--accent);margin-bottom:28px;opacity:0;transition:opacity .4s .3s ease;}
+  .slide.active .acc{opacity:1;}
+  .bt{font-size:18px;line-height:1.65;color:rgba(255,255,255,.82);max-width:780px;opacity:0;transform:translateY(12px);transition:opacity .4s .35s ease,transform .4s .35s ease;}
+  .slide.active .bt{opacity:1;transform:translateY(0);}
+  .an{opacity:0;transform:translateY(12px);transition:opacity .4s .4s ease,transform .4s .4s ease;}
+  .slide.active .an{opacity:1;transform:translateY(0);}
+  .sc{display:flex;gap:24px;margin-top:8px;flex-wrap:wrap;}
+  .sc-card{background:rgba(255,255,255,.04);border:1px solid var(--cb);border-radius:8px;padding:20px 28px;min-width:160px;}
+  .sn{font-family:'Bebas Neue',sans-serif;font-size:52px;color:var(--al);line-height:1;}
+  .sl{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.4;font-family:'DM Mono',monospace;}
+  .hb{background:rgba(67,56,202,.08);border:1px solid rgba(67,56,202,.3);border-left:4px solid var(--accent);border-radius:4px;padding:20px 24px;margin-top:12px;max-width:780px;}
+  .hb p{font-size:15px;line-height:1.6;color:rgba(255,255,255,.88);}
+  .pg{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:8px;max-width:900px;}
+  .pc{background:rgba(67,56,202,.1);border:1px solid rgba(67,56,202,.3);border-top:3px solid var(--accent);border-radius:6px;padding:14px 12px;}
+  .pn{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--al);line-height:1;margin-bottom:8px;}
+  .po{font-size:11px;color:rgba(220,38,38,.85);margin-bottom:6px;line-height:1.4;font-family:'DM Mono',monospace;}
+  .pp{font-size:12px;color:rgba(255,255,255,.8);line-height:1.4;}
+  .stk{display:flex;flex-direction:column;gap:10px;max-width:820px;margin-top:8px;}
+  .sl1{background:rgba(67,56,202,.08);border:1px solid rgba(67,56,202,.3);border-radius:6px;padding:16px 20px;display:grid;grid-template-columns:140px 1fr;gap:12px;}
+  .sl2{background:rgba(67,56,202,.13);border:1px solid rgba(67,56,202,.4);border-radius:6px;padding:16px 20px;display:grid;grid-template-columns:140px 1fr;gap:12px;}
+  .sl3{background:rgba(67,56,202,.18);border:1px solid rgba(67,56,202,.5);border-radius:6px;padding:16px 20px;display:grid;grid-template-columns:140px 1fr;gap:12px;}
+  .ll{font-family:'Bebas Neue',sans-serif;font-size:28px;line-height:1;color:var(--al);}
+  .ls{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;margin-top:4px;}
+  .ld{font-size:14px;line-height:1.5;color:rgba(255,255,255,.85);}
+  .lw{font-size:12px;color:rgba(252,165,165,.9);margin-top:6px;font-style:italic;}
+  .cl{list-style:none;margin-top:8px;max-width:700px;}
+  .cl li{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:16px;line-height:1.5;}
+  .cl li:last-child{border-bottom:none;}
+  .cn{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--al);min-width:28px;margin-top:2px;line-height:1;}
+  footer{position:fixed;bottom:14px;left:80px;right:80px;display:flex;justify-content:space-between;pointer-events:none;}
+  .fb{font-family:'DM Mono',monospace;font-size:10px;color:rgba(139,159,196,.4);}
+  .fm{font-family:'DM Mono',monospace;font-size:10px;color:rgba(67,56,202,.5);}
+  .kh{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);font-family:'DM Mono',monospace;font-size:10px;color:rgba(139,159,196,.3);}
+</style>
+</head>
+<body>
+<nav><span class="brand">CCO2go.ai &middot; Phase 2 &middot; Week 6</span><span class="ml">M6.1 &mdash; Five Pillars Rebuilt</span><span class="ctr" id="ctr">1 / 13</span></nav>
+<div class="pb" id="prg"></div>
+<div class="sw">
+
+<div class="slide active">
+  <div class="ey">Module 6.1 &middot; Week 6 &mdash; The Infrastructure</div>
+  <h1>The Five Pillars<br>Rebuilt for Machines</h1>
+  <div class="acc"></div>
+  <p class="bt" style="color:rgba(255,255,255,.7);">People &middot; Process &middot; Technology &middot; Learning &middot; Management. All five must develop together &mdash; or the whole operation fights itself.</p>
+  <div class="sc an" style="margin-top:24px;">
+    <div class="sc-card"><div class="sn">5</div><div class="sl">pillars, each<br>fundamentally transformed</div></div>
+    <div class="sc-card"><div class="sn">50-60%</div><div class="sl">of CSM time freed by<br>AI automation</div></div>
+    <div class="sc-card"><div class="sn">25</div><div class="sl">max maturity score<br>across all pillars</div></div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="ey">Segment 1 &middot; Cold Open</div>
+  <h2>The Chair That<br>Keeps Falling Over</h2>
+  <div class="acc"></div>
+  <p class="bt">A five-legged chair with one short leg doesn't just wobble &mdash; it actively fights you. The Five Pillars work the same way. One underdeveloped pillar and the whole operation fights itself. Every day.</p>
+  <div class="hb an">
+    <p>What's changed: AI augmentation doesn't just improve the Technology pillar. It transforms what <strong>every</strong> pillar is capable of. Process becomes dynamic. Learning becomes adaptive. Management becomes real-time. People get freed from 50&ndash;60% of the work consuming them &mdash; and can finally do the things only humans can do.</p>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="ey">Overview &middot; All Five Pillars</div>
+  <h2>Before vs. After<br>AI Augmentation</h2>
+  <div class="acc"></div>
+  <div class="pg an">
+    <div class="pc"><div class="pn">People</div><div class="po">Before: Relationship skills + product knowledge</div><div class="pp">After: Data literacy + commercial acumen + AI fluency + systems thinking</div></div>
+    <div class="pc"><div class="pn">Process</div><div class="po">Before: PDF playbooks updated annually (or never)</div><div class="pp">After: Living playbooks &mdash; signal &rarr; prediction &rarr; automated workflow</div></div>
+    <div class="pc"><div class="pn">Technology</div><div class="po">Before: CRM + CS platform + manual health scores</div><div class="pp">After: 3-Layer Stack &mdash; Data foundation &rarr; Predictive models &rarr; Action triggers</div></div>
+    <div class="pc"><div class="pn">Learning</div><div class="po">Before: Onboarding guides + periodic webinars</div><div class="pp">After: Adaptive education, AI-surfaced coaching at moment of need</div></div>
+    <div class="pc"><div class="pn">Management</div><div class="po">Before: Monthly reports + quarterly executive summaries</div><div class="pp">After: Real-time dashboards, always-on portfolio intelligence</div></div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="ey">Segment 2 &middot; People 2.0</div>
+  <h2>What AI Frees Up.<br>What It Demands.</h2>
+  <div class="acc"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:820px;" class="an">
+    <div style="background:rgba(22,163,74,.08);border:1px solid rgba(22,163,74,.3);border-top:3px solid #16A34A;border-radius:6px;padding:18px 20px;">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:#4ADE80;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;">AI Eliminates</div>
+      <div style="font-size:14px;line-height:1.6;color:rgba(255,255,255,.8);">2 hrs/week health score calculations<br>4 hrs/QBR cycle briefing prep<br>Continuous manual CRM entry<br>Meeting summary writing</div>
+    </div>
+    <div style="background:rgba(67,56,202,.1);border:1px solid rgba(67,56,202,.3);border-top:3px solid var(--accent);border-radius:6px;padding:18px 20px;">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--al);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;">AI Demands</div>
+      <div style="font-size:14px;line-height:1.6;color:rgba(255,255,255,.8);">Data literacy &mdash; interpret behavioral signals<br>Commercial acumen &mdash; speak CFO language<br>AI fluency &mdash; know when to intervene<br>Systems thinking &mdash; see the whole account</div>
+    </div>
+  </div>
+  <div class="hb an" style="margin-top:12px;">
+    <p>Interview filter: complex account scenario &rarr; 90-day plan, written, no coaching. The relationship manager describes meetings. The Outcome Architect describes signals, plays, and target business outcomes. <strong>Hire the second person.</strong></p>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="ey">Segment 3 &middot; Process 2.0</div>
+  <h2>Living Playbooks<br>vs. PDF Graveyards</h2>
+  <div class="acc"></div>
+  <p class="bt">Most CS playbooks describe how things worked when they were written. They have no mechanism for learning from what's working now. That's the PDF graveyard.</p>
+  <div class="stk an">
+    <div class="sl1"><div><div class="ll">Layer 1</div><div class="ls">Signal</div></div><div class="ld">Every play starts with a behavioral trigger &mdash; not a calendar date. Usage decline, NPS drop, champion departure, expansion signal. The play doesn't exist until the signal fires.</div></div>
+    <div class="sl2"><div><div class="ll">Layer 2</div><div class="ls">Prediction</div></div><div class="ld">Signal feeds a model trained on historical outcomes. CSM gets a prioritized action recommendation &mdash; not a raw data point to interpret manually.</div></div>
+    <div class="sl3"><div><div class="ll">Layer 3</div><div class="ls">Workflow</div></div><div class="ld">Prediction triggers action: save play assigned, CSM briefed with context, meeting scheduled, executive alerted if escalation criteria met. Before the CSM has to consciously decide what to do next.</div></div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="ey">Segment 4 &middot; Technology 2.0</div>
+  <h2>The 3-Layer<br>Signal-to-Action Stack</h2>
+  <div class="acc"></div>
+  <div class="stk an">
+    <div class="sl1"><div><div class="ll">Layer 1</div><div class="ls">Data Foundation</div></div><div><div class="ld">Behavioral signals, usage patterns, financial data, support data. <strong>Most important layer. Most under-invested.</strong></div><div class="lw">Activity data &ne; behavioral data. Build Layer 1 on the wrong signals and every prediction above it is confidently wrong.</div></div></div>
+    <div class="sl2"><div><div class="ll">Layer 2</div><div class="ls">Predictive Models</div></div><div class="ld">Signals weighted against historical outcomes. Portfolio-scale risk and opportunity scoring simultaneously. This is where AI earns its value.</div></div>
+    <div class="sl3"><div><div class="ll">Layer 3</div><div class="ls">Automated Workflows</div></div><div class="ld">Predictions trigger actions: churn risk &rarr; save play, expansion signal &rarr; CSQL, renewal approaching &rarr; preparation sequence. No one has to remember. The system remembers.</div></div>
+  </div>
+  <p class="bt an" style="margin-top:10px;font-size:14px;color:rgba(252,165,165,.9);">Build in order. Teams that skip to Layer 3 without Layer 1 quality produce systems CSMs stop trusting &mdash; and you cannot rebuild that trust cheaply.</p>
+</div>
+
+<div class="slide">
+  <div class="ey">Segment 5 &middot; Learning + Management 2.0</div>
+  <h2>Adaptive Learning.<br>Real-Time Intelligence.</h2>
+  <div class="acc"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:820px;" class="an">
+    <div style="background:rgba(67,56,202,.08);border:1px solid rgba(67,56,202,.3);border-radius:6px;padding:18px 20px;">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--al);text-transform:uppercase;margin-bottom:10px;">Learning 2.0</div>
+      <div style="font-size:14px;line-height:1.6;color:rgba(255,255,255,.8);">Adaptive paths by role, use case, technical sophistication &mdash; automatically routed. CSM enablement surfaced before the call, not next month's training session.</div>
+    </div>
+    <div style="background:rgba(67,56,202,.08);border:1px solid rgba(67,56,202,.3);border-radius:6px;padding:18px 20px;">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--al);text-transform:uppercase;margin-bottom:10px;">Management 2.0</div>
+      <div style="font-size:14px;line-height:1.6;color:rgba(255,255,255,.8);">Monthly reports &rarr; real-time dashboards. Quarterly summaries &rarr; always-on portfolio intelligence. Board prep &rarr; always-current snapshot of a live system.</div>
+    </div>
+  </div>
+  <div class="hb an" style="margin-top:14px;">
+    <p>The highest-value application: <strong>board prep is now always-on.</strong> The board presentation is an always-current snapshot of a live system. The story doesn't change because the data changed &mdash; the story is the data.</p>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="ey">Segment 6 &middot; Score Your Organization</div>
+  <h2>The Five Pillars<br>Maturity Model</h2>
+  <div class="acc"></div>
+  <p class="bt">Score each pillar 1&ndash;5. Maximum: 25. Your lowest score is your highest-priority investment &mdash; not your favorite pillar to improve.</p>
+  <div class="an" style="max-width:640px;margin-top:16px;">
+    <div style="display:grid;grid-template-columns:90px 60px 1fr;gap:8px 12px;align-items:center;">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--al);text-transform:uppercase;">People</div><div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--white);">1&ndash;5</div><div style="height:12px;background:rgba(255,255,255,.08);border-radius:6px;overflow:hidden;"><div style="height:100%;background:var(--accent);width:0;border-radius:6px;transition:width 1.2s ease;" class="mbar" data-w="60%"></div></div>
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--al);text-transform:uppercase;">Process</div><div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--white);">1&ndash;5</div><div style="height:12px;background:rgba(255,255,255,.08);border-radius:6px;overflow:hidden;"><div style="height:100%;background:var(--accent);width:0;border-radius:6px;transition:width 1.4s ease;" class="mbar" data-w="60%"></div></div>
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--al);text-transform:uppercase;">Technology</div><div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--white);">1&ndash;5</div><div style="height:12px;background:rgba(255,255,255,.08);border-radius:6px;overflow:hidden;"><div style="height:100%;background:var(--accent);width:0;border-radius:6px;transition:width 1.6s ease;" class="mbar" data-w="60%"></div></div>
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--al);text-transform:uppercase;">Learning</div><div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--white);">1&ndash;5</div><div style="height:12px;background:rgba(255,255,255,.08);border-radius:6px;overflow:hidden;"><div style="height:100%;background:var(--accent);width:0;border-radius:6px;transition:width 1.8s ease;" class="mbar" data-w="60%"></div></div>
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--al);text-transform:uppercase;">Management</div><div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--white);">1&ndash;5</div><div style="height:12px;background:rgba(255,255,255,.08);border-radius:6px;overflow:hidden;"><div style="height:100%;background:var(--accent);width:0;border-radius:6px;transition:width 2.0s ease;" class="mbar" data-w="60%"></div></div>
+    </div>
+    <div style="display:flex;gap:14px;margin-top:14px;flex-wrap:wrap;">
+      <div style="font-size:12px;padding:7px 12px;background:rgba(22,163,74,.1);border:1px solid rgba(22,163,74,.3);border-radius:4px;font-family:'DM Mono',monospace;">20-25: Growth engine</div>
+      <div style="font-size:12px;padding:7px 12px;background:rgba(244,160,0,.1);border:1px solid rgba(244,160,0,.3);border-radius:4px;font-family:'DM Mono',monospace;">12-19: Work in progress</div>
+      <div style="font-size:12px;padding:7px 12px;background:rgba(220,38,38,.1);border:1px solid rgba(220,38,38,.3);border-radius:4px;font-family:'DM Mono',monospace;">&lt;12: Structural risk</div>
+    </div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="ey">Segment 6 &middot; Action</div>
+  <h2>Do This Monday</h2>
+  <div class="acc"></div>
+  <ul class="cl an">
+    <li><span class="cn">1</span><div>Score your organization 1&ndash;5 per pillar. Honest, not aspirational. If every pillar is a 4 &mdash; either you're world-class or you're being generous. Most CS orgs have at least one pillar at a 2. Name it. <strong style="color:var(--al);">Your lowest score is your highest-priority investment.</strong></div></li>
+    <li><span class="cn">2</span><div>Identify one AI automation deployable in 30 days. If nothing exists: <strong>health scoring</strong>. Not the most glamorous entry point &mdash; the highest-ROI one. A minimum viable health score on behavioral signals, validated against renewals, changes how your team operates faster than any other single technology investment.</div></li>
+    <li><span class="cn">3</span><div>Pick one manual calendar-triggered process. Document its signal-triggered equivalent: what signal fires it, what prediction it requires, what workflow it initiates. Draw the blueprint. Takes an hour. Creates a clear target for your next investment.</div></li>
+  </ul>
+</div>
+
+<div class="slide">
+  <div class="ey">Module 6.1 &middot; Close</div>
+  <h1>Score Yours.<br>Fix the Lowest Leg.<br>Start Monday.</h1>
+  <div class="acc"></div>
+  <p class="bt" style="font-size:18px;color:rgba(255,255,255,.7);">The Five Pillars are infrastructure. Invisible when they're working. Impossible to ignore when they're not.</p>
+</div>
+
+<div class="slide">
+  <div class="ey">Phase 2 &mdash; The Build &middot; Section I continues</div>
+  <h2>Up Next: Module 6.2</h2>
+  <div class="acc"></div>
+  <p class="bt" style="font-size:20px;font-weight:600;color:#F472B6;">Becoming the Outcome Architect</p>
+  <p class="bt" style="margin-top:12px;">You've rebuilt the infrastructure. Now rebuild the role. Module 6.2 covers the full CSM Evolution timeline (2015&rarr;2026+), the 5 Competencies of the Outcome Architect, and the enablement gap costing CS organizations retention every quarter.</p>
+  <div class="sc an" style="margin-top:24px;">
+    <div class="sc-card"><div class="sn">70%</div><div class="sl">of CSMs lack tools<br>to do their jobs</div></div>
+    <div class="sc-card"><div class="sn">56%</div><div class="sl">experience<br>burnout</div></div>
+    <div class="sc-card"><div class="sn">5</div><div class="sl">competencies of the<br>Outcome Architect</div></div>
+  </div>
+</div>
+
+</div>
+<footer><span class="fb">CCO2go.ai &middot; Your Customers Are Lying to You &middot; 2026</span><span class="fm">M6.1 &middot; The Five Pillars Rebuilt for Machines</span></footer>
+<div class="kh">&larr; &rarr; or SPACE to navigate</div>
+<script>
+  const s=document.querySelectorAll('.slide'),c=document.getElementById('ctr'),p=document.getElementById('prg');
+  let cur=0;const tot=s.length;
+  function nav(d){
+    s[cur].classList.remove('active');
+    cur=Math.max(0,Math.min(tot-1,cur+d));
+    s[cur].classList.add('active');
+    c.textContent=`${cur+1} / ${tot}`;
+    p.style.width=`${((cur+1)/tot)*100}%`;
+    // animate bars on maturity slide
+    s[cur].querySelectorAll('.mbar').forEach(b=>{setTimeout(()=>{b.style.width=b.dataset.w;},100);});
+  }
+  document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();nav(1);}if(e.key==='ArrowLeft'){e.preventDefault();nav(-1);}});
+  c.textContent=`1 / ${tot}`;p.style.width=`${(1/tot)*100}%`;
+</script>
+</body>
+</html>

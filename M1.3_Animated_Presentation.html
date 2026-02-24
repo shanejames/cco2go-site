@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 1.3 — Reading Health Scores | CSM Training</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --navy:#0F1F4B;--navy2:#192654;--teal:#00A896;--gold:#F4A000;
+    --danger:#E05C5C;--success:#2EC4A5;--white:#FFFFFF;
+    --steel:#B8C7E0;--muted:#7A93C0;--dark:#060E24;--purple:#8B5CF6;
+    --orange:#F97316;
+  }
+  html,body{width:100%;height:100%;background:var(--dark);overflow:hidden;font-family:'DM Sans',sans-serif}
+
+  #nav{position:fixed;top:0;left:0;right:0;height:48px;background:rgba(6,14,36,0.95);
+    border-bottom:1px solid rgba(0,168,150,0.3);display:flex;align-items:center;
+    justify-content:space-between;padding:0 24px;z-index:100;backdrop-filter:blur(8px)}
+  #nav .brand{font-family:'DM Mono',monospace;font-size:11px;color:var(--teal);letter-spacing:2px;text-transform:uppercase}
+  #nav .controls{display:flex;gap:8px;align-items:center}
+  #nav button{background:none;border:1px solid rgba(0,168,150,0.4);color:var(--teal);
+    padding:4px 14px;cursor:pointer;font-size:12px;border-radius:3px;transition:all 0.2s}
+  #nav button:hover{background:var(--teal);color:var(--navy)}
+  #nav button:disabled{opacity:0.3;cursor:default}
+  #slide-counter{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);min-width:60px;text-align:center}
+
+  #progress{position:fixed;top:48px;left:0;right:0;height:2px;background:rgba(255,255,255,0.05);z-index:99}
+  #progress-fill{height:100%;background:var(--teal);transition:width 0.4s ease}
+
+  #stage{position:fixed;top:50px;left:0;right:0;bottom:0}
+  .slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    background:var(--navy);opacity:0;pointer-events:none;
+    transition:opacity 0.5s ease,transform 0.5s ease;transform:translateX(60px);padding:40px 60px}
+  .slide.active{opacity:1;pointer-events:auto;transform:translateX(0)}
+  .slide.out{opacity:0;transform:translateX(-60px)}
+  .slide-inner{width:100%;max-width:1100px;height:100%;display:flex;flex-direction:column;justify-content:center}
+
+  .eyebrow{font-family:'DM Mono',monospace;font-size:11px;color:var(--teal);letter-spacing:3px;
+    text-transform:uppercase;margin-bottom:16px;opacity:0;animation:fadeUp 0.5s ease 0.1s forwards}
+  .slide-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,6vw,72px);
+    color:var(--white);line-height:0.95;margin-bottom:20px;opacity:0;animation:fadeUp 0.5s ease 0.2s forwards}
+  .accent{color:var(--teal)} .danger{color:var(--danger)} .gold{color:var(--gold)}
+  .subtitle{font-size:clamp(14px,1.8vw,18px);color:var(--steel);font-weight:300;line-height:1.6;
+    max-width:700px;opacity:0;animation:fadeUp 0.5s ease 0.3s forwards}
+  .subtitle strong{color:var(--white);font-weight:500}
+  .divline{width:60px;height:3px;background:var(--teal);margin:20px 0;
+    opacity:0;animation:fadeUp 0.4s ease 0.25s forwards}
+
+  /* DISTINCTION CARDS */
+  .dist-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:24px;
+    opacity:0;animation:fadeUp 0.5s ease 0.3s forwards}
+  .dist-card{background:var(--navy2);padding:24px;border-radius:4px}
+  .dist-vs{text-align:center;display:flex;align-items:center;justify-content:center;
+    font-family:'Bebas Neue';font-size:48px;color:rgba(255,255,255,0.1)}
+
+  /* HEALTH SCORE BARS */
+  .score-grid{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+  .score-row{display:flex;align-items:center;gap:14px;
+    opacity:0;transform:translateX(-14px);transition:opacity 0.35s ease,transform 0.35s ease}
+  .score-row.rev{opacity:1;transform:translateX(0)}
+  .score-label{font-size:12px;color:var(--steel);font-family:'DM Mono';min-width:170px;letter-spacing:0.5px}
+  .score-bar-w{flex:1;height:22px;background:rgba(255,255,255,0.05);border-radius:2px;overflow:hidden}
+  .score-bar{height:100%;border-radius:2px;width:0;transition:width 0.8s cubic-bezier(0.25,0.46,0.45,0.94)}
+  .score-pct{font-family:'Bebas Neue';font-size:20px;color:var(--teal);min-width:42px;text-align:right}
+  .score-note{font-size:11px;color:var(--muted);min-width:240px;font-style:italic}
+
+  /* TIMELINE SCENARIO */
+  .timeline-v{display:flex;flex-direction:column;gap:0;margin-top:20px}
+  .tl-month{display:flex;gap:20px;align-items:flex-start;padding:14px 0;
+    border-bottom:1px solid rgba(255,255,255,0.05);
+    opacity:0;transform:translateY(8px);transition:opacity 0.4s ease,transform 0.4s ease}
+  .tl-month.rev{opacity:1;transform:translateY(0)}
+  .tl-month:last-child{border-bottom:none}
+  .tl-m-label{font-family:'DM Mono';font-size:10px;color:var(--muted);letter-spacing:2px;
+    min-width:80px;text-transform:uppercase;padding-top:2px}
+  .tl-m-score{font-family:'Bebas Neue';font-size:32px;min-width:70px;line-height:1}
+  .tl-m-content{flex:1}
+  .tl-m-status{font-size:13px;font-weight:600;margin-bottom:4px}
+  .tl-m-note{font-size:12px;color:var(--steel);font-weight:300;line-height:1.5}
+  .tl-m-signal{font-size:11px;padding:3px 10px;border-radius:20px;display:inline-block;margin-top:6px;font-family:'DM Mono';letter-spacing:0.5px}
+
+  /* MANUAL SCORE */
+  .manual-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:24px;
+    opacity:0;animation:fadeUp 0.5s ease 0.3s forwards}
+  .manual-card{background:var(--navy2);padding:22px;border-radius:4px}
+  .manual-label{font-family:'DM Mono';font-size:10px;letter-spacing:2px;margin-bottom:14px;text-transform:uppercase}
+  .score-dots{display:flex;gap:6px;margin-top:8px}
+  .dot{width:18px;height:18px;border-radius:50%;border:2px solid}
+  .dot.filled{opacity:1}
+  .dot.empty{opacity:0.2}
+
+  /* VELOCITY */
+  .vel-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:24px;
+    opacity:0;animation:fadeUp 0.5s ease 0.3s forwards}
+  .vel-card{background:var(--navy2);padding:24px;border-radius:4px}
+  .vel-label{font-family:'DM Mono';font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+
+  /* MONDAY */
+  .monday-list{display:flex;flex-direction:column;gap:14px;margin-top:24px}
+  .monday-item{display:flex;gap:20px;align-items:flex-start;background:var(--navy2);
+    padding:16px 20px;border-radius:4px;border-left:4px solid var(--teal);
+    opacity:0;transform:translateY(10px);transition:opacity 0.4s ease,transform 0.4s ease}
+  .monday-item.rev{opacity:1;transform:translateY(0)}
+  .monday-n{font-family:'Bebas Neue';font-size:36px;color:var(--teal);line-height:1;min-width:28px}
+  .monday-text{font-size:13px;color:var(--steel);font-weight:300;line-height:1.6}
+  .monday-text strong{color:var(--white);font-weight:500}
+
+  .slide-footer{position:absolute;bottom:14px;left:60px;right:60px;
+    display:flex;justify-content:space-between;align-items:center;
+    opacity:0;animation:fadeIn 0.4s ease 0.5s forwards}
+  .footer-brand{font-family:'DM Mono';font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase}
+  .footer-module{font-family:'DM Mono';font-size:10px;color:rgba(0,168,150,0.5)}
+
+  #slide-0 .bg-accent{position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--teal)}
+  #slide-0 .tag-row{display:flex;gap:10px;margin-top:24px;opacity:0;animation:fadeUp 0.5s ease 0.45s forwards}
+  #slide-0 .tag{padding:5px 14px;border:1px solid var(--teal);color:var(--teal);font-size:11px;font-family:'DM Mono';letter-spacing:1px}
+  #slide-end{background:var(--dark)}
+  .scrollable{overflow-y:auto;max-height:calc(100vh - 120px)}
+  .scrollable::-webkit-scrollbar{width:4px}
+  .scrollable::-webkit-scrollbar-thumb{background:var(--teal);border-radius:2px}
+  #key-hint{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);font-family:'DM Mono';font-size:10px;color:rgba(122,147,192,0.5);letter-spacing:1px;pointer-events:none;transition:opacity 0.5s}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+</style>
+</head>
+<body>
+<div id="nav">
+  <div class="brand">CCO2go.ai · CSM Training</div>
+  <div class="controls">
+    <button id="btn-prev" onclick="navigate(-1)" disabled>← Prev</button>
+    <div id="slide-counter">1 / 12</div>
+    <button id="btn-next" onclick="navigate(1)">Next →</button>
+  </div>
+</div>
+<div id="progress"><div id="progress-fill"></div></div>
+
+<div id="stage">
+
+<!-- SLIDE 0: TITLE -->
+<div class="slide active" id="slide-0">
+  <div class="bg-accent"></div>
+  <div class="slide-inner">
+    <div class="eyebrow">Phase 1 · Week 1 · Module 1.3</div>
+    <div class="slide-title">Reading<br><span class="accent">Health Scores</span></div>
+    <div class="subtitle">Login frequency is not adoption. What the 7-component score actually tells you — and how to read the story behind the number.</div>
+    <div class="tag-row">
+      <div class="tag">8–12 min</div><div class="tag">Data Literacy</div><div class="tag">7 Components</div>
+    </div>
+  </div>
+  <div class="slide-footer"><div class="footer-brand">R. Shane James · CCO2go.ai</div><div class="footer-module">Module 1.3 of 9</div></div>
+</div>
+
+<!-- SLIDE 1: THE CHALLENGE -->
+<div class="slide" id="slide-1">
+  <div class="slide-inner">
+    <div class="eyebrow">Cold Open</div>
+    <div class="slide-title">How Do You Know<br>If An Account<br>Is <span class="accent">Healthy</span>?</div>
+    <div class="divline"></div>
+    <div class="subtitle" style="animation-delay:0.35s">If your first answer was <strong>"login frequency"</strong> — or <strong>"they seem engaged"</strong> — or <strong>"they've never complained"</strong> — you are working with incomplete data. And incomplete data is how good CSMs lose accounts they should have kept.</div>
+  </div>
+  <div class="slide-footer"><div class="footer-brand">R. Shane James · CCO2go.ai</div><div class="footer-module">Module 1.3 of 9</div></div>
+</div>
+
+<!-- SLIDE 2: TWO DISTINCTIONS -->
+<div class="slide" id="slide-2">
+  <div class="slide-inner">
+    <div class="eyebrow">The Two Distinctions That Change Everything</div>
+    <div class="slide-title">Activity ≠ <span class="accent">Value</span><br>Level ≠ <span class="gold">Velocity</span></div>
+    <div class="dist-grid">
+      <div class="dist-card" style="border-top:3px solid var(--teal)">
+        <div style="font-family:'DM Mono';font-size:10px;color:var(--teal);letter-spacing:2px;margin-bottom:12px">ACTIVITY</div>
+        <div style="font-family:'Bebas Neue';font-size:28px;color:var(--steel);margin-bottom:10px">Logs in every day</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.5">Uses the platform out of habit. Engagement is shallow. Switching cost is low. Cancel at renewal is one budget review away.</div>
+      </div>
+      <div class="dist-card" style="border-top:3px solid var(--success)">
+        <div style="font-family:'DM Mono';font-size:10px;color:var(--success);letter-spacing:2px;margin-bottom:12px">VALUE</div>
+        <div style="font-family:'Bebas Neue';font-size:28px;color:var(--white);margin-bottom:10px">Logs in every day +</div>
+        <div style="font-size:12px;color:var(--steel);line-height:1.5">Saved 4 hrs/week of manual work. Integrated with 3 other core tools. 2 departments using it. Built custom configurations. High switching cost.</div>
+      </div>
+      <div class="dist-card" style="border-top:3px solid var(--danger)">
+        <div style="font-family:'DM Mono';font-size:10px;color:var(--danger);letter-spacing:2px;margin-bottom:12px">LEVEL ONLY</div>
+        <div style="font-family:'Bebas Neue';font-size:28px;color:var(--danger);margin-bottom:10px">70% — Declining</div>
+        <div style="font-size:12px;color:var(--steel);line-height:1.5">Was 85% three months ago. Looks okay in a snapshot. Trajectory toward a cliff. Intervention needed now — not at next QBR.</div>
+      </div>
+      <div class="dist-card" style="border-top:3px solid var(--success)">
+        <div style="font-family:'DM Mono';font-size:10px;color:var(--success);letter-spacing:2px;margin-bottom:12px">VELOCITY</div>
+        <div style="font-family:'Bebas Neue';font-size:28px;color:var(--success);margin-bottom:10px">50% — Rising</div>
+        <div style="font-size:12px;color:var(--steel);line-height:1.5">Was 35% three months ago. Below median but heading in the right direction. Watch and reinforce — this account is finding its footing.</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer"><div class="footer-brand">R. Shane James · CCO2go.ai</div><div class="footer-module">Module 1.3 of 9</div></div>
+</div>
+
+<!-- SLIDE 3: HEALTH SCORE COMPONENTS -->
+<div class="slide" id="slide-3">
+  <div class="slide-inner scrollable">
+    <div class="eyebrow">The 7-Component Production-Grade Health Score</div>
+    <div class="slide-title">What <span class="accent">Actually</span><br>Predicts Retention</div>
+    <div class="score-grid" id="score-grid">
+      <div class="score-row"><div class="score-label">Usage Patterns</div><div class="score-bar-w"><div class="score-bar" style="background:var(--teal)" data-p="25"></div></div><div class="score-pct">25%</div><div class="score-note">Breadth of feature adoption beats login frequency</div></div>
+      <div class="score-row"><div class="score-label">Engagement Velocity</div><div class="score-bar-w"><div class="score-bar" style="background:#00C2FF" data-p="20"></div></div><div class="score-pct">20%</div><div class="score-note">Rate of change catches churn signal weeks earlier</div></div>
+      <div class="score-row"><div class="score-label">Support Trajectory</div><div class="score-bar-w"><div class="score-bar" style="background:var(--gold)" data-p="15"></div></div><div class="score-pct">15%</div><div class="score-note">Velocity spike = 3× churn risk flag</div></div>
+      <div class="score-row"><div class="score-label">Sentiment Trend</div><div class="score-bar-w"><div class="score-bar" style="background:var(--purple)" data-p="15"></div></div><div class="score-pct">15%</div><div class="score-note">Email tone, meeting behavior, advocacy signals</div></div>
+      <div class="score-row"><div class="score-label">Financial Signals</div><div class="score-bar-w"><div class="score-bar" style="background:var(--success)" data-p="15"></div></div><div class="score-pct">15%</div><div class="score-note">Late payments = underused early churn predictor</div></div>
+      <div class="score-row"><div class="score-label">Adoption Depth</div><div class="score-bar-w"><div class="score-bar" style="background:var(--orange)" data-p="10"></div></div><div class="score-pct">10%</div><div class="score-note">Integrations + multi-dept = switching cost</div></div>
+      <div class="score-row"><div class="score-label">NPS / Survey</div><div class="score-bar-w"><div class="score-bar" style="background:var(--muted)" data-p="5"></div></div><div class="score-pct">5%</div><div class="score-note">One advisor among seven — not the dictator</div></div>
+    </div>
+  </div>
+  <div class="slide-footer"><div class="footer-brand">R. Shane James · CCO2go.ai</div><div class="footer-module">Module 1.3 of 9</div></div>
+</div>
+
+<!-- SLIDE 4: USAGE DEEP DIVE -->
+<div class="slide" id="slide-4">
+  <div class="slide-inner">
+    <div class="eyebrow">Component 1 Deep Dive — Usage Patterns (25%)</div>
+    <div class="slide-title">It's About<br><span class="accent">Breadth</span>, Not<br>Login Count</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:28px;opacity:0;animation:fadeUp 0.5s ease 0.3s forwards">
+      <div style="background:var(--navy2);padding:24px;border-radius:4px;border-top:3px solid var(--danger)">
+        <div style="font-family:'DM Mono';font-size:10px;color:var(--danger);letter-spacing:2px;margin-bottom:14px">HIGH RISK — DESPITE DAILY LOGINS</div>
+        <div style="font-family:'Bebas Neue';font-size:36px;color:var(--white);margin-bottom:10px">Daily login · 1 feature</div>
+        <div style="font-size:13px;color:var(--steel);line-height:1.5">The platform is a habit, not a dependency. One competitive alternative at a lower price point and this account churns in the next contract cycle.</div>
+      </div>
+      <div style="background:var(--navy2);padding:24px;border-radius:4px;border-top:3px solid var(--success)">
+        <div style="font-family:'DM Mono';font-size:10px;color:var(--success);letter-spacing:2px;margin-bottom:14px">LOW RISK — EMBEDDED</div>
+        <div style="font-family:'Bebas Neue';font-size:36px;color:var(--white);margin-bottom:10px">Weekly login · 8 features</div>
+        <div style="font-size:13px;color:var(--steel);line-height:1.5">The platform is integrated into their workflow across multiple use cases. Switching cost is high. This account renews and expands because leaving is harder than staying.</div>
+      </div>
+    </div>
+    <div class="subtitle" style="animation-delay:0.5s;margin-top:20px">Frequency = engagement. Breadth = <strong>embedding</strong>. Only one of these predicts retention. Track both, but weight breadth higher.</div>
+  </div>
+  <div class="slide-footer"><div class="footer-brand">R. Shane James · CCO2go.ai</div><div class="footer-module">Module 1.3 of 9</div></div>
+</div>
+
+<!-- SLIDE 5: VELOCITY CONCEPT -->
+<div class="slide" id="slide-5">
+  <div class="slide-inner">
+    <div class="eyebrow">Component 2 Deep Dive — Engagement Velocity (20%)</div>
+    <div class="slide-title">You're Measuring<br>The <span class="accent">Derivative</span>,<br>Not The Number</div>
+    <div class="vel-grid">
+      <div class="vel-card">
+        <div class="vel-label" style="color:var(--teal)">What velocity tracks</div>
+        <div style="font-size:13px;color:var(--steel);line-height:1.8">
+          ↕ Unique users this month vs last<br>
+          ↕ Features adopted this quarter vs last<br>
+          ↕ Meeting attendance pattern<br>
+          ↕ Response time to your emails<br>
+          ↕ Reference / advocacy willingness
+        </div>
+      </div>
+      <div class="vel-card">
+        <div class="vel-label" style="color:var(--gold)">Why it matters more than level</div>
+        <div style="font-size:13px;color:var(--steel);line-height:1.6">A score of 70% tells you where an account is today. A velocity trend tells you where it's heading in 60 days.<br><br>The early signal — the beginning of a drift — appears in velocity <strong style="color:var(--white)">weeks before</strong> it shows up in a support ticket or a difficult renewal conversation.</div>
+      </div>
+    </div>
+    <div class="subtitle" style="animation-delay:0.5s;margin-top:20px">If your health score only measures level, you are flying blind on the most important signal in the data.</div>
+  </div>
+  <div class="slide-footer"><div class="footer-brand">R. Shane James · CCO2go.ai</div><div class="footer-module">Module 1.3 of 9</div></div>
+</div>
+
+<!-- SLIDE 6: SENTIMENT & FINANCIAL -->
+<div class="slide" id="slide-6">
+  <div class="slide-inner">
+    <div class="eyebrow">Components 4 & 5 — Sentiment Trend + Financial Signals (30%)</div>
+    <div class="slide-title">The Signals<br>You're <span class="danger">Probably</span><br>Not Watching</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:24px;opacity:0;animation:fadeUp 0.5s ease 0.3s forwards">
+      <div style="background:var(--navy2);padding:22px;border-radius:4px;border-left:4px solid var(--purple)">
+        <div style="font-family:'DM Mono';font-size:10px;color:var(--purple);letter-spacing:2px;margin-bottom:14px">SENTIMENT SIGNALS</div>
+        <div style="font-size:13px;color:var(--steel);line-height:1.8">
+          📧 Email responses getting shorter, more clipped<br>
+          📅 Canceling meetings or sending substitutes<br>
+          ⏱ Response time increasing week-over-week<br>
+          🔇 No longer willing to be a reference<br>
+          🚫 Stopped forwarding your emails internally
+        </div>
+      </div>
+      <div style="background:var(--navy2);padding:22px;border-radius:4px;border-left:4px solid var(--gold)">
+        <div style="font-family:'DM Mono';font-size:10px;color:var(--gold);letter-spacing:2px;margin-bottom:14px">FINANCIAL SIGNALS</div>
+        <div style="font-size:13px;color:var(--steel);line-height:1.8">
+          💳 Payment timing slipping by 10+ days<br>
+          📋 Billing disputes that never happened before<br>
+          📉 Pushing back on invoice line items<br>
+          🔄 Asking about downgrade options at renewal<br>
+          ❓ Finance team suddenly involved in CS calls
+        </div>
+      </div>
+    </div>
+    <div class="subtitle" style="animation-delay:0.5s;margin-top:20px">Payment behavior is one of the <strong>most underused predictors of churn</strong> in the industry. A customer who starts paying late is telling you something months before they say it out loud.</div>
+  </div>
+  <div class="slide-footer"><div class="footer-brand">R. Shane James · CCO2go.ai</div><div class="footer-module">Module 1.3 of 9</div></div>
+</div>
+
+<!-- SLIDE 7: DECLINING ACCOUNT SCENARIO -->
+<div class="slide" id="slide-7">
+  <div class="slide-inner scrollable">
+    <div class="eyebrow">Reading the Score in Practice</div>
+    <div class="slide-title">What <span class="danger">Deterioration</span><br>Looks Like</div>
+    <div class="timeline-v" id="timeline-v">
+      <div class="tl-month">
+        <div class="tl-m-label">Month 1</div>
+        <div class="tl-m-score" style="color:var(--success)">78%</div>
+        <div class="tl-m-content">
+          <div class="tl-m-status" style="color:var(--success)">Healthy</div>
+          <div class="tl-m-note">Usage solid. Engagement frequent. No support escalations. All signals green. Nothing to act on.</div>
+          <div class="tl-m-signal" style="background:rgba(46,196,165,0.15);color:var(--success)">No action needed</div>
+        </div>
+      </div>
+      <div class="tl-month">
+        <div class="tl-m-label">Month 2</div>
+        <div class="tl-m-score" style="color:var(--gold)">71%</div>
+        <div class="tl-m-content">
+          <div class="tl-m-status" style="color:var(--gold)">Velocity Alert</div>
+          <div class="tl-m-note">Usage similar, but unique users logging in has declined. Most CSMs look at 71% and say "still healthy." The velocity says differently.</div>
+          <div class="tl-m-signal" style="background:rgba(244,160,0,0.15);color:var(--gold)">⚠ Intervene here — schedule a check-in call</div>
+        </div>
+      </div>
+      <div class="tl-month">
+        <div class="tl-m-label">Month 3</div>
+        <div class="tl-m-score" style="color:var(--orange)">62%</div>
+        <div class="tl-m-content">
+          <div class="tl-m-status" style="color:var(--orange)">Escalating</div>
+          <div class="tl-m-note">Support ticket velocity increased. Two tickets in two weeks about a broken integration. Champion email responses slowing down noticeably.</div>
+          <div class="tl-m-signal" style="background:rgba(249,115,22,0.15);color:var(--orange)">🔴 Executive touchpoint + fix the integration</div>
+        </div>
+      </div>
+      <div class="tl-month">
+        <div class="tl-m-label">Month 4</div>
+        <div class="tl-m-score" style="color:var(--danger)">54%</div>
+        <div class="tl-m-content">
+          <div class="tl-m-status" style="color:var(--danger)">At Risk</div>
+          <div class="tl-m-note">Champion misses a scheduled call. Sends a junior team member who has no context. The relationship has moved to a lower priority for the customer.</div>
+          <div class="tl-m-signal" style="background:rgba(224,92,92,0.15);color:var(--danger)">🚨 Executive engagement — potential churn</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer"><div class="footer-brand">R. Shane James · CCO2go.ai</div><div class="footer-module">Module 1.3 of 9</div></div>
+</div>
+
+<!-- SLIDE 8: NPS WOULD HAVE MISSED IT -->
+<div class="slide" id="slide-8">
+  <div class="slide-inner">
+    <div class="eyebrow">The Critical Difference</div>
+    <div class="slide-title">NPS Would Have<br>Shown <span class="teal">8/10</span><br>All Four Months</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px;opacity:0;animation:fadeUp 0.5s ease 0.3s forwards">
+      <div style="background:rgba(224,92,92,0.1);border:1px solid rgba(224,92,92,0.3);padding:24px;border-radius:4px">
+        <div style="font-family:'DM Mono';font-size:10px;color:var(--danger);letter-spacing:2px;margin-bottom:14px">WITHOUT VELOCITY SIGNAL</div>
+        <div style="font-size:14px;color:var(--steel);line-height:1.7">Nobody filled out an NPS survey in Month 2 when the drift started. The score stayed at 8/10 through all four months. No alarm was triggered. Churn at Month 6 renewal.</div>
+      </div>
+      <div style="background:rgba(0,168,150,0.08);border:1px solid rgba(0,168,150,0.3);padding:24px;border-radius:4px">
+        <div style="font-family:'DM Mono';font-size:10px;color:var(--teal);letter-spacing:2px;margin-bottom:14px">WITH VELOCITY SIGNAL</div>
+        <div style="font-size:14px;color:var(--steel);line-height:1.7">Month 2 velocity drop triggers a check-in call. CSM discovers the integration issue before it becomes a ticket. Relationship stays warm. Account renews and adds 15 seats at Month 6.</div>
+      </div>
+    </div>
+    <div class="subtitle" style="animation-delay:0.5s;margin-top:20px">The intervention opportunity was in Month 2. Not Month 4. <strong>Velocity gives you the two-month head start that makes saves possible.</strong></div>
+  </div>
+  <div class="slide-footer"><div class="footer-brand">R. Shane James · CCO2go.ai</div><div class="footer-module">Module 1.3 of 9</div></div>
+</div>
+
+<!-- SLIDE 9: MANUAL SCORING -->
+<div class="slide" id="slide-9">
+  <div class="slide-inner">
+    <div class="eyebrow">Build the Intuition Before You Need the Tool</div>
+    <div class="slide-title">Score It<br><span class="accent">Manually</span><br>First</div>
+    <div class="manual-grid">
+      <div class="manual-card" style="border-top:3px solid var(--teal)">
+        <div class="manual-label" style="color:var(--teal)">The Exercise</div>
+        <div style="font-size:13px;color:var(--steel);line-height:1.6">Before looking at the platform score, rate each of the 7 components 1–5 using only your call notes, email history, and sense of the relationship.</div>
+        <div style="margin-top:14px;font-size:12px;color:var(--muted)">Example — Usage Patterns:</div>
+        <div class="score-dots" style="margin-top:8px">
+          <div class="dot filled" style="background:var(--teal);border-color:var(--teal)"></div>
+          <div class="dot filled" style="background:var(--teal);border-color:var(--teal)"></div>
+          <div class="dot filled" style="background:var(--teal);border-color:var(--teal)"></div>
+          <div class="dot empty" style="border-color:var(--teal)"></div>
+          <div class="dot empty" style="border-color:var(--teal)"></div>
+          <div style="font-size:11px;color:var(--muted);margin-left:8px;align-self:center">3/5</div>
+        </div>
+      </div>
+      <div class="manual-card" style="border-top:3px solid var(--gold)">
+        <div class="manual-label" style="color:var(--gold)">Then Compare</div>
+        <div style="font-size:13px;color:var(--steel);line-height:1.6">Compare your manual score to the platform score. The gaps are where you learn the most:</div>
+        <div style="font-size:12px;color:var(--steel);line-height:1.8;margin-top:12px">
+          📊 <strong style="color:var(--white)">You scored higher</strong> → You're catching a nuance the platform missed. Document it.<br><br>
+          📊 <strong style="color:var(--white)">Platform scored higher</strong> → The platform caught a signal you weren't watching. Start watching it.
+        </div>
+      </div>
+    </div>
+    <div class="subtitle" style="animation-delay:0.5s;margin-top:18px">Over time, the health score stops being a dashboard you check and starts being <strong>a sense you carry into every customer conversation</strong>.</div>
+  </div>
+  <div class="slide-footer"><div class="footer-brand">R. Shane James · CCO2go.ai</div><div class="footer-module">Module 1.3 of 9</div></div>
+</div>
+
+<!-- SLIDE 10: DO THIS MONDAY -->
+<div class="slide" id="slide-10">
+  <div class="slide-inner">
+    <div class="eyebrow">Before You Watch Module 2.1</div>
+    <div class="slide-title">Do This <span class="accent">Monday</span></div>
+    <div class="monday-list" id="monday-list">
+      <div class="monday-item">
+        <div class="monday-n">1</div>
+        <div class="monday-text"><strong>Pick your 5 highest-risk accounts — gut feeling only.</strong> Score each manually using the 7 components (1–5 per component). Then compare to the platform score. Write down every divergence and ask: which signal was I not watching?</div>
+      </div>
+      <div class="monday-item">
+        <div class="monday-n">2</div>
+        <div class="monday-text">For <strong>one account, document the engagement velocity trend</strong> — not the level, the month-over-month direction. Is it moving toward you or away from you? Write one sentence.</div>
+      </div>
+      <div class="monday-item">
+        <div class="monday-n">3</div>
+        <div class="monday-text">Look at <strong>one account's support ticket history for the last 90 days.</strong> Velocity increase? Change in language or tone? Document the pattern — not the individual ticket.</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer"><div class="footer-brand">R. Shane James · CCO2go.ai</div><div class="footer-module">Module 1.3 of 9</div></div>
+</div>
+
+<!-- SLIDE END -->
+<div class="slide" id="slide-end">
+  <div class="slide-inner" style="align-items:center;text-align:center">
+    <div style="opacity:0;animation:fadeIn 0.8s ease 0.3s forwards">
+      <div style="font-family:'DM Mono';font-size:12px;color:var(--teal);letter-spacing:4px;margin-bottom:24px">CCO2go.ai · CSM Training Program · Phase 1</div>
+      <div style="font-family:'Bebas Neue';font-size:clamp(32px,5vw,64px);color:var(--white);line-height:0.95;margin-bottom:8px">Module 1.3</div>
+      <div style="font-family:'Bebas Neue';font-size:clamp(32px,5vw,64px);color:var(--teal);line-height:0.95;margin-bottom:24px">Complete</div>
+      <div style="width:60px;height:3px;background:var(--teal);margin:0 auto 24px"></div>
+      <div class="subtitle" style="text-align:center;max-width:520px;margin:0 auto">Stop looking at the number. <strong style="color:var(--white)">Start reading the story behind it.</strong> The number is a summary. The components, the velocity, and the trajectory — that's where the work lives.</div>
+      <div style="margin-top:28px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.1);font-size:14px;color:var(--steel)">
+        Up Next: <strong style="color:var(--teal)">Module 2.1 — The Discovery Framework</strong><br>
+        <span style="font-size:12px;color:var(--muted)">What you don't ask on the first call will cost you at renewal.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /stage -->
+<div id="key-hint">← → arrow keys or click buttons to navigate</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let current = 0;
+
+function navigate(dir) {
+  const prev = current;
+  current = Math.max(0, Math.min(total-1, current+dir));
+  if (current===prev) return;
+  slides[prev].classList.remove('active');
+  slides[prev].classList.add('out');
+  setTimeout(()=>slides[prev].classList.remove('out'),500);
+  slides[current].classList.add('active');
+  const els = slides[current].querySelectorAll('[style*="animation"],.eyebrow,.slide-title,.subtitle,.divline,.slide-footer,.dist-grid,.vel-grid,.manual-grid,.compound-grid');
+  els.forEach(el=>{el.style.animation='none';void el.offsetWidth;el.style.animation='';});
+  document.getElementById('slide-counter').textContent=`${current+1} / ${total}`;
+  document.getElementById('progress-fill').style.width=`${((current+1)/total)*100}%`;
+  document.getElementById('btn-prev').disabled=current===0;
+  document.getElementById('btn-next').disabled=current===total-1;
+  if(current===3) animateScoreBars();
+  if(current===7) animateTimeline();
+  if(current===10) animateMonday();
+}
+
+function animateScoreBars(){
+  document.querySelectorAll('#score-grid .score-row').forEach((r,i)=>{
+    r.style.transitionDelay=`${i*0.1}s`;
+    r.classList.add('rev');
+    const bar=r.querySelector('.score-bar');
+    setTimeout(()=>{ bar.style.width=`${parseInt(bar.dataset.p)*4}%`; },i*100+100);
+  });
+}
+function animateTimeline(){
+  document.querySelectorAll('#timeline-v .tl-month').forEach((m,i)=>{
+    setTimeout(()=>m.classList.add('rev'),i*200+100);
+  });
+}
+function animateMonday(){
+  document.querySelectorAll('#monday-list .monday-item').forEach((item,i)=>{
+    setTimeout(()=>item.classList.add('rev'),i*200+100);
+  });
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' ')navigate(1);
+  if(e.key==='ArrowLeft')navigate(-1);
+});
+setTimeout(()=>document.getElementById('key-hint').style.opacity='0',4000);
+document.getElementById('progress-fill').style.width=`${(1/total)*100}%`;
+</script>
+</body>
+</html>

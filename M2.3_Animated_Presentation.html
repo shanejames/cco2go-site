@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 2.3 — Segmentation | CCO2go.ai</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:   #0F1F4B;
+    --navy2:  #0a1538;
+    --teal:   #00A896;
+    --gold:   #F4A000;
+    --blue:   #4A90D9;
+    --steel:  #4A5568;
+    --danger: #D9534F;
+    --white:  #F0F4FF;
+    --accent: #4A90D9;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: var(--navy2); }
+
+  #nav {
+    position: fixed; top: 0; left: 0; right: 0; height: 48px; z-index: 100;
+    background: rgba(10,21,56,0.95); backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--blue);
+    display: flex; align-items: center; justify-content: space-between; padding: 0 24px;
+  }
+  #nav .brand { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--teal); letter-spacing: 0.08em; }
+  #nav .module-label { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gold); letter-spacing: 0.1em; }
+  #nav .slide-counter { font-family: 'DM Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.4); }
+
+  #progress-bar { position: fixed; top: 50px; left: 0; height: 2px; z-index: 99; background: var(--accent); transition: width 0.4s ease; }
+
+  #stage { position: fixed; top: 50px; left: 0; right: 0; bottom: 0; }
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    padding: 48px 80px 80px;
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+    pointer-events: none;
+  }
+  .slide.active { opacity: 1; transform: translateY(0); pointer-events: all; }
+  .slide.exit { opacity: 0; transform: translateY(-28px); transition: opacity 0.35s ease, transform 0.35s ease; }
+
+  .footer {
+    position: absolute; bottom: 14px; left: 0; right: 0;
+    display: flex; justify-content: space-between; padding: 0 80px;
+    font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.22);
+  }
+
+  #prev, #next {
+    position: fixed; top: 50%; transform: translateY(-50%); z-index: 99;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.35); font-size: 22px; width: 44px; height: 44px;
+    border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  #prev:hover, #next:hover { background: rgba(74,144,217,0.15); color: var(--accent); border-color: var(--accent); }
+  #prev { left: 14px; } #next { right: 14px; }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 0.18em;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 16px;
+    opacity: 0; transform: translateY(10px); transition: all 0.5s 0.1s ease;
+  }
+  .slide.active .eyebrow { opacity: 1; transform: translateY(0); }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(56px, 8vw, 96px);
+    color: var(--white); line-height: 0.95; text-align: center;
+    opacity: 0; transform: translateY(16px); transition: all 0.5s 0.2s ease;
+  }
+  .slide.active h1 { opacity: 1; transform: translateY(0); }
+
+  h2 {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px, 5vw, 64px);
+    color: var(--white); line-height: 1; text-align: center;
+    opacity: 0; transform: translateY(14px); transition: all 0.5s 0.2s ease;
+  }
+  .slide.active h2 { opacity: 1; transform: translateY(0); }
+
+  .subtitle {
+    font-family: 'DM Sans', sans-serif; font-size: clamp(15px, 2vw, 20px);
+    color: rgba(255,255,255,0.55); text-align: center; margin-top: 20px; max-width: 680px; line-height: 1.55;
+    opacity: 0; transform: translateY(10px); transition: all 0.5s 0.35s ease;
+  }
+  .slide.active .subtitle { opacity: 1; transform: translateY(0); }
+
+  .accent-line {
+    width: 64px; height: 3px; background: var(--accent); margin: 20px auto;
+    opacity: 0; transform: scaleX(0); transition: all 0.5s 0.3s ease;
+  }
+  .slide.active .accent-line { opacity: 1; transform: scaleX(1); }
+
+  .quote-block {
+    max-width: 780px; padding: 28px 36px; margin: 24px auto;
+    border-left: 4px solid var(--accent); background: rgba(255,255,255,0.03);
+    opacity: 0; transform: translateY(14px); transition: all 0.55s 0.25s ease;
+  }
+  .slide.active .quote-block { opacity: 1; transform: translateY(0); }
+  .quote-text { font-family: 'DM Sans', sans-serif; font-size: clamp(17px, 2.2vw, 22px); color: var(--white); line-height: 1.6; font-style: italic; }
+
+  /* TIME ALLOCATION DONUT / BAR VISUAL */
+  .time-bars { width: 100%; max-width: 700px; margin-top: 28px; }
+  .time-bar-row { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+  .tb-label { font-family: 'DM Mono', monospace; font-size: 13px; color: rgba(255,255,255,0.6); min-width: 70px; }
+  .tb-track { flex: 1; height: 36px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden; }
+  .tb-fill { height: 100%; border-radius: 3px; display: flex; align-items: center; padding-left: 12px;
+    font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: white;
+    width: 0; transition: width 1.2s cubic-bezier(0.16,1,0.3,1); }
+  .slide.active .tb-fill { }
+  .tb-pct { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--white); min-width: 56px; text-align: right; }
+
+  /* TIER CARDS */
+  .tier-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; max-width: 920px; width: 100%; margin-top: 24px; }
+  .tier-card {
+    padding: 22px 18px; border-radius: 6px; text-align: center;
+    opacity: 0; transform: translateY(20px);
+  }
+  .tier-card.t1 { background: rgba(74,144,217,0.12); border: 1px solid rgba(74,144,217,0.35); border-top: 3px solid var(--blue); transition: all 0.5s 0.15s ease; }
+  .tier-card.t2 { background: rgba(0,168,150,0.1);  border: 1px solid rgba(0,168,150,0.3);  border-top: 3px solid var(--teal); transition: all 0.5s 0.3s ease; }
+  .tier-card.t3 { background: rgba(244,160,0,0.08); border: 1px solid rgba(244,160,0,0.25); border-top: 3px solid var(--gold); transition: all 0.5s 0.45s ease; }
+  .slide.active .tier-card { opacity: 1; transform: translateY(0); }
+  .tier-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.14em; color: rgba(255,255,255,0.4); margin-bottom: 6px; }
+  .tier-pct { font-family: 'Bebas Neue', sans-serif; font-size: 52px; line-height: 1; margin-bottom: 8px; }
+  .tier-card.t1 .tier-pct { color: var(--blue); }
+  .tier-card.t2 .tier-pct { color: var(--teal); }
+  .tier-card.t3 .tier-pct { color: var(--gold); }
+  .tier-desc { font-family: 'DM Sans', sans-serif; font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.5; }
+
+  /* INPUT CARDS */
+  .input-cards { display: flex; gap: 18px; max-width: 900px; width: 100%; margin-top: 24px; }
+  .input-card {
+    flex: 1; padding: 22px 18px; border-radius: 4px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    opacity: 0; transform: translateY(20px);
+  }
+  .input-card:nth-child(1) { border-left: 3px solid var(--blue);  transition: all 0.45s 0.15s ease; }
+  .input-card:nth-child(2) { border-left: 3px solid var(--teal); transition: all 0.45s 0.3s ease; }
+  .input-card:nth-child(3) { border-left: 3px solid var(--danger); transition: all 0.45s 0.45s ease; }
+  .slide.active .input-card { opacity: 1; transform: translateY(0); }
+  .input-num { font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.35); margin-bottom: 8px; }
+  .input-title { font-family: 'DM Sans', sans-serif; font-size: 17px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+  .input-body { font-family: 'DM Sans', sans-serif; font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.55; }
+
+  /* COVERAGE STANDARD TABLE */
+  .cov-table { width: 100%; max-width: 860px; margin-top: 24px; }
+  .cov-row {
+    display: grid; grid-template-columns: 110px 1fr 1fr; gap: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    opacity: 0; transform: translateX(-16px);
+  }
+  .slide.active .cov-row { opacity: 1; transform: translateX(0); }
+  .cov-row:nth-child(1) { transition: all 0.4s 0.1s ease; }
+  .cov-row:nth-child(2) { transition: all 0.4s 0.22s ease; }
+  .cov-row:nth-child(3) { transition: all 0.4s 0.34s ease; }
+  .cov-row:nth-child(4) { transition: all 0.4s 0.46s ease; }
+  .cov-row:nth-child(5) { transition: all 0.4s 0.58s ease; }
+  .cov-cell { padding: 12px 14px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: rgba(255,255,255,0.7); }
+  .cov-cell.head { color: var(--accent); font-weight: 700; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .cov-cell.tier-name { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 700; }
+
+  /* WARNING SIGNS */
+  .warn-list { width: 100%; max-width: 820px; margin-top: 24px; }
+  .warn-item {
+    display: flex; gap: 18px; padding: 14px 20px;
+    border: 1px solid rgba(217,83,79,0.2); border-left: 3px solid var(--danger);
+    border-radius: 3px; margin-bottom: 12px; background: rgba(217,83,79,0.04);
+    opacity: 0; transform: translateX(-20px);
+  }
+  .slide.active .warn-item { opacity: 1; transform: translateX(0); }
+  .warn-item:nth-child(1) { transition: all 0.4s 0.15s ease; }
+  .warn-item:nth-child(2) { transition: all 0.4s 0.28s ease; }
+  .warn-item:nth-child(3) { transition: all 0.4s 0.41s ease; }
+  .warn-item:nth-child(4) { transition: all 0.4s 0.54s ease; }
+  .warn-num { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--danger); min-width: 32px; }
+  .warn-text { font-family: 'DM Sans', sans-serif; font-size: 15px; color: rgba(255,255,255,0.75); line-height: 1.5; }
+  .warn-text strong { color: var(--white); }
+
+  /* ACTION */
+  .action-grid { display: flex; gap: 20px; max-width: 920px; width: 100%; margin-top: 28px; }
+  .action-item {
+    flex: 1; padding: 22px 18px; text-align: center;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(74,144,217,0.25); border-top: 3px solid var(--accent); border-radius: 4px;
+    opacity: 0; transform: translateY(20px);
+  }
+  .slide.active .action-item:nth-child(1) { opacity: 1; transform: translateY(0); transition: all 0.45s 0.2s ease; }
+  .slide.active .action-item:nth-child(2) { opacity: 1; transform: translateY(0); transition: all 0.45s 0.35s ease; }
+  .slide.active .action-item:nth-child(3) { opacity: 1; transform: translateY(0); transition: all 0.45s 0.5s ease; }
+  .action-num { font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: var(--accent); line-height: 1; }
+  .action-title { font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 700; color: var(--white); margin: 8px 0 6px; }
+  .action-body { font-family: 'DM Sans', sans-serif; font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+
+  .bg-mesh {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background: radial-gradient(ellipse 80% 60% at 75% 15%, rgba(74,144,217,0.06) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 15% 85%, rgba(0,168,150,0.05) 0%, transparent 60%);
+  }
+</style>
+</head>
+<body>
+<div class="bg-mesh"></div>
+<div id="nav">
+  <div class="brand">CCO2go.ai</div>
+  <div class="module-label">MODULE 2.3 — SEGMENTATION</div>
+  <div class="slide-counter" id="counter">1 / 12</div>
+</div>
+<div id="progress-bar"></div>
+<button id="prev" onclick="navigate(-1)">&#8592;</button>
+<button id="next" onclick="navigate(1)">&#8594;</button>
+
+<div id="stage">
+
+  <!-- S1: TITLE -->
+  <div class="slide active" id="s1">
+    <div class="eyebrow">Week 2 · Knowing Your Customers' Real Situation</div>
+    <h1>SEGMENTATION</h1>
+    <div class="accent-line"></div>
+    <div class="subtitle">Module 2.3 &nbsp;·&nbsp; CSM Training Program Phase 1</div>
+    <div class="footer"><span>CCO2go.ai · Shane James</span><span>MODULE 2.3</span></div>
+  </div>
+
+  <!-- S2: THE PROBLEM -->
+  <div class="slide" id="s2">
+    <div class="eyebrow">The Uncomfortable Truth</div>
+    <h2>You Cannot Serve<br>Everyone the Same Way</h2>
+    <div class="accent-line"></div>
+    <div class="quote-block">
+      <div class="quote-text">If you try to treat a $10,000 account the same way you treat a $500,000 account, you'll fail both of them. This isn't controversial — it's math.</div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.3 — Segmentation</span></div>
+  </div>
+
+  <!-- S3: TIME ALLOCATION -->
+  <div class="slide" id="s3">
+    <div class="eyebrow">How a Segmented CS Org Allocates Time</div>
+    <h2>The Right Time Ratio</h2>
+    <div class="tier-grid">
+      <div class="tier-card t1">
+        <div class="tier-label">TIER 1</div>
+        <div class="tier-pct">60%</div>
+        <div class="tier-desc">Highest ARR · Highest strategic value · Highest growth potential</div>
+      </div>
+      <div class="tier-card t2">
+        <div class="tier-label">TIER 2</div>
+        <div class="tier-pct">30%</div>
+        <div class="tier-desc">Mid-range ARR · Moderate complexity · Defined expansion path</div>
+      </div>
+      <div class="tier-card t3">
+        <div class="tier-label">TIER 3</div>
+        <div class="tier-pct">10%</div>
+        <div class="tier-desc">Lower ARR · Digital-led engagement · Human touch at renewal</div>
+      </div>
+    </div>
+    <div class="subtitle" style="margin-top:24px;">A Tier 1 churn isn't a line item — it's a catastrophe. A Tier 1 expansion is a win no Tier 3 effort can replicate.</div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.3 — Segmentation</span></div>
+  </div>
+
+  <!-- S4: 3 INPUTS -->
+  <div class="slide" id="s4">
+    <div class="eyebrow">How to Assign Tiers</div>
+    <h2>3 Inputs. All Required.</h2>
+    <div class="input-cards">
+      <div class="input-card">
+        <div class="input-num">INPUT 01</div>
+        <div class="input-title">ARR</div>
+        <div class="input-body">Objective, pullable, forces an honest conversation about where revenue is actually concentrated. Map it before you segment — you may be surprised.</div>
+      </div>
+      <div class="input-card">
+        <div class="input-num">INPUT 02</div>
+        <div class="input-title">Strategic Value</div>
+        <div class="input-body">Lighthouse customer? Reference account? Growing 300% YoY? A smaller ARR account with explosive growth potential may outrank a flat large account.</div>
+      </div>
+      <div class="input-card">
+        <div class="input-num">INPUT 03</div>
+        <div class="input-title">Churn Risk</div>
+        <div class="input-body">Health score deterioration, dropping usage, champion departure — these can temporarily elevate an account's tier regardless of ARR.</div>
+      </div>
+    </div>
+    <div class="subtitle" style="margin-top:20px;">Review and adjust tier assignments quarterly. Segmentation is not permanent.</div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.3 — Segmentation</span></div>
+  </div>
+
+  <!-- S5: COVERAGE STANDARDS -->
+  <div class="slide" id="s5">
+    <div class="eyebrow">Coverage Standards by Tier</div>
+    <h2>Expectations Are<br>the Point of the System</h2>
+    <div class="cov-table">
+      <div class="cov-row">
+        <div class="cov-cell head">Tier</div>
+        <div class="cov-cell head">Proactive Cadence</div>
+        <div class="cov-cell head">Health & Reviews</div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-cell tier-name" style="color:var(--blue)">Tier 1</div>
+        <div class="cov-cell">2× monthly touchpoints · Exec sponsor relationship</div>
+        <div class="cov-cell">Weekly health review · Quarterly EBR · Full stakeholder map</div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-cell tier-name" style="color:var(--teal)">Tier 2</div>
+        <div class="cov-cell">1× monthly touchpoint · Named champion + 1 additional contact</div>
+        <div class="cov-cell">Monthly health review · Semi-annual review or lighter quarterly</div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-cell tier-name" style="color:var(--gold)">Tier 3</div>
+        <div class="cov-cell">Digital-led: automated check-ins, in-app, community</div>
+        <div class="cov-cell">Automated health monitoring · Human CSM at renewal only</div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.3 — Segmentation</span></div>
+  </div>
+
+  <!-- S6: TIER 3 MYTH -->
+  <div class="slide" id="s6">
+    <div class="eyebrow">The Tier 3 Misconception</div>
+    <h2>Digital-Led Is Not<br>Abandonment</h2>
+    <div class="accent-line"></div>
+    <div class="quote-block">
+      <div class="quote-text">Most Tier 3 customers don't want twelve touchpoints a year. They want the product to work and questions answered. Design an engagement model that delivers exactly that — at scale.</div>
+    </div>
+    <div class="subtitle">Tier 3 isn't a lesser service. It's a different service — designed for what those customers actually need.</div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.3 — Segmentation</span></div>
+  </div>
+
+  <!-- S7: THIN COVERAGE -->
+  <div class="slide" id="s7">
+    <div class="eyebrow">When the System Breaks Down</div>
+    <h2>4 Thin Coverage<br>Warning Signs</h2>
+    <div class="warn-list">
+      <div class="warn-item">
+        <div class="warn-num">1</div>
+        <div class="warn-text"><strong>Last proactive outreach was 60+ days ago.</strong> Not a support response — the last time you initiated contact with something non-reactive.</div>
+      </div>
+      <div class="warn-item">
+        <div class="warn-num">2</div>
+        <div class="warn-text"><strong>Only one named contact.</strong> Single-threading is thin coverage by definition. One relationship isn't coverage — it's exposure.</div>
+      </div>
+      <div class="warn-item">
+        <div class="warn-num">3</div>
+        <div class="warn-text"><strong>You don't know what success looks like today.</strong> Not at onboarding. Right now. If your success definition is 6 months old, you may be solving for the wrong thing.</div>
+      </div>
+      <div class="warn-item">
+        <div class="warn-num">4</div>
+        <div class="warn-text"><strong>You're being surprised by account activity.</strong> Renewal shock, unexpected escalations, champion departures as news — if it surprises you, you're not close enough.</div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.3 — Segmentation</span></div>
+  </div>
+
+  <!-- S8: HOW TO FIX -->
+  <div class="slide" id="s8">
+    <div class="eyebrow">Fixing Thin Coverage</div>
+    <h2>Triage First.<br>Don't Fix Everything at Once.</h2>
+    <div class="accent-line"></div>
+    <div class="quote-block">
+      <div class="quote-text">Thin coverage is a lagging indicator of future churn. The accounts you're not close to today are the accounts that will surprise you at renewal.</div>
+    </div>
+    <div class="subtitle">Start with Tier 1 and Tier 2 accounts showing health deterioration. Discovery call. Stakeholder map. Sponsor re-engaged. In that order.</div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.3 — Segmentation</span></div>
+  </div>
+
+  <!-- S9: THE INFRASTRUCTURE ARGUMENT -->
+  <div class="slide" id="s9">
+    <div class="eyebrow">Why This Module Matters</div>
+    <h2>Segmentation Is the<br>Infrastructure for Everything Else</h2>
+    <div class="accent-line"></div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:780px; width:100%; margin-top:24px;">
+      <div style="padding:18px 20px; border-radius:4px; background:rgba(255,255,255,0.04); border:1px solid rgba(74,144,217,0.2); opacity:0; transform:translateY(16px); transition:all 0.45s 0.15s ease;" class="seg-dep">
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--blue);letter-spacing:.1em;margin-bottom:8px;">MODULE 2.1</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;color:var(--white);margin-bottom:6px;">Discovery Framework</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:13px;color:rgba(255,255,255,0.5);">You need to know which accounts deserve the full 90-Day Takeover treatment.</div>
+      </div>
+      <div style="padding:18px 20px; border-radius:4px; background:rgba(255,255,255,0.04); border:1px solid rgba(74,144,217,0.2); opacity:0; transform:translateY(16px); transition:all 0.45s 0.3s ease;" class="seg-dep">
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--blue);letter-spacing:.1em;margin-bottom:8px;">MODULE 2.2</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;color:var(--white);margin-bottom:6px;">Champion Mapping</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:13px;color:rgba(255,255,255,0.5);">You can't build full stakeholder maps for every account. Tiers tell you which ones get it.</div>
+      </div>
+      <div style="padding:18px 20px; border-radius:4px; background:rgba(255,255,255,0.04); border:1px solid rgba(74,144,217,0.2); opacity:0; transform:translateY(16px); transition:all 0.45s 0.45s ease;" class="seg-dep">
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--blue);letter-spacing:.1em;margin-bottom:8px;">PHASE 1 → PHASE 2</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;color:var(--white);margin-bottom:6px;">Health Scoring & EBRs</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:13px;color:rgba(255,255,255,0.5);">Tier determines which accounts get weekly health reviews and which get quarterly EBRs.</div>
+      </div>
+      <div style="padding:18px 20px; border-radius:4px; background:rgba(255,255,255,0.04); border:1px solid rgba(74,144,217,0.2); opacity:0; transform:translateY(16px); transition:all 0.45s 0.6s ease;" class="seg-dep">
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--blue);letter-spacing:.1em;margin-bottom:8px;">ALL OF CS OPS</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;color:var(--white);margin-bottom:6px;">Resource Allocation</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:13px;color:rgba(255,255,255,0.5);">Every decision about where to invest CS time requires a tier system to avoid equal-effort mediocrity.</div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.3 — Segmentation</span></div>
+  </div>
+
+  <!-- S10: DO THIS MONDAY -->
+  <div class="slide" id="s10">
+    <div class="eyebrow">Do This Monday</div>
+    <h2>3 Actions This Week</h2>
+    <div class="action-grid">
+      <div class="action-item">
+        <div class="action-num">1</div>
+        <div class="action-title">Segment Your Book</div>
+        <div class="action-body">Sort by ARR. Layer in strategic value and churn risk. Assign every account a tier. Doesn't have to be perfect — it has to exist.</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">2</div>
+        <div class="action-title">Thin Coverage Scan</div>
+        <div class="action-body">Check all Tier 1 and Tier 2 accounts against the 4 warning signs. Two or more hits = priority this week.</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">3</div>
+        <div class="action-title">Schedule Tier 1 Touchpoints</div>
+        <div class="action-body">Block time this week — not eventually. Proactive engagement doesn't happen unless it's on the calendar.</div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.3 — Segmentation</span></div>
+  </div>
+
+  <!-- S11: END -->
+  <div class="slide" id="s11">
+    <div class="eyebrow">Up Next</div>
+    <h1>MODULE 3.1</h1>
+    <div class="accent-line"></div>
+    <h2 style="font-size:32px; margin-top:12px; opacity:0.7;">The 5 Moments That Matter</h2>
+    <div class="subtitle" style="margin-top:28px;">The predictable inflection points in every customer relationship that either accelerate success or accelerate churn — and what to do when each one hits.</div>
+    <div style="margin-top:32px; font-family:'DM Mono',monospace; font-size:12px; color:rgba(255,255,255,0.25); opacity:0; transform:translateY(10px); transition: all 0.5s 0.5s ease;" class="next-label">CCO2go.ai · CSM Training Program Phase 1 · Week 3</div>
+    <div class="footer"><span>CCO2go.ai</span><span>Module 2.3 Complete</span></div>
+  </div>
+
+</div>
+
+<script>
+const TOTAL = 11;
+let current = 1;
+
+function navigate(dir) {
+  const next = current + dir;
+  if (next < 1 || next > TOTAL) return;
+  const curr = document.getElementById('s' + current);
+  curr.classList.remove('active');
+  curr.classList.add('exit');
+  setTimeout(() => curr.classList.remove('exit'), 400);
+  current = next;
+  const ns = document.getElementById('s' + current);
+  ns.classList.add('active');
+  document.getElementById('counter').textContent = current + ' / ' + TOTAL;
+  document.getElementById('progress-bar').style.width = ((current / TOTAL) * 100) + '%';
+  // activate dep cards on s9
+  if (current === 9) {
+    document.querySelectorAll('.seg-dep').forEach(el => { el.style.opacity='1'; el.style.transform='translateY(0)'; });
+  }
+  if (current === TOTAL) {
+    const lbl = document.querySelector('#s' + TOTAL + ' .next-label');
+    if (lbl) { lbl.style.opacity='1'; lbl.style.transform='translateY(0)'; }
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') navigate(1);
+  if (e.key === 'ArrowLeft') navigate(-1);
+});
+document.getElementById('progress-bar').style.width = ((1 / TOTAL) * 100) + '%';
+</script>
+</body>
+</html>

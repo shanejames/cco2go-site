@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 2.1 — The Discovery Framework | CCO2go.ai</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:   #0F1F4B;
+    --navy2:  #0a1538;
+    --teal:   #00A896;
+    --gold:   #F4A000;
+    --purple: #E040FB;
+    --steel:  #4A5568;
+    --light:  #EEF2FA;
+    --danger: #D9534F;
+    --white:  #F0F4FF;
+    --accent: #E040FB;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: var(--navy2); }
+
+  /* NAV */
+  #nav {
+    position: fixed; top: 0; left: 0; right: 0; height: 48px; z-index: 100;
+    background: rgba(10,21,56,0.95); backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--teal);
+    display: flex; align-items: center; justify-content: space-between; padding: 0 24px;
+  }
+  #nav .brand { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--teal); letter-spacing: 0.08em; }
+  #nav .module-label { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gold); letter-spacing: 0.1em; }
+  #nav .slide-counter { font-family: 'DM Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.4); }
+
+  /* PROGRESS */
+  #progress-bar {
+    position: fixed; top: 50px; left: 0; height: 2px; z-index: 99;
+    background: var(--accent); transition: width 0.4s ease;
+  }
+
+  /* SLIDES */
+  #stage { position: fixed; top: 50px; left: 0; right: 0; bottom: 0; }
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    padding: 48px 80px 80px;
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+    pointer-events: none;
+  }
+  .slide.active { opacity: 1; transform: translateY(0); pointer-events: all; }
+  .slide.exit { opacity: 0; transform: translateY(-28px); transition: opacity 0.35s ease, transform 0.35s ease; }
+
+  /* FOOTER */
+  .footer {
+    position: absolute; bottom: 14px; left: 0; right: 0;
+    display: flex; justify-content: space-between; padding: 0 80px;
+    font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.22); letter-spacing: 0.06em;
+  }
+
+  /* NAV ARROWS */
+  #prev, #next {
+    position: fixed; top: 50%; transform: translateY(-50%); z-index: 99;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.35); font-size: 22px; width: 44px; height: 44px;
+    border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  #prev:hover, #next:hover { background: rgba(224,64,251,0.15); color: var(--accent); border-color: var(--accent); }
+  #prev { left: 14px; }
+  #next { right: 14px; }
+
+  /* TYPOGRAPHY */
+  .eyebrow {
+    font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 0.18em;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 16px;
+    opacity: 0; transform: translateY(10px); transition: all 0.5s 0.1s ease;
+  }
+  .slide.active .eyebrow { opacity: 1; transform: translateY(0); }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(56px, 8vw, 96px);
+    color: var(--white); line-height: 0.95; text-align: center; letter-spacing: 0.02em;
+    opacity: 0; transform: translateY(16px); transition: all 0.5s 0.2s ease;
+  }
+  .slide.active h1 { opacity: 1; transform: translateY(0); }
+
+  h2 {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px, 5.5vw, 68px);
+    color: var(--white); line-height: 1; text-align: center; letter-spacing: 0.02em;
+    opacity: 0; transform: translateY(14px); transition: all 0.5s 0.2s ease;
+  }
+  .slide.active h2 { opacity: 1; transform: translateY(0); }
+
+  .subtitle {
+    font-family: 'DM Sans', sans-serif; font-size: clamp(16px, 2.2vw, 22px);
+    color: rgba(255,255,255,0.55); text-align: center; margin-top: 20px; max-width: 680px; line-height: 1.5;
+    opacity: 0; transform: translateY(10px); transition: all 0.5s 0.35s ease;
+  }
+  .slide.active .subtitle { opacity: 1; transform: translateY(0); }
+
+  .stat-block {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(64px, 9vw, 108px);
+    color: var(--accent); line-height: 1; text-align: center; margin: 12px 0;
+    opacity: 0; transform: scale(0.85); transition: all 0.5s 0.25s ease;
+  }
+  .slide.active .stat-block { opacity: 1; transform: scale(1); }
+
+  .stat-label {
+    font-family: 'DM Sans', sans-serif; font-size: clamp(14px, 1.8vw, 18px);
+    color: rgba(255,255,255,0.5); text-align: center; letter-spacing: 0.04em; text-transform: uppercase;
+    opacity: 0; transition: opacity 0.5s 0.4s ease;
+  }
+  .slide.active .stat-label { opacity: 1; }
+
+  .accent-line {
+    width: 64px; height: 3px; background: var(--accent); margin: 20px auto;
+    opacity: 0; transform: scaleX(0); transition: all 0.5s 0.3s ease;
+  }
+  .slide.active .accent-line { opacity: 1; transform: scaleX(1); }
+
+  /* CARDS */
+  .card-grid {
+    display: grid; gap: 16px; width: 100%; max-width: 900px; margin-top: 24px;
+  }
+  .card-grid.cols2 { grid-template-columns: 1fr 1fr; }
+  .card-grid.cols3 { grid-template-columns: 1fr 1fr 1fr; }
+
+  .card {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    border-left: 3px solid var(--accent); border-radius: 4px;
+    padding: 18px 20px;
+    opacity: 0; transform: translateY(20px);
+  }
+  .slide.active .card { opacity: 1; transform: translateY(0); }
+  .card:nth-child(1) { transition: all 0.45s 0.2s ease; }
+  .card:nth-child(2) { transition: all 0.45s 0.3s ease; }
+  .card:nth-child(3) { transition: all 0.45s 0.4s ease; }
+  .card:nth-child(4) { transition: all 0.45s 0.5s ease; }
+  .card:nth-child(5) { transition: all 0.45s 0.6s ease; }
+
+  .card-num {
+    font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.12em; margin-bottom: 6px;
+  }
+  .card-title {
+    font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 6px;
+  }
+  .card-body {
+    font-family: 'DM Sans', sans-serif; font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.5;
+  }
+
+  /* PHASE BLOCKS */
+  .phase-row {
+    display: flex; gap: 20px; width: 100%; max-width: 960px; margin-top: 28px;
+  }
+  .phase-block {
+    flex: 1; padding: 24px 20px; border-radius: 6px; text-align: center;
+    opacity: 0; transform: translateY(24px);
+  }
+  .slide.active .phase-block { opacity: 1; transform: translateY(0); }
+  .phase-block:nth-child(1) { background: rgba(0,168,150,0.12); border: 1px solid rgba(0,168,150,0.3); transition: all 0.5s 0.2s ease; }
+  .phase-block:nth-child(2) { background: rgba(224,64,251,0.12); border: 1px solid rgba(224,64,251,0.3); transition: all 0.5s 0.35s ease; }
+  .phase-block:nth-child(3) { background: rgba(244,160,0,0.12); border: 1px solid rgba(244,160,0,0.3); transition: all 0.5s 0.5s ease; }
+  .phase-label {
+    font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 8px;
+  }
+  .phase-name {
+    font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 0.04em; margin-bottom: 8px; color: var(--white);
+  }
+  .phase-days {
+    font-family: 'DM Mono', monospace; font-size: 13px; color: rgba(255,255,255,0.4); margin-bottom: 10px;
+  }
+  .phase-desc {
+    font-family: 'DM Sans', sans-serif; font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.5;
+  }
+
+  /* LIST ITEMS */
+  .list-items { width: 100%; max-width: 820px; margin-top: 24px; }
+  .list-item {
+    display: flex; align-items: flex-start; gap: 16px; padding: 14px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    opacity: 0; transform: translateX(-20px);
+  }
+  .slide.active .list-item { opacity: 1; transform: translateX(0); }
+  .list-item:nth-child(1) { transition: all 0.4s 0.15s ease; }
+  .list-item:nth-child(2) { transition: all 0.4s 0.25s ease; }
+  .list-item:nth-child(3) { transition: all 0.4s 0.35s ease; }
+  .list-item:nth-child(4) { transition: all 0.4s 0.45s ease; }
+  .list-item:nth-child(5) { transition: all 0.4s 0.55s ease; }
+  .list-num { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--accent); min-width: 36px; margin-top: -2px; }
+  .list-text { font-family: 'DM Sans', sans-serif; font-size: 16px; color: rgba(255,255,255,0.8); line-height: 1.5; }
+  .list-text strong { color: var(--white); }
+
+  /* DUAL STAT */
+  .dual-stat { display: flex; gap: 60px; align-items: flex-end; margin-top: 24px; }
+  .stat-unit { text-align: center; }
+
+  /* QUOTE BLOCK */
+  .quote-block {
+    max-width: 780px; padding: 32px 40px; margin: 24px auto;
+    border-left: 4px solid var(--accent);
+    background: rgba(255,255,255,0.03);
+    opacity: 0; transform: translateY(14px); transition: all 0.55s 0.25s ease;
+  }
+  .slide.active .quote-block { opacity: 1; transform: translateY(0); }
+  .quote-text {
+    font-family: 'DM Sans', sans-serif; font-size: clamp(18px, 2.4vw, 24px);
+    color: var(--white); line-height: 1.6; font-style: italic;
+  }
+
+  /* BACKGROUND MESH */
+  .bg-mesh {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background: radial-gradient(ellipse 80% 60% at 70% 20%, rgba(224,64,251,0.06) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 20% 80%, rgba(0,168,150,0.05) 0%, transparent 60%);
+  }
+
+  /* ACTION ITEMS */
+  .action-grid { display: flex; gap: 20px; max-width: 920px; width: 100%; margin-top: 28px; }
+  .action-item {
+    flex: 1; padding: 22px 18px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(224,64,251,0.25);
+    border-top: 3px solid var(--accent); border-radius: 4px; text-align: center;
+    opacity: 0; transform: translateY(20px);
+  }
+  .slide.active .action-item { opacity: 1; transform: translateY(0); }
+  .action-item:nth-child(1) { transition: all 0.45s 0.2s ease; }
+  .action-item:nth-child(2) { transition: all 0.45s 0.35s ease; }
+  .action-item:nth-child(3) { transition: all 0.45s 0.5s ease; }
+  .action-num { font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: var(--accent); line-height: 1; }
+  .action-title { font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 700; color: var(--white); margin: 8px 0 6px; }
+  .action-body { font-family: 'DM Sans', sans-serif; font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+
+  /* DISCOVERY CALL BUCKETS */
+  .bucket-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 880px; width: 100%; margin-top: 24px; }
+  .bucket {
+    padding: 20px; border-radius: 4px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    opacity: 0; transform: translateY(18px);
+  }
+  .slide.active .bucket { opacity: 1; transform: translateY(0); }
+  .bucket:nth-child(1) { border-left: 3px solid var(--teal); transition: all 0.45s 0.15s ease; }
+  .bucket:nth-child(2) { border-left: 3px solid var(--accent); transition: all 0.45s 0.25s ease; }
+  .bucket:nth-child(3) { border-left: 3px solid var(--gold); transition: all 0.45s 0.35s ease; }
+  .bucket:nth-child(4) { border-left: 3px solid var(--danger); transition: all 0.45s 0.45s ease; }
+  .bucket-num { font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.35); letter-spacing: 0.1em; margin-bottom: 6px; }
+  .bucket-title { font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+  .bucket-desc { font-family: 'DM Sans', sans-serif; font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="bg-mesh"></div>
+
+<!-- NAV -->
+<div id="nav">
+  <div class="brand">CCO2go.ai</div>
+  <div class="module-label">MODULE 2.1 — THE DISCOVERY FRAMEWORK</div>
+  <div class="slide-counter" id="counter">1 / 12</div>
+</div>
+<div id="progress-bar"></div>
+
+<!-- NAV BUTTONS -->
+<button id="prev" onclick="navigate(-1)">&#8592;</button>
+<button id="next" onclick="navigate(1)">&#8594;</button>
+
+<div id="stage">
+
+  <!-- SLIDE 1: TITLE -->
+  <div class="slide active" id="s1">
+    <div class="eyebrow">Week 2 · Knowing Your Customers' Real Situation</div>
+    <h1>THE DISCOVERY<br>FRAMEWORK</h1>
+    <div class="accent-line"></div>
+    <div class="subtitle">Module 2.1 &nbsp;·&nbsp; CSM Training Program Phase 1</div>
+    <div class="footer">
+      <span>CCO2go.ai · Shane James</span>
+      <span>MODULE 2.1</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: THE PROBLEM -->
+  <div class="slide" id="s2">
+    <div class="eyebrow">The Core Problem</div>
+    <h2>What Did Sales<br>Promise Them?</h2>
+    <div class="accent-line"></div>
+    <div class="quote-block">
+      <div class="quote-text">That gap — between what was sold and what was promised — is where churn is born.</div>
+    </div>
+    <div class="subtitle">Most CSMs don't actually know what their customers were promised. That gap is the problem.</div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.1 — Discovery Framework</span></div>
+  </div>
+
+  <!-- SLIDE 3: DATA -->
+  <div class="slide" id="s3">
+    <div class="eyebrow">The Business Case for Discovery</div>
+    <div class="dual-stat">
+      <div class="stat-unit">
+        <div class="stat-block">67%</div>
+        <div class="stat-label">of CS pros say inadequate<br>sales handoff is their #1<br>onboarding challenge</div>
+      </div>
+      <div class="stat-unit" style="--accent: var(--gold);">
+        <div class="stat-block" style="color:var(--gold)">23%</div>
+        <div class="stat-label">higher renewal rates for<br>CSMs who run structured<br>discovery in Days 1–30</div>
+      </div>
+    </div>
+    <div class="subtitle" style="margin-top: 36px;">Almost a quarter of your book of business rides on whether you ask the right questions in week one.</div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.1 — Discovery Framework</span></div>
+  </div>
+
+  <!-- SLIDE 4: WHY DISCOVERY GETS SKIPPED -->
+  <div class="slide" id="s4">
+    <div class="eyebrow">Why It Doesn't Happen</div>
+    <h2>3 Reasons Discovery<br>Gets Skipped</h2>
+    <div class="accent-line"></div>
+    <div class="card-grid" style="max-width:820px; margin-top:24px;">
+      <div class="card" style="border-left-color:var(--gold)">
+        <div class="card-num">REASON 01</div>
+        <div class="card-title">Time Pressure</div>
+        <div class="card-body">The account is live. Tasks are stacking. The customer wants answers, not questions — so the CSM skips the deep dive.</div>
+      </div>
+      <div class="card" style="border-left-color:var(--accent)">
+        <div class="card-num">REASON 02</div>
+        <div class="card-title">False Familiarity</div>
+        <div class="card-body">The CSM scanned the CRM notes and feels like they know the account. They know the sales narrative. That's different.</div>
+      </div>
+      <div class="card" style="border-left-color:var(--danger)">
+        <div class="card-num">REASON 03</div>
+        <div class="card-title">Awkward Positioning</div>
+        <div class="card-body">Discovery questions feel like going backwards — second-guessing the deal. So the CSM avoids them entirely.</div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.1 — Discovery Framework</span></div>
+  </div>
+
+  <!-- SLIDE 5: 5 HANDOFF QUESTIONS -->
+  <div class="slide" id="s5">
+    <div class="eyebrow">Get These Before You Touch the Account</div>
+    <h2>The 5 Handoff Questions</h2>
+    <div class="accent-line"></div>
+    <div class="list-items">
+      <div class="list-item">
+        <div class="list-num">1</div>
+        <div class="list-text"><strong>What specific outcome did we promise them?</strong> — Exact language. Word for word. That's your renewal benchmark.</div>
+      </div>
+      <div class="list-item">
+        <div class="list-num">2</div>
+        <div class="list-text"><strong>What was their primary pain point before us?</strong> — Your renewal story is always before-and-after. Know the before.</div>
+      </div>
+      <div class="list-item">
+        <div class="list-num">3</div>
+        <div class="list-text"><strong>Who is the decision-maker vs. the champion?</strong> — Who owns outcome, who uses it, who writes the check. Rarely the same person.</div>
+      </div>
+      <div class="list-item">
+        <div class="list-num">4</div>
+        <div class="list-text"><strong>Were there objections that got papered over?</strong> — Unresolved concerns sit in the account. They surface at renewal.</div>
+      </div>
+      <div class="list-item">
+        <div class="list-num">5</div>
+        <div class="list-text"><strong>What does success look like in 90 days — in the customer's words?</strong> — Not sales' words. Not the deck. The customer's mouth.</div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.1 — Discovery Framework</span></div>
+  </div>
+
+  <!-- SLIDE 6: 90 DAY MODEL INTRO -->
+  <div class="slide" id="s6">
+    <div class="eyebrow">The Core Framework</div>
+    <h1>THE 90-DAY<br>TAKEOVER</h1>
+    <div class="accent-line"></div>
+    <div class="subtitle">Three phases. Thirty days each. One primary objective per phase.<br>Sequence is the discipline.</div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.1 — Discovery Framework</span></div>
+  </div>
+
+  <!-- SLIDE 7: 3 PHASES -->
+  <div class="slide" id="s7">
+    <div class="eyebrow">90-Day Takeover Model</div>
+    <h2>Discover · Design · Drive</h2>
+    <div class="phase-row">
+      <div class="phase-block">
+        <div class="phase-label" style="color:var(--teal)">Phase 01</div>
+        <div class="phase-name">DISCOVER</div>
+        <div class="phase-days">Days 1–30</div>
+        <div class="phase-desc">Understand before you act. Map users, outcomes, and gaps between what sales promised and reality.</div>
+      </div>
+      <div class="phase-block">
+        <div class="phase-label" style="color:var(--accent)">Phase 02</div>
+        <div class="phase-name">DESIGN</div>
+        <div class="phase-days">Days 31–60</div>
+        <div class="phase-desc">Build the success plan. Prioritize use cases, set milestones, surface misalignments before they cost you.</div>
+      </div>
+      <div class="phase-block">
+        <div class="phase-label" style="color:var(--gold)">Phase 03</div>
+        <div class="phase-name">DRIVE</div>
+        <div class="phase-days">Days 61–90</div>
+        <div class="phase-desc">Execute. Hit milestones. Show the customer things are happening on purpose — build toward your first EBR.</div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.1 — Discovery Framework</span></div>
+  </div>
+
+  <!-- SLIDE 8: SEQUENCING RULE -->
+  <div class="slide" id="s8">
+    <div class="eyebrow">The Critical Rule</div>
+    <h2>Don't Design Until You've Discovered.<br>Don't Drive Until You've Designed.</h2>
+    <div class="accent-line"></div>
+    <div class="quote-block">
+      <div class="quote-text">Most CSMs run all three phases simultaneously from day one — and that's why they feel scattered.</div>
+    </div>
+    <div class="subtitle">By Day 90 you should answer without looking anything up: What did they hire us to do? Are we doing it? What's the proof?</div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.1 — Discovery Framework</span></div>
+  </div>
+
+  <!-- SLIDE 9: 4 BUCKETS -->
+  <div class="slide" id="s9">
+    <div class="eyebrow">Running Discovery in Practice</div>
+    <h2>Discovery Call:<br>The 4-Bucket Structure</h2>
+    <div class="bucket-grid">
+      <div class="bucket">
+        <div class="bucket-num">BUCKET 01</div>
+        <div class="bucket-title">Current State</div>
+        <div class="bucket-desc">What's actually happening today with our product in their workflow — not what it should look like, what it looks like right now.</div>
+      </div>
+      <div class="bucket">
+        <div class="bucket-num">BUCKET 02</div>
+        <div class="bucket-title">Goals & Metrics</div>
+        <div class="bucket-desc">Specific, measurable, customer-owned. "Improve our process" is not a goal. "Reduce time-to-close by 15% in Q2" is a goal.</div>
+      </div>
+      <div class="bucket">
+        <div class="bucket-num">BUCKET 03</div>
+        <div class="bucket-title">Stakeholder Landscape</div>
+        <div class="bucket-desc">Users, influencers, and the skeptic. Every account has one. Find them early or they'll find you at renewal.</div>
+      </div>
+      <div class="bucket">
+        <div class="bucket-num">BUCKET 04</div>
+        <div class="bucket-title">Blockers & Risks</div>
+        <div class="bucket-desc">Competing initiative? IT dependency? Legal hold? Surface these in discovery, not when they've delayed your timeline by 60 days.</div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.1 — Discovery Framework</span></div>
+  </div>
+
+  <!-- SLIDE 10: FOLLOW-UP RULE -->
+  <div class="slide" id="s10">
+    <div class="eyebrow">After Every Discovery Call</div>
+    <h2>Send the Recap<br>Within 24 Hours</h2>
+    <div class="accent-line"></div>
+    <div class="quote-block">
+      <div class="quote-text">"Here's what I heard. Here's what I'm focused on. Here's what comes next."</div>
+    </div>
+    <div class="subtitle">Send it to the customer, not just your CRM. If you got something wrong, they'll correct you. Both outcomes are good.</div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.1 — Discovery Framework</span></div>
+  </div>
+
+  <!-- SLIDE 11: DO THIS MONDAY -->
+  <div class="slide" id="s11">
+    <div class="eyebrow">Do This Monday</div>
+    <h2>3 Actions This Week</h2>
+    <div class="action-grid">
+      <div class="action-item">
+        <div class="action-num">1</div>
+        <div class="action-title">Run the 5 Handoff Questions</div>
+        <div class="action-body">Top 3 new accounts (last 90 days). Get answers from sales in writing. Document what's missing — that gap is a risk.</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">2</div>
+        <div class="action-title">Schedule Discovery Calls</div>
+        <div class="action-body">One per account. Next two weeks. Use the 4-bucket structure. Send recap within 24 hours. Not a check-in. A discovery call.</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">3</div>
+        <div class="action-title">Draft a 90-Day Plan</div>
+        <div class="action-body">Highest-risk new account. Even a one-pager. Discover. Design. Drive. Write it down before Monday is over.</div>
+      </div>
+    </div>
+    <div class="footer"><span>CCO2go.ai</span><span>2.1 — Discovery Framework</span></div>
+  </div>
+
+  <!-- SLIDE 12: END -->
+  <div class="slide" id="s12">
+    <div class="eyebrow">Up Next</div>
+    <h1>MODULE 2.2</h1>
+    <div class="accent-line"></div>
+    <h2 style="font-size:32px; margin-top:12px; opacity:0.7;">Champion Mapping</h2>
+    <div class="subtitle" style="margin-top:28px;">Stakeholder architecture, single-threading risk, and what to do in the 48 hours after your champion leaves.</div>
+    <div style="margin-top:32px; font-family:'DM Mono',monospace; font-size:12px; color:rgba(255,255,255,0.25); opacity:0; transform:translateY(10px); transition: all 0.5s 0.5s ease;" class="next-label">CCO2go.ai · CSM Training Program Phase 1 · Week 2</div>
+    <div class="footer"><span>CCO2go.ai</span><span>Module 2.1 Complete</span></div>
+  </div>
+
+</div>
+
+<script>
+const TOTAL = 12;
+let current = 1;
+
+function navigate(dir) {
+  const next = current + dir;
+  if (next < 1 || next > TOTAL) return;
+  const curr = document.getElementById('s' + current);
+  curr.classList.remove('active');
+  curr.classList.add('exit');
+  setTimeout(() => curr.classList.remove('exit'), 400);
+  current = next;
+  const newSlide = document.getElementById('s' + current);
+  newSlide.classList.add('active');
+  // Update counter and progress
+  document.getElementById('counter').textContent = current + ' / ' + TOTAL;
+  document.getElementById('progress-bar').style.width = ((current / TOTAL) * 100) + '%';
+  // Trigger any per-slide animations
+  animateSlide(current);
+}
+
+function animateSlide(n) {
+  if (n === 12) {
+    const label = document.querySelector('#s12 .next-label');
+    if (label) { label.style.opacity = '1'; label.style.transform = 'translateY(0)'; }
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') navigate(1);
+  if (e.key === 'ArrowLeft') navigate(-1);
+});
+
+// Initialize progress
+document.getElementById('progress-bar').style.width = ((1 / TOTAL) * 100) + '%';
+</script>
+</body>
+</html>

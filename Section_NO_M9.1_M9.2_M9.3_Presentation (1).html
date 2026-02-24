@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Section N+O — M9.1 CS in 2030 · M9.2 90-Day War Plan · M9.3 The Manifesto</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--am:#B45309;--aml:#F59E0B;--or:#C2410C;--orl:#F97316;--gn:#15803D;--gnl:#22C55E;--navy:#0F1F4B;--bg:#080F2B;--teal:#00A896;--gold:#F4A000;--white:#FFF;--muted:#8B9FC4;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--white);font-family:'DM Sans',sans-serif;height:100vh;overflow:hidden;}
+  nav{position:fixed;top:0;left:0;right:0;height:48px;background:rgba(8,15,43,.95);border-bottom:2px solid var(--am);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100;transition:border-color .4s;}
+  .brand{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;}
+  .ml{font-family:'DM Mono',monospace;font-size:11px;color:var(--aml);transition:color .4s;}
+  .ctr{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);}
+  .pb-bar{position:fixed;top:50px;left:0;height:2px;background:var(--am);transition:width .4s,background .4s;z-index:99;}
+  .sw{position:relative;width:100%;height:100vh;overflow:hidden;}
+  .slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:80px 80px 60px;opacity:0;transform:translateY(28px);transition:opacity .55s,transform .55s;pointer-events:none;}
+  .slide.active{opacity:1;transform:translateY(0);pointer-events:auto;}
+  .ey{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px;opacity:0;transform:translateY(12px);transition:opacity .4s .1s,transform .4s .1s;}
+  .slide.active .ey{opacity:1;transform:translateY(0);}
+  h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(46px,6.5vw,88px);line-height:.95;margin-bottom:20px;opacity:0;transform:translateY(16px);transition:opacity .4s .2s,transform .4s .2s;}
+  .slide.active h1{opacity:1;transform:translateY(0);}
+  h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,4.5vw,64px);line-height:1.0;margin-bottom:20px;opacity:0;transform:translateY(16px);transition:opacity .4s .2s,transform .4s .2s;}
+  .slide.active h2{opacity:1;transform:translateY(0);}
+  .acc{width:64px;height:4px;margin-bottom:28px;opacity:0;transition:opacity .4s .3s;}
+  .slide.active .acc{opacity:1;}
+  .bt{font-size:17px;line-height:1.65;color:rgba(255,255,255,.82);max-width:780px;opacity:0;transform:translateY(12px);transition:opacity .4s .35s,transform .4s .35s;}
+  .slide.active .bt{opacity:1;transform:translateY(0);}
+  .an{opacity:0;transform:translateY(12px);transition:opacity .4s .4s,transform .4s .4s;}
+  .slide.active .an{opacity:1;transform:translateY(0);}
+  .badge{display:inline-block;border-radius:4px;padding:4px 14px;font-family:'DM Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;}
+  .sc{display:flex;gap:18px;margin-top:10px;flex-wrap:wrap;}
+  .sc-card{background:rgba(255,255,255,.04);border-radius:8px;padding:16px 22px;min-width:130px;}
+  .sn{font-family:'Bebas Neue',sans-serif;font-size:40px;line-height:1;}
+  .sl2{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4;font-family:'DM Mono',monospace;}
+  .hb{border-left:4px solid;border-radius:4px;padding:16px 20px;margin-top:12px;max-width:780px;}
+  .hb p{font-size:15px;line-height:1.6;color:rgba(255,255,255,.88);}
+  /* Predictions */
+  .pred-list{list-style:none;max-width:820px;margin-top:8px;}
+  .pred-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px;line-height:1.5;}
+  .pred-item:last-child{border-bottom:none;}
+  .pred-num{font-family:'Bebas Neue',sans-serif;font-size:30px;min-width:30px;line-height:1;}
+  .pred-by{font-family:'DM Mono',monospace;font-size:10px;border-radius:3px;padding:2px 7px;margin-bottom:4px;display:inline-block;}
+  .pred-title{font-weight:700;font-size:14px;color:var(--white);margin-bottom:3px;}
+  .pred-why{font-size:12px;color:rgba(255,255,255,.55);font-style:italic;}
+  /* War plan grid */
+  .war-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;max-width:860px;margin-top:8px;}
+  .war-card{border-radius:6px;padding:14px 16px;}
+  .war-label{font-family:'Bebas Neue',sans-serif;font-size:22px;line-height:1;margin-bottom:8px;}
+  .war-item{font-size:12px;line-height:1.7;color:rgba(255,255,255,.8);padding-left:12px;position:relative;}
+  .war-item::before{content:"→";position:absolute;left:0;color:var(--orl);font-size:10px;}
+  .war-success{font-size:11px;font-style:italic;margin-top:6px;padding:6px 10px;border-radius:3px;}
+  /* Commitments */
+  .commit-list{list-style:none;max-width:760px;margin-top:8px;}
+  .commit-item{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:14px;line-height:1.5;}
+  .commit-item:last-child{border-bottom:none;}
+  .commit-num{font-family:'Bebas Neue',sans-serif;font-size:26px;min-width:26px;line-height:1;}
+  /* Program complete */
+  .final-box{max-width:740px;text-align:center;margin:0 auto;}
+  footer{position:fixed;bottom:14px;left:80px;right:80px;display:flex;justify-content:space-between;pointer-events:none;}
+  .fb{font-family:'DM Mono',monospace;font-size:10px;color:rgba(139,159,196,.4);}
+  .fm{font-family:'DM Mono',monospace;font-size:10px;}
+  .kh{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);font-family:'DM Mono',monospace;font-size:10px;color:rgba(139,159,196,.3);}
+</style>
+</head>
+<body>
+<nav id="nav"><span class="brand">CCO2go.ai · Phase 3 · Week 9 — The Future</span><span class="ml" id="nav-ml">M9.1 — CS in 2030</span><span class="ctr" id="ctr">1 / 15</span></nav>
+<div class="pb-bar" id="prg"></div>
+<div class="sw">
+
+<!-- S1: M9.1 TITLE -->
+<div class="slide">
+  <div class="badge" style="background:rgba(180,83,9,.12);border:1px solid rgba(180,83,9,.35);color:var(--aml);">Module 9.1 · Week 9 — The Future</div>
+  <div class="ey" style="color:var(--aml);">Module 9.1 · Phase 3 — The Proof</div>
+  <h1>CS in 2030:<br>6 Predictions Worth Making</h1>
+  <div class="acc" style="background:var(--am);"></div>
+  <p class="bt">These are not industry trend observations. Each has a specific outcome, time horizon, and testable result. If the predictions are directionally correct, the CS leaders who build toward them in the next 18–24 months will be significantly better positioned.</p>
+  <div class="sc an">
+    <div class="sc-card" style="border:1px solid rgba(180,83,9,.3);"><div class="sn" style="color:var(--aml);">6</div><div class="sl2">falsifiable predictions.<br>Specific outcome + time<br>horizon + test condition.</div></div>
+    <div class="sc-card" style="border:1px solid rgba(180,83,9,.3);"><div class="sn" style="color:var(--aml);">2028</div><div class="sl2">CRO roles from CS.<br>Outcome Architect title<br>at leading companies.</div></div>
+    <div class="sc-card" style="border:1px solid rgba(180,83,9,.3);"><div class="sn" style="color:var(--aml);">80%</div><div class="sl2">routine interactions<br>handled autonomously<br>by agentic AI by 2030.</div></div>
+  </div>
+</div>
+
+<!-- S2: PREDICTIONS 1-3 -->
+<div class="slide">
+  <div class="ey" style="color:var(--aml);">Segments 2 + 3 · Predictions 1–3</div>
+  <h2>Predictions 1, 2, and 3</h2>
+  <div class="acc" style="background:var(--am);"></div>
+  <ul class="pred-list an">
+    <li class="pred-item">
+      <div class="pred-num" style="color:var(--aml);">1</div>
+      <div><div><span class="pred-by" style="background:rgba(180,83,9,.15);color:var(--aml);">By 2030</span></div><div class="pred-title">AI-native platforms displace today's incumbents</div><div style="font-size:13px;color:rgba(255,255,255,.75);">Not a feature gap — an architectural gap that compounds. Built for CSMs who check dashboards vs. built for agents that act autonomously. Evaluation question: AI core to architecture, or added to it?</div><div class="pred-why">Now: ask every vendor the build-vs-bolt question. More informative than any feature demo.</div></div>
+    </li>
+    <li class="pred-item">
+      <div class="pred-num" style="color:var(--aml);">2</div>
+      <div><div><span class="pred-by" style="background:rgba(180,83,9,.15);color:var(--aml);">By 2028</span></div><div class="pred-title">CRO roles increasingly from post-sales and CS backgrounds</div><div style="font-size:13px;color:rgba(255,255,255,.75);">CRO mandate evolving from new-logo acquisition to full revenue lifecycle. NRR ownership requires post-sales expertise. CS leaders with Module 7.3 financial fluency are the natural candidates.</div><div class="pred-why">Now: financial fluency is not optional career preparation — it's the preparation for this transition.</div></div>
+    </li>
+    <li class="pred-item">
+      <div class="pred-num" style="color:var(--aml);">3</div>
+      <div><div><span class="pred-by" style="background:rgba(180,83,9,.15);color:var(--aml);">By 2029</span></div><div class="pred-title">NRR tied to CEO/CFO compensation, not just CS</div><div style="font-size:13px;color:rgba(255,255,255,.75);">As NRR compounding becomes standard board literacy, it will join ARR growth as executive compensation metric. Accountability for NRR moves to the top of the organization.</div><div class="pred-why">Now: boards learning to read CS investment cases today are the ones making this change.</div></div>
+    </li>
+  </ul>
+</div>
+
+<!-- S3: PREDICTIONS 4-6 -->
+<div class="slide">
+  <div class="ey" style="color:var(--aml);">Segment 4 · Predictions 4–6</div>
+  <h2>Predictions 4, 5, and 6</h2>
+  <div class="acc" style="background:var(--am);"></div>
+  <ul class="pred-list an">
+    <li class="pred-item">
+      <div class="pred-num" style="color:var(--aml);">4</div>
+      <div><div><span class="pred-by" style="background:rgba(180,83,9,.15);color:var(--aml);">By 2028</span></div><div class="pred-title">'CSM' replaced by 'Outcome Architect' at leading companies</div><div style="font-size:13px;color:rgba(255,255,255,.75);">Title reflects mandate. Service orientation → value creation orientation. Different talent, different performance measurement, different competitive advantage.</div><div class="pred-why">Now: Module 6.2 Outcome Architect operating model is the job description being written at leading orgs today.</div></div>
+    </li>
+    <li class="pred-item">
+      <div class="pred-num" style="color:var(--aml);">5</div>
+      <div><div><span class="pred-by" style="background:rgba(180,83,9,.15);color:var(--aml);">By 2030</span></div><div class="pred-title">Agentic AI handles 80% of routine interactions autonomously</div><div style="font-size:13px;color:rgba(255,255,255,.75);">Module 8.2 is the early state. Human CS concentrates in executive relationships, multi-stakeholder expansion, high-judgment situations. The Human Premium argument as a prediction.</div><div class="pred-why">Now: the 20% that stays human requires more skill than today's average CSM role demands. Build those capabilities now.</div></div>
+    </li>
+    <li class="pred-item">
+      <div class="pred-num" style="color:var(--aml);">6</div>
+      <div><div><span class="pred-by" style="background:rgba(180,83,9,.15);color:var(--aml);">By 2030</span></div><div class="pred-title">CS and PLG distinction disappears entirely</div><div style="font-size:13px;color:rgba(255,255,255,.75);">Unified motion: product-led for Waterfall Stages 1–3, agents for monitoring, human CS for Stage 5–6. The separation between "product-led" and "success-led" becomes architectural, not organizational.</div><div class="pred-why">Now: you're building the unified motion already through digital-first model, agent architecture, Expansion Staircase.</div></div>
+    </li>
+  </ul>
+</div>
+
+<!-- S4: DO THIS MONDAY 9.1 -->
+<div class="slide">
+  <div class="ey" style="color:var(--aml);">Segment 5+6 · Action</div>
+  <h2>Do This Monday</h2>
+  <div class="acc" style="background:var(--am);"></div>
+  <ul style="list-style:none;margin-top:8px;max-width:700px;" class="an">
+    <li style="display:flex;gap:14px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:15px;line-height:1.5;"><span style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--aml);min-width:26px;line-height:1;">1</span><div>Add build-vs.-bolt to every platform evaluation. "Is AI core to your architecture or added to it?" More informative than any feature comparison about their 2028 trajectory.</div></li>
+    <li style="display:flex;gap:14px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:15px;line-height:1.5;"><span style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--aml);min-width:26px;line-height:1;">2</span><div>Assess your actual mandate ratio: service orientation (responding, managing, maintaining) vs. value creation (designing outcomes, building expansion pathways). The ratio tells you where you are on the transition curve.</div></li>
+    <li style="display:flex;gap:14px;padding:13px 0;font-size:15px;line-height:1.5;"><span style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--aml);min-width:26px;line-height:1;">3</span><div>Take one prediction. Make it personal. Which one, if correct, most changes your trajectory? Build one 30-day action toward that future — not a plan to build the action. The action.</div></li>
+  </ul>
+  <div class="hb an" style="background:rgba(180,83,9,.07);border-color:var(--am);margin-top:12px;"><p>Directional confidence, not certainty. Building toward these predictions makes you better positioned in 2030 regardless of exact timing.</p></div>
+</div>
+
+<!-- === M9.2 === -->
+<!-- S5: M9.2 TITLE -->
+<div class="slide">
+  <div class="badge" style="background:rgba(194,65,12,.12);border:1px solid rgba(194,65,12,.35);color:var(--orl);">Module 9.2 · Week 9 — The Future</div>
+  <div class="ey" style="color:var(--orl);">Module 9.2 · Phase 3 — The Proof</div>
+  <h1>The 90-Day War Plan:<br>Your Roadmap from Here</h1>
+  <div class="acc" style="background:var(--or);"></div>
+  <p class="bt">The gap between knowing what to do and doing it. This is the translation mechanism — 12 specific actions, across 3 weeks, with explicit success conditions. The goal: finish Week 9 with something operational that didn't exist when Week 1 started.</p>
+  <div class="sc an">
+    <div class="sc-card" style="border:1px solid rgba(194,65,12,.3);"><div class="sn" style="color:var(--orl);">3</div><div class="sl2">weeks. Diagnose, Build,<br>Prove. In sequence.</div></div>
+    <div class="sc-card" style="border:1px solid rgba(194,65,12,.3);"><div class="sn" style="color:var(--orl);">12</div><div class="sl2">specific actions with<br>explicit success conditions.<br>No ambiguity.</div></div>
+    <div class="sc-card" style="border:1px solid rgba(194,65,12,.3);"><div class="sn" style="color:var(--orl);">15m</div><div class="sl2">to pull your NRR.<br>That's Day 1 Action 1.<br>Do it today.</div></div>
+  </div>
+</div>
+
+<!-- S6: WEEK 1 -->
+<div class="slide">
+  <div class="ey" style="color:var(--orl);">Segment 2 · Week 1</div>
+  <h2>Week 1 — Diagnose</h2>
+  <div class="acc" style="background:var(--or);"></div>
+  <div class="war-grid an" style="grid-template-columns:1fr 1fr 1fr 1fr;max-width:900px;">
+    <div class="war-card" style="background:rgba(194,65,12,.1);border:1px solid rgba(194,65,12,.3);">
+      <div class="war-label" style="color:var(--orl);">Action 1</div>
+      <div style="font-weight:700;font-size:13px;margin-bottom:6px;color:var(--white);">NRR Audit</div>
+      <div class="war-item">Current NRR to single decimal</div>
+      <div class="war-item">4-quarter trend</div>
+      <div class="war-item">Baseline documented</div>
+      <div class="war-success" style="background:rgba(194,65,12,.08);color:rgba(249,115,22,.8);">Everything else is built on this number.</div>
+    </div>
+    <div class="war-card" style="background:rgba(194,65,12,.08);border:1px solid rgba(194,65,12,.2);">
+      <div class="war-label" style="color:var(--orl);">Action 2</div>
+      <div style="font-weight:700;font-size:13px;margin-bottom:6px;color:var(--white);">Churn Driver ID</div>
+      <div class="war-item">Last 10 churned accounts</div>
+      <div class="war-item">Interview 3 if possible</div>
+      <div class="war-item">Top 2 categories with data</div>
+      <div class="war-success" style="background:rgba(194,65,12,.08);color:rgba(249,115,22,.7);">Save play system built on this.</div>
+    </div>
+    <div class="war-card" style="background:rgba(194,65,12,.08);border:1px solid rgba(194,65,12,.2);">
+      <div class="war-label" style="color:var(--orl);">Action 3</div>
+      <div style="font-weight:700;font-size:13px;margin-bottom:6px;color:var(--white);">Health Score MVP</div>
+      <div class="war-item">3 signals, equal weights</div>
+      <div class="war-item">Top 20 accounts only</div>
+      <div class="war-item">Spreadsheet is fine</div>
+      <div class="war-success" style="background:rgba(194,65,12,.08);color:rgba(249,115,22,.7);">Success: 3 at-risk accounts intuition didn't flag.</div>
+    </div>
+    <div class="war-card" style="background:rgba(194,65,12,.08);border:1px solid rgba(194,65,12,.2);">
+      <div class="war-label" style="color:var(--orl);">Action 4</div>
+      <div style="font-weight:700;font-size:13px;margin-bottom:6px;color:var(--white);">Segment the Book</div>
+      <div class="war-item">Protect: renewal at risk</div>
+      <div class="war-item">Maintain: steady</div>
+      <div class="war-item">Grow: expansion-ready</div>
+      <div class="war-success" style="background:rgba(194,65,12,.08);color:rgba(249,115,22,.7);">Every account assigned. Protect list identified.</div>
+    </div>
+  </div>
+</div>
+
+<!-- S7: WEEK 2 + 3 -->
+<div class="slide">
+  <div class="ey" style="color:var(--orl);">Segments 3+4 · Weeks 2 and 3</div>
+  <h2>Weeks 2 and 3 — Build and Prove</h2>
+  <div class="acc" style="background:var(--or);"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:860px;margin-top:8px;" class="an">
+    <div style="background:rgba(194,65,12,.07);border:1px solid rgba(194,65,12,.2);border-radius:6px;padding:16px 18px;">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--orl);text-transform:uppercase;margin-bottom:10px;">Week 2 — Build (4 actions, all require DOING)</div>
+      <div style="font-size:13px;line-height:1.8;color:rgba(255,255,255,.8);">→ <strong>Kill one negative touchpoint</strong> — identify W1, eliminate by end W2. Not a project. A decision.<br>→ <strong>Run first VPC</strong> — one Grow account. Not plan it. Run it. First VPC is a rehearsal, not a close.<br>→ <strong>Calculate T2FV</strong> — last 10 customers, days from contract to first outcome vs. benchmark.<br>→ <strong>Identify 3 CSQLs</strong> — write them down, name them in CRM. Expansion pipeline now has 3 accounts.</div>
+    </div>
+    <div style="background:rgba(194,65,12,.07);border:1px solid rgba(194,65,12,.2);border-radius:6px;padding:16px 18px;">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--orl);text-transform:uppercase;margin-bottom:10px;">Week 3 — Prove (visible to the org above you)</div>
+      <div style="font-size:13px;line-height:1.8;color:rgba(255,255,255,.8);">→ <strong>5 expansion conversations</strong> — CSQLs + 2 more. Win/loss logged for each.<br>→ <strong>CFO business case</strong> — cost per retained ARR dollar + NRR delta + 5-section one-pager.<br>→ <strong>Board-ready deck</strong> — 6 slides, 6 metrics, retire CSAT/NPS/QBRs completed. No exceptions.<br>→ <strong>Make The Ask</strong> — schedule the meeting, go in, make the specific bounded timed request. Case gets better after you've heard the real objections.</div>
+    </div>
+  </div>
+  <div class="hb an" style="background:rgba(194,65,12,.07);border-color:var(--or);margin-top:12px;"><p>Day 90: health score on full portfolio, 10 save plays logged with outcomes, CSQL close rate data, Month 1 agents deployed. The 3-week sprint launches the operation. It doesn't complete it.</p></div>
+</div>
+
+<!-- === M9.3 === -->
+<!-- S8: M9.3 TITLE -->
+<div class="slide">
+  <div class="badge" style="background:rgba(21,128,61,.12);border:1px solid rgba(21,128,61,.35);color:var(--gnl);">Module 9.3 · Program Finale · Phase 3 Complete</div>
+  <div class="ey" style="color:var(--gnl);">Module 9.3 · The Outcome Architect's Manifesto</div>
+  <h1>The Outcome<br>Architect's Manifesto</h1>
+  <div class="acc" style="background:var(--gn);"></div>
+  <p class="bt">The program closes where it started — with the lie. Not malicious deception. The gap between what customers report and what they experience. The commitment to knowing what is actually true, built on evidence, tested against outcomes.</p>
+  <div class="sc an">
+    <div class="sc-card" style="border:1px solid rgba(21,128,61,.3);"><div class="sn" style="color:var(--gnl);">27</div><div class="sl2">modules. 3 phases.<br>Diagnose, Build, Prove.</div></div>
+    <div class="sc-card" style="border:1px solid rgba(21,128,61,.3);"><div class="sn" style="color:var(--gnl);">5</div><div class="sl2">operational commitments.<br>Not a mission statement.<br>A way of working.</div></div>
+    <div class="sc-card" style="border:1px solid rgba(21,128,61,.3);"><div class="sn" style="color:var(--gnl);">1</div><div class="sl2">gap to close: CS language<br>vs. revenue language.<br>You now have the tools.</div></div>
+  </div>
+</div>
+
+<!-- S9: PROGRAM ARCHITECTURE -->
+<div class="slide">
+  <div class="ey" style="color:var(--gnl);">Segment 2 · The Architecture</div>
+  <h2>The 3-Phase Architecture</h2>
+  <div class="acc" style="background:var(--gn);"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;max-width:860px;margin-top:8px;" class="an">
+    <div style="background:rgba(21,128,61,.07);border:1px solid rgba(21,128,61,.2);border-top:3px solid rgba(21,128,61,.5);border-radius:6px;padding:18px 18px;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gnl);margin-bottom:6px;">Phase 1 — Diagnose</div>
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(34,197,94,.5);margin-bottom:8px;">Days 1–30 · 9 modules</div>
+      <div style="font-size:13px;line-height:1.7;color:rgba(255,255,255,.8);">NRR audit. Churn Cascade. Health score tested against actual renewal outcomes. Value Perception Gap. Churn Driver Analysis.<br><br>Built accurate, uncomfortable data about current state.</div>
+    </div>
+    <div style="background:rgba(21,128,61,.07);border:1px solid rgba(21,128,61,.2);border-top:3px solid rgba(21,128,61,.6);border-radius:6px;padding:18px 18px;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gnl);margin-bottom:6px;">Phase 2 — Build</div>
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(34,197,94,.5);margin-bottom:8px;">Days 31–60 · 9 modules</div>
+      <div style="font-size:13px;line-height:1.7;color:rgba(255,255,255,.8);">Save play system. Value Proof Conversation. Expansion Staircase. Outcome Architect operating model. Digital-first engagement model.<br><br>Built the mechanisms — the levers you can pull.</div>
+    </div>
+    <div style="background:rgba(21,128,61,.1);border:1px solid rgba(21,128,61,.3);border-top:3px solid var(--gn);border-radius:6px;padding:18px 18px;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gnl);margin-bottom:6px;">Phase 3 — Prove</div>
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(34,197,94,.5);margin-bottom:8px;">Days 61–90 · 9 modules</div>
+      <div style="font-size:13px;line-height:1.7;color:rgba(255,255,255,.8);">Board-ready metrics. CFO investment case. Agent architecture. Living playbooks. CS in 2030 predictions. The 90-Day War Plan.<br><br>Built the evidence and language to make the case.</div>
+    </div>
+  </div>
+  <div class="hb an" style="background:rgba(21,128,61,.07);border-color:var(--gn);margin-top:12px;"><p>Diagnose. Build. Prove. In that sequence — because each one depends on the previous one done honestly.</p></div>
+</div>
+
+<!-- S10: THE 5 COMMITMENTS -->
+<div class="slide">
+  <div class="ey" style="color:var(--gnl);">Segment 3 · The Manifesto</div>
+  <h2>The 5 Commitments</h2>
+  <div class="acc" style="background:var(--gn);"></div>
+  <ul class="commit-list an">
+    <li class="commit-item"><div class="commit-num" style="color:var(--gnl);">1</div><div><strong>We measure what actually predicts, not what's easy to report.</strong><div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:3px;">We retire vanity metrics the moment they stop predicting — regardless of how long we've tracked them.</div></div></li>
+    <li class="commit-item"><div class="commit-num" style="color:var(--gnl);">2</div><div><strong>We intervene at Stage 2. Not Stage 4.</strong><div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:3px;">The signals were available at Stage 2. We do not wait for the at-risk conversation to begin at Stage 4 because intervention is most effective and least expensive early.</div></div></li>
+    <li class="commit-item"><div class="commit-num" style="color:var(--gnl);">3</div><div><strong>We build expansion from value delivered. Not from product features.</strong><div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:3px;">Stage 5 of the Onboarding Waterfall must be complete before the expansion conversation begins. Expansion without documented business outcome is commercial push without earned foundation.</div></div></li>
+    <li class="commit-item"><div class="commit-num" style="color:var(--gnl);">4</div><div><strong>We speak the CFO's language. Not the CS team's language.</strong><div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:3px;">We know our cost per retained-and-grown ARR dollar. We know the NRR compounding delta. We make The Ask with a specific number, return, and accountability mechanism — before being asked to justify ourselves.</div></div></li>
+    <li class="commit-item"><div class="commit-num" style="color:var(--gnl);">5</div><div><strong>We build systems that outlast us.</strong><div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:3px;">The measure of an Outcome Architect is not how much they personally retain and grow. It's how much the system they built retains and grows after they've moved to the next challenge.</div></div></li>
+  </ul>
+</div>
+
+<!-- S11: WHAT CHANGES -->
+<div class="slide">
+  <div class="ey" style="color:var(--gnl);">Segment 4 · Tangible Outcomes</div>
+  <h2>What Changes When This Works</h2>
+  <div class="acc" style="background:var(--gn);"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:820px;margin-top:8px;" class="an">
+    <div style="background:rgba(21,128,61,.07);border:1px solid rgba(21,128,61,.2);border-radius:6px;padding:16px 18px;"><div style="font-weight:700;font-size:14px;color:var(--gnl);margin-bottom:6px;">Renewal forecast becomes credible</div><div style="font-size:13px;line-height:1.6;color:rgba(255,255,255,.75);">T-90 prediction accuracy above 70%. Health score + Churn Prediction Agent generates data-based forecasts finance can plan against. CFO stops asking "how do you know" because you've shown how.</div></div>
+    <div style="background:rgba(21,128,61,.07);border:1px solid rgba(21,128,61,.2);border-radius:6px;padding:16px 18px;"><div style="font-weight:700;font-size:14px;color:var(--gnl);margin-bottom:6px;">Expansion pipeline exists</div><div style="font-size:13px;line-height:1.6;color:rgba(255,255,255,.75);">CSQL-sourced ARR appears in growth equation. NRR improves through expansion, not just churn reduction. Expansion at 3–5× lower CAC than new logo — visible in the CFO investment case.</div></div>
+    <div style="background:rgba(21,128,61,.07);border:1px solid rgba(21,128,61,.2);border-radius:6px;padding:16px 18px;"><div style="font-weight:700;font-size:14px;color:var(--gnl);margin-bottom:6px;">Team operates at the ceiling</div><div style="font-size:13px;line-height:1.6;color:rgba(255,255,255,.75);">Living playbooks propagate top-performer behavior. Agents eliminate 3–5 hrs/week of meeting prep per CSM. Freed capacity reinvested in high-judgment work. The floor rises; the ceiling rises with it.</div></div>
+    <div style="background:rgba(21,128,61,.1);border:1px solid rgba(21,128,61,.3);border-radius:6px;padding:16px 18px;"><div style="font-weight:700;font-size:14px;color:var(--gnl);margin-bottom:6px;">Budget conversation changes character</div><div style="font-size:13px;line-height:1.6;color:rgba(255,255,255,.75);">Not asking for resources. Offering an investment with documented return: specific cost, specific ROI, specific accountability mechanism. CFOs fund investments. They negotiate budget requests.</div></div>
+  </div>
+</div>
+
+<!-- S12: CCO2GO.AI -->
+<div class="slide">
+  <div class="ey" style="color:var(--gnl);">Segment 5 · The Bridge</div>
+  <h2>CCO2go.ai</h2>
+  <div class="acc" style="background:var(--gn);"></div>
+  <p class="bt">Two constraints every CS leader faces after completing a program: time and organizational resistance. CCO2go.ai addresses both.</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:820px;margin-top:12px;" class="an">
+    <div style="background:rgba(21,128,61,.07);border:1px solid rgba(21,128,61,.2);border-radius:6px;padding:16px 18px;">
+      <div style="font-weight:700;font-size:14px;color:var(--gnl);margin-bottom:6px;">The Time Constraint</div>
+      <div style="font-size:13px;line-height:1.6;color:rgba(255,255,255,.75);">A CS leader managing a portfolio, running a team, and handling operational demands has approximately zero spare hours to also validate the health score model, design agent trigger conditions, and write the Stage 2 save play playbook. The knowledge exists. The implementation capacity doesn't.</div>
+    </div>
+    <div style="background:rgba(21,128,61,.07);border:1px solid rgba(21,128,61,.2);border-radius:6px;padding:16px 18px;">
+      <div style="font-weight:700;font-size:14px;color:var(--gnl);margin-bottom:6px;">The Organizational Resistance Constraint</div>
+      <div style="font-size:13px;line-height:1.6;color:rgba(255,255,255,.75);">Transitioning from CS-as-cost-center to CS-as-revenue-function requires sustained, consistent revenue language over months. Most CS leaders don't have a peer who has made this transition and can accelerate the learning.</div>
+    </div>
+  </div>
+  <div class="hb an" style="background:rgba(21,128,61,.1);border-color:var(--gn);margin-top:14px;">
+    <p><strong style="color:var(--gnl);">CCO2go.ai</strong> — Fractional Chief Customer Officer services for Seed through Series C companies. Executive-level CS leadership on a part-time basis. The infrastructure in this program is the foundation of what we build with clients. <strong style="color:var(--gnl);">cco2go.ai</strong></p>
+  </div>
+</div>
+
+<!-- S13: THE CLOSE -->
+<div class="slide" style="align-items:center;text-align:center;">
+  <div class="final-box an" style="max-width:820px;width:100%;margin:0 auto;">
+    <div style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gnl);margin-bottom:24px;">The Close · Module 9.3 · Program Finale</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,4vw,54px);line-height:1.1;margin-bottom:24px;">CS has always had the evidence.<br>It hasn't always spoken in the language that funds it.</div>
+    <div style="width:64px;height:3px;background:var(--gn);margin:0 auto 24px;"></div>
+    <div style="font-size:16px;line-height:1.8;color:rgba(255,255,255,.78);max-width:660px;margin:0 auto 28px;">The gap was never in what CS does. It was in how CS communicates what it does. That gap is closeable. The Outcome Architect doesn't ask to be taken seriously — they show up with the NRR compounding table, the save play ROI, the cost per retained ARR dollar, and The Ask. And let the numbers make the argument.</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(22px,3.5vw,44px);color:var(--gnl);letter-spacing:.04em;margin-bottom:8px;">You've done the work to get here.</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(22px,3.5vw,44px);color:var(--gnl);">Now go make the argument.</div>
+  </div>
+</div>
+
+<!-- S14: PROGRAM COMPLETE -->
+<div class="slide" style="align-items:center;text-align:center;">
+  <div class="an" style="max-width:820px;width:100%;margin:0 auto;">
+    <div style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gnl);margin-bottom:20px;">Your Customers Are Lying to You · 2026</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(18px,2.8vw,40px);color:rgba(255,255,255,.4);margin-bottom:28px;">27 modules · 3 phases · 1 program</div>
+    <div style="border:2px solid var(--gn);border-radius:8px;padding:28px 36px;background:rgba(21,128,61,.07);margin-bottom:24px;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,6vw,80px);color:var(--gnl);line-height:1;">Your customers are no longer lying to you.</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:660px;margin:0 auto;">
+      <div style="background:rgba(21,128,61,.07);border:1px solid rgba(21,128,61,.2);border-radius:5px;padding:12px;"><div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(34,197,94,.6);text-transform:uppercase;">Phase 1</div><div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--gnl);">Diagnose</div><div style="font-size:11px;color:rgba(255,255,255,.5);">9 modules complete</div></div>
+      <div style="background:rgba(21,128,61,.07);border:1px solid rgba(21,128,61,.2);border-radius:5px;padding:12px;"><div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(34,197,94,.6);text-transform:uppercase;">Phase 2</div><div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--gnl);">Build</div><div style="font-size:11px;color:rgba(255,255,255,.5);">9 modules complete</div></div>
+      <div style="background:rgba(21,128,61,.1);border:1px solid rgba(21,128,61,.3);border-radius:5px;padding:12px;"><div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(34,197,94,.6);text-transform:uppercase;">Phase 3</div><div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--gnl);">Prove</div><div style="font-size:11px;color:rgba(255,255,255,.5);">9 modules complete</div></div>
+    </div>
+    <div style="margin-top:20px;font-family:'DM Mono',monospace;font-size:12px;color:rgba(34,197,94,.5);">CCO2go.ai · Shane James · 2026</div>
+  </div>
+</div>
+
+</div>
+<footer><span class="fb">CCO2go.ai · Your Customers Are Lying to You · 2026</span><span class="fm" id="ft-mod" style="color:rgba(180,83,9,.5);">M9.1 — CS in 2030</span></footer>
+<div class="kh">← → or SPACE to navigate</div>
+<script>
+  const s=document.querySelectorAll('.slide'),c=document.getElementById('ctr'),p=document.getElementById('prg'),ml=document.getElementById('nav-ml'),ft=document.getElementById('ft-mod'),nav=document.getElementById('nav');
+  let cur=0;const tot=s.length;
+  const labels=['M9.1 — CS in 2030','M9.1 — CS in 2030','M9.1 — CS in 2030','M9.1 — CS in 2030','M9.2 — The 90-Day War Plan','M9.2 — The 90-Day War Plan','M9.2 — The 90-Day War Plan','M9.3 — The Outcome Architect\'s Manifesto','M9.3 — The Outcome Architect\'s Manifesto','M9.3 — The Outcome Architect\'s Manifesto','M9.3 — The Outcome Architect\'s Manifesto','M9.3 — CCO2go.ai','M9.3 — The Close','Program Complete'];
+  const navC=['var(--am)','var(--am)','var(--am)','var(--am)','var(--or)','var(--or)','var(--or)','var(--gn)','var(--gn)','var(--gn)','var(--gn)','var(--gn)','var(--gn)','var(--gn)'];
+  const mlC=['var(--aml)','var(--aml)','var(--aml)','var(--aml)','var(--orl)','var(--orl)','var(--orl)','var(--gnl)','var(--gnl)','var(--gnl)','var(--gnl)','var(--gnl)','var(--gnl)','var(--gnl)'];
+  const ftC=['rgba(180,83,9,.5)','rgba(180,83,9,.5)','rgba(180,83,9,.5)','rgba(180,83,9,.5)','rgba(194,65,12,.5)','rgba(194,65,12,.5)','rgba(194,65,12,.5)','rgba(21,128,61,.6)','rgba(21,128,61,.6)','rgba(21,128,61,.6)','rgba(21,128,61,.6)','rgba(21,128,61,.6)','rgba(21,128,61,.6)','rgba(34,197,94,.7)'];
+  const pbC=['var(--am)','var(--am)','var(--am)','var(--am)','var(--or)','var(--or)','var(--or)','var(--gn)','var(--gn)','var(--gn)','var(--gn)','var(--gn)','var(--gn)','var(--gn)'];
+  function navigate(d){s[cur].classList.remove('active');cur=Math.max(0,Math.min(tot-1,cur+d));s[cur].classList.add('active');c.textContent=`${cur+1} / ${tot}`;p.style.width=`${((cur+1)/tot)*100}%`;p.style.background=pbC[cur];nav.style.borderBottomColor=navC[cur];ml.textContent=labels[cur];ml.style.color=mlC[cur];ft.textContent=labels[cur];ft.style.color=ftC[cur];}
+  document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();navigate(1);}if(e.key==='ArrowLeft'){e.preventDefault();navigate(-1);}});
+  c.textContent=`1 / ${tot}`;p.style.width=`${(1/tot)*100}%`;
+</script>
+</body>
+</html>

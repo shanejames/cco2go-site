@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Section M — M8.2 AI Agents + M8.3 CS Operations Playbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bl:#1D4ED8;--bll:#3B82F6;--rs:#BE185D;--rsl:#EC4899;--navy:#0F1F4B;--bg:#080F2B;--teal:#00A896;--gold:#F4A000;--danger:#DC2626;--green:#16A34A;--white:#FFF;--muted:#8B9FC4;--amber:#D97706;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--white);font-family:'DM Sans',sans-serif;height:100vh;overflow:hidden;background-image:radial-gradient(ellipse at 20% 50%,rgba(29,78,216,.06) 0%,transparent 55%),radial-gradient(ellipse at 80% 30%,rgba(190,24,93,.04) 0%,transparent 55%);}
+  nav{position:fixed;top:0;left:0;right:0;height:48px;background:rgba(8,15,43,.95);border-bottom:2px solid var(--nav-acc,var(--bl));display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100;transition:border-color .4s;}
+  .brand{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;}
+  .ml{font-family:'DM Mono',monospace;font-size:11px;color:var(--bll);transition:color .4s;}
+  .ctr{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);}
+  .pb{position:fixed;top:50px;left:0;height:2px;background:var(--bl);transition:width .4s ease,background .4s;}
+  .sw{position:relative;width:100%;height:100vh;overflow:hidden;}
+  .slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:80px 80px 60px;opacity:0;transform:translateY(28px);transition:opacity .55s ease,transform .55s ease;pointer-events:none;}
+  .slide.active{opacity:1;transform:translateY(0);pointer-events:auto;}
+  .ey{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px;opacity:0;transform:translateY(12px);transition:opacity .4s .1s,transform .4s .1s;}
+  .slide.active .ey{opacity:1;transform:translateY(0);}
+  .ey.bl{color:var(--bll);}
+  .ey.rs{color:var(--rsl);}
+  h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(50px,7vw,90px);line-height:.95;margin-bottom:20px;opacity:0;transform:translateY(16px);transition:opacity .4s .2s,transform .4s .2s;}
+  .slide.active h1{opacity:1;transform:translateY(0);}
+  h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,4.8vw,66px);line-height:1.0;margin-bottom:20px;opacity:0;transform:translateY(16px);transition:opacity .4s .2s,transform .4s .2s;}
+  .slide.active h2{opacity:1;transform:translateY(0);}
+  .acc{width:64px;height:4px;margin-bottom:28px;opacity:0;transition:opacity .4s .3s;}
+  .acc.bl{background:var(--bl);}
+  .acc.rs{background:var(--rs);}
+  .slide.active .acc{opacity:1;}
+  .bt{font-size:17px;line-height:1.65;color:rgba(255,255,255,.82);max-width:780px;opacity:0;transform:translateY(12px);transition:opacity .4s .35s,transform .4s .35s;}
+  .slide.active .bt{opacity:1;transform:translateY(0);}
+  .an{opacity:0;transform:translateY(12px);transition:opacity .4s .4s,transform .4s .4s;}
+  .slide.active .an{opacity:1;transform:translateY(0);}
+  .badge{display:inline-block;border-radius:4px;padding:4px 14px;font-family:'DM Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;}
+  .badge.bl{background:rgba(29,78,216,.12);border:1px solid rgba(29,78,216,.35);color:var(--bll);}
+  .badge.rs{background:rgba(190,24,93,.12);border:1px solid rgba(190,24,93,.35);color:var(--rsl);}
+  .sc{display:flex;gap:18px;margin-top:10px;flex-wrap:wrap;}
+  .sc-card{background:rgba(255,255,255,.04);border-radius:8px;padding:16px 22px;min-width:140px;}
+  .sc-card.bl{border:1px solid rgba(29,78,216,.3);}
+  .sc-card.rs{border:1px solid rgba(190,24,93,.3);}
+  .sn{font-family:'Bebas Neue',sans-serif;font-size:44px;line-height:1;}
+  .sn.bl{color:var(--bll);}
+  .sn.rs{color:var(--rsl);}
+  .sl2{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4;font-family:'DM Mono',monospace;}
+  .hb{border-left:4px solid;border-radius:4px;padding:16px 20px;margin-top:12px;max-width:780px;}
+  .hb.bl{background:rgba(29,78,216,.07);border-color:var(--bl);}
+  .hb.rs{background:rgba(190,24,93,.07);border-color:var(--rs);}
+  .hb p{font-size:15px;line-height:1.6;color:rgba(255,255,255,.88);}
+  /* Tool vs Agent split */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:820px;margin-top:10px;}
+  .sp-card{border-radius:6px;padding:16px 18px;}
+  .sp-bl{background:rgba(29,78,216,.07);border:1px solid rgba(29,78,216,.25);}
+  .sp-rs{background:rgba(190,24,93,.07);border:1px solid rgba(190,24,93,.25);}
+  .sp-label{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;margin-bottom:8px;}
+  .sp-bl .sp-label{color:var(--bll);}
+  .sp-rs .sp-label{color:var(--rsl);}
+  .sp-text{font-size:13px;line-height:1.7;color:rgba(255,255,255,.8);}
+  /* Agent category cards */
+  .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:820px;margin-top:8px;}
+  .cat-card{border-radius:6px;padding:14px 16px;background:rgba(29,78,216,.06);border:1px solid rgba(29,78,216,.15);}
+  .cat-num{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--bll);line-height:1;}
+  .cat-title{font-weight:700;font-size:14px;color:var(--white);margin:2px 0 4px;}
+  .cat-agents{font-family:'DM Mono',monospace;font-size:11px;color:rgba(59,130,246,.7);margin-bottom:4px;}
+  .cat-desc{font-size:12px;line-height:1.5;color:rgba(255,255,255,.65);}
+  /* Agent list */
+  .agent-list{list-style:none;max-width:800px;margin-top:8px;}
+  .agent-item{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px;line-height:1.5;}
+  .agent-item:last-child{border-bottom:none;}
+  .ag-name{font-weight:700;color:var(--bll);min-width:160px;font-size:13px;}
+  .ag-trigger{font-family:'DM Mono',monospace;font-size:11px;color:rgba(251,191,36,.7);margin-top:2px;}
+  .ag-note{font-size:12px;color:rgba(255,255,255,.55);margin-top:2px;font-style:italic;}
+  /* Deployment timeline */
+  .deploy-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:820px;margin-top:8px;}
+  .dep-card{border-radius:6px;padding:13px 14px;}
+  .dep-card.m1{background:rgba(29,78,216,.1);border:1px solid rgba(29,78,216,.3);}
+  .dep-card.m2{background:rgba(29,78,216,.08);border:1px solid rgba(29,78,216,.22);}
+  .dep-card.m3{background:rgba(29,78,216,.06);border:1px solid rgba(29,78,216,.15);}
+  .dep-card.m4{background:rgba(22,163,74,.07);border:1px solid rgba(22,163,74,.2);}
+  .dep-label{font-family:'Bebas Neue',sans-serif;font-size:22px;line-height:1;margin-bottom:6px;}
+  .dep-card.m1 .dep-label,.dep-card.m2 .dep-label,.dep-card.m3 .dep-label{color:var(--bll);}
+  .dep-card.m4 .dep-label{color:#4ADE80;}
+  .dep-agents{font-size:12px;line-height:1.6;color:rgba(255,255,255,.8);}
+  .dep-why{font-size:11px;font-style:italic;color:rgba(255,255,255,.45);margin-top:6px;line-height:1.4;}
+  /* Escalation ladder */
+  .ladder{max-width:600px;margin-top:8px;}
+  .ladder-step{display:flex;align-items:flex-start;gap:14px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+  .ladder-step:last-child{border-bottom:none;}
+  .ls-num{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--bll);min-width:26px;line-height:1;}
+  .ls-label{font-weight:700;font-size:14px;color:var(--white);}
+  .ls-desc{font-size:12px;color:rgba(255,255,255,.6);margin-top:2px;line-height:1.4;}
+  /* Playbook component cards */
+  .comp-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;max-width:820px;margin-top:8px;}
+  .comp-card{border-radius:6px;padding:15px 16px;background:rgba(190,24,93,.07);border:1px solid rgba(190,24,93,.2);}
+  .comp-num{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--rsl);line-height:1;}
+  .comp-title{font-weight:700;font-size:14px;color:var(--white);margin:4px 0;}
+  .comp-desc{font-size:12px;line-height:1.6;color:rgba(255,255,255,.7);}
+  /* Playbook table */
+  .pb-list{list-style:none;max-width:820px;margin-top:8px;}
+  .pb-item{display:grid;grid-template-columns:140px 1fr 1fr;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:12px;line-height:1.5;}
+  .pb-item:last-child{border-bottom:none;}
+  .pb-name{font-weight:700;color:var(--rsl);}
+  .pb-trigger{font-family:'DM Mono',monospace;font-size:11px;color:rgba(251,191,36,.7);}
+  .pb-metric{font-size:11px;color:rgba(255,255,255,.55);font-style:italic;}
+  /* Build order */
+  .bo-list{list-style:none;max-width:720px;margin-top:8px;}
+  .bo-item{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:14px;line-height:1.5;}
+  .bo-item:last-child{border-bottom:none;}
+  .bo-num{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--rsl);min-width:26px;line-height:1;}
+  footer{position:fixed;bottom:14px;left:80px;right:80px;display:flex;justify-content:space-between;pointer-events:none;}
+  .fb{font-family:'DM Mono',monospace;font-size:10px;color:rgba(139,159,196,.4);}
+  .fm{font-family:'DM Mono',monospace;font-size:10px;}
+  .kh{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);font-family:'DM Mono',monospace;font-size:10px;color:rgba(139,159,196,.3);}
+</style>
+</head>
+<body>
+<nav id="nav"><span class="brand">CCO2go.ai · Phase 3 — The Proof · Week 8</span><span class="ml" id="nav-ml">M8.2 — AI Agents</span><span class="ctr" id="ctr">1 / 13</span></nav>
+<div class="pb" id="prg"></div>
+<div class="sw">
+
+<!-- S1: TITLE 8.2 -->
+<div class="slide">
+  <div class="badge bl">Module 8.2 · Week 8 — Operational Scale</div>
+  <div class="ey bl">Module 8.2 · Phase 3 — The Proof</div>
+  <h1>AI Agents: What Each One<br>Does and When to Deploy</h1>
+  <div class="acc bl"></div>
+  <p class="bt">A CS tool is something your CSM interacts with. A CS agent acts on your behalf, monitors continuously, and delivers a result when — and only when — something requires human attention.</p>
+  <div class="sc an">
+    <div class="sc-card bl"><div class="sn bl">11</div><div class="sl2">agents across 4 categories.<br>Deploy in sequence.<br>Don't build Phase 3 first.</div></div>
+    <div class="sc-card bl"><div class="sn bl">3–5h</div><div class="sl2">per week eliminated<br>per CSM by Briefing Agent<br>alone. Month 1 ROI.</div></div>
+    <div class="sc-card bl"><div class="sn bl">48hr</div><div class="sl2">champion departure window.<br>Manual processes can't<br>hit this reliably at scale.</div></div>
+  </div>
+</div>
+
+<!-- S2: TOOL VS AGENT -->
+<div class="slide">
+  <div class="ey bl">Segment 1 · The Core Distinction</div>
+  <h2>Tool-First vs.<br>Agent-First Architecture</h2>
+  <div class="acc bl"></div>
+  <div class="split an">
+    <div class="sp-card sp-bl">
+      <div class="sp-label">Tool-First (Most CS Platforms Today)</div>
+      <div class="sp-text">CSM logs in. Checks dashboards. Pulls reports. Interprets data. Decides what to do.<br><br>AI, if it exists, is a feature inside the tool — suggested action buried in a menu, score that updates when someone remembers to refresh it.<br><br>The CSM is checking the system.</div>
+    </div>
+    <div class="sp-card" style="background:rgba(29,78,216,.12);border:1px solid rgba(29,78,216,.4);border-top:3px solid var(--bl);">
+      <div class="sp-label" style="color:var(--bll);">Agent-First (What We're Building)</div>
+      <div class="sp-text">Agents run continuously in the background. CSMs receive briefings, alerts, recommended plays, CSQL assignments — when agents detect something that warrants attention.<br><br>The CSM is not checking the system.<br><strong>The system is notifying the CSM.</strong><br><br>That inversion is architectural, not feature-level.</div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: 4 CATEGORIES -->
+<div class="slide">
+  <div class="ey bl">Segment 2 · The Mental Model</div>
+  <h2>4-Category Agent Architecture</h2>
+  <div class="acc bl"></div>
+  <div class="cat-grid an">
+    <div class="cat-card" style="border-color:rgba(29,78,216,.4);background:rgba(29,78,216,.1);">
+      <div class="cat-num">Core</div>
+      <div class="cat-title">Foundational Monitoring</div>
+      <div class="cat-agents">Health Score · Churn Prediction · Briefing</div>
+      <div class="cat-desc">Always-on. Build these first. Every other category depends on this foundation being solid.</div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-num" style="color:#FCD34D;">Detection</div>
+      <div class="cat-title">Event-Driven Risk Identification</div>
+      <div class="cat-agents">Champion Departure · Competitive Signal · Usage Anomaly</div>
+      <div class="cat-desc">Fire when specific condition met, not on schedule. Signal quality determines everything — noisy triggers create alert fatigue.</div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-num" style="color:#A78BFA;">Relationship</div>
+      <div class="cat-title">Human Relationship Health</div>
+      <div class="cat-agents">Sentiment Analysis · Executive Sponsor Tracker</div>
+      <div class="cat-desc">Separate from product health. Signals most health scores don't capture. CSMs notice these too late without agents.</div>
+    </div>
+    <div class="cat-card" style="background:rgba(22,163,74,.07);border-color:rgba(22,163,74,.2);">
+      <div class="cat-num" style="color:#4ADE80;">Expansion</div>
+      <div class="cat-title">Revenue-Generating Qualification</div>
+      <div class="cat-agents">CSQL Qualification · Renewal Preparation</div>
+      <div class="cat-desc">Build last. Revenue-generating agents come after monitoring stack is proven. Catch churn before scaling expansion.</div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: KEY AGENTS DETAIL -->
+<div class="slide">
+  <div class="ey bl">Segment 3 · Highest-Impact Agents</div>
+  <h2>The 4 Implementation Priorities</h2>
+  <div class="acc bl"></div>
+  <ul class="agent-list an">
+    <li class="agent-item">
+      <div style="min-width:180px;"><div class="ag-name">Briefing Agent</div><div class="ag-trigger">Trigger: meeting in calendar system</div><div class="ag-note">Highest immediate ROI</div></div>
+      <div>Generates account briefing from CRM, support history, health score, sentiment. Delivered 24 hours before meeting. Eliminates 3–5 hours of weekly meeting prep per CSM. Quality = quality of Layer 1 data.</div>
+    </li>
+    <li class="agent-item">
+      <div style="min-width:180px;"><div class="ag-name">Champion Departure Monitor</div><div class="ag-trigger">Trigger: title change OR 21-day silence</div><div class="ag-note">Most time-sensitive</div></div>
+      <div>Monitors LinkedIn + email patterns. Fires 48-Hour Departure Protocol automatically. Detection must be within 24 hours — the window from departure to "account stabilized" closes fast. Manual check-ins miss it.</div>
+    </li>
+    <li class="agent-item">
+      <div style="min-width:180px;"><div class="ag-name">CSQL Qualification Agent</div><div class="ag-trigger">Trigger: Staircase Step 3 OR expansion feature spike</div><div class="ag-note">Expansion scale mechanism</div></div>
+      <div>Evaluates every account against CSQL criteria continuously. Without it: expansion identified by CSMs who happen to notice. With it: pipeline of opportunities that didn't exist last month.</div>
+    </li>
+    <li class="agent-item">
+      <div style="min-width:180px;"><div class="ag-name">Churn Prediction Agent</div><div class="ag-trigger">Trigger: weekly cadence, churn prob &gt;65% at T-90</div><div class="ag-note">Weights combinations, not individual signals</div></div>
+      <div>Scores renewal probability using historical churn patterns. Fires save play assignment + CSM + manager notification. Requires health scoring foundation from Month 1 to function well.</div>
+    </li>
+  </ul>
+</div>
+
+<!-- S5: DEPLOYMENT SEQUENCE -->
+<div class="slide">
+  <div class="ey bl">Segment 4 · Build Order</div>
+  <h2>Deployment Sequence:<br>Month by Month</h2>
+  <div class="acc bl"></div>
+  <p class="bt" style="margin-bottom:14px;">Sequence matters as much as which agents. Don't deploy the exciting agents before the foundation is solid.</p>
+  <div class="deploy-grid an">
+    <div class="dep-card m1">
+      <div class="dep-label">Month 1</div>
+      <div class="dep-agents"><strong>Health Score Agent</strong><br><strong>Briefing Agent</strong></div>
+      <div class="dep-why">Highest value, lowest complexity. Demonstrate ROI before building more. CSM capacity freed immediately.</div>
+    </div>
+    <div class="dep-card m2">
+      <div class="dep-label">Month 2</div>
+      <div class="dep-agents"><strong>Churn Prediction Agent</strong><br><strong>Champion Departure Monitor</strong></div>
+      <div class="dep-why">Core risk-monitoring stack complete. Health Score foundation now exists for Churn Prediction to work from.</div>
+    </div>
+    <div class="dep-card m3">
+      <div class="dep-label">Month 3</div>
+      <div class="dep-agents"><strong>Sentiment Analysis Agent</strong><br><strong>Usage Anomaly Detector</strong></div>
+      <div class="dep-why">Need 90 days of history for baseline. Build after foundation is proven, not before.</div>
+    </div>
+    <div class="dep-card m4">
+      <div class="dep-label">Month 4</div>
+      <div class="dep-agents"><strong>CSQL Qualification Agent</strong><br><strong>Renewal Preparation Agent</strong></div>
+      <div class="dep-why">Revenue-generating last. Catch churn before scaling expansion — a churning account with a CSQL is worse than a retained one without.</div>
+    </div>
+  </div>
+  <div class="hb bl an" style="margin-top:12px;"><p>Competitive Signal + Executive Sponsor Tracker + remaining agents after Month 4. Full stack requires the most data and refined signal definitions.</p></div>
+</div>
+
+<!-- S6: ESCALATION LAYER -->
+<div class="slide">
+  <div class="ey bl">Segment 5 · The Missing Design</div>
+  <h2>The Human Escalation Layer</h2>
+  <div class="acc bl"></div>
+  <p class="bt">Agents without escalation design produce alert fatigue. CSMs learn alerts have low urgency. Signals get ignored. The account reaches Stage 4 before anyone acts.</p>
+  <div class="ladder an">
+    <div class="ladder-step">
+      <div class="ls-num">1</div>
+      <div><div class="ls-label">Agent fires → CSM alert delivered</div><div class="ls-desc">Specific action requested. Score breakdown + recommended play. Clock starts.</div></div>
+    </div>
+    <div class="ladder-step">
+      <div class="ls-num">2</div>
+      <div><div class="ls-label">48 hours — no action logged → manager escalation</div><div class="ls-desc">Manager receives notification with account details. CSM capacity issue surfaced, not buried.</div></div>
+    </div>
+    <div class="ladder-step">
+      <div class="ls-num">3</div>
+      <div><div class="ls-label">72 hours — no action → automated play initiation</div><div class="ls-desc">System initiates standard Stage response. Account is not waiting on human availability.</div></div>
+    </div>
+  </div>
+  <div class="hb bl an" style="margin-top:12px;"><p>Escalation ladder also solves coverage gaps: CSM vacation, weekend, competing priorities. For enterprise accounts at renewal risk, a 48-hour response delay can be the difference between a save and a churn.</p></div>
+</div>
+
+<!-- S7: DO THIS MONDAY 8.2 -->
+<div class="slide">
+  <div class="ey bl">Segment 6 · Action</div>
+  <h2>Do This Monday</h2>
+  <div class="acc bl"></div>
+  <ul style="list-style:none;margin-top:8px;max-width:700px;" class="an">
+    <li style="display:flex;gap:14px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:15px;line-height:1.5;">
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--bll);min-width:26px;line-height:1;">1</span>
+      <div>Audit current AI tooling. For each feature you pay for: tool my CSM uses, or agent that acts without CSM interaction? If everything is "tool" — your team is doing work the agent should be doing. That's a capacity problem you can fix.</div>
+    </li>
+    <li style="display:flex;gap:14px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:15px;line-height:1.5;">
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--bll);min-width:26px;line-height:1;">2</span>
+      <div>Define the trigger condition for your Health Score Agent — even without the agent built. What signal combination fires an alert? What is the escalation ladder at 48 hours? This is the highest-value hour you'll spend in Phase 3.</div>
+    </li>
+    <li style="display:flex;gap:14px;padding:13px 0;font-size:15px;line-height:1.5;">
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--bll);min-width:26px;line-height:1;">3</span>
+      <div>Count team hours per week spent on tasks in the agent table: meeting prep, health score review, manual usage reporting. Above 20 hours/week = Core agents in Month 1 pay for themselves immediately and measurably.</div>
+    </li>
+  </ul>
+  <div class="hb bl an" style="margin-top:12px;"><p>The agent architecture is how you scale CS without scaling headcount proportionally. Build the agents. In sequence.</p></div>
+</div>
+
+<!-- === MODULE 8.3 === -->
+<!-- S8: TITLE 8.3 -->
+<div class="slide">
+  <div class="badge rs">Module 8.3 · Week 8 — Operational Scale</div>
+  <div class="ey rs">Module 8.3 · Phase 3 — The Proof</div>
+  <h2 style="font-size:clamp(44px,6vw,80px);">The CS Operations<br>Playbook</h2>
+  <div class="acc rs"></div>
+  <p class="bt">Most CS organizations have a playbook. It exists somewhere. It's wrong — not because it was written poorly, but because the moment it was finished it started decaying.</p>
+  <div class="sc an">
+    <div class="sc-card rs"><div class="sn rs">3</div><div class="sl2">components that separate<br>a living playbook from<br>a dead document</div></div>
+    <div class="sc-card rs"><div class="sn rs">6</div><div class="sl2">core playbooks every<br>CS operation needs.</div></div>
+    <div class="sc-card rs"><div class="sn rs">80%</div><div class="sl2">one CSM's recovery rate<br>vs. 50% team avg.<br>Feedback loop scales it.</div></div>
+  </div>
+</div>
+
+<!-- S9: 3 COMPONENTS -->
+<div class="slide">
+  <div class="ey rs">Segment 2 · The Structure</div>
+  <h2>Anatomy of a Living Playbook</h2>
+  <div class="acc rs"></div>
+  <div class="comp-grid an">
+    <div class="comp-card" style="border-color:rgba(190,24,93,.4);background:rgba(190,24,93,.1);">
+      <div class="comp-num">1</div>
+      <div class="comp-title">Signal-Triggered Entry</div>
+      <div class="comp-desc">Playbook starts when a behavioral signal crosses a threshold — not when a CSM decides to run it. Stage 2 Cascade confirmed. Champion departure detected. T-90 window opened.<br><br>Signal is the starting gun. Not CSM memory.</div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-num">2</div>
+      <div class="comp-title">Defined Workflow Sequence</div>
+      <div class="comp-desc">Not "reach out to the customer." Specific action, specific timeline, specific responsibility, specific success criteria at each step.<br><br>"CSM initiates discovery call within 48 hours using Stage 2 talk track, goal: identify objection category." No ambiguity about what next step means.</div>
+    </div>
+    <div class="comp-card" style="border-color:rgba(190,24,93,.5);background:rgba(190,24,93,.12);">
+      <div class="comp-num">3</div>
+      <div class="comp-title">Outcome Feedback Loop</div>
+      <div class="comp-desc">Every playbook run logs outcome, talk track used, objection raised, CSM, time-to-resolution. Over time, playbook content updates based on that data.<br><br>Top-performer behavior propagates automatically — not through training sessions six months later.<br><br><strong style="color:var(--rsl);">This is what most orgs are missing.</strong></div>
+    </div>
+  </div>
+  <div class="hb rs an" style="margin-top:12px;"><p>Without Component 3 (the feedback loop), the playbook stops improving the day it's written. Most CS organizations have Components 1 and 2 in some form. Almost none have 3.</p></div>
+</div>
+
+<!-- S10: 6 CORE PLAYBOOKS -->
+<div class="slide">
+  <div class="ey rs">Segment 3 · The Playbook Library</div>
+  <h2>The 6 Core Playbooks</h2>
+  <div class="acc rs"></div>
+  <ul class="pb-list an">
+    <li class="pb-item">
+      <div><div class="pb-name">Save Play</div><div class="pb-trigger">Churn Cascade Stage 2 confirmed by Churn Prediction Agent</div></div>
+      <div style="font-size:12px;line-height:1.6;color:rgba(255,255,255,.8);">Stage-specific actions: Stage 2 = discovery call. Stage 3 = champion escalation. Stage 4 = exec sponsor. Stage 5 = custom ROI build. Stage 2 and Stage 5 are not the same conversation.</div>
+      <div><div class="pb-metric">Recovery rate by stage: S2 target >70%, S3 >50%, S4 >30%</div></div>
+    </li>
+    <li class="pb-item">
+      <div><div class="pb-name">Renewal Preparation</div><div class="pb-trigger">T-90 trigger from Renewal Preparation Agent</div></div>
+      <div style="font-size:12px;line-height:1.6;color:rgba(255,255,255,.8);">T-90: briefing + VPC scheduled. T-60: VPC executed, expansion tabled. T-45: commercial initiated. T-30: contract review. T-14: final risk check. These are workflow triggers, not calendar suggestions. System enforces the timeline.</div>
+      <div><div class="pb-metric">Target: >80% of renewals with VPC executed at T-60 or earlier</div></div>
+    </li>
+    <li class="pb-item">
+      <div><div class="pb-name">Champion Departure</div><div class="pb-trigger">Champion Departure Monitor fires 48-Hour Protocol</div></div>
+      <div style="font-size:12px;line-height:1.6;color:rgba(255,255,255,.8);">Hour 0: CSM alerted. Hour 2: relationship map updated. Hour 24: internal sponsor identified. Hour 48: outreach to new contact. Week 2: exec sponsor if needed.</div>
+      <div><div class="pb-metric">Success: 2+ contacts engaged within 30 days of departure</div></div>
+    </li>
+    <li class="pb-item">
+      <div><div class="pb-name">Expansion Staircase</div><div class="pb-trigger">CSQL Qualification Agent creates CSQL</div></div>
+      <div style="font-size:12px;line-height:1.6;color:rgba(255,255,255,.8);">Step-specific: Step 1 = value gap identification. Step 2 = expansion use case demo. Step 3 = ROI build. Step 4 = commercial. Step 5 = contract.</div>
+      <div><div class="pb-metric">CSQL-to-expansion ARR conversion target: >35%</div></div>
+    </li>
+    <li class="pb-item">
+      <div><div class="pb-name">Onboarding Waterfall</div><div class="pb-trigger">Stage milestone missed >2× SLA</div></div>
+      <div style="font-size:12px;line-height:1.6;color:rgba(255,255,255,.8);">Automated: milestone reminder + help content. CSM: workflow review call triggered. Manager: escalation if still blocked at next checkpoint.</div>
+      <div><div class="pb-metric">Days to next stage vs. benchmark SLA</div></div>
+    </li>
+    <li class="pb-item" style="border-bottom:none;">
+      <div><div class="pb-name">Competitive Response</div><div class="pb-trigger">Competitive Signal Agent detects evaluation language</div></div>
+      <div style="font-size:12px;line-height:1.6;color:rgba(255,255,255,.8);">Hour 0: CSM alert + competitive response playbook surfaced. Day 2: champion call. Day 7: ROI comparison delivered. Day 14: exec sponsor if needed.</div>
+      <div><div class="pb-metric">Evaluation win rate target: >60% when intervention at Stage 1</div></div>
+    </li>
+  </ul>
+</div>
+
+<!-- S11: FEEDBACK LOOP + BUILD ORDER -->
+<div class="slide">
+  <div class="ey rs">Segments 4 + 5 · Build It Right</div>
+  <h2>Feedback Loop + Build Order</h2>
+  <div class="acc rs"></div>
+  <div class="split an" style="max-width:820px;">
+    <div style="background:rgba(190,24,93,.07);border:1px solid rgba(190,24,93,.2);border-radius:6px;padding:16px 18px;">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--rsl);text-transform:uppercase;margin-bottom:8px;">Building the Feedback Loop</div>
+      <div style="font-size:13px;line-height:1.7;color:rgba(255,255,255,.8);">3-question outcome form embedded in CRM at play close: outcome, primary objection, what worked.<br><br>2 minutes. Over 50 plays = patterns. Over 100 = predictive model foundation.<br><br>One CSM at 80% recovery rate vs. 50% team avg: system identifies pattern → content extracted → next playbook version incorporates it. Without feedback loop: stays in their head.</div>
+    </div>
+    <div style="background:rgba(190,24,93,.05);border:1px solid rgba(190,24,93,.15);border-radius:6px;padding:16px 18px;">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--rsl);text-transform:uppercase;margin-bottom:8px;">Build Order</div>
+      <ul class="bo-list" style="margin-top:0;">
+        <li style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px;line-height:1.4;"><span style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--rsl);min-width:22px;line-height:1;">1</span><div><strong>Save Play</strong> — highest ROI, clearest trigger. Stages 2+3 first.</div></li>
+        <li style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px;line-height:1.4;"><span style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--rsl);min-width:22px;line-height:1;">2</span><div><strong>Renewal Prep</strong> — highest-stakes scheduled event. Before next renewal cycle.</div></li>
+        <li style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px;line-height:1.4;"><span style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--rsl);min-width:22px;line-height:1;">3</span><div><strong>Champion Departure</strong> — 48-hour window can't be hit manually at scale.</div></li>
+        <li style="display:flex;gap:10px;padding:8px 0;font-size:13px;line-height:1.4;"><span style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:rgba(190,24,93,.5);min-width:22px;line-height:1;">+</span><div>Expansion Staircase, Onboarding Waterfall, Competitive Response — in order of current priority.</div></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- S12: DO THIS MONDAY 8.3 -->
+<div class="slide">
+  <div class="ey rs">Segment 6 · Action</div>
+  <h2>Do This Monday</h2>
+  <div class="acc rs"></div>
+  <ul style="list-style:none;margin-top:8px;max-width:700px;" class="an">
+    <li style="display:flex;gap:14px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:15px;line-height:1.5;">
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--rsl);min-width:26px;line-height:1;">1</span>
+      <div>Audit current playbooks against 3 criteria: signal trigger? defined sequence? outcome feedback? If any fail all three — it's a reference guide, not a playbook. Know the difference before deciding what to fix.</div>
+    </li>
+    <li style="display:flex;gap:14px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:15px;line-height:1.5;">
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--rsl);min-width:26px;line-height:1;">2</span>
+      <div>Design your Stage 2 save play as a living playbook: signal trigger (exact agent output), sequence (call within 48h, talk track, follow-up), 3-question outcome form. That document is the CRM spec. Build it this week.</div>
+    </li>
+    <li style="display:flex;gap:14px;padding:13px 0;font-size:15px;line-height:1.5;">
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--rsl);min-width:26px;line-height:1;">3</span>
+      <div>Find your highest save play recovery rate CSM. 30 minutes. Ask what they do differently at Stage 2 and Stage 3. Their answer is the content upgrade for the playbook you're building — not a future training session.</div>
+    </li>
+  </ul>
+  <div class="hb rs an" style="margin-top:12px;"><p>The playbook is how every CSM executes at the level of your best performer — not your average one. Build the playbooks.</p></div>
+</div>
+
+<!-- S13: SECTION M RECAP -->
+<div class="slide">
+  <div class="ey" style="color:rgba(139,159,196,.7);">Section M · Week 8 Complete</div>
+  <h2>Week 8 Complete:<br>Operational Scale</h2>
+  <div class="acc bl"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:820px;margin-top:12px;" class="an">
+    <div style="background:rgba(29,78,216,.07);border:1px solid rgba(29,78,216,.25);border-radius:6px;padding:18px 20px;">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--bll);text-transform:uppercase;margin-bottom:8px;">Module 8.2 — AI Agents</div>
+      <div style="font-size:13px;line-height:1.7;color:rgba(255,255,255,.8);">Tool-first vs. agent-first architectural distinction. 11 agents across 4 categories with trigger conditions and outputs. 4-month deployment sequence: monitoring before expansion. Human escalation ladder — the missing design most implementations skip.</div>
+    </div>
+    <div style="background:rgba(190,24,93,.07);border:1px solid rgba(190,24,93,.25);border-radius:6px;padding:18px 20px;">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--rsl);text-transform:uppercase;margin-bottom:8px;">Module 8.3 — CS Operations Playbook</div>
+      <div style="font-size:13px;line-height:1.7;color:rgba(255,255,255,.8);">Dead vs. living playbook distinction. 3-component structure: signal trigger, defined sequence, outcome feedback loop. 6 core playbooks with triggers, T-gates, and metrics. Feedback loop as top-performer propagation mechanism.</div>
+    </div>
+  </div>
+  <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:6px;padding:14px 18px;max-width:820px;margin-top:12px;" class="an">
+    <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(139,159,196,.6);text-transform:uppercase;margin-bottom:6px;">Phase 3 Progress</div>
+    <div style="font-size:13px;color:rgba(255,255,255,.7);">6 of 9 modules complete. <strong style="color:var(--white);">Homestretch: Section N (Modules 9.1 + 9.2) + Section O (Module 9.3 — The Manifesto).</strong> Week 9: The Future. CS in 2030 predictions, the 90-Day War Plan, and the program close.</div>
+  </div>
+</div>
+
+</div>
+<footer><span class="fb">CCO2go.ai · Your Customers Are Lying to You · 2026</span><span class="fm" id="ft-mod" style="color:rgba(29,78,216,.5);">M8.2 — AI Agents</span></footer>
+<div class="kh">← → or SPACE to navigate</div>
+<script>
+  const s=document.querySelectorAll('.slide'),c=document.getElementById('ctr'),p=document.getElementById('prg'),ml=document.getElementById('nav-ml'),ft=document.getElementById('ft-mod'),nav=document.getElementById('nav');
+  let cur=0;const tot=s.length;
+  const labels=['M8.2 — AI Agents','M8.2 — AI Agents','M8.2 — AI Agents','M8.2 — AI Agents','M8.2 — AI Agents','M8.2 — AI Agents','M8.2 — AI Agents','M8.3 — CS Operations Playbook','M8.3 — CS Operations Playbook','M8.3 — CS Operations Playbook','M8.3 — CS Operations Playbook','M8.3 — CS Operations Playbook','Section M — Week 8 Complete'];
+  const ftCols=['rgba(29,78,216,.5)','rgba(29,78,216,.5)','rgba(29,78,216,.5)','rgba(29,78,216,.5)','rgba(29,78,216,.5)','rgba(29,78,216,.5)','rgba(29,78,216,.5)','rgba(190,24,93,.5)','rgba(190,24,93,.5)','rgba(190,24,93,.5)','rgba(190,24,93,.5)','rgba(190,24,93,.5)','rgba(139,159,196,.4)'];
+  const navCols=['#1D4ED8','#1D4ED8','#1D4ED8','#1D4ED8','#1D4ED8','#1D4ED8','#1D4ED8','#BE185D','#BE185D','#BE185D','#BE185D','#BE185D','rgba(139,159,196,.3)'];
+  const mlCols=['var(--bll)','var(--bll)','var(--bll)','var(--bll)','var(--bll)','var(--bll)','var(--bll)','var(--rsl)','var(--rsl)','var(--rsl)','var(--rsl)','var(--rsl)','rgba(139,159,196,.7)'];
+  const pbCols=['var(--bl)','var(--bl)','var(--bl)','var(--bl)','var(--bl)','var(--bl)','var(--bl)','var(--rs)','var(--rs)','var(--rs)','var(--rs)','var(--rs)','rgba(139,159,196,.4)'];
+  function navigate(d){s[cur].classList.remove('active');cur=Math.max(0,Math.min(tot-1,cur+d));s[cur].classList.add('active');c.textContent=`${cur+1} / ${tot}`;p.style.width=`${((cur+1)/tot)*100}%`;p.style.background=pbCols[cur];nav.style.borderBottomColor=navCols[cur];ml.textContent=labels[cur];ml.style.color=mlCols[cur];ft.textContent=labels[cur];ft.style.color=ftCols[cur];}
+  document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();navigate(1);}if(e.key==='ArrowLeft'){e.preventDefault();navigate(-1);}});
+  c.textContent=`1 / ${tot}`;p.style.width=`${(1/tot)*100}%`;
+</script>
+</body>
+</html>

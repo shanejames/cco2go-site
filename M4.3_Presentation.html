@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 4.3 — The AI Reality Check</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #0891B2;
+    --accent-light: #22D3EE;
+    --navy: #0F1F4B;
+    --bg: #080F2B;
+    --teal: #00A896;
+    --gold: #F4A000;
+    --danger: #EF4444;
+    --white: #FFFFFF;
+    --muted: #8B9FC4;
+    --card-bg: rgba(255,255,255,0.04);
+    --card-border: rgba(8,145,178,0.3);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    height: 100vh; overflow: hidden;
+    background-image: radial-gradient(ellipse at 20% 50%, rgba(8,145,178,0.07) 0%, transparent 60%),
+                      radial-gradient(ellipse at 80% 20%, rgba(0,168,150,0.04) 0%, transparent 50%);
+  }
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; height: 48px;
+    background: rgba(8,15,43,0.95); border-bottom: 2px solid var(--accent);
+    display: flex; align-items: center; justify-content: space-between; padding: 0 24px; z-index: 100;
+  }
+  nav .brand { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  nav .module-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent-light); letter-spacing: 0.06em; }
+  nav .counter { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+  .progress-bar { position: fixed; top: 50px; left: 0; height: 2px; background: var(--accent); transition: width 0.4s ease; z-index: 99; }
+  .slides-wrapper { position: relative; width: 100%; height: 100vh; overflow: hidden; }
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+    padding: 80px 80px 60px;
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+    pointer-events: none;
+  }
+  .slide.active { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .eyebrow {
+    font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent-light); margin-bottom: 16px;
+    opacity: 0; transform: translateY(12px); transition: opacity 0.4s 0.1s ease, transform 0.4s 0.1s ease;
+  }
+  .slide.active .eyebrow { opacity: 1; transform: translateY(0); }
+  h1 {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px, 7vw, 96px); line-height: 0.95;
+    color: var(--white); margin-bottom: 20px;
+    opacity: 0; transform: translateY(16px); transition: opacity 0.4s 0.2s ease, transform 0.4s 0.2s ease;
+  }
+  .slide.active h1 { opacity: 1; transform: translateY(0); }
+  h2 {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(38px, 5vw, 68px); line-height: 1.0;
+    color: var(--white); margin-bottom: 20px;
+    opacity: 0; transform: translateY(16px); transition: opacity 0.4s 0.2s ease, transform 0.4s 0.2s ease;
+  }
+  .slide.active h2 { opacity: 1; transform: translateY(0); }
+  .accent-line { width: 64px; height: 4px; background: var(--accent); margin-bottom: 28px; opacity: 0; transition: opacity 0.4s 0.3s ease; }
+  .slide.active .accent-line { opacity: 1; }
+  .body-text {
+    font-size: 18px; line-height: 1.65; color: rgba(255,255,255,0.82); max-width: 780px;
+    opacity: 0; transform: translateY(12px); transition: opacity 0.4s 0.35s ease, transform 0.4s 0.35s ease;
+  }
+  .slide.active .body-text { opacity: 1; transform: translateY(0); }
+  .stat-row {
+    display: flex; gap: 24px; margin-top: 8px; flex-wrap: wrap;
+    opacity: 0; transform: translateY(12px); transition: opacity 0.4s 0.4s ease, transform 0.4s 0.4s ease;
+  }
+  .slide.active .stat-row { opacity: 1; transform: translateY(0); }
+  .stat-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 20px 28px; min-width: 160px; }
+  .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 52px; color: var(--accent-light); line-height: 1; }
+  .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; line-height: 1.4; font-family: 'DM Mono', monospace; letter-spacing: 0.04em; }
+
+  /* Failure modes grid */
+  .failure-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    margin-top: 8px; max-width: 820px;
+    opacity: 0; transform: translateY(12px); transition: opacity 0.4s 0.4s ease, transform 0.4s 0.4s ease;
+  }
+  .slide.active .failure-grid { opacity: 1; transform: translateY(0); }
+  .failure-card {
+    background: var(--card-bg); border: 1px solid rgba(239,68,68,0.2);
+    border-left: 3px solid var(--danger); border-radius: 6px; padding: 14px 16px;
+  }
+  .failure-card .f-num { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--danger); line-height: 1; }
+  .failure-card .f-title { font-weight: 700; font-size: 14px; color: var(--white); margin-top: 2px; }
+  .failure-card .f-desc { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
+
+  /* 5 Questions table */
+  .q-table { width: 100%; max-width: 820px; border-collapse: collapse; margin-top: 4px;
+    opacity: 0; transform: translateY(12px); transition: opacity 0.4s 0.4s ease, transform 0.4s 0.4s ease; }
+  .slide.active .q-table { opacity: 1; transform: translateY(0); }
+  .q-table thead th { padding: 8px 12px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; background: rgba(8,145,178,0.15); color: var(--muted); text-align: left; }
+  .q-table td { padding: 9px 12px; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.06); vertical-align: top; }
+  .q-table td.q-num { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--accent-light); width: 36px; padding-top: 6px; }
+  .q-table td.q-ask { color: rgba(255,255,255,0.88); font-weight: 500; }
+  .q-table td.q-flag { color: var(--muted); font-size: 12px; font-style: italic; }
+
+  /* 3 proven apps */
+  .proven-list { list-style: none; margin-top: 8px; max-width: 780px;
+    opacity: 0; transform: translateY(12px); transition: opacity 0.4s 0.4s ease, transform 0.4s 0.4s ease; }
+  .slide.active .proven-list { opacity: 1; transform: translateY(0); }
+  .proven-list li { display: flex; gap: 16px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .proven-list li:last-child { border-bottom: none; }
+  .proven-list .p-num { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--teal); min-width: 36px; line-height: 1; margin-top: 2px; }
+  .proven-list .p-title { font-weight: 700; font-size: 15px; color: var(--white); }
+  .proven-list .p-desc { font-size: 13px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+
+  /* Augmentation vs replacement */
+  .aug-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; max-width: 720px;
+    opacity: 0; transform: translateY(12px); transition: opacity 0.4s 0.5s ease, transform 0.4s 0.5s ease; }
+  .slide.active .aug-grid { opacity: 1; transform: translateY(0); }
+  .aug-card { background: var(--card-bg); border-radius: 8px; padding: 20px 24px; }
+  .aug-card.correct { border: 1px solid rgba(0,168,150,0.4); border-top: 3px solid var(--teal); }
+  .aug-card.wrong { border: 1px solid rgba(239,68,68,0.3); border-top: 3px solid var(--danger); }
+  .aug-card .label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+  .aug-card.correct .label { color: var(--teal); }
+  .aug-card.wrong .label { color: var(--danger); }
+  .aug-card ul { list-style: none; }
+  .aug-card ul li { font-size: 13px; color: rgba(255,255,255,0.75); padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .aug-card ul li:last-child { border-bottom: none; }
+
+  /* Checklist */
+  .checklist { list-style: none; margin-top: 8px; max-width: 700px;
+    opacity: 0; transform: translateY(12px); transition: opacity 0.4s 0.4s ease, transform 0.4s 0.4s ease; }
+  .slide.active .checklist { opacity: 1; transform: translateY(0); }
+  .checklist li { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 16px; line-height: 1.5; }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist .num { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--accent-light); min-width: 28px; margin-top: 2px; line-height: 1; }
+
+  .highlight-box {
+    background: rgba(8,145,178,0.07); border: 1px solid rgba(8,145,178,0.3); border-left: 4px solid var(--accent);
+    border-radius: 4px; padding: 20px 24px; margin-top: 12px; max-width: 780px;
+    opacity: 0; transform: translateY(12px); transition: opacity 0.4s 0.45s ease, transform 0.4s 0.45s ease;
+  }
+  .slide.active .highlight-box { opacity: 1; transform: translateY(0); }
+  .highlight-box p { font-size: 15px; line-height: 1.6; color: rgba(255,255,255,0.88); }
+
+  footer { position: fixed; bottom: 14px; left: 80px; right: 80px; display: flex; justify-content: space-between; align-items: center; pointer-events: none; }
+  .footer-brand { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(139,159,196,0.4); letter-spacing: 0.1em; }
+  .footer-module { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(8,145,178,0.5); letter-spacing: 0.08em; }
+  .kbd-hint { position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%); font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(139,159,196,0.3); letter-spacing: 0.1em; }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="brand">CCO2go.ai · Phase 2 · Week 4</span>
+  <span class="module-label">M4.3 — The AI Reality Check</span>
+  <span class="counter" id="counter">1 / 13</span>
+</nav>
+<div class="progress-bar" id="progress"></div>
+
+<div class="slides-wrapper">
+
+  <!-- SLIDE 1: TITLE -->
+  <div class="slide active">
+    <div class="eyebrow">Module 4.3 · Week 4 · Phase 2 — The Build</div>
+    <h1>The AI Reality Check</h1>
+    <div class="accent-line"></div>
+    <p class="body-text" style="font-size:18px; color:rgba(255,255,255,0.7);">I built an AI-native CS platform with 15 agents. I also believe 95% of AI initiatives in CS are going to fail. Both things are true.</p>
+    <div class="stat-row" style="margin-top:24px;">
+      <div class="stat-card">
+        <div class="stat-num">95%</div>
+        <div class="stat-label">of AI projects fail<br>(MIT Sloan, 2024)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">73%</div>
+        <div class="stat-label">of "AI CS tools"<br>are GPT wrappers</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">3</div>
+        <div class="stat-label">proven AI applications<br>that actually move revenue</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: BOTH THINGS ARE TRUE -->
+  <div class="slide">
+    <div class="eyebrow">Segment 1 · Cold Open</div>
+    <h2>The Honest Setup</h2>
+    <div class="accent-line"></div>
+    <div class="stat-row" style="flex-direction:column; gap:14px; max-width:720px;">
+      <div class="stat-card" style="min-width:unset; padding:18px 24px; border-color:rgba(0,168,150,0.3);">
+        <div style="font-family:'DM Mono',monospace; font-size:11px; color:var(--teal); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:8px;">Thing 1</div>
+        <p style="font-size:15px; color:rgba(255,255,255,0.88);">I built an AI-native CS platform from scratch. 15 autonomous agents. Five categories. Wrote the code myself.</p>
+      </div>
+      <div class="stat-card" style="min-width:unset; padding:18px 24px; border-color:rgba(239,68,68,0.3);">
+        <div style="font-family:'DM Mono',monospace; font-size:11px; color:var(--danger); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:8px;">Thing 2</div>
+        <p style="font-size:15px; color:rgba(255,255,255,0.88);">I believe 95% of AI initiatives in CS right now are going to fail. Not because AI doesn't work — because of how companies are buying and deploying it.</p>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <p>Both things are true. The fact that I built one is exactly why I can tell you where the other ones go wrong.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: 5 FAILURE MODES -->
+  <div class="slide">
+    <div class="eyebrow">Segment 2 · The Failure Pattern</div>
+    <h2>5 Reasons CS AI Projects Fail</h2>
+    <div class="accent-line"></div>
+    <div class="failure-grid">
+      <div class="failure-card">
+        <div class="f-num">1</div>
+        <div class="f-title">No Data Foundation</div>
+        <div class="f-desc">Activity data ≠ behavioral data. Garbage in, garbage out — with a polished interface.</div>
+      </div>
+      <div class="failure-card">
+        <div class="f-num">2</div>
+        <div class="f-title">Automating Bad Processes</div>
+        <div class="f-desc">Automation amplifies what it touches. Make sure what it touches is worth amplifying.</div>
+      </div>
+      <div class="failure-card">
+        <div class="f-num">3</div>
+        <div class="f-title">No Success Metric Defined</div>
+        <div class="f-desc">"We're using AI" is not a metric. What does success look like in 90 days — in a specific number?</div>
+      </div>
+      <div class="failure-card">
+        <div class="f-num">4</div>
+        <div class="f-title">Tool Without a Workflow</div>
+        <div class="f-desc">No documented workflow = tool sits unused within 60 days. Every time.</div>
+      </div>
+      <div class="failure-card" style="grid-column: 1 / -1;">
+        <div class="f-num">5</div>
+        <div class="f-title">The GPT Wrapper Trap</div>
+        <div class="f-desc">73% of "AI CS platforms" are a polished UI on a public LLM call. No proprietary model. No CS-specific training. No memory of your customer data.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: GPT WRAPPER QUESTIONS -->
+  <div class="slide">
+    <div class="eyebrow">Segment 3 · Vendor Due Diligence</div>
+    <h2>5 Questions for Every<br>AI CS Vendor</h2>
+    <div class="accent-line"></div>
+    <table class="q-table">
+      <thead><tr><th>#</th><th>Ask the Vendor</th><th>Red Flag If...</th></tr></thead>
+      <tbody>
+        <tr><td class="q-num">1</td><td class="q-ask">Is your model trained on CS data, or are you calling a public LLM API?</td><td class="q-flag">Can't name a proprietary dataset</td></tr>
+        <tr><td class="q-num">2</td><td class="q-ask">What happens to my customer data? Does it train your model?</td><td class="q-flag">Answer is unclear or evasive</td></tr>
+        <tr><td class="q-num">3</td><td class="q-ask">Show me a customer who reduced churn using this — with a specific number.</td><td class="q-flag">Only vague case studies, no numbers</td></tr>
+        <tr><td class="q-num">4</td><td class="q-ask">What's your data retention and model retraining cadence?</td><td class="q-flag">No retraining = static, degrading model</td></tr>
+        <tr><td class="q-num">5</td><td class="q-ask">How does it integrate with our CRM and CS platform?</td><td class="q-flag">"CSV export" = will never be used</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SLIDE 5: 3 PROVEN APPLICATIONS -->
+  <div class="slide">
+    <div class="eyebrow">Segment 4 · What Actually Works</div>
+    <h2>3 Proven AI Applications<br>in CS</h2>
+    <div class="accent-line"></div>
+    <ul class="proven-list">
+      <li>
+        <span class="p-num">1</span>
+        <div>
+          <div class="p-title">Signal-Based Churn Detection</div>
+          <div class="p-desc">Monitors behavioral signals across the entire customer base simultaneously. Surfaces at-risk accounts 6–8 weeks before any human would notice — creating the intervention window where proactive saves actually work.</div>
+        </div>
+      </li>
+      <li>
+        <span class="p-num">2</span>
+        <div>
+          <div class="p-title">Automated Save Play Triggers</div>
+          <div class="p-desc">AI detects threshold crossings and assembles context for intervention. Human reviews and executes. Correct division of labor: AI handles detection and context assembly, human handles judgment and outreach.</div>
+        </div>
+      </li>
+      <li>
+        <span class="p-num">3</span>
+        <div>
+          <div class="p-title">Expansion Signal Monitoring</div>
+          <div class="p-desc">Identifies accounts showing growth indicators — usage at feature ceiling, new stakeholders, budget cycle timing — and routes to expansion plays before the window closes. CSQLs at scale, systematically.</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- SLIDE 6: CCOPILOT ARCHITECTURE -->
+  <div class="slide">
+    <div class="eyebrow">Segment 5 · CCOPilot.ai Architecture</div>
+    <h2>What 15 Agents<br>Actually Do</h2>
+    <div class="accent-line"></div>
+    <div class="stat-row" style="gap:10px; flex-wrap:wrap; margin-bottom:20px;">
+      <div class="stat-card" style="padding:12px 16px; min-width:unset;"><div style="font-family:'DM Mono',monospace; font-size:11px; color:var(--accent-light);">CORE INTELLIGENCE</div><div style="font-size:12px; color:var(--muted); margin-top:4px;">Health scoring, predictive modeling</div></div>
+      <div class="stat-card" style="padding:12px 16px; min-width:unset;"><div style="font-family:'DM Mono',monospace; font-size:11px; color:var(--danger);">RISK DETECTION</div><div style="font-size:12px; color:var(--muted); margin-top:4px;">Churn signal monitoring</div></div>
+      <div class="stat-card" style="padding:12px 16px; min-width:unset;"><div style="font-family:'DM Mono',monospace; font-size:11px; color:var(--teal);">RELATIONSHIP MGMT</div><div style="font-size:12px; color:var(--muted); margin-top:4px;">Stakeholder, champion health</div></div>
+      <div class="stat-card" style="padding:12px 16px; min-width:unset;"><div style="font-family:'DM Mono',monospace; font-size:11px; color:var(--gold);">BUSINESS CYCLE</div><div style="font-size:12px; color:var(--muted); margin-top:4px;">EBR, expansion, CSQL</div></div>
+      <div class="stat-card" style="padding:12px 16px; min-width:unset;"><div style="font-family:'DM Mono',monospace; font-size:11px; color:#A78BFA;">CUSTOMER RECOVERY</div><div style="font-size:12px; color:var(--muted); margin-top:4px;">Save plays, post-churn analysis</div></div>
+    </div>
+    <div class="aug-grid">
+      <div class="aug-card correct">
+        <div class="label">✓ Works as intended</div>
+        <ul>
+          <li>Signal detection</li>
+          <li>Health score computation</li>
+          <li>Automated briefings</li>
+          <li>Meeting prep summaries</li>
+        </ul>
+      </div>
+      <div class="aug-card wrong">
+        <div class="label">⚠ Harder than marketed</div>
+        <ul>
+          <li>The judgment layer</li>
+          <li>Relationship context</li>
+          <li>Exception handling</li>
+          <li>AI replacement (wrong model)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: AUGMENTATION VS REPLACEMENT -->
+  <div class="slide">
+    <div class="eyebrow">Segment 5 · The Right Model</div>
+    <h2>Augmentation vs. Replacement</h2>
+    <div class="accent-line"></div>
+    <p class="body-text">AI can surface that an account is at risk. It cannot replace a CSM who knows that this particular champion is navigating a company restructure and needs a very different conversation than what the risk score suggests.</p>
+    <div class="stat-row" style="margin-top:24px; flex-direction:column; gap:12px; max-width:700px;">
+      <div class="stat-card" style="min-width:unset; padding:16px 20px; border-color:rgba(0,168,150,0.4); display:flex; gap:16px; align-items:flex-start;">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:36px; color:var(--teal); min-width:32px; line-height:1; margin-top:2px;">AI</div>
+        <div><div style="font-weight:700; font-size:14px; color:var(--teal);">Handles Routine</div><div style="font-size:13px; color:var(--muted); margin-top:4px;">Signal monitoring · Health scoring · Data aggregation · Briefing generation · Onboarding tracking</div></div>
+      </div>
+      <div class="stat-card" style="min-width:unset; padding:16px 20px; border-color:rgba(244,160,0,0.4); display:flex; gap:16px; align-items:flex-start;">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:36px; color:var(--gold); min-width:32px; line-height:1; margin-top:2px;">YOU</div>
+        <div><div style="font-weight:700; font-size:14px; color:var(--gold);">Handles Complexity</div><div style="font-size:13px; color:var(--muted); margin-top:4px;">Judgment calls · Relationship dynamics · Negotiation · Strategic pivots · Exception management</div></div>
+      </div>
+    </div>
+    <div class="highlight-box" style="margin-top:16px;">
+      <p>The augmentation model is right. The replacement model is wrong. <strong>Build for augmentation.</strong></p>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: DO THIS MONDAY -->
+  <div class="slide">
+    <div class="eyebrow">Segment 6 · Action</div>
+    <h2>Do This Monday</h2>
+    <div class="accent-line"></div>
+    <ul class="checklist">
+      <li>
+        <span class="num">1</span>
+        <div>Run the 5 GPT wrapper questions on every AI tool your team currently uses or is evaluating. Require specific answers. How they respond tells you as much as the answers themselves.</div>
+      </li>
+      <li>
+        <span class="num">2</span>
+        <div>Classify each tool: <strong style="color:var(--teal);">Quadrant 1</strong> (proven impact, simple implementation) or <strong style="color:var(--danger);">Quadrant 4</strong> (unproven, complex). Quadrant 1 first. Always. Build AI credibility with early wins.</div>
+      </li>
+      <li>
+        <span class="num">3</span>
+        <div>Not using any AI yet? Start with <strong style="color:var(--accent-light);">health scoring</strong>. Not the most glamorous application. The highest-value one. Validated behavioral signals + renewal outcomes = 90-day ROI proof.</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- SLIDE 9: THE STAKES -->
+  <div class="slide">
+    <div class="eyebrow">Segment 6 · The Stakes</div>
+    <h2>Why Getting This Right Matters</h2>
+    <div class="accent-line"></div>
+    <div class="stat-row" style="flex-direction:column; gap:14px; max-width:720px;">
+      <div class="stat-card" style="min-width:unset; padding:16px 24px; display:flex; align-items:center; gap:24px;">
+        <div class="stat-num" style="font-size:56px; min-width:100px;">$4.4T</div>
+        <div style="font-size:15px; color:rgba(255,255,255,0.8);">Projected AI market by 2030 (Gartner). The opportunity is real. The question is who captures it.</div>
+      </div>
+      <div class="stat-card" style="min-width:unset; padding:16px 24px; display:flex; align-items:center; gap:24px;">
+        <div class="stat-num" style="font-size:56px; min-width:100px;">50–60%</div>
+        <div style="font-size:15px; color:rgba(255,255,255,0.8);">Of traditional CSM time spent on tasks AI can automate — briefings, health scoring, CRM updates, summaries.</div>
+      </div>
+    </div>
+    <div class="highlight-box" style="margin-top:16px;">
+      <p>Companies that get this right build competitive advantages that are very difficult to replicate. The ones that buy GPT wrappers will have expensive shelfware and a team that's skeptical of the next real innovation when it arrives.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: CLOSE -->
+  <div class="slide">
+    <div class="eyebrow">Module 4.3 · Close</div>
+    <h1>Build It Right.<br>Start Monday.</h1>
+    <div class="accent-line"></div>
+    <p class="body-text" style="font-size:20px; color:rgba(255,255,255,0.7);">Stop being comfortable. Start Monday.</p>
+    <div class="highlight-box" style="margin-top:24px;">
+      <p><em>"Not AI enthusiasm. Not AI fear. An honest assessment of what works, what doesn't, and how to tell the difference before you've written the check."</em></p>
+    </div>
+  </div>
+
+  <!-- SLIDE 11: NEXT MODULE -->
+  <div class="slide">
+    <div class="eyebrow">Phase 2 — The Build · Section G</div>
+    <h2>Up Next: Module 5.1</h2>
+    <div class="accent-line"></div>
+    <p class="body-text" style="font-size:20px; font-weight:600; color:#65A30D;">Expansion Revenue: Stop Asking Permission</p>
+    <p class="body-text" style="margin-top:12px;">Top-performing SaaS companies generate 50%+ of new ARR from upsells and cross-sells to existing customers. Most CS teams have no formal expansion motion — just an informal practice where CSMs mention opportunities in Slack and sometimes someone follows up. That ends in Module 5.1.</p>
+    <div class="stat-row" style="margin-top:24px;">
+      <div class="stat-card">
+        <div class="stat-num">50%+</div>
+        <div class="stat-label">of new ARR from<br>existing customers (top SaaS)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">5–7×</div>
+        <div class="stat-label">higher cost to acquire<br>new vs. expand existing</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">48hr</div>
+        <div class="stat-label">CSQL SLA —<br>buying windows close fast</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span class="footer-brand">CCO2go.ai · Your Customers Are Lying to You · 2026</span>
+  <span class="footer-module">M4.3 · The AI Reality Check</span>
+</footer>
+<div class="kbd-hint">← → or SPACE to navigate</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  let current = 0;
+  const total = slides.length;
+  function navigate(dir) {
+    slides[current].classList.remove('active');
+    current = Math.max(0, Math.min(total - 1, current + dir));
+    slides[current].classList.add('active');
+    counter.textContent = `${current + 1} / ${total}`;
+    progress.style.width = `${((current + 1) / total) * 100}%`;
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); navigate(1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); navigate(-1); }
+  });
+  counter.textContent = `1 / ${total}`;
+  progress.style.width = `${(1 / total) * 100}%`;
+</script>
+</body>
+</html>

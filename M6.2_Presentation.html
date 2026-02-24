@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Module 6.2 — Becoming the Outcome Architect</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--accent:#DB2777;--al:#F472B6;--navy:#0F1F4B;--bg:#080F2B;--teal:#00A896;--gold:#F4A000;--danger:#DC2626;--green:#16A34A;--white:#FFF;--muted:#8B9FC4;--cb:rgba(219,39,119,.3);}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--white);font-family:'DM Sans',sans-serif;height:100vh;overflow:hidden;background-image:radial-gradient(ellipse at 20% 50%,rgba(219,39,119,.07) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(0,168,150,.04) 0%,transparent 50%);}
+  nav{position:fixed;top:0;left:0;right:0;height:48px;background:rgba(8,15,43,.95);border-bottom:2px solid var(--accent);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100;}
+  nav .brand{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;}
+  nav .ml{font-family:'DM Mono',monospace;font-size:11px;color:var(--al);}
+  nav .ctr{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);}
+  .pb{position:fixed;top:50px;left:0;height:2px;background:var(--accent);transition:width .4s ease;z-index:99;}
+  .sw{position:relative;width:100%;height:100vh;overflow:hidden;}
+  .slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:80px 80px 60px;opacity:0;transform:translateY(28px);transition:opacity .55s ease,transform .55s ease;pointer-events:none;}
+  .slide.active{opacity:1;transform:translateY(0);pointer-events:auto;}
+  .ey{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--al);margin-bottom:16px;opacity:0;transform:translateY(12px);transition:opacity .4s .1s ease,transform .4s .1s ease;}
+  .slide.active .ey{opacity:1;transform:translateY(0);}
+  h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,7vw,96px);line-height:.95;margin-bottom:20px;opacity:0;transform:translateY(16px);transition:opacity .4s .2s ease,transform .4s .2s ease;}
+  .slide.active h1{opacity:1;transform:translateY(0);}
+  h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,5vw,68px);line-height:1.0;margin-bottom:20px;opacity:0;transform:translateY(16px);transition:opacity .4s .2s ease,transform .4s .2s ease;}
+  .slide.active h2{opacity:1;transform:translateY(0);}
+  .acc{width:64px;height:4px;background:var(--accent);margin-bottom:28px;opacity:0;transition:opacity .4s .3s ease;}
+  .slide.active .acc{opacity:1;}
+  .bt{font-size:18px;line-height:1.65;color:rgba(255,255,255,.82);max-width:780px;opacity:0;transform:translateY(12px);transition:opacity .4s .35s ease,transform .4s .35s ease;}
+  .slide.active .bt{opacity:1;transform:translateY(0);}
+  .an{opacity:0;transform:translateY(12px);transition:opacity .4s .4s ease,transform .4s .4s ease;}
+  .slide.active .an{opacity:1;transform:translateY(0);}
+  .sc{display:flex;gap:24px;margin-top:8px;flex-wrap:wrap;}
+  .sc-card{background:rgba(255,255,255,.04);border:1px solid var(--cb);border-radius:8px;padding:20px 28px;min-width:160px;}
+  .sn{font-family:'Bebas Neue',sans-serif;font-size:52px;color:var(--al);line-height:1;}
+  .sl{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.4;font-family:'DM Mono',monospace;}
+  .hb{background:rgba(219,39,119,.08);border:1px solid rgba(219,39,119,.3);border-left:4px solid var(--accent);border-radius:4px;padding:20px 24px;margin-top:12px;max-width:780px;}
+  .hb p{font-size:15px;line-height:1.6;color:rgba(255,255,255,.88);}
+  /* Evolution timeline */
+  .evo{display:flex;flex-direction:column;gap:8px;max-width:820px;margin-top:8px;}
+  .evo-row{display:grid;grid-template-columns:80px 200px 1fr;gap:12px;align-items:center;padding:10px 12px;border-radius:6px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);}
+  .evo-row.current{background:rgba(219,39,119,.08);border-color:rgba(219,39,119,.3);}
+  .evo-row.future{background:rgba(244,160,0,.05);border-color:rgba(244,160,0,.2);}
+  .evo-yr{font-family:'Bebas Neue',sans-serif;font-size:26px;line-height:1;}
+  .evo-row.current .evo-yr{color:var(--al);}
+  .evo-row.future .evo-yr{color:var(--gold);}
+  .evo-title{font-weight:700;font-size:14px;}
+  .evo-desc{font-size:13px;color:rgba(255,255,255,.65);line-height:1.4;}
+  /* Competency cards */
+  .comp-list{list-style:none;max-width:820px;margin-top:8px;}
+  .comp-list li{display:grid;grid-template-columns:40px 160px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06);align-items:start;}
+  .comp-list li:last-child{border-bottom:none;}
+  .cn{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--al);line-height:1;}
+  .ct{font-weight:700;font-size:14px;color:var(--white);}
+  .cd{font-size:13px;color:rgba(255,255,255,.75);line-height:1.4;}
+  /* Role reframe */
+  .rr-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:820px;margin-top:8px;}
+  .rr-card{padding:16px 18px;border-radius:6px;}
+  .rr-card.old{background:rgba(220,38,38,.07);border:1px solid rgba(220,38,38,.25);border-left:3px solid var(--danger);}
+  .rr-card.new{background:rgba(219,39,119,.08);border:1px solid rgba(219,39,119,.3);border-left:3px solid var(--accent);}
+  .rr-label{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;}
+  .rr-card.old .rr-label{color:var(--danger);}
+  .rr-card.new .rr-label{color:var(--al);}
+  .rr-text{font-size:13px;line-height:1.5;color:rgba(255,255,255,.8);}
+  /* Checklist */
+  .cl{list-style:none;margin-top:8px;max-width:700px;}
+  .cl li{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:16px;line-height:1.5;}
+  .cl li:last-child{border-bottom:none;}
+  .cln{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--al);min-width:28px;margin-top:2px;line-height:1;}
+  footer{position:fixed;bottom:14px;left:80px;right:80px;display:flex;justify-content:space-between;pointer-events:none;}
+  .fb{font-family:'DM Mono',monospace;font-size:10px;color:rgba(139,159,196,.4);}
+  .fm{font-family:'DM Mono',monospace;font-size:10px;color:rgba(219,39,119,.5);}
+  .kh{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);font-family:'DM Mono',monospace;font-size:10px;color:rgba(139,159,196,.3);}
+</style>
+</head>
+<body>
+<nav><span class="brand">CCO2go.ai &middot; Phase 2 &middot; Week 6</span><span class="ml">M6.2 &mdash; Becoming the Outcome Architect</span><span class="ctr" id="ctr">1 / 13</span></nav>
+<div class="pb" id="prg"></div>
+<div class="sw">
+
+<div class="slide active">
+  <div class="ey">Module 6.2 &middot; Week 6 &mdash; The Infrastructure</div>
+  <h1>Becoming the<br>Outcome Architect</h1>
+  <div class="acc"></div>
+  <p class="bt" style="color:rgba(255,255,255,.7);">Not a relationship manager. Not a salesperson. Architect of measurable customer outcomes who generates revenue as a natural byproduct of doing that well.</p>
+  <div class="sc an" style="margin-top:24px;">
+    <div class="sc-card"><div class="sn">70%</div><div class="sl">of CSMs lack tools to<br>do their jobs effectively</div></div>
+    <div class="sc-card"><div class="sn">56%</div><div class="sl">experience burnout<br>(Salesforce 2025)</div></div>
+    <div class="sc-card"><div class="sn">5</div><div class="sl">competencies of the<br>Outcome Architect</div></div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="ey">Segment 1 &middot; Cold Open</div>
+  <h2>"What's Your Job?"<br>Don't Coach the Answer.</h2>
+  <div class="acc"></div>
+  <p class="bt">Ask every CSM on your team to write down in one sentence what their role is. The variation you get back will tell you everything about the state of role clarity in your organization.</p>
+  <div class="rr-grid an">
+    <div class="rr-card old"><div class="rr-label">Most common answers</div><div class="rr-text">"I'm the customer's advocate internally."<br>"I make sure they're happy and renew."<br>"I manage the relationship and ensure value."</div></div>
+    <div class="rr-card new"><div class="rr-label">The answer you want</div><div class="rr-text">"I drive measurable customer outcomes that justify continued investment in our platform."</div></div>
+  </div>
+  <p class="bt an" style="margin-top:14px;font-size:14px;">70% of CSMs lack tools to do their jobs — yet are held to retention targets. This is not a talent problem. <strong>It's a role definition problem. And it's fixable.</strong></p>
+</div>
+
+<div class="slide">
+  <div class="ey">Segment 2 &middot; The Identity Crisis</div>
+  <h2>Where the Profession<br>Lost Its Way</h2>
+  <div class="acc"></div>
+  <p class="bt">Three questions CS can't agree on: who it reports to, what the title means, how comp should work. The result: teams measured by the wrong metrics doing the wrong work.</p>
+  <div class="sc an" style="margin-top:12px;">
+    <div class="sc-card"><div class="sn">58%</div><div class="sl">of CS teams use CSAT/NPS as<br>primary metric — near-zero<br>correlation with retention</div></div>
+    <div class="sc-card"><div class="sn">3in5</div><div class="sl">CSMs are order-takers<br>vs proactive outcome<br>managers</div></div>
+  </div>
+  <div class="hb an">
+    <p><strong>The Customer-First Paradox (TSIA 2025):</strong> Customer-first culture is declining across tech at exactly the moment the rhetoric has never been louder. You can't close that gap with a values statement. You close it with operational infrastructure.</p>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="ey">Segment 3 &middot; The Evolution Timeline</div>
+  <h2>CSM Evolution:<br>2015 to 2026+</h2>
+  <div class="acc"></div>
+  <div class="evo an">
+    <div class="evo-row"><div class="evo-yr" style="color:var(--muted);">2015</div><div class="evo-title">The Relationship Manager</div><div class="evo-desc">Onboarding, renewals, "keep them happy." Metric: CSAT/NPS. Skill: relationship + product knowledge.</div></div>
+    <div class="evo-row"><div class="evo-yr" style="color:var(--muted);">2018</div><div class="evo-title">The Retention Specialist</div><div class="evo-desc">Churn metrics introduced, first commercial accountability. Metric: GRR. Skill: structured churn analysis.</div></div>
+    <div class="evo-row"><div class="evo-yr" style="color:var(--muted);">2021</div><div class="evo-title">The Revenue Influencer</div><div class="evo-desc">Expansion revenue entered; comp got complicated. Metric: NRR, CSQL. Skill: commercial instincts.</div></div>
+    <div class="evo-row current"><div class="evo-yr">2024</div><div class="evo-title" style="color:var(--al);">The Outcome Architect</div><div class="evo-desc">Manages outcomes, not relationships. AI-augmented. Speaks CFO language. Metric: Business outcomes + NRR + health score movement.</div></div>
+    <div class="evo-row future"><div class="evo-yr">2026+</div><div class="evo-title" style="color:var(--gold);">The Customer Growth Engineer</div><div class="evo-desc">CS/PLG blur. System designer. Intervenes only where human judgment is genuinely irreplaceable.</div></div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="ey">Segment 4 &middot; The Role</div>
+  <h2>What the Outcome<br>Architect Actually Does</h2>
+  <div class="acc"></div>
+  <div class="rr-grid an">
+    <div class="rr-card old"><div class="rr-label">What it was</div><div class="rr-text" style="line-height:1.7;">Manages check-ins<br>Defends budget at renewal<br>Escalates problems reactively<br>Promotes features</div></div>
+    <div class="rr-card new"><div class="rr-label">What it becomes</div><div class="rr-text" style="line-height:1.7;">Manages success plans with measurable milestones<br>Confirms ROI commitments made at contract start<br>Detects risk proactively through signal monitoring<br>Connects capabilities to business outcomes</div></div>
+  </div>
+  <div class="hb an" style="margin-top:16px;">
+    <p>This is not a different personality type. It's a different operating model. The skills can be taught. The framework can be built. When it's in place, the role is more satisfying, more commercially impactful, and more sustainable.</p>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="ey">Segment 5 &middot; The 5 Competencies</div>
+  <h2>The 5 Competencies of<br>the Outcome Architect</h2>
+  <div class="acc"></div>
+  <ul class="comp-list an">
+    <li><div class="cn">1</div><div><div class="ct">Signal Reading</div><div class="cd">Interprets behavioral data to distinguish noise from genuine risk. Acts on patterns, not feelings.</div></div><div style="font-size:12px;font-style:italic;color:var(--al);padding-top:2px;">"What does this account's usage data tell you about renewal risk?"</div></li>
+    <li><div class="cn">2</div><div><div class="ct">Outcome Mapping</div><div class="cd">Always knows what success looks like for every account. Connects usage to business metrics.</div></div><div style="font-size:12px;font-style:italic;color:var(--al);padding-top:2px;">"What business outcome were you hired to deliver for this customer?"</div></li>
+    <li><div class="cn">3</div><div><div class="ct">Commercial Acumen</div><div class="cd">Understands ARR, NRR, expansion math, cost of churn. Speaks CFO language without translation.</div></div><div style="font-size:12px;font-style:italic;color:var(--al);padding-top:2px;">"What's the business case for this customer's continued investment?"</div></li>
+    <li><div class="cn">4</div><div><div class="ct">AI Orchestration</div><div class="cd">Knows which agent to deploy, when to intervene, how to hand off from automation to human conversation.</div></div><div style="font-size:12px;font-style:italic;color:var(--al);padding-top:2px;">"Show me how you'd use AI briefing data to prepare for a save play."</div></li>
+    <li><div class="cn">5</div><div><div class="ct">Executive Presence</div><div class="cd">Can run a 25-min VPC to C-suite without slides. Leads with business impact, not product features.</div></div><div style="font-size:12px;font-style:italic;color:var(--al);padding-top:2px;">"Run a mock Value Proof Conversation for this account. No slides."</div></li>
+  </ul>
+</div>
+
+<div class="slide">
+  <div class="ey">Segment 5 &middot; The Enablement Gap</div>
+  <h2>The Gap Between<br>Expectation and Enablement</h2>
+  <div class="acc"></div>
+  <p class="bt">70% of CSMs lack the tools, training, or frameworks to do their jobs effectively. That's not 70% of CSMs being incapable — it's 70% of CS organizations failing to build the enablement infrastructure that closes these five gaps.</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:820px;margin-top:16px;" class="an">
+    <div style="background:rgba(219,39,119,.08);border:1px solid rgba(219,39,119,.3);border-radius:6px;padding:14px 16px;"><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--al);text-transform:uppercase;margin-bottom:8px;">Component 1</div><div style="font-weight:700;font-size:14px;">Signal Library</div><div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:4px;">Documented behavioral patterns and what they mean, shared across the team</div></div>
+    <div style="background:rgba(219,39,119,.08);border:1px solid rgba(219,39,119,.3);border-radius:6px;padding:14px 16px;"><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--al);text-transform:uppercase;margin-bottom:8px;">Component 2</div><div style="font-weight:700;font-size:14px;">Conversation Playbook</div><div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:4px;">Specific talk tracks: save plays, expansion conversations, VPCs, champion recovery</div></div>
+    <div style="background:rgba(219,39,119,.08);border:1px solid rgba(219,39,119,.3);border-radius:6px;padding:14px 16px;"><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--al);text-transform:uppercase;margin-bottom:8px;">Component 3</div><div style="font-weight:700;font-size:14px;">Outcome-Tied Comp</div><div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:4px;">NRR movement and health score improvement as variable comp drivers — not activity metrics</div></div>
+    <div style="background:rgba(219,39,119,.08);border:1px solid rgba(219,39,119,.3);border-radius:6px;padding:14px 16px;"><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--al);text-transform:uppercase;margin-bottom:8px;">Component 4</div><div style="font-weight:700;font-size:14px;">Explicit Career Path</div><div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:4px;">CSM &rarr; Senior CSM &rarr; Strategic CSM with specific, observable criteria written down and shared</div></div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="ey">Segment 6 &middot; Action</div>
+  <h2>Do This Monday</h2>
+  <div class="acc"></div>
+  <ul class="cl an">
+    <li><span class="cln">1</span><div>Have every CSM self-score on all 5 competencies (1–5, no coaching). Look at the distribution, not just the average. A team average of 3 on Commercial Acumen might hide two CSMs at 1. <strong style="color:var(--al);">The lowest scores are your highest-priority enablement investments.</strong></div></li>
+    <li><span class="cln">2</span><div>Audit your comp structure: is variable pay tied to NRR movement and health score improvement — or to activity metrics? CSMs optimize for what they're measured on. If activity drives comp, activity is what you'll get. <strong>Fix it this quarter. Not next planning cycle.</strong></div></li>
+    <li><span class="cln">3</span><div>Define your career ladder explicitly with specific, observable criteria. Not "demonstrates leadership" — "<em>maintains NRR above 110% for 4 consecutive quarters.</em>" Write it down. Share it with the team this week. CSMs without a visible path to advancement is a management failure, not a morale problem.</div></li>
+  </ul>
+</div>
+
+<div class="slide">
+  <div class="ey">Module 6.2 &middot; Close</div>
+  <h1>Role Clarity.<br>Comp Alignment.<br>Career Pathing.<br>Build Them.</h1>
+  <div class="acc"></div>
+  <p class="bt" style="font-size:18px;color:rgba(255,255,255,.7);">The Customer-First Paradox closes when you build the operational infrastructure that makes the values real. Not before.</p>
+</div>
+
+<div class="slide">
+  <div class="ey">Phase 2 &mdash; The Build &middot; Section J</div>
+  <h2>Up Next: Module 6.3</h2>
+  <div class="acc"></div>
+  <p class="bt" style="font-size:20px;font-weight:600;color:#38BDF8;">Digital-First CS: The Heresy That's Actually Right</p>
+  <p class="bt" style="margin-top:12px;">Phase 2 finale. Module 6.3 covers the Digital-First model (not digital-only), the Human Premium, the 4-quarter transition plan, and closes Phase 2 with a bridge to Phase 3 &mdash; The Proof.</p>
+  <div class="sc an" style="margin-top:24px;">
+    <div class="sc-card"><div class="sn">9</div><div class="sl">Phase 2 modules<br>complete after 6.3</div></div>
+    <div class="sc-card"><div class="sn">4</div><div class="sl">quarters to transform<br>to digital-first model</div></div>
+    <div class="sc-card"><div class="sn">Phase 3</div><div class="sl">The Proof —<br>Days 61–90</div></div>
+  </div>
+</div>
+
+</div>
+<footer><span class="fb">CCO2go.ai &middot; Your Customers Are Lying to You &middot; 2026</span><span class="fm">M6.2 &middot; Becoming the Outcome Architect</span></footer>
+<div class="kh">&larr; &rarr; or SPACE to navigate</div>
+<script>
+  const s=document.querySelectorAll('.slide'),c=document.getElementById('ctr'),p=document.getElementById('prg');
+  let cur=0;const tot=s.length;
+  function nav(d){s[cur].classList.remove('active');cur=Math.max(0,Math.min(tot-1,cur+d));s[cur].classList.add('active');c.textContent=`${cur+1} / ${tot}`;p.style.width=`${((cur+1)/tot)*100}%`;}
+  document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();nav(1);}if(e.key==='ArrowLeft'){e.preventDefault();nav(-1);}});
+  c.textContent=`1 / ${tot}`;p.style.width=`${(1/tot)*100}%`;
+</script>
+</body>
+</html>
