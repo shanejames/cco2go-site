@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Churn ROI Calculator | CCO2go.ai</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #060810;
+  --surface: #0d1120;
+  --surface2: #131829;
+  --border: #1e2540;
+  --border-lit: #2d3a5e;
+  --cyan: #00c9c8;
+  --cyan-dim: #007f7f;
+  --gold: #f0a500;
+  --red: #f04060;
+  --green: #00c97a;
+  --text: #e8ecf4;
+  --text-muted: #6b7a9e;
+  --text-dim: #2d3a5e;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* Animated grid */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,201,200,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,201,200,0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wrap { max-width: 960px; margin: 0 auto; padding: 40px 24px 80px; position: relative; z-index: 1; }
+
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--text-muted); text-decoration: none;
+  margin-bottom: 48px; transition: color .2s;
+}
+.back-link:hover { color: var(--cyan); }
+
+/* ── HEADER ── */
+.eyebrow {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  text-transform: uppercase; letter-spacing: 2px;
+  color: var(--cyan); margin-bottom: 14px;
+}
+
+h1 {
+  font-family: 'Syne', sans-serif; font-size: clamp(30px, 4.5vw, 52px);
+  font-weight: 800; line-height: 1.05; color: #fff; margin-bottom: 16px;
+}
+
+h1 span {
+  background: linear-gradient(135deg, var(--cyan), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+.header-sub {
+  font-size: 16px; color: var(--text-muted); max-width: 560px;
+  line-height: 1.7; margin-bottom: 48px;
+}
+
+/* ── LAYOUT ── */
+.calc-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 700px) { .calc-layout { grid-template-columns: 1fr; } }
+
+/* ── INPUT PANEL ── */
+.input-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+}
+
+.panel-title {
+  font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700;
+  color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;
+  margin-bottom: 28px;
+  display: flex; align-items: center; gap: 8px;
+}
+
+.panel-title::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+
+.field { margin-bottom: 24px; }
+
+.field label {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-size: 12px; font-family: 'DM Mono', monospace;
+  text-transform: uppercase; letter-spacing: 1px;
+  color: var(--text-muted); margin-bottom: 10px;
+}
+
+.field label .hint { font-size: 10px; color: var(--text-dim); text-transform: none; letter-spacing: 0; }
+
+.input-row {
+  display: flex; align-items: center;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; overflow: hidden; transition: border-color .2s;
+}
+.input-row:focus-within { border-color: var(--cyan-dim); }
+
+.input-prefix, .input-suffix {
+  padding: 0 14px;
+  font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 500;
+  color: var(--text-muted); background: transparent;
+  user-select: none; flex-shrink: 0;
+}
+
+input[type="number"] {
+  flex: 1; padding: 12px 10px;
+  background: transparent; border: none; outline: none;
+  font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700;
+  color: #fff; width: 100%;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+.slider-row { margin-top: 10px; }
+
+input[type="range"] {
+  width: 100%; -webkit-appearance: none; appearance: none;
+  height: 4px; border-radius: 2px;
+  background: var(--border); outline: none; cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 18px; height: 18px;
+  border-radius: 50%; background: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(0,201,200,.15);
+  transition: box-shadow .2s;
+}
+input[type="range"]::-webkit-slider-thumb:hover { box-shadow: 0 0 0 6px rgba(0,201,200,.2); }
+
+.range-labels {
+  display: flex; justify-content: space-between;
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  color: var(--text-dim); margin-top: 6px;
+}
+
+/* ── RESULTS PANEL ── */
+.results-panel {
+  display: flex; flex-direction: column; gap: 16px;
+}
+
+.result-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 24px 28px;
+  transition: border-color .3s;
+}
+
+.result-card.danger { border-color: rgba(240,64,96,.25); background: linear-gradient(135deg, rgba(240,64,96,.04) 0%, var(--surface) 100%); }
+.result-card.highlight { border-color: rgba(0,201,200,.25); background: linear-gradient(135deg, rgba(0,201,200,.04) 0%, var(--surface) 100%); }
+.result-card.gold { border-color: rgba(240,165,0,.25); background: linear-gradient(135deg, rgba(240,165,0,.04) 0%, var(--surface) 100%); }
+
+.result-label {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--text-dim); margin-bottom: 8px;
+}
+
+.result-value {
+  font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800;
+  line-height: 1; transition: all .4s;
+}
+.result-value.red   { color: var(--red); }
+.result-value.cyan  { color: var(--cyan); }
+.result-value.green { color: var(--green); }
+.result-value.gold  { color: var(--gold); }
+
+.result-sub { font-size: 12px; color: var(--text-muted); margin-top: 6px; line-height: 1.5; }
+
+.result-tag {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  padding: 3px 10px; border-radius: 20px; margin-top: 8px;
+}
+.tag-red   { background: rgba(240,64,96,.1);  color: var(--red);   border: 1px solid rgba(240,64,96,.2); }
+.tag-green { background: rgba(0,201,122,.1);  color: var(--green); border: 1px solid rgba(0,201,122,.2); }
+.tag-gold  { background: rgba(240,165,0,.1);  color: var(--gold);  border: 1px solid rgba(240,165,0,.2); }
+
+/* ── BREAKDOWN TABLE ── */
+.breakdown {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 28px; margin-top: 24px;
+}
+
+.breakdown-title {
+  font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700;
+  color: #fff; margin-bottom: 20px;
+}
+
+.breakdown-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 0; border-bottom: 1px solid var(--border);
+  font-size: 14px; gap: 16px;
+}
+.breakdown-row:last-child { border-bottom: none; }
+
+.breakdown-row .bkey { color: var(--text-muted); flex: 1; }
+.breakdown-row .bval { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; flex-shrink: 0; }
+
+.bval.red   { color: var(--red); }
+.bval.green { color: var(--green); }
+.bval.cyan  { color: var(--cyan); }
+.bval.gold  { color: var(--gold); }
+.bval.muted { color: var(--text-muted); }
+
+/* ── VERDICT ── */
+.verdict {
+  background: linear-gradient(135deg, #0a1a2a 0%, #0d1120 100%);
+  border: 1px solid rgba(0,201,200,.2);
+  border-radius: 14px; padding: 32px; margin-top: 24px;
+}
+
+.verdict-headline {
+  font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800;
+  color: #fff; margin-bottom: 12px; line-height: 1.3;
+}
+
+.verdict-body { font-size: 14px; color: var(--text-muted); line-height: 1.8; margin-bottom: 24px; }
+.verdict-body strong { color: var(--text); }
+
+.verdict-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 24px; background: var(--cyan); color: #000;
+  border-radius: 8px; text-decoration: none;
+  font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700;
+  transition: all .2s;
+}
+.verdict-cta:hover { background: #00e5e4; transform: translateY(-1px); }
+
+.verdict-note {
+  margin-top: 12px; font-size: 12px; color: var(--text-dim);
+  font-family: 'DM Mono', monospace;
+}
+
+/* ── ANIMATING COUNTER ── */
+@keyframes countUp {
+  from { opacity: .4; transform: translateY(4px); }
+  to   { opacity: 1;  transform: translateY(0); }
+}
+.updating { animation: countUp 0.3s ease forwards; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <a href="/marketing" class="back-link">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Marketing Hub
+  </a>
+
+  <div class="eyebrow">CCO2go.ai · ROI Calculator</div>
+  <h1>What is your churn<br><span>actually costing you?</span></h1>
+  <p class="header-sub">Put in your numbers. See the real cost of inaction — and what it looks like if we move the needle together.</p>
+
+  <div class="calc-layout">
+
+    <!-- INPUT PANEL -->
+    <div class="input-panel">
+      <div class="panel-title">Your Business Today</div>
+
+      <div class="field">
+        <label>Annual Recurring Revenue (ARR) <span class="hint">total contracted revenue</span></label>
+        <div class="input-row">
+          <span class="input-prefix">$</span>
+          <input type="number" id="arr" value="2000000" min="100000" max="50000000" step="100000">
+        </div>
+        <div class="slider-row">
+          <input type="range" id="arrSlider" min="100000" max="20000000" step="100000" value="2000000">
+          <div class="range-labels"><span>$100K</span><span>$20M</span></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Annual Churn Rate <span class="hint">% of customers lost per year</span></label>
+        <div class="input-row">
+          <input type="number" id="churn" value="18" min="1" max="60" step="0.5">
+          <span class="input-suffix">%</span>
+        </div>
+        <div class="slider-row">
+          <input type="range" id="churnSlider" min="1" max="60" step="0.5" value="18">
+          <div class="range-labels"><span>1%</span><span>60%</span></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Average Customer ARR <span class="hint">total ARR ÷ customer count</span></label>
+        <div class="input-row">
+          <span class="input-prefix">$</span>
+          <input type="number" id="acv" value="14000" min="1000" max="500000" step="1000">
+        </div>
+        <div class="slider-row">
+          <input type="range" id="acvSlider" min="1000" max="200000" step="1000" value="14000">
+          <div class="range-labels"><span>$1K</span><span>$200K</span></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Target Churn Rate <span class="hint">what we can realistically hit</span></label>
+        <div class="input-row">
+          <input type="number" id="targetChurn" value="7" min="1" max="30" step="0.5">
+          <span class="input-suffix">%</span>
+        </div>
+        <div class="slider-row">
+          <input type="range" id="targetChurnSlider" min="1" max="30" step="0.5" value="7">
+          <div class="range-labels"><span>1%</span><span>30%</span></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Package Tier <span class="hint">monthly engagement cost</span></label>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:4px">
+          <button class="tier-btn" data-val="4000" onclick="selectTier(this, 4000)">
+            <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-muted);margin-bottom:4px">Platform</div>
+            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff">$4,000</div>
+            <div style="font-size:10px;color:var(--text-dim);margin-top:2px">per month</div>
+          </button>
+          <button class="tier-btn selected" data-val="6500" onclick="selectTier(this, 6500)">
+            <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--cyan);margin-bottom:4px">Accelerator</div>
+            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff">$6,500</div>
+            <div style="font-size:10px;color:var(--text-dim);margin-top:2px">per month</div>
+          </button>
+          <button class="tier-btn" data-val="9500" onclick="selectTier(this, 9500)">
+            <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-muted);margin-bottom:4px">Full Stack</div>
+            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff">$9,500</div>
+            <div style="font-size:10px;color:var(--text-dim);margin-top:2px">per month</div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTS PANEL -->
+    <div class="results-panel">
+
+      <div class="result-card danger">
+        <div class="result-label">Annual revenue lost to churn</div>
+        <div class="result-value red" id="res-churnLoss">—</div>
+        <div class="result-sub" id="res-churnLossSub">—</div>
+        <span class="result-tag tag-red" id="res-churnTag">—</span>
+      </div>
+
+      <div class="result-card highlight">
+        <div class="result-label">Revenue saved at target churn rate</div>
+        <div class="result-value cyan" id="res-revSaved">—</div>
+        <div class="result-sub" id="res-revSavedSub">—</div>
+        <span class="result-tag tag-green" id="res-savedTag">—</span>
+      </div>
+
+      <div class="result-card gold">
+        <div class="result-label">12-month net ROI after CCO2go fees</div>
+        <div class="result-value gold" id="res-roi">—</div>
+        <div class="result-sub" id="res-roiSub">—</div>
+        <span class="result-tag tag-gold" id="res-roiTag">—</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FULL BREAKDOWN -->
+  <div class="breakdown">
+    <div class="breakdown-title">Full 12-Month Picture</div>
+
+    <div class="breakdown-row">
+      <span class="bkey">Current ARR</span>
+      <span class="bval cyan" id="bd-arr">—</span>
+    </div>
+    <div class="breakdown-row">
+      <span class="bkey">Customers churning today (est.)</span>
+      <span class="bval red" id="bd-churning">—</span>
+    </div>
+    <div class="breakdown-row">
+      <span class="bkey">Annual revenue lost to churn</span>
+      <span class="bval red" id="bd-churnLoss">—</span>
+    </div>
+    <div class="breakdown-row">
+      <span class="bkey">ARR retained at target churn</span>
+      <span class="bval green" id="bd-retained">—</span>
+    </div>
+    <div class="breakdown-row">
+      <span class="bkey">Revenue improvement (Year 1)</span>
+      <span class="bval green" id="bd-improvement">—</span>
+    </div>
+    <div class="breakdown-row">
+      <span class="bkey">CCO2go cost (12 months)</span>
+      <span class="bval muted" id="bd-cost">—</span>
+    </div>
+    <div class="breakdown-row" style="padding: 16px 0; background: rgba(0,201,200,.03); margin: 0 -4px; padding-left:4px; padding-right:4px; border-radius:6px; border:none; border-top: 1px solid rgba(0,201,200,.1); border-bottom: 1px solid rgba(0,201,200,.1);">
+      <span class="bkey" style="font-weight:700;color:var(--text);">Net ROI (revenue saved − engagement cost)</span>
+      <span class="bval gold" id="bd-netRoi" style="font-size:20px;">—</span>
+    </div>
+    <div class="breakdown-row">
+      <span class="bkey">ROI multiple on CCO2go investment</span>
+      <span class="bval gold" id="bd-multiple">—</span>
+    </div>
+    <div class="breakdown-row">
+      <span class="bkey">Monthly break-even point</span>
+      <span class="bval cyan" id="bd-breakeven">—</span>
+    </div>
+    <div class="breakdown-row" style="border-bottom:none">
+      <span class="bkey">Full-time CCO equivalent cost (annual)</span>
+      <span class="bval muted" id="bd-ftcco">—</span>
+    </div>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="verdict" id="verdictBlock">
+    <div class="verdict-headline" id="verdictHeadline">Enter your numbers above</div>
+    <div class="verdict-body" id="verdictBody">The calculator will generate a personalized ROI analysis with a plain-language verdict.</div>
+    <a href="https://scheduler.zoom.us/r-shane-james/hello-i-am-an-event-card" class="verdict-cta" target="_blank">
+      Book Free Discovery Call →
+    </a>
+    <div class="verdict-note">Free 2-hour diagnostic · No contract required · Walk away with a plan regardless</div>
+  </div>
+
+</div>
+
+<style>
+.tier-btn {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 12px 8px; cursor: pointer;
+  text-align: center; transition: all .2s;
+}
+.tier-btn:hover { border-color: var(--text-dim); }
+.tier-btn.selected { border-color: var(--cyan-dim); background: rgba(0,201,200,.06); }
+</style>
+
+<script>
+let tierCost = 6500;
+
+function selectTier(el, val) {
+  document.querySelectorAll('.tier-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  tierCost = val;
+  recalc();
+}
+
+function fmt(n) {
+  if (Math.abs(n) >= 1e6) return '$' + (n/1e6).toFixed(2) + 'M';
+  if (Math.abs(n) >= 1e3) return '$' + Math.round(n/1e3).toLocaleString() + 'K';
+  return '$' + Math.round(n).toLocaleString();
+}
+
+function fmtExact(n) {
+  return '$' + Math.round(n).toLocaleString();
+}
+
+function animSet(id, val) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.remove('updating');
+  void el.offsetWidth;
+  el.textContent = val;
+  el.classList.add('updating');
+}
+
+function recalc() {
+  const arr         = parseFloat(document.getElementById('arr').value)         || 0;
+  const churnRate   = parseFloat(document.getElementById('churn').value)       || 0;
+  const acv         = parseFloat(document.getElementById('acv').value)         || 0;
+  const targetChurn = parseFloat(document.getElementById('targetChurn').value) || 0;
+
+  if (!arr || !churnRate || !acv) return;
+
+  const churnLoss    = arr * (churnRate / 100);
+  const retainedLoss = arr * (targetChurn / 100);
+  const revSaved     = churnLoss - retainedLoss;
+  const annualCost   = tierCost * 12;
+  const netRoi       = revSaved - annualCost;
+  const multiple     = annualCost > 0 ? (revSaved / annualCost) : 0;
+  const customersLost = Math.round(arr / acv * (churnRate / 100));
+  const breakevenMonths = revSaved > 0 ? (annualCost / revSaved * 12) : 99;
+  const ftCCO        = 330000;
+  const churnReduction = churnRate - targetChurn;
+
+  // Top cards
+  animSet('res-churnLoss', fmt(churnLoss));
+  document.getElementById('res-churnLossSub').textContent = 
+    `At ${churnRate}% churn on ${fmt(arr)} ARR — that's roughly ${customersLost} customers per year`;
+  document.getElementById('res-churnTag').textContent = `${churnRate}% annual churn = ${fmt(churnLoss)} bleeding out`;
+
+  animSet('res-revSaved', fmt(revSaved));
+  document.getElementById('res-revSavedSub').textContent = 
+    `Reducing churn from ${churnRate}% → ${targetChurn}% retains ${fmt(revSaved)} in ARR annually`;
+  document.getElementById('res-savedTag').textContent = `Save ${churnReduction.toFixed(1)} points of churn`;
+
+  const roiLabel = netRoi >= 0 ? fmt(netRoi) : '-' + fmt(Math.abs(netRoi));
+  animSet('res-roi', roiLabel);
+  document.getElementById('res-roiSub').textContent = 
+    netRoi >= 0
+      ? `${fmt(revSaved)} retained − ${fmt(annualCost)} engagement = ${fmt(netRoi)} net gain`
+      : `Revenue saved doesn't yet cover engagement cost at these targets`;
+  document.getElementById('res-roiTag').textContent = 
+    multiple >= 1 ? `${multiple.toFixed(1)}× return on investment` : 'Adjust targets to see positive ROI';
+
+  // Breakdown
+  animSet('bd-arr',        fmt(arr));
+  animSet('bd-churning',   `${customersLost} customers / yr (~${fmtExact(churnLoss)} ARR)`);
+  animSet('bd-churnLoss',  fmt(churnLoss));
+  animSet('bd-retained',   fmt(arr - retainedLoss));
+  animSet('bd-improvement',fmt(revSaved));
+  animSet('bd-cost',       `${fmt(annualCost)} (${fmt(tierCost)}/mo × 12)`);
+  animSet('bd-netRoi',     netRoi >= 0 ? '+' + fmt(netRoi) : '-' + fmt(Math.abs(netRoi)));
+  animSet('bd-multiple',   multiple >= 1 ? multiple.toFixed(1) + '× ROI' : `Break even needs higher retention`);
+  animSet('bd-breakeven',  breakevenMonths <= 12 
+    ? `Month ${Math.ceil(breakevenMonths)} of the engagement`
+    : `Beyond 12 months at current targets`);
+  animSet('bd-ftcco',      `~$330K/yr salary + benefits (~$27,500/mo)`);
+
+  // Color the net ROI cell
+  const netEl = document.getElementById('bd-netRoi');
+  netEl.className = 'bval ' + (netRoi >= 0 ? 'gold' : 'red');
+  netEl.style.fontSize = '20px';
+
+  // Verdict
+  let headline, body;
+  if (netRoi >= 500000) {
+    headline = `You're leaving ${fmt(netRoi)} on the table every year.`;
+    body = `At ${churnRate}% churn on ${fmt(arr)} ARR, you're bleeding <strong>${fmt(churnLoss)}</strong> annually. Getting to ${targetChurn}% churn saves <strong>${fmt(revSaved)}</strong> — against a ${fmt(annualCost)} annual investment, that's a <strong>${multiple.toFixed(1)}× return</strong>. The math for a discovery call is obvious.`;
+  } else if (netRoi >= 100000) {
+    headline = `A ${fmt(netRoi)} net gain is sitting in your churn rate.`;
+    body = `The ${churnRate}% → ${targetChurn}% move saves <strong>${fmt(revSaved)}</strong> in retained ARR. After a ${fmt(annualCost)} engagement, you net <strong>${fmt(netRoi)}</strong>. Break-even happens around month ${Math.ceil(breakevenMonths)} — everything after that is pure retention value.`;
+  } else if (netRoi >= 0) {
+    headline = `The numbers work — barely, at these assumptions.`;
+    body = `You'd recover <strong>${fmt(revSaved)}</strong> by moving churn from ${churnRate}% to ${targetChurn}%, netting <strong>${fmt(netRoi)}</strong> after fees. The actual result depends heavily on execution speed and your true churn root causes. A free diagnostic call costs nothing and tightens these numbers.`;
+  } else {
+    headline = `Adjust your target — or the opportunity might be larger than you think.`;
+    body = `At these inputs, the ${fmt(revSaved)} in retained ARR doesn't fully offset the ${fmt(annualCost)} engagement cost. Consider: (1) are you using your real ARR?, (2) is ${targetChurn}% too conservative a target?, (3) expansion revenue from existing customers is not modeled here and often exceeds churn savings alone. Book a call — we'll build the real model together.`;
+  }
+
+  document.getElementById('verdictHeadline').textContent = headline;
+  document.getElementById('verdictBody').innerHTML = body;
+}
+
+// Sync sliders ↔ inputs
+function syncSlider(inputId, sliderId) {
+  const input = document.getElementById(inputId);
+  const slider = document.getElementById(sliderId);
+  input.addEventListener('input', () => { slider.value = input.value; recalc(); });
+  slider.addEventListener('input', () => { input.value = slider.value; recalc(); });
+}
+
+syncSlider('arr',         'arrSlider');
+syncSlider('churn',       'churnSlider');
+syncSlider('acv',         'acvSlider');
+syncSlider('targetChurn', 'targetChurnSlider');
+
+// Initial calc
+recalc();
+</script>
+</body>
+</html>
