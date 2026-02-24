@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Why CCO2go.ai | Competitive Comparison</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg:       #f8f9fc;
+  --surface:  #ffffff;
+  --ink:      #0d1117;
+  --ink-mid:  #374151;
+  --ink-lt:   #6b7280;
+  --rule:     #e5e7eb;
+  --rule-lt:  #f3f4f6;
+  --blue:     #1d4ed8;
+  --blue-lt:  #dbeafe;
+  --blue-bg:  #eff6ff;
+  --green:    #059669;
+  --green-lt: #d1fae5;
+  --red:      #dc2626;
+  --red-lt:   #fee2e2;
+  --amber:    #d97706;
+  --amber-lt: #fef3c7;
+  --grey:     #9ca3af;
+  --grey-lt:  #f9fafb;
+
+  /* competitor column colors */
+  --cco-col:  #eff6ff;
+  --cco-hdr:  #1d4ed8;
+  --gs-col:   #f9fafb;
+  --gs-hdr:   #374151;
+  --cz-col:   #f9fafb;
+  --cz-hdr:   #374151;
+  --ft-col:   #f9fafb;
+  --ft-hdr:   #374151;
+}
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 24px 80px; }
+
+/* ── NAV ── */
+.nav-bar {
+  padding: 14px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 48px;
+}
+
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 500; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--ink-lt); text-decoration: none;
+  transition: color .2s;
+}
+.back-link:hover { color: var(--blue); }
+
+.nav-tag {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--ink-lt); background: var(--rule-lt);
+  border: 1px solid var(--rule); padding: 4px 12px; border-radius: 20px;
+}
+
+/* ── HEADER ── */
+.page-header { text-align: center; margin-bottom: 60px; }
+
+.eyebrow {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 2.5px;
+  color: var(--blue); font-weight: 600; margin-bottom: 16px;
+}
+
+h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(40px, 6vw, 72px);
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 0.95;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+}
+
+h1 .accent {
+  color: var(--blue);
+  display: block;
+}
+
+.header-sub {
+  font-size: 16px;
+  color: var(--ink-lt);
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.65;
+}
+
+/* ── COMPETITOR HEADER CARDS ── */
+.comp-headers {
+  display: grid;
+  grid-template-columns: 200px 1fr 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 8px;
+  align-items: stretch;
+}
+
+.comp-header-spacer { } /* empty first col */
+
+.comp-header-card {
+  border-radius: 12px 12px 0 0;
+  padding: 20px 18px;
+  text-align: center;
+  border: 1.5px solid transparent;
+  border-bottom: none;
+}
+
+.comp-header-card.cco {
+  background: var(--blue);
+  border-color: var(--blue);
+  position: relative;
+}
+
+.comp-header-card.cco::after {
+  content: '★ RECOMMENDED';
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--green);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 3px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.comp-header-card.other {
+  background: var(--surface);
+  border-color: var(--rule);
+}
+
+.comp-logo {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.cco .comp-logo { color: #fff; }
+.other .comp-logo { color: var(--ink); }
+
+.comp-desc {
+  font-size: 11px;
+  line-height: 1.4;
+}
+.cco .comp-desc { color: rgba(255,255,255,0.7); }
+.other .comp-desc { color: var(--ink-lt); }
+
+.comp-price {
+  margin-top: 10px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+}
+.cco .comp-price { color: #fff; }
+.other .comp-price { color: var(--ink); }
+
+.comp-price-note {
+  font-size: 10px;
+  margin-top: 2px;
+}
+.cco .comp-price-note { color: rgba(255,255,255,0.55); }
+.other .comp-price-note { color: var(--ink-lt); }
+
+/* ── COMPARISON TABLE ── */
+.comp-table-wrap {
+  background: var(--surface);
+  border: 1.5px solid var(--rule);
+  border-radius: 0 0 16px 16px;
+  overflow: hidden;
+  margin-bottom: 48px;
+}
+
+.comp-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.comp-table thead th {
+  /* hidden — headers are above */
+  display: none;
+}
+
+/* category rows */
+.cat-row td {
+  background: var(--ink);
+  color: #fff;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 10px 18px;
+}
+
+/* data rows */
+.comp-table tbody tr:not(.cat-row) td {
+  padding: 13px 18px;
+  border-bottom: 1px solid var(--rule-lt);
+  vertical-align: middle;
+  font-size: 13px;
+}
+
+.comp-table tbody tr:not(.cat-row):last-child td {
+  border-bottom: none;
+}
+
+.comp-table tbody tr:not(.cat-row):hover td {
+  background: rgba(29,78,216,0.02);
+}
+
+/* row label */
+.row-label {
+  width: 200px;
+  font-weight: 600;
+  color: var(--ink-mid);
+  background: var(--grey-lt) !important;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* CCO column highlight */
+.cco-col {
+  background: var(--blue-bg) !important;
+  border-left: 2px solid var(--blue-lt) !important;
+  border-right: 2px solid var(--blue-lt) !important;
+}
+
+/* icons */
+.icon-yes  { color: var(--green); font-size: 16px; font-weight: 700; }
+.icon-no   { color: var(--red); font-size: 16px; }
+.icon-part { color: var(--amber); font-size: 16px; }
+
+.cell-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cell-main {
+  font-weight: 500;
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.cell-sub {
+  font-size: 11px;
+  color: var(--ink-lt);
+  line-height: 1.4;
+}
+
+.cell-main.pos { color: var(--green); }
+.cell-main.neg { color: var(--red); }
+.cell-main.warn { color: var(--amber); }
+.cell-main.blue { color: var(--blue); font-weight: 700; }
+
+/* ── TRUTH SECTION ── */
+.truth-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+@media (max-width: 700px) { .truth-section { grid-template-columns: 1fr; } }
+
+.truth-card {
+  background: var(--surface);
+  border: 1.5px solid var(--rule);
+  border-radius: 14px;
+  padding: 28px;
+}
+
+.truth-card h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--rule);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.truth-card h3 .tc-icon {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.truth-item {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink-mid);
+}
+
+.truth-item:last-child { margin-bottom: 0; }
+
+.truth-bullet {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 7px;
+}
+
+/* ── VERDICT BAND ── */
+.verdict-band {
+  background: var(--ink);
+  border-radius: 16px;
+  padding: 40px 48px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: center;
+  margin-bottom: 48px;
+}
+
+@media (max-width: 700px) { .verdict-band { grid-template-columns: 1fr; } }
+
+.verdict-band h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 14px;
+}
+
+.verdict-band h2 span { color: #93c5fd; }
+
+.verdict-body {
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.75;
+  max-width: 560px;
+}
+
+.verdict-body strong { color: #fff; }
+
+.verdict-cta-block { text-align: center; flex-shrink: 0; }
+
+.verdict-cta {
+  display: block;
+  padding: 14px 28px;
+  background: var(--blue);
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  margin-bottom: 10px;
+  transition: all .2s;
+}
+.verdict-cta:hover { background: #1e40af; transform: translateY(-1px); }
+
+.verdict-cta-note {
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+  line-height: 1.5;
+}
+
+/* ── OBJECTION BUSTERS ── */
+.objections h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 24px;
+  letter-spacing: 0.3px;
+}
+
+.objection-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 700px) { .objection-grid { grid-template-columns: 1fr; } }
+
+.objection-card {
+  background: var(--surface);
+  border: 1.5px solid var(--rule);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.obj-q {
+  background: var(--rule-lt);
+  border-bottom: 1px solid var(--rule);
+  padding: 14px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-mid);
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.obj-q::before {
+  content: '"';
+  font-size: 20px;
+  color: var(--grey);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.obj-a {
+  padding: 14px 18px;
+  font-size: 13px;
+  color: var(--ink-mid);
+  line-height: 1.65;
+}
+
+.obj-a strong { color: var(--blue); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Nav -->
+  <div class="nav-bar">
+    <a href="/marketing" class="back-link">← Marketing Hub</a>
+    <span class="nav-tag">Internal · No SEO</span>
+  </div>
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="eyebrow">CCO2go.ai · Competitive Positioning</div>
+    <h1>Why CCO2go<span class="accent">Wins the Decision</span></h1>
+    <p class="header-sub">A straight comparison against Gainsight, ChurnZero, and a full-time CCO hire. Use this in proposals, follow-ups, and objection handling.</p>
+  </div>
+
+  <!-- Competitor Header Cards -->
+  <div class="comp-headers">
+    <div class="comp-header-spacer"></div>
+
+    <div class="comp-header-card cco">
+      <div class="comp-logo">CCO2go.ai</div>
+      <div class="comp-desc">Fractional CCO + AI platform + training. The complete CS system.</div>
+      <div class="comp-price">$6,500<span style="font-size:13px;font-weight:400">/mo</span></div>
+      <div class="comp-price-note">Accelerator tier · 6-month min</div>
+    </div>
+
+    <div class="comp-header-card other">
+      <div class="comp-logo">Gainsight</div>
+      <div class="comp-desc">Enterprise CS platform. Tool only — you still need the strategy and the people.</div>
+      <div class="comp-price">$40K–$120K<span style="font-size:13px;font-weight:400">/yr</span></div>
+      <div class="comp-price-note">Platform license only · No CCO included</div>
+    </div>
+
+    <div class="comp-header-card other">
+      <div class="comp-logo">ChurnZero</div>
+      <div class="comp-desc">Mid-market CS platform. Better fit for SMB than Gainsight but same gap: no strategy layer.</div>
+      <div class="comp-price">$12K–$60K<span style="font-size:13px;font-weight:400">/yr</span></div>
+      <div class="comp-price-note">Platform license only · No CCO included</div>
+    </div>
+
+    <div class="comp-header-card other">
+      <div class="comp-logo">Full-Time CCO</div>
+      <div class="comp-desc">Traditional hire. 6-month ramp, full salary, benefits, equity. No platform included.</div>
+      <div class="comp-price">$27K–$35K<span style="font-size:13px;font-weight:400">/mo</span></div>
+      <div class="comp-price-note">$325K–$420K/yr total comp · 6-mo ramp</div>
+    </div>
+  </div>
+
+  <!-- Comparison Table -->
+  <div class="comp-table-wrap">
+    <table class="comp-table">
+      <tbody>
+
+        <!-- COST & COMMITMENT -->
+        <tr class="cat-row"><td colspan="5">Cost &amp; Commitment</td></tr>
+
+        <tr>
+          <td class="row-label">Monthly cost</td>
+          <td class="cco-col"><div class="cell-content"><div class="cell-main blue">$6,500/mo</div><div class="cell-sub">All-in: CCO + platform + support</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">$3,300–$10,000/mo</div><div class="cell-sub">Platform only. CCO hire costs extra.</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">$1,000–$5,000/mo</div><div class="cell-sub">Platform only. CCO hire costs extra.</div></div></td>
+          <td><div class="cell-content"><div class="cell-main neg">$27,000–$35,000/mo</div><div class="cell-sub">Salary + benefits + equity. Platform not included.</div></div></td>
+        </tr>
+
+        <tr>
+          <td class="row-label">Time to value</td>
+          <td class="cco-col"><div class="cell-content"><div class="cell-main pos">30 days</div><div class="cell-sub">Live in CCOPilot + Day-30 diagnosis delivered</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">3–6 months</div><div class="cell-sub">Implementation, data migration, team training</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">2–4 months</div><div class="cell-sub">Onboarding and workflow setup required</div></div></td>
+          <td><div class="cell-content"><div class="cell-main neg">6–12 months</div><div class="cell-sub">Hiring + ramp + strategy development from scratch</div></div></td>
+        </tr>
+
+        <tr>
+          <td class="row-label">Minimum commitment</td>
+          <td class="cco-col"><div class="cell-content"><div class="cell-main pos">6 months</div><div class="cell-sub">Cancel after minimum with 30-day notice</div></div></td>
+          <td><div class="cell-content"><div class="cell-main neg">12 months+</div><div class="cell-sub">Annual contracts standard; complex exits</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">12 months</div><div class="cell-sub">Annual contracts; some monthly plans available</div></div></td>
+          <td><div class="cell-content"><div class="cell-main neg">Indefinite</div><div class="cell-sub">Employment relationship; severance, legal risk</div></div></td>
+        </tr>
+
+        <tr>
+          <td class="row-label">Risk if it doesn't work</td>
+          <td class="cco-col"><div class="cell-content"><div class="cell-main pos">Low</div><div class="cell-sub">Exit at end of term. No equity, no severance.</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">Medium</div><div class="cell-sub">Sunk implementation cost; contract lock-in</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">Medium</div><div class="cell-sub">Annual contract; some migration cost</div></div></td>
+          <td><div class="cell-content"><div class="cell-main neg">High</div><div class="cell-sub">Wrong hire = 6–18 months to fix. Severance. Morale.</div></div></td>
+        </tr>
+
+        <!-- WHAT YOU GET -->
+        <tr class="cat-row"><td colspan="5">What You Actually Get</td></tr>
+
+        <tr>
+          <td class="row-label">CS strategy & leadership</td>
+          <td class="cco-col"><div class="cell-content"><div class="cell-main pos">✓ Included</div><div class="cell-sub">25+ years C-suite CS — Oracle, IBM, ServiceNow exits</div></div></td>
+          <td><div class="cell-content"><div class="cell-main neg">✗ Not included</div><div class="cell-sub">Platform only. Strategy is your problem.</div></div></td>
+          <td><div class="cell-content"><div class="cell-main neg">✗ Not included</div><div class="cell-sub">Platform only. Strategy is your problem.</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">~ Depends on hire</div><div class="cell-sub">Quality varies; 6-month ramp before contributing</div></div></td>
+        </tr>
+
+        <tr>
+          <td class="row-label">AI-powered platform</td>
+          <td class="cco-col"><div class="cell-content"><div class="cell-main pos">✓ CCOPilot included</div><div class="cell-sub">15 agents built by the CCO who uses it daily</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">✓ Gainsight platform</div><div class="cell-sub">Powerful but complex; avg 4–6 months to implement</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">✓ ChurnZero platform</div><div class="cell-sub">Easier to implement than Gainsight; fewer features</div></div></td>
+          <td><div class="cell-content"><div class="cell-main neg">✗ Not included</div><div class="cell-sub">CCO must select, negotiate, and implement a tool separately</div></div></td>
+        </tr>
+
+        <tr>
+          <td class="row-label">Customer interviews (diagnosis)</td>
+          <td class="cco-col"><div class="cell-content"><div class="cell-main pos">✓ 10 active + 5 churned</div><div class="cell-sub">Delivered in first 30 days. Written findings.</div></div></td>
+          <td><div class="cell-content"><div class="cell-main neg">✗</div><div class="cell-sub">Platform doesn't conduct interviews</div></div></td>
+          <td><div class="cell-content"><div class="cell-main neg">✗</div><div class="cell-sub">Platform doesn't conduct interviews</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">~ Maybe, eventually</div><div class="cell-sub">Only after ramp period; varies by hire</div></div></td>
+        </tr>
+
+        <tr>
+          <td class="row-label">Board reporting</td>
+          <td class="cco-col"><div class="cell-content"><div class="cell-main pos">✓ Monthly + live attendance</div><div class="cell-sub">Shane presents at board meetings on request</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">~ Data only</div><div class="cell-sub">Dashboards you build; no narrative, no presenter</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">~ Data only</div><div class="cell-sub">Dashboards you build; no narrative, no presenter</div></div></td>
+          <td><div class="cell-content"><div class="cell-main pos">✓ If capable</div><div class="cell-sub">Part of the role — but quality depends on hire</div></div></td>
+        </tr>
+
+        <tr>
+          <td class="row-label">CSM team training</td>
+          <td class="cco-col"><div class="cell-content"><div class="cell-main pos">✓ 9-week program</div><div class="cell-sub">27 modules across 3 phases. Full Stack tier.</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">~ Partner ecosystem</div><div class="cell-sub">Third-party training add-ons available at extra cost</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">~ Limited</div><div class="cell-sub">Some training resources; not a structured program</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">~ Varies</div><div class="cell-sub">CCO may train team but no structured curriculum</div></div></td>
+        </tr>
+
+        <!-- RESULTS -->
+        <tr class="cat-row"><td colspan="5">Proven Results</td></tr>
+
+        <tr>
+          <td class="row-label">Churn reduction</td>
+          <td class="cco-col"><div class="cell-content"><div class="cell-main pos">22% → 7%</div><div class="cell-sub">Documented from real engagements</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">Varies widely</div><div class="cell-sub">Tool alone doesn't move churn — strategy does</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">Varies widely</div><div class="cell-sub">Tool alone doesn't move churn — strategy does</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">Varies by hire quality</div><div class="cell-sub">No guarantees; depends entirely on the person</div></div></td>
+        </tr>
+
+        <tr>
+          <td class="row-label">NRR improvement</td>
+          <td class="cco-col"><div class="cell-content"><div class="cell-main pos">85% → 115%</div><div class="cell-sub">Expansion strategy + churn reduction combined</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">No benchmarks</div><div class="cell-sub">Platform ROI studies exist but vary by use case</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">No benchmarks</div><div class="cell-sub">No published NRR improvement data</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">Depends</div><div class="cell-sub">Some CCO hires deliver — many don't at Series A/B</div></div></td>
+        </tr>
+
+        <tr>
+          <td class="row-label">Time to measurable impact</td>
+          <td class="cco-col"><div class="cell-content"><div class="cell-main pos">30–90 days</div><div class="cell-sub">Leading indicators within 30 days</div></div></td>
+          <td><div class="cell-content"><div class="cell-main neg">6–18 months</div><div class="cell-sub">After implementation + team adoption + culture shift</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">3–12 months</div><div class="cell-sub">Faster than Gainsight; still requires change management</div></div></td>
+          <td><div class="cell-content"><div class="cell-main neg">12–24 months</div><div class="cell-sub">Ramp + trust-building + org change takes time</div></div></td>
+        </tr>
+
+        <!-- FIT -->
+        <tr class="cat-row"><td colspan="5">Who It's For</td></tr>
+
+        <tr>
+          <td class="row-label">Best stage</td>
+          <td class="cco-col"><div class="cell-content"><div class="cell-main blue">Seed → Series C</div><div class="cell-sub">Ideal for Seed through Series C pre-exit</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">Series C → Enterprise</div><div class="cell-sub">Overkill for early stage; designed for 200+ person CS orgs</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">Series B → Series C</div><div class="cell-sub">Mid-market sweet spot; lighter than Gainsight</div></div></td>
+          <td><div class="cell-content"><div class="cell-main neg">Series C+</div><div class="cell-sub">Hard to justify cost and risk before Product-Market fit confirmed</div></div></td>
+        </tr>
+
+        <tr>
+          <td class="row-label">Internal CS team required?</td>
+          <td class="cco-col"><div class="cell-content"><div class="cell-main pos">No</div><div class="cell-sub">We can work with or build from 0 CSMs</div></div></td>
+          <td><div class="cell-content"><div class="cell-main neg">Yes — significant</div><div class="cell-sub">Gainsight requires trained admins and dedicated CS ops</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">Yes — some</div><div class="cell-sub">Needs CS team to operate; lighter admin than Gainsight</div></div></td>
+          <td><div class="cell-content"><div class="cell-main warn">Brings their own team</div><div class="cell-sub">CCO will want to hire; adds cost and time</div></div></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Honest Truth Section -->
+  <div class="truth-section">
+
+    <div class="truth-card">
+      <h3>
+        <div class="tc-icon" style="background:#fee2e2;">⚠️</div>
+        When NOT to choose CCO2go.ai
+      </h3>
+      <div class="truth-item">
+        <div class="truth-bullet" style="background:var(--red)"></div>
+        <div><strong>You have 100+ CSMs and need enterprise CS ops tooling.</strong> Gainsight was built for that. We weren't.</div>
+      </div>
+      <div class="truth-item">
+        <div class="truth-bullet" style="background:var(--red)"></div>
+        <div><strong>You need a full-time resource who owns an entire function long-term.</strong> We're designed to fix the problem and build the system, then hand it off.</div>
+      </div>
+      <div class="truth-item">
+        <div class="truth-bullet" style="background:var(--red)"></div>
+        <div><strong>You already have strong CS leadership in-house.</strong> If you have a capable VP CS, you may need just the platform, not the fractional CCO layer.</div>
+      </div>
+      <div class="truth-item">
+        <div class="truth-bullet" style="background:var(--red)"></div>
+        <div><strong>Your churn is 100% product-driven.</strong> No CS strategy fixes a product that doesn't deliver on its promise. That's a product problem, not a CS problem.</div>
+      </div>
+    </div>
+
+    <div class="truth-card">
+      <h3>
+        <div class="tc-icon" style="background:#d1fae5;">✓</div>
+        When CCO2go.ai wins decisively
+      </h3>
+      <div class="truth-item">
+        <div class="truth-bullet" style="background:var(--green)"></div>
+        <div><strong>Churn is above 10% and you don't fully understand why.</strong> Diagnosis + strategy + platform in one engagement.</div>
+      </div>
+      <div class="truth-item">
+        <div class="truth-bullet" style="background:var(--green)"></div>
+        <div><strong>You're 6–18 months from a raise or exit.</strong> NRR and churn are the metrics that determine your multiple. We move both.</div>
+      </div>
+      <div class="truth-item">
+        <div class="truth-bullet" style="background:var(--green)"></div>
+        <div><strong>You need results faster than a full-time hire can deliver.</strong> Day-30 findings. Day-60 at-risk interventions active. Day-90 board report.</div>
+      </div>
+      <div class="truth-item">
+        <div class="truth-bullet" style="background:var(--green)"></div>
+        <div><strong>You've tried a CS platform and it didn't move the needle.</strong> A tool doesn't fix a strategy problem. Strategy + tool together does.</div>
+      </div>
+      <div class="truth-item">
+        <div class="truth-bullet" style="background:var(--green)"></div>
+        <div><strong>CFO is skeptical about the ROI.</strong> <a href="/roi-calculator.html" style="color:var(--blue)">Run the calculator</a>. At $2M ARR / 18% churn, the math is obvious.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Verdict -->
+  <div class="verdict-band">
+    <div>
+      <h2>The platforms sell you software.<br><span>We fix your churn.</span></h2>
+      <p class="verdict-body">Gainsight and ChurnZero are excellent tools — for companies with mature CS operations, trained admins, and a leadership layer that knows what to do with the data. <strong>Most Series A/B founders don't have that.</strong> They have a churn problem, a data problem, and a strategy problem all at once. That's what we solve. A full-time CCO hire costs 4× more, takes twice as long to ramp, and comes with hiring risk you can't afford at your stage. <strong>We give you the same outcome without the risk.</strong></p>
+    </div>
+    <div class="verdict-cta-block">
+      <a href="https://scheduler.zoom.us/r-shane-james/hello-i-am-an-event-card" class="verdict-cta" target="_blank">Book Free Diagnostic →</a>
+      <div class="verdict-cta-note">2 hours · No contract · Walk away<br>with a plan regardless of outcome</div>
+    </div>
+  </div>
+
+  <!-- Objection Busters -->
+  <div class="objections">
+    <h2>Objection Responses</h2>
+    <div class="objection-grid">
+
+      <div class="objection-card">
+        <div class="obj-q">We already use Gainsight / ChurnZero</div>
+        <div class="obj-a">That's the platform layer — and it's good. What it doesn't give you is the strategy, the diagnosis, and the leadership to know what to <em>do</em> with the data. Most companies that come to us have a tool and still have a churn problem. <strong>CCOPilot runs alongside or replaces your existing tool</strong> depending on your setup — and we bring the CCO who knows what questions to ask.</div>
+      </div>
+
+      <div class="objection-card">
+        <div class="obj-q">We're planning to hire a full-time CCO</div>
+        <div class="obj-a">A CCO hire is the right long-term play. Two things to consider: (1) it takes 4–6 months to find and close a strong candidate, plus 6 months to ramp — that's a year before they're contributing. (2) what's churn costing you per month right now? <strong>We can start fixing it in 30 days, and our engagement can serve as a blueprint for whoever you hire.</strong></div>
+      </div>
+
+      <div class="objection-card">
+        <div class="obj-q">We can't afford $6,500/month right now</div>
+        <div class="obj-a">Let's do the math together. At your ARR and churn rate, what are you losing per month in churned revenue? If it's more than $6,500 — and at most Series A ARRs it's dramatically more — this isn't a cost, it's an investment with a predictable return. <strong>Use the <a href="/roi-calculator.html" style="color:var(--blue)">ROI calculator</a></strong> and bring that number to the conversation.</div>
+      </div>
+
+      <div class="objection-card">
+        <div class="obj-q">How do we know this will actually work for us?</div>
+        <div class="obj-a">Start with the free 2-hour diagnostic. I'll spend two hours with you, tell you what I find, and give you a 90-day action plan. <strong>If there's nothing meaningful I can add, I'll tell you that</strong> — and you walk away with a free diagnosis. If there's a clear path to moving your numbers, we discuss the engagement. No pressure, no pitch.</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

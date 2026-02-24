@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCO2go.ai — Sales Flyer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --blue:      #1a5fb4;
+    --blue-dark: #0e3d7a;
+    --blue-mid:  #2563b0;
+    --blue-lt:   #dbeafe;
+    --blue-bg:   #eff6ff;
+    --ink:       #0f1c30;
+    --ink-mid:   #374151;
+    --ink-light: #6b7280;
+    --rule:      #e2e8f0;
+    --white:     #ffffff;
+    --gold:      #d97706;
+  }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: #d1d5db;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 40px 20px;
+    min-height: 100vh;
+  }
+
+  /* Letter-size page */
+  .page {
+    width: 8.5in;
+    min-height: 11in;
+    background: var(--white);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    background: var(--blue-dark);
+    height: 6px;
+    width: 100%;
+    flex-shrink: 0;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--blue-dark);
+    padding: 40px 52px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    right: -60px;
+    top: -60px;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.06);
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    right: 30px;
+    top: 20px;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.04);
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .logo-mark {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.12);
+    border: 1.5px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: -1px;
+  }
+
+  .logo-text {
+    font-family: 'Outfit', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.3px;
+  }
+
+  .logo-text span { color: rgba(255,255,255,0.5); font-weight: 400; }
+
+  .header-tag {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.5);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 5px 14px;
+    border-radius: 20px;
+  }
+
+  .header-body { position: relative; z-index: 1; }
+
+  .headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.08;
+    margin-bottom: 14px;
+    max-width: 560px;
+  }
+
+  .headline em {
+    font-style: normal;
+    color: #93c5fd;
+  }
+
+  .subhead {
+    font-size: 15px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.65;
+    max-width: 500px;
+    font-weight: 300;
+  }
+
+  /* ── STATS BAND ── */
+  .stats-band {
+    background: var(--blue);
+    display: flex;
+    padding: 0;
+  }
+
+  .stat-block {
+    flex: 1;
+    padding: 24px 0;
+    text-align: center;
+    position: relative;
+  }
+
+  .stat-block + .stat-block::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 20%;
+    height: 60%;
+    width: 1px;
+    background: rgba(255,255,255,0.15);
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 38px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.6);
+    font-weight: 500;
+  }
+
+  .stat-sub {
+    font-size: 10px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 2px;
+    font-style: italic;
+  }
+
+  /* ── BODY ── */
+  .body {
+    flex: 1;
+    padding: 36px 52px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  /* Problem block */
+  .problem-block {
+    background: var(--blue-bg);
+    border-left: 4px solid var(--blue);
+    padding: 20px 24px;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .problem-block .section-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--blue);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .problem-block p {
+    font-size: 14px;
+    color: var(--ink-mid);
+    line-height: 1.7;
+  }
+
+  .problem-block p strong { color: var(--ink); }
+
+  /* Framework grid */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1.5px solid var(--rule);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title .title-line {
+    flex: 1;
+    height: 1.5px;
+    background: var(--rule);
+  }
+
+  .framework-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .fw-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    transition: border-color 0.2s;
+  }
+
+  .fw-dot {
+    width: 28px;
+    height: 28px;
+    background: var(--blue-lt);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .fw-item h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+
+  .fw-item p {
+    font-size: 11.5px;
+    color: var(--ink-light);
+    line-height: 1.5;
+  }
+
+  /* Process strip */
+  .process-strip {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    position: relative;
+  }
+
+  .process-strip::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    height: 1px;
+    background: var(--rule);
+    z-index: 0;
+  }
+
+  .process-step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--blue-dark);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .step-circle.alt { background: var(--blue); }
+
+  .process-step h4 {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+
+  .process-step p {
+    font-size: 11px;
+    color: var(--ink-light);
+    line-height: 1.5;
+    padding: 0 4px;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--ink);
+    padding: 20px 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-cta h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 2px;
+  }
+
+  .footer-cta p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .footer-contact {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+  }
+
+  .contact-item {
+    text-align: center;
+  }
+
+  .contact-item .cicon {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+    display: block;
+  }
+
+  .contact-item .cval {
+    font-size: 13px;
+    font-weight: 500;
+    color: #93c5fd;
+  }
+
+  .footer-divider {
+    width: 1px;
+    height: 32px;
+    background: rgba(255,255,255,0.1);
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: none; padding: 0; }
+    .page {
+      box-shadow: none;
+      width: 100%;
+      min-height: 100vh;
+    }
+  }
+
+  @page {
+    size: letter;
+    margin: 0;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-top">
+      <div class="logo-mark">
+        <div class="logo-icon">C²</div>
+        <div class="logo-text">CCO2go<span>.ai</span></div>
+      </div>
+      <div class="header-tag">Fractional Chief Customer Officer</div>
+    </div>
+    <div class="header-body">
+      <h1 class="headline">Turn Customer Success<br>into Your <em>#1 Growth Engine</em></h1>
+      <p class="subhead">Enterprise-grade CS strategy paired with AI-powered technology — at a fraction of the cost of a full-time executive hire.</p>
+    </div>
+  </div>
+
+  <!-- Stats Band -->
+  <div class="stats-band">
+    <div class="stat-block">
+      <span class="stat-num">115%</span>
+      <div class="stat-label">Net Revenue Retention</div>
+      <div class="stat-sub">from 85% baseline</div>
+    </div>
+    <div class="stat-block">
+      <span class="stat-num">&lt;7%</span>
+      <div class="stat-label">Churn Rate Achieved</div>
+      <div class="stat-sub">reduced from 22%+</div>
+    </div>
+    <div class="stat-block">
+      <span class="stat-num">96.5%</span>
+      <div class="stat-label">Customer Satisfaction</div>
+      <div class="stat-sub">CSAT score</div>
+    </div>
+    <div class="stat-block">
+      <span class="stat-num">25+</span>
+      <div class="stat-label">Years C-Suite Experience</div>
+      <div class="stat-sub">Oracle, IBM, ServiceNow</div>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="body">
+
+    <!-- Problem -->
+    <div class="problem-block">
+      <div class="section-label">The Problem We Solve</div>
+      <p>CEOs care about top-line growth, profitability, and mitigating major risks like churn. Early-stage startups often lack the C-suite customer success strategy to manage this effectively — and can't justify a $300K+ full-time CCO hire. <strong>We deliver the same results at a fraction of the cost, with the AI platform built to do the work.</strong></p>
+    </div>
+
+    <!-- Strategic Framework -->
+    <div>
+      <div class="section-title">Our Strategic Framework</div>
+      <div class="framework-grid">
+        <div class="fw-item">
+          <div class="fw-dot">🎯</div>
+          <div>
+            <h4>Organizational Transformation</h4>
+            <p>Shift from reactive support to proactive customer engagement with intentional hiring and CX strategy</p>
+          </div>
+        </div>
+        <div class="fw-item">
+          <div class="fw-dot">📉</div>
+          <div>
+            <h4>Churn Reduction</h4>
+            <p>Risk-based segmentation and predictive health scoring identify at-risk customers 9–12 months in advance</p>
+          </div>
+        </div>
+        <div class="fw-item">
+          <div class="fw-dot">🤖</div>
+          <div>
+            <h4>AI Automation via CCOPilot</h4>
+            <p>15 AI agents working 24/7 — churn monitor, renewal prep, expansion finder, sentiment analysis, and more</p>
+          </div>
+        </div>
+        <div class="fw-item">
+          <div class="fw-dot">⚙️</div>
+          <div>
+            <h4>Operational Excellence</h4>
+            <p>Streamlined MTTR, accelerated time-to-value, board-ready CS reporting, and Voice of Customer programs</p>
+          </div>
+        </div>
+        <div class="fw-item">
+          <div class="fw-dot">🚀</div>
+          <div>
+            <h4>Implementation Acceleration</h4>
+            <p>Modular, data-driven 30/60/90 day phases — live in CCOPilot within 30 days, measurable outcomes by 90</p>
+          </div>
+        </div>
+        <div class="fw-item">
+          <div class="fw-dot">🏆</div>
+          <div>
+            <h4>Team Building & Culture</h4>
+            <p>9-week CSM training program, role design, hiring scorecards — build a world-class team that runs without you</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- How It Works -->
+    <div>
+      <div class="section-title">How It Works</div>
+      <div class="process-strip">
+        <div class="process-step">
+          <div class="step-circle">01</div>
+          <h4>Analyze</h4>
+          <p>Deep dive into your CS ecosystem — metrics, interviews, root causes</p>
+        </div>
+        <div class="process-step">
+          <div class="step-circle alt">02</div>
+          <h4>Strategize</h4>
+          <p>North Star metrics, intervention playbooks, VoC program design</p>
+        </div>
+        <div class="process-step">
+          <div class="step-circle">03</div>
+          <h4>Implement</h4>
+          <p>CCOPilot live, at-risk playbooks running, team trained and active</p>
+        </div>
+        <div class="process-step">
+          <div class="step-circle alt">04</div>
+          <h4>Measure</h4>
+          <p>Board-ready reporting, NRR tracking, continuous optimization</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-cta">
+      <h3>Ready to Transform Your Customer Success?</h3>
+      <p>Free 2-hour diagnostic · No contract required · Walk away with a plan</p>
+    </div>
+    <div class="footer-contact">
+      <div class="contact-item">
+        <span class="cicon">Email</span>
+        <span class="cval">shane.james@cco2go.ai</span>
+      </div>
+      <div class="footer-divider"></div>
+      <div class="contact-item">
+        <span class="cicon">Phone</span>
+        <span class="cval">(813) 666-8427</span>
+      </div>
+      <div class="footer-divider"></div>
+      <div class="contact-item">
+        <span class="cicon">Web</span>
+        <span class="cval">www.cco2go.ai</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

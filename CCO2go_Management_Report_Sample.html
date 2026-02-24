@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monthly CS Report — Sample | CCO2go.ai</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg:       #08090d;
+  --surface:  #0f111a;
+  --s2:       #161924;
+  --s3:       #1c2030;
+  --border:   #232840;
+  --border2:  #2d3350;
+  --blue:     #3b82f6;
+  --blue-dim: #1d3a70;
+  --green:    #10b981;
+  --green-dim:#064e3b;
+  --red:      #ef4444;
+  --red-dim:  #7f1d1d;
+  --amber:    #f59e0b;
+  --amber-dim:#78350f;
+  --cyan:     #06b6d4;
+  --text:     #e2e8f0;
+  --muted:    #64748b;
+  --dim:      #334155;
+}
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 0 80px; }
+
+/* ── REPORT HEADER ── */
+.report-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 28px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.rh-left { display: flex; align-items: center; gap: 16px; }
+
+.report-logo {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--blue);
+  letter-spacing: 0.5px;
+}
+
+.report-divider { width: 1px; height: 20px; background: var(--border2); }
+
+.report-title {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.report-title strong { color: var(--text); font-weight: 600; }
+
+.rh-right { display: flex; align-items: center; gap: 16px; }
+
+.confidential-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--amber);
+  background: rgba(245,158,11,0.08);
+  border: 1px solid rgba(245,158,11,0.2);
+  padding: 4px 12px;
+  border-radius: 4px;
+}
+
+.report-date {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.sample-watermark {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-35deg);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 96px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.02);
+  pointer-events: none;
+  z-index: 0;
+  white-space: nowrap;
+  letter-spacing: 12px;
+}
+
+/* ── EXECUTIVE SUMMARY ── */
+.exec-summary {
+  background: linear-gradient(135deg, #0d1829 0%, var(--surface) 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 40px 40px 32px;
+  position: relative;
+  z-index: 1;
+}
+
+.section-eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: var(--blue);
+  margin-bottom: 12px;
+}
+
+.exec-summary h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 20px;
+  line-height: 1.3;
+}
+
+.exec-summary h2 .co { color: var(--muted); font-weight: 400; font-size: 18px; }
+
+.exec-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.exec-narrative { font-size: 14px; line-height: 1.8; color: #94a3b8; }
+.exec-narrative p + p { margin-top: 12px; }
+.exec-narrative strong { color: var(--text); }
+.exec-narrative .highlight { color: var(--green); }
+.exec-narrative .warn { color: var(--amber); }
+
+.exec-status {
+  background: var(--s2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+.status-row:last-child { border-bottom: none; }
+.status-row .sk { color: var(--muted); }
+.status-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.badge-green  { background: rgba(16,185,129,0.12); color: var(--green); border: 1px solid rgba(16,185,129,0.2); }
+.badge-amber  { background: rgba(245,158,11,0.12); color: var(--amber); border: 1px solid rgba(245,158,11,0.2); }
+.badge-red    { background: rgba(239,68,68,0.12);  color: var(--red);   border: 1px solid rgba(239,68,68,0.2); }
+.badge-blue   { background: rgba(59,130,246,0.12); color: var(--blue);  border: 1px solid rgba(59,130,246,0.2); }
+
+/* ── KPI STRIP ── */
+.kpi-strip {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  z-index: 1;
+}
+
+.kpi-block {
+  padding: 24px 28px;
+  border-right: 1px solid var(--border);
+  position: relative;
+}
+.kpi-block:last-child { border-right: none; }
+
+.kpi-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.kpi-value {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.kpi-delta {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.delta-up   { color: var(--green); }
+.delta-down { color: var(--red); }
+.delta-flat { color: var(--muted); }
+.kpi-prev   { color: var(--dim); font-size: 10px; margin-top: 3px; font-family: 'IBM Plex Mono', monospace; }
+
+/* ── SECTION WRAPPER ── */
+.section {
+  padding: 36px 40px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  z-index: 1;
+}
+
+.section h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section h3 .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── HEALTH SCORE ── */
+.health-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.health-component {
+  background: var(--s2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px;
+}
+
+.hc-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.hc-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.hc-score {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.hc-bar-bg {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.hc-bar { height: 100%; border-radius: 3px; transition: width 1s ease; }
+
+.hc-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+/* ── CHURN TABLE ── */
+.table-wrap {
+  background: var(--s2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.data-table { width: 100%; border-collapse: collapse; }
+
+.data-table th {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--muted);
+  padding: 12px 16px;
+  background: var(--s3);
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table td {
+  padding: 13px 16px;
+  font-size: 13px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.data-table tr:last-child td { border-bottom: none; }
+
+.data-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+.risk-pill {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.risk-high   { background: rgba(239,68,68,0.1);  color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
+.risk-med    { background: rgba(245,158,11,0.1); color: #fbbf24; border: 1px solid rgba(245,158,11,0.2); }
+.risk-low    { background: rgba(16,185,129,0.1); color: #34d399; border: 1px solid rgba(16,185,129,0.2); }
+.risk-saved  { background: rgba(59,130,246,0.1); color: #60a5fa; border: 1px solid rgba(59,130,246,0.2); }
+
+.agent-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  background: var(--s3);
+  border: 1px solid var(--border);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* ── NRR CHART ── */
+.nrr-chart-area {
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  gap: 24px;
+  align-items: start;
+}
+
+.chart-container {
+  background: var(--s2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+}
+
+.chart-title {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 20px;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 120px;
+  padding-bottom: 28px;
+  position: relative;
+}
+
+.bar-chart::before {
+  content: '';
+  position: absolute;
+  bottom: 28px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--border);
+}
+
+.chart-bar-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+  position: relative;
+}
+
+.chart-bar {
+  width: 100%;
+  border-radius: 3px 3px 0 0;
+  position: relative;
+}
+
+.bar-val {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.bar-label {
+  position: absolute;
+  bottom: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  color: var(--dim);
+  white-space: nowrap;
+}
+
+.nrr-breakdown {
+  background: var(--s2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.nb-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.nb-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+.nb-row:last-child { border-bottom: none; }
+.nb-key { color: var(--muted); }
+.nb-val { font-family: 'IBM Plex Mono', monospace; font-weight: 600; }
+
+/* ── ACTIONS TABLE ── */
+.actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.action-item {
+  background: var(--s2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.action-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--blue-dim);
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.action-body h5 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+
+.action-body p { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+.action-owner {
+  margin-top: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--cyan);
+}
+
+/* ── FOOTER ── */
+.report-footer {
+  padding: 24px 40px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.rf-left { font-size: 12px; color: var(--muted); }
+.rf-left strong { color: var(--text); }
+.rf-right { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--dim); }
+
+/* ── BACK LINK ── */
+.nav-bar {
+  padding: 12px 40px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+  text-transform: uppercase; letter-spacing: 1.2px;
+  color: var(--muted); text-decoration: none; transition: color .2s;
+}
+.back-link:hover { color: var(--blue); }
+
+.sample-note {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--amber);
+  background: rgba(245,158,11,0.06);
+  border: 1px solid rgba(245,158,11,0.15);
+  padding: 4px 12px;
+  border-radius: 4px;
+}
+</style>
+</head>
+<body>
+
+<div class="sample-watermark">SAMPLE</div>
+
+<div class="wrap">
+
+  <!-- Nav -->
+  <div class="nav-bar">
+    <a href="/marketing" class="back-link">← Marketing Hub</a>
+    <div class="sample-note">⚠ Sample Report — All data is illustrative</div>
+  </div>
+
+  <!-- Report Header -->
+  <div class="report-header">
+    <div class="rh-left">
+      <div class="report-logo">CCO2go.ai</div>
+      <div class="report-divider"></div>
+      <div class="report-title"><strong>Monthly CS Executive Report</strong> — Prepared for [Client Leadership]</div>
+    </div>
+    <div class="rh-right">
+      <div class="confidential-badge">Confidential</div>
+      <div class="report-date">January 2026 · Month 3 of Engagement</div>
+    </div>
+  </div>
+
+  <!-- KPI Strip -->
+  <div class="kpi-strip">
+
+    <div class="kpi-block">
+      <div class="kpi-label">Net Revenue Retention</div>
+      <div class="kpi-value" style="color: var(--green)">97.4%</div>
+      <div class="kpi-delta delta-up">▲ +4.2 pts vs last month</div>
+      <div class="kpi-prev">Baseline: 85.0%</div>
+    </div>
+
+    <div class="kpi-block">
+      <div class="kpi-label">Annual Churn Rate</div>
+      <div class="kpi-value" style="color: var(--amber)">14.2%</div>
+      <div class="kpi-delta delta-up">▲ Down from 22% at start</div>
+      <div class="kpi-prev">Target: &lt;7% by Month 6</div>
+    </div>
+
+    <div class="kpi-block">
+      <div class="kpi-label">Avg Health Score</div>
+      <div class="kpi-value" style="color: var(--blue)">68</div>
+      <div class="kpi-delta delta-up">▲ +9 pts vs baseline</div>
+      <div class="kpi-prev">Target: &gt;80 by Month 6</div>
+    </div>
+
+    <div class="kpi-block">
+      <div class="kpi-label">At-Risk Accounts</div>
+      <div class="kpi-value" style="color: var(--red)">7</div>
+      <div class="kpi-delta delta-down">▼ Down from 14 last month</div>
+      <div class="kpi-prev">3 rescued this month</div>
+    </div>
+
+    <div class="kpi-block">
+      <div class="kpi-label">Expansion Pipeline</div>
+      <div class="kpi-value" style="color: var(--cyan)">$124K</div>
+      <div class="kpi-delta delta-up">▲ +$38K vs last month</div>
+      <div class="kpi-prev">AI-identified opportunities</div>
+    </div>
+
+  </div>
+
+  <!-- Executive Summary -->
+  <div class="exec-summary">
+    <div class="section-eyebrow">Executive Summary</div>
+    <h2>Month 3 of 6 <span class="co">· Diagnosis → Activation · [Client Co.]</span></h2>
+    <div class="exec-grid">
+      <div class="exec-narrative">
+        <p>Month 3 marks the transition from diagnosis to <strong>active intervention</strong>. The root cause analysis from Month 1 confirmed what the data suggested: churn is driven primarily by <strong class="highlight">adoption failure in the first 60 days</strong>, not product dissatisfaction. Three of the top five churns from Q3 cited the same onboarding gap. That playbook is now live in CCOPilot.</p>
+        <p>The headline number this month is the <strong class="highlight">rescue of 3 at-risk accounts</strong> representing $87K ARR — two of which would have been lost without the Churn Monitor agent flagging disengagement signals 6 weeks out. NRR has moved from 85% at baseline to 97.4% and is on a trajectory to cross 100% before end of engagement.</p>
+        <p>The <span class="warn">remaining concern</span> is the Mid-Market segment, where health scores lag the SMB and Enterprise cohorts. We are scheduling direct executive touchpoints with all 4 mid-market accounts below score 55. This is the primary focus for Month 4.</p>
+      </div>
+      <div class="exec-status">
+        <div class="status-row">
+          <span class="sk">Engagement Health</span>
+          <span class="status-badge badge-green">On Track</span>
+        </div>
+        <div class="status-row">
+          <span class="sk">NRR Trajectory</span>
+          <span class="status-badge badge-green">Trending ↑</span>
+        </div>
+        <div class="status-row">
+          <span class="sk">Churn Rate</span>
+          <span class="status-badge badge-amber">In Progress</span>
+        </div>
+        <div class="status-row">
+          <span class="sk">Mid-Market Segment</span>
+          <span class="status-badge badge-amber">Needs Attention</span>
+        </div>
+        <div class="status-row">
+          <span class="sk">CCOPilot Adoption</span>
+          <span class="status-badge badge-green">91% Daily Active</span>
+        </div>
+        <div class="status-row">
+          <span class="sk">EBR Coverage (Top 20%)</span>
+          <span class="status-badge badge-green">8/10 Completed</span>
+        </div>
+        <div class="status-row">
+          <span class="sk">Next Board Readout</span>
+          <span class="status-badge badge-blue">Feb 12 @ 2PM ET</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Health Scores -->
+  <div class="section">
+    <h3><span class="dot" style="background:var(--blue)"></span> Customer Health Score Dashboard</h3>
+    <div class="health-grid">
+
+      <div class="health-component">
+        <div class="hc-top">
+          <div>
+            <div class="hc-name">Product Adoption</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">Feature utilization, login frequency, API usage</div>
+          </div>
+          <div class="hc-score" style="color:var(--green)">74</div>
+        </div>
+        <div class="hc-bar-bg"><div class="hc-bar" style="width:74%;background:var(--green)"></div></div>
+        <div class="hc-desc">Improved 12 pts this month. The new onboarding sequence is driving deeper feature adoption for customers in their first 90 days. 3 accounts flagged for expansion potential based on usage velocity.</div>
+      </div>
+
+      <div class="health-component">
+        <div class="hc-top">
+          <div>
+            <div class="hc-name">Relationship Health</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">Engagement frequency, sponsor strength, sentiment</div>
+          </div>
+          <div class="hc-score" style="color:var(--blue)">71</div>
+        </div>
+        <div class="hc-bar-bg"><div class="hc-bar" style="width:71%;background:var(--blue)"></div></div>
+        <div class="hc-desc">Executive sponsor coverage improved to 78% of strategic accounts. Champion Risk agent flagged 2 contacts who haven't engaged in 45+ days — direct outreach scheduled.</div>
+      </div>
+
+      <div class="health-component">
+        <div class="hc-top">
+          <div>
+            <div class="hc-name">Business Outcomes</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">ROI realization, goal completion, renewal signals</div>
+          </div>
+          <div class="hc-score" style="color:var(--amber)">61</div>
+        </div>
+        <div class="hc-bar-bg"><div class="hc-bar" style="width:61%;background:var(--amber)"></div></div>
+        <div class="hc-desc">Lowest component. EBR completion rate improving (8/10 top accounts) but ROI documentation is inconsistent. Deploying standardized ROI tracking in CCOPilot EBR builder next month.</div>
+      </div>
+
+      <div class="health-component">
+        <div class="hc-top">
+          <div>
+            <div class="hc-name">Support & Sentiment</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">Ticket volume, CSAT, email sentiment, social</div>
+          </div>
+          <div class="hc-score" style="color:var(--green)">79</div>
+        </div>
+        <div class="hc-bar-bg"><div class="hc-bar" style="width:79%;background:var(--green)"></div></div>
+        <div class="hc-desc">CSAT at 91.2% this month. Email Sentiment agent shows positive drift across 84% of customer communications. P1 ticket resolution time improved from 18 hours to 7.4 hours.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- At-Risk Accounts -->
+  <div class="section">
+    <h3><span class="dot" style="background:var(--red)"></span> At-Risk Account Tracker</h3>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Account</th>
+            <th>ARR</th>
+            <th>Health</th>
+            <th>Risk Level</th>
+            <th>Flagged By</th>
+            <th>Root Cause</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Meridian Health</strong></td>
+            <td style="font-family:'IBM Plex Mono',monospace">$142K</td>
+            <td style="font-family:'IBM Plex Mono',monospace;color:var(--red)">38</td>
+            <td><span class="risk-pill risk-high">High</span></td>
+            <td><span class="agent-tag">🤖 Churn Monitor</span></td>
+            <td style="font-size:12px;color:var(--muted)">Champion left company 3 weeks ago</td>
+            <td><span class="status-badge badge-blue" style="font-size:10px">EBR Scheduled</span></td>
+          </tr>
+          <tr>
+            <td><strong>Apex Logistics</strong></td>
+            <td style="font-family:'IBM Plex Mono',monospace">$89K</td>
+            <td style="font-family:'IBM Plex Mono',monospace;color:var(--amber)">49</td>
+            <td><span class="risk-pill risk-med">Medium</span></td>
+            <td><span class="agent-tag">🤖 Health Decay Alert</span></td>
+            <td style="font-size:12px;color:var(--muted)">Usage drop 40% in 30 days</td>
+            <td><span class="status-badge badge-amber" style="font-size:10px">In Outreach</span></td>
+          </tr>
+          <tr>
+            <td><strong>TrustBridge Inc.</strong></td>
+            <td style="font-family:'IBM Plex Mono',monospace">$67K</td>
+            <td style="font-family:'IBM Plex Mono',monospace;color:var(--amber)">52</td>
+            <td><span class="risk-pill risk-med">Medium</span></td>
+            <td><span class="agent-tag">🤖 Sentiment Drift</span></td>
+            <td style="font-size:12px;color:var(--muted)">Negative email sentiment trend</td>
+            <td><span class="status-badge badge-amber" style="font-size:10px">Meeting Set</span></td>
+          </tr>
+          <tr>
+            <td style="color:var(--muted)"><em>Vanta Retail</em></td>
+            <td style="font-family:'IBM Plex Mono',monospace;color:var(--muted)">$54K</td>
+            <td style="font-family:'IBM Plex Mono',monospace;color:var(--green)">71</td>
+            <td><span class="risk-pill risk-saved">Rescued</span></td>
+            <td><span class="agent-tag">🤖 Escalation Detector</span></td>
+            <td style="font-size:12px;color:var(--muted)">Contract dispute resolved</td>
+            <td><span class="status-badge badge-green" style="font-size:10px">Retained ✓</span></td>
+          </tr>
+          <tr>
+            <td style="color:var(--muted)"><em>Lumex Partners</em></td>
+            <td style="font-family:'IBM Plex Mono',monospace;color:var(--muted)">$38K</td>
+            <td style="font-family:'IBM Plex Mono',monospace;color:var(--green)">68</td>
+            <td><span class="risk-pill risk-saved">Rescued</span></td>
+            <td><span class="agent-tag">🤖 Renewal Prep</span></td>
+            <td style="font-size:12px;color:var(--muted)">Early renewal negotiated</td>
+            <td><span class="status-badge badge-green" style="font-size:10px">Retained ✓</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- NRR -->
+  <div class="section">
+    <h3><span class="dot" style="background:var(--green)"></span> Net Revenue Retention Movement</h3>
+    <div class="nrr-chart-area">
+      <div class="chart-container">
+        <div class="chart-title">NRR % — Monthly Trend Since Engagement Start</div>
+        <div class="bar-chart">
+          <!-- Baseline bars at varying heights -->
+          <div class="chart-bar-wrap">
+            <div class="chart-bar" style="height:55%;background:var(--blue-dim)">
+              <span class="bar-val" style="color:var(--muted)">85%</span>
+            </div>
+            <span class="bar-label">Baseline</span>
+          </div>
+          <div class="chart-bar-wrap">
+            <div class="chart-bar" style="height:60%;background:var(--blue-dim)">
+              <span class="bar-val" style="color:var(--muted)">88%</span>
+            </div>
+            <span class="bar-label">Oct</span>
+          </div>
+          <div class="chart-bar-wrap">
+            <div class="chart-bar" style="height:67%;background:var(--blue)">
+              <span class="bar-val" style="color:var(--blue)">91%</span>
+            </div>
+            <span class="bar-label">Nov</span>
+          </div>
+          <div class="chart-bar-wrap">
+            <div class="chart-bar" style="height:73%;background:var(--blue)">
+              <span class="bar-val" style="color:var(--blue)">93%</span>
+            </div>
+            <span class="bar-label">Dec</span>
+          </div>
+          <div class="chart-bar-wrap">
+            <div class="chart-bar" style="height:82%;background:var(--green)">
+              <span class="bar-val" style="color:var(--green)">97.4%</span>
+            </div>
+            <span class="bar-label">Jan ←</span>
+          </div>
+          <div class="chart-bar-wrap">
+            <div class="chart-bar" style="height:92%;background:var(--dim)">
+              <span class="bar-val" style="color:var(--dim)">~100%</span>
+            </div>
+            <span class="bar-label">Feb proj.</span>
+          </div>
+          <div class="chart-bar-wrap">
+            <div class="chart-bar" style="height:98%;background:var(--dim)">
+              <span class="bar-val" style="color:var(--dim)">~105%</span>
+            </div>
+            <span class="bar-label">Mar proj.</span>
+          </div>
+        </div>
+      </div>
+      <div class="nrr-breakdown">
+        <div class="nb-title">NRR Components (Jan)</div>
+        <div class="nb-row">
+          <span class="nb-key">Starting ARR</span>
+          <span class="nb-val" style="color:var(--text)">$2.8M</span>
+        </div>
+        <div class="nb-row">
+          <span class="nb-key">Churn (lost ARR)</span>
+          <span class="nb-val" style="color:var(--red)">−$33K</span>
+        </div>
+        <div class="nb-row">
+          <span class="nb-key">Downgrades</span>
+          <span class="nb-val" style="color:var(--amber)">−$12K</span>
+        </div>
+        <div class="nb-row">
+          <span class="nb-key">Expansions</span>
+          <span class="nb-val" style="color:var(--green)">+$72K</span>
+        </div>
+        <div class="nb-row">
+          <span class="nb-key">Ending ARR</span>
+          <span class="nb-val" style="color:var(--text)">$2.827M</span>
+        </div>
+        <div class="nb-row" style="border-top: 1px solid var(--border2); padding-top:12px; margin-top:4px">
+          <span class="nb-key" style="font-weight:600;color:var(--text)">NRR</span>
+          <span class="nb-val" style="color:var(--green);font-size:18px">97.4%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="section">
+    <h3><span class="dot" style="background:var(--amber)"></span> Month 4 Priority Actions</h3>
+    <div class="actions-grid">
+      <div class="action-item">
+        <div class="action-num">1</div>
+        <div class="action-body">
+          <h5>Mid-Market Executive Engagement</h5>
+          <p>Schedule C-level touchpoints with all 4 mid-market accounts below health score 55. Deploy EBR template with updated ROI data.</p>
+          <div class="action-owner">Owner: Shane James (CCO2go) + VP CS</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">2</div>
+        <div class="action-body">
+          <h5>Champion Replacement — Meridian Health</h5>
+          <p>Identify new internal champion. Map org chart, find VP Engineering connection through LinkedIn. Initiate relationship in 72 hours.</p>
+          <div class="action-owner">Owner: CSM Lead + Shane James</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">3</div>
+        <div class="action-body">
+          <h5>ROI Documentation Rollout</h5>
+          <p>Standardize ROI capture in CCOPilot EBR builder for all accounts. Target: 100% of top-20% ARR accounts have documented ROI by Mar 1.</p>
+          <div class="action-owner">Owner: CS Team (CCOPilot workflow)</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">4</div>
+        <div class="action-body">
+          <h5>Expansion Pipeline Activation</h5>
+          <p>$124K pipeline identified by AI. Assign upsell conversations to 3 CSMs. Target: 2 expansion conversations started by Feb 15.</p>
+          <div class="action-owner">Owner: VP CS + CCOPilot Expansion Finder</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">5</div>
+        <div class="action-body">
+          <h5>Onboarding Playbook v2</h5>
+          <p>Refine the new onboarding sequence based on Month 3 adoption data. Add 2 additional high-value features to 30-day activation checklist.</p>
+          <div class="action-owner">Owner: Product + CS Team</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">6</div>
+        <div class="action-body">
+          <h5>Board Preparation</h5>
+          <p>Prepare Feb 12 board deck — NRR story, churn root cause summary, 90-day forecast, and expansion pipeline. Shane to present 15-minute CS section.</p>
+          <div class="action-owner">Owner: Shane James + CEO</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="report-footer">
+    <div class="rf-left">
+      Prepared by <strong>Shane James</strong> · CCO2go.ai Fractional CCO ·
+      <a href="mailto:shane.james@cco2go.ai" style="color:var(--blue);text-decoration:none">shane.james@cco2go.ai</a> ·
+      (813) 666-8427
+    </div>
+    <div class="rf-right">This report is confidential and intended for leadership use only · CCOPilot.ai data</div>
+  </div>
+
+</div>
+</body>
+</html>
