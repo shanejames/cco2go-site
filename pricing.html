@@ -66,7 +66,7 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 80px;
+  height: 100px;
 }
 
 .nav-logo {
@@ -77,7 +77,7 @@ body::before {
 }
 
 .nav-logo img {
-  height: 90px;
+  height: 120px;
   width: auto;
   object-fit: contain;
   background: transparent;
@@ -502,10 +502,11 @@ h1 em {
   line-height: 1.7;
   max-height: 0;
   overflow: hidden;
+  transition: max-height 0.3s ease, padding-top 0.3s ease;
   transition: max-height 0.3s ease, padding 0.3s ease;
 }
 
-.faq-item.open .faq-a { max-height: 200px; padding-top: 12px; }
+.faq-item.open .faq-a { max-height: 600px; padding-top: 12px; }
 .faq-item.open .arrow { transform: rotate(45deg); }
 
 /* ── CTA FOOTER ── */
@@ -800,7 +801,7 @@ h1 em {
 
   <!-- CTA FOOTER -->
   <div class="cta-footer">
-    <img src="/CCO2go_logo.png" alt="CCO2go.ai" style="height:44px;width:auto;object-fit:contain;margin-bottom:20px;opacity:0.9;" />
+    <img src="/CCO2go_logo.png" alt="CCO2go.ai" style="height:90px;width:auto;object-fit:contain;margin-bottom:20px;" />
     <h2>Start with a free 1-hour diagnostic.</h2>
     <p>No contract. No pitch. Walk away with a diagnosis of what's driving your churn and a 90-day plan — whether you hire us or not.</p>
     <div class="cta-row">
@@ -810,4 +811,21 @@ h1 em {
     <div class="contact-line">
       <a href="/cdn-cgi/l/email-protection#9ceff4fdf2f9b2f6fdf1f9efdcfffff3aefbf3b2fdf5"><span class="__cf_email__" data-cfemail="a0d3c8c1cec58ecac1cdc5d3e0c3c3cf92c7cf8ec1c9">[email&#160;protected]</span></a>
       &nbsp;·&nbsp;
-      <a href="tel:8136668427">(813)
+      <a href="tel:8136668427">(813) 666-8427</a>
+      &nbsp;·&nbsp;
+      <a href="https://www.linkedin.com/in/rshanejames/" target="_blank">LinkedIn</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggleFAQ(el) {
+  const item = el.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+</script>
+</body>
+</html>
