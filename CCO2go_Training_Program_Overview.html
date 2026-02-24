@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSM Training Program — CCO2go.ai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Fraunces:ital,wght@0,300;0,700;0,900;1,300;1,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --surface2: #181c24;
+    --border: rgba(255,255,255,0.08);
+    --text: #e8eaf0;
+    --muted: #7c8090;
+    --accent: #4f7fff;
+    --accent2: #ff6b35;
+    --green: #3ecf8e;
+    --yellow: #f0c44a;
+    --rule: rgba(79,127,255,0.25);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HEADER / HERO ── */
+  .hero {
+    min-height: 100vh;
+    padding: 0 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; left: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(79,127,255,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(255,107,53,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .nav {
+    position: absolute;
+    top: 40px;
+    left: 60px;
+    right: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+  }
+
+  .nav-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .hero-content {
+    max-width: 900px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(79,127,255,0.12);
+    border: 1px solid rgba(79,127,255,0.3);
+    color: var(--accent);
+    padding: 6px 14px;
+    border-radius: 2px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .hero-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(48px, 6vw, 80px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+  }
+
+  .hero-title .line2 {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .hero-title .line3 {
+    color: var(--muted);
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 600px;
+    margin-bottom: 48px;
+    line-height: 1.65;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .meta-value {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .meta-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .meta-divider {
+    width: 1px;
+    background: var(--border);
+    align-self: stretch;
+    margin: 4px 0;
+  }
+
+  /* ── PROGRAM SUMMARY STRIP ── */
+  .summary-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .summary-cell {
+    padding: 40px 48px;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+
+  .summary-cell:last-child { border-right: none; }
+
+  .summary-cell::before {
+    content: attr(data-phase);
+    position: absolute;
+    top: 20px; right: 24px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .summary-phase-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .phase-1 { color: var(--accent); }
+  .phase-2 { color: var(--accent2); }
+  .phase-3 { color: var(--green); }
+
+  .summary-title {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  .summary-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+    font-weight: 400;
+  }
+
+  /* ── SECTION TITLE ── */
+  .section {
+    padding: 80px 60px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 40px;
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  /* ── MODULE CARDS ── */
+  .module-phase {
+    margin-bottom: 60px;
+  }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .phase-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 2px;
+    font-weight: 700;
+  }
+
+  .tag-p1 { background: rgba(79,127,255,0.15); color: var(--accent); }
+  .tag-p2 { background: rgba(255,107,53,0.15); color: var(--accent2); }
+  .tag-p3 { background: rgba(62,207,142,0.15); color: var(--green); }
+
+  .phase-title {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  .phase-weeks {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-left: auto;
+  }
+
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+
+  .module-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 24px;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+
+  .module-card:hover { border-color: rgba(79,127,255,0.4); }
+
+  .module-id {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .module-title {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 10px;
+    color: var(--text);
+  }
+
+  .module-hook {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.55;
+    margin-bottom: 16px;
+    font-weight: 400;
+  }
+
+  .module-outcomes {
+    list-style: none;
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .module-outcomes li {
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  .module-outcomes li::before {
+    content: '→';
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── WHO IT'S FOR ── */
+  .audience-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+  }
+
+  .audience-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 28px;
+  }
+
+  .audience-role {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+
+  .audience-title {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .audience-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  /* ── OUTCOMES TABLE ── */
+  .outcomes-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  .outcomes-table th {
+    text-align: left;
+    padding: 12px 20px;
+    background: var(--surface2);
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 700;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .outcomes-table td {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  .outcomes-table tr:last-child td { border-bottom: none; }
+
+  .outcomes-table td:first-child {
+    font-weight: 600;
+    color: var(--text);
+    width: 35%;
+  }
+
+  .outcomes-table td:nth-child(2) {
+    color: var(--muted);
+    width: 30%;
+  }
+
+  .before-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: #ff6b6b;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .after-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── FORMAT SECTION ── */
+  .format-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+
+  .format-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 24px;
+    text-align: center;
+  }
+
+  .format-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .format-title {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .format-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  /* ── PROOF STRIP ── */
+  .proof-strip {
+    background: var(--surface2);
+    padding: 60px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 48px;
+    text-align: center;
+  }
+
+  .proof-stat {
+    /* */
+  }
+
+  .proof-value {
+    font-family: 'Fraunces', serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .proof-label {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* ── INSTRUCTOR ── */
+  .instructor-section {
+    padding: 80px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .instructor-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .instructor-name {
+    font-family: 'Fraunces', serif;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+
+  .instructor-title {
+    font-size: 15px;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+
+  .instructor-bio {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  .instructor-bio p { margin-bottom: 16px; }
+
+  .credentials {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .credential {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 16px 20px;
+  }
+
+  .credential-dot {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  .credential-text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .credential-text strong {
+    color: var(--text);
+    display: block;
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+
+  /* ── INVESTMENT / CTA ── */
+  .cta-section {
+    padding: 80px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(79,127,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.15;
+    position: relative;
+  }
+
+  .cta-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .cta-sub {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 500px;
+    margin: 0 auto 48px;
+    line-height: 1.65;
+  }
+
+  .cta-contact {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  .cta-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px 28px;
+    min-width: 160px;
+  }
+
+  .cta-item-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .cta-item-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 32px 60px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  footer strong {
+    color: var(--text);
+  }
+
+  @media (max-width: 900px) {
+    .hero { padding: 100px 28px 60px; min-height: auto; }
+    .nav { left: 28px; right: 28px; }
+    .summary-strip { grid-template-columns: 1fr; }
+    .summary-cell { border-right: none; border-bottom: 1px solid var(--border); }
+    .section { padding: 60px 28px; }
+    .instructor-section { grid-template-columns: 1fr; padding: 60px 28px; }
+    .proof-strip { padding: 48px 28px; }
+    .cta-section { padding: 60px 28px; }
+    footer { padding: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <nav class="nav">
+    <span class="nav-logo">CCO2go.ai</span>
+    <span class="nav-tag">CSM Training Program · 2026</span>
+  </nav>
+
+  <div class="hero-content">
+    <div class="hero-badge">Enrollment Open · 2026 Cohort</div>
+    <h1 class="hero-title">
+      <span class="line1">The Customer</span><br>
+      <span class="line2">Success</span><br>
+      <span class="line3">Transformation</span>
+    </h1>
+    <p class="hero-sub">A 9-week, 3-phase curriculum that takes CS teams from NPS-centric and reactive to NRR-driven, AI-enabled, and expansion-focused. Built on methods that have moved NRR from 85% to 115%+.</p>
+
+    <div class="hero-meta">
+      <div class="meta-item">
+        <span class="meta-value">9</span>
+        <span class="meta-label">Weeks</span>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item">
+        <span class="meta-value">3</span>
+        <span class="meta-label">Phases</span>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item">
+        <span class="meta-value">27</span>
+        <span class="meta-label">Modules</span>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item">
+        <span class="meta-value">30%+</span>
+        <span class="meta-label">NRR Improvement</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- PHASE SUMMARY -->
+<div class="summary-strip">
+  <div class="summary-cell" data-phase="Phase 1 · Weeks 1–3">
+    <span class="summary-phase-label phase-1">Phase 1</span>
+    <h3 class="summary-title">Diagnose</h3>
+    <p class="summary-desc">Dismantle what isn't working. Replace NPS-centric measurement with NRR-first thinking. Build the data literacy, relationship intelligence, and touchpoint architecture that actually predicts retention.</p>
+  </div>
+  <div class="summary-cell" data-phase="Phase 2 · Weeks 4–6">
+    <span class="summary-phase-label phase-2">Phase 2</span>
+    <h3 class="summary-title">Build</h3>
+    <p class="summary-desc">Replace QBRs with Value Proof Conversations. Build a formal expansion motion. Understand what AI actually changes in CS operations — and how to deploy it without replacing the humans who matter.</p>
+  </div>
+  <div class="summary-cell" data-phase="Phase 3 · Weeks 7–9">
+    <span class="summary-phase-label phase-3">Phase 3</span>
+    <h3 class="summary-title">Prove</h3>
+    <p class="summary-desc">Build health scores that predict. Speak the CFO's language. Deploy an agent architecture that frees 50–60% of CSM time. Execute a 90-day war plan and leave with a manifesto worth defending.</p>
+  </div>
+</div>
+
+
+<!-- CURRICULUM -->
+<section class="section">
+  <div class="section-label">Full Curriculum</div>
+  <h2 class="section-title">27 Modules.<br><em>Zero Filler.</em></h2>
+
+  <!-- Phase 1 -->
+  <div class="module-phase">
+    <div class="phase-header">
+      <span class="phase-tag tag-p1">Phase 1 — Diagnose</span>
+      <span class="phase-title">Data Literacy & Relationship Architecture</span>
+      <span class="phase-weeks">Weeks 1–3</span>
+    </div>
+    <div class="modules-grid">
+
+      <div class="module-card">
+        <div class="module-id">M1.1 · Week 1</div>
+        <div class="module-title">The NPS Myth</div>
+        <div class="module-hook">NPS is not a customer health tool. It is a confidence tool — and the data against it is no longer ambiguous.</div>
+        <ul class="module-outcomes">
+          <li>Why 3–9% survey response rates invalidate portfolio-level decisions</li>
+          <li>The 4 structural failures of NPS in B2B SaaS</li>
+          <li>Goodhart's Law and how the metric became a performance</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-id">M1.2 · Week 1</div>
+        <div class="module-title">The NRR Truth Test</div>
+        <div class="module-hook">Net Revenue Retention is the single most honest metric in your CS organization. It cannot be gamed. Learn to read it, present it, and build toward it.</div>
+        <ul class="module-outcomes">
+          <li>The NRR compounding model and what it means for board conversations</li>
+          <li>How to present NRR to a CFO in under 3 minutes</li>
+          <li>Building an NRR-first reporting architecture</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-id">M1.3 · Week 1</div>
+        <div class="module-title">Reading Health Scores</div>
+        <div class="module-hook">Most health scores confirm what CSMs already knew. A validated score predicts churn at T-90. Most teams cannot tell the difference.</div>
+        <ul class="module-outcomes">
+          <li>Vanity metric traps and circular confidence</li>
+          <li>The 6-signal validated health score framework</li>
+          <li>Testing your current score against historical churn data</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-id">M2.1 · Week 2</div>
+        <div class="module-title">The Discovery Framework</div>
+        <div class="module-hook">The 5 handoff questions you must answer before the sales-to-CS transition is complete — and the Discover · Design · Drive model for structuring every new relationship.</div>
+        <ul class="module-outcomes">
+          <li>The 5 questions that reveal actual vs. stated objectives</li>
+          <li>Building a joint success plan that customers actually use</li>
+          <li>The 3 actions for first-week relationship foundation</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-id">M2.2 · Week 2</div>
+        <div class="module-title">Champion Mapping</div>
+        <div class="module-hook">Three roles. All required. The 48-Hour Departure Protocol — what to do the moment you detect a champion is leaving before they send the email.</div>
+        <ul class="module-outcomes">
+          <li>Champion, economic buyer, and user champion — the role matrix</li>
+          <li>Early signals of champion departure (LinkedIn, engagement patterns)</li>
+          <li>Multi-threading strategy before the transition happens</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-id">M2.3 · Week 2</div>
+        <div class="module-title">Segmentation That Works</div>
+        <div class="module-hook">The right time ratio. 3 inputs that actually determine how you segment — and why most segmentation models are built on the wrong variables.</div>
+        <ul class="module-outcomes">
+          <li>ARR, complexity, and growth potential as segmentation drivers</li>
+          <li>Time allocation by segment tier</li>
+          <li>When to move accounts between segments</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-id">M3.1 · Week 3</div>
+        <div class="module-title">The 5 Moments That Matter</div>
+        <div class="module-hook">Customer relationships don't fail randomly. They fail at 5 predictable inflection points. Know them, track them, act before the window closes.</div>
+        <ul class="module-outcomes">
+          <li>The Adoption Cliff (Weeks 3–8), Champion Change, Support Velocity</li>
+          <li>The Expansion Window (T-90 to T-120)</li>
+          <li>The Renewal Gravity Well (T-180) and how to escape it</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-id">M3.2 · Week 3</div>
+        <div class="module-title">Negative Touchpoints</div>
+        <div class="module-hook">Negative touchpoints don't just feel bad — they compound. The Touchpoint Test and how to audit and redesign every friction point in your engagement model.</div>
+        <ul class="module-outcomes">
+          <li>How negative touchpoints create compounding trust debt</li>
+          <li>The touchpoint audit framework</li>
+          <li>Redesigning high-frequency interactions from the customer's perspective</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-id">M3.3 · Week 3</div>
+        <div class="module-title">Time to First Value</div>
+        <div class="module-hook">Every day between contract signature and first value delivered is a trust debt accruing interest. The TTFV framework and how to engineer the moment that sets the entire relationship.</div>
+        <ul class="module-outcomes">
+          <li>Defining first value specifically (not "onboarding complete")</li>
+          <li>The 6-stage Onboarding Waterfall and stall detection</li>
+          <li>The adoption activation sequence</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Phase 2 -->
+  <div class="module-phase">
+    <div class="phase-header">
+      <span class="phase-tag tag-p2">Phase 2 — Build</span>
+      <span class="phase-title">Revenue Motion, Engagement Model & AI Infrastructure</span>
+      <span class="phase-weeks">Weeks 4–6</span>
+    </div>
+    <div class="modules-grid">
+
+      <div class="module-card">
+        <div class="module-id">M4.1 · Week 4</div>
+        <div class="module-title">Kill the QBR</div>
+        <div class="module-hook">The QBR costs 15–20 hours per account per cycle and drives follow-up action less than 30% of the time. Replace it with something that works in 25 minutes.</div>
+        <ul class="module-outcomes">
+          <li>The 3 structural reasons QBRs fail</li>
+          <li>The Value Proof Conversation: the 25-minute formula</li>
+          <li>Signal-triggered vs. calendar-triggered engagement</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-id">M4.2 · Week 4</div>
+        <div class="module-title">The Churn Autopsy</div>
+        <div class="module-hook">70% of B2B churn is preventable. The proof is in the autopsy — but most organizations never file one. How to run a structured post-mortem and actually change the outcome.</div>
+        <ul class="module-outcomes">
+          <li>The 5-stage Autopsy Protocol</li>
+          <li>Root cause analysis vs. surface-level narrative</li>
+          <li>Turning autopsy findings into prediction signals</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-id">M4.3 · Week 4</div>
+        <div class="module-title">The AI Reality Check</div>
+        <div class="module-hook">5 reasons CS AI projects fail. Augmentation vs. replacement — where the real line is and how to avoid the false tradeoff that kills most implementations.</div>
+        <ul class="module-outcomes">
+          <li>Why most CS AI projects fail before generating ROI</li>
+          <li>The augmentation-first deployment framework</li>
+          <li>Evaluating platform vendors: the build-vs-bolt question</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-id">M5.1 · Week 5</div>
+        <div class="module-title">Stop Asking Permission</div>
+        <div class="module-hook">"We're not salespeople" became an excuse that costs real money every quarter. Building the expansion motion CS should have had from the beginning.</div>
+        <ul class="module-outcomes">
+          <li>The CSQL: post-sale MQL framework with signal, qualification, SLA</li>
+          <li>The fatal framing error — and the reframe that opens conversations</li>
+          <li>The Outcome Architect operating model</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-id">M5.2 · Week 5</div>
+        <div class="module-title">The Expansion Staircase</div>
+        <div class="module-hook">5 steps. One direction. A structured sequence for moving accounts from initial contract to maximum value realization and revenue potential.</div>
+        <ul class="module-outcomes">
+          <li>Value expansion → seat expansion → tier upgrade → cross-sell → multi-year</li>
+          <li>Timing each step to account lifecycle signals</li>
+          <li>Building pipeline metrics for the expansion motion</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-id">M5.3 · Week 5</div>
+        <div class="module-title">Save Plays: The Proactive Intervention System</div>
+        <div class="module-hook">The 4 save plays and when to deploy each. The difference between a save play system and a collection of heroic one-off efforts — and why only one scales.</div>
+        <ul class="module-outcomes">
+          <li>Save rate by churn cascade stage</li>
+          <li>The 4 structured save plays with trigger criteria</li>
+          <li>Building a save play system vs. running individual saves</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-id">M6.1 · Week 6</div>
+        <div class="module-title">The Five Pillars Rebuilt for Machines</div>
+        <div class="module-hook">People, Process, Technology, Learning, Management — all five must evolve together, or the operation fights itself. What AI augmentation does to each pillar.</div>
+        <ul class="module-outcomes">
+          <li>Before vs. after AI augmentation across all 5 pillars</li>
+          <li>The 50–60% CSM time freed — and where it must go</li>
+          <li>The Pillars Maturity Score: measuring organizational readiness</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-id">M6.2 · Week 6</div>
+        <div class="module-title">The Outcome Architect Operating Model</div>
+        <div class="module-hook">The job description being written at leading CS organizations in 2026. What changes when the mandate shifts from service delivery to value creation.</div>
+        <ul class="module-outcomes">
+          <li>The skills gap between CSM and Outcome Architect</li>
+          <li>Commercial acumen, AI fluency, and systems thinking as core competencies</li>
+          <li>Performance measurement redesign</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-id">M6.3 · Week 6</div>
+        <div class="module-title">Digital-First CS: The Heresy That's Actually Right</div>
+        <div class="module-hook">Digital-first for 100% of your customers — including enterprise. The human premium argument and why reserving human interaction for the right moments creates more value, not less.</div>
+        <ul class="module-outcomes">
+          <li>The human premium: why scarcity creates value in CS interaction</li>
+          <li>The 4-quarter transition from legacy to digital-first</li>
+          <li>What customers actually want vs. what they say they want</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Phase 3 -->
+  <div class="module-phase">
+    <div class="phase-header">
+      <span class="phase-tag tag-p3">Phase 3 — Prove</span>
+      <span class="phase-title">Metrics That Matter, AI Architecture & The 90-Day Plan</span>
+      <span class="phase-weeks">Weeks 7–9</span>
+    </div>
+    <div class="modules-grid">
+
+      <div class="module-card">
+        <div class="module-id">M7.1–7.2 · Week 7</div>
+        <div class="module-title">Health Scores & Board-Ready Metrics</div>
+        <div class="module-hook">Building health scores that actually predict — the 3-phase validation plan. Then: making CS data readable and compelling to boards and CFOs.</div>
+        <ul class="module-outcomes">
+          <li>The 6-signal validated health score with weights and instrumentation</li>
+          <li>The T-90 test: validating your score against historical churn</li>
+          <li>Board-ready metrics: what the C-suite actually needs to see</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-id">M7.3 · Week 7</div>
+        <div class="module-title">The CFO Conversation</div>
+        <div class="module-hook">The NRR compounding table. Financial fluency as a CS leadership non-negotiable — and how to make the investment case for CS in language that boards understand.</div>
+        <ul class="module-outcomes">
+          <li>The NRR compounding model with 5-year projections</li>
+          <li>Making the CS investment case in financial language</li>
+          <li>Connecting CS metrics to CEO and CFO compensation levers</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-id">M8.1 · Week 8</div>
+        <div class="module-title">The Onboarding Waterfall Audit</div>
+        <div class="module-hook">The 6-stage onboarding waterfall — and how to audit every stage for stalls, drop-offs, and the moments where adoption fails before it has a chance to form.</div>
+        <ul class="module-outcomes">
+          <li>Audit methodology for all 6 waterfall stages</li>
+          <li>Identifying and instrumenting your highest-risk stall points</li>
+          <li>Automation triggers for stage progression</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-id">M8.2 · Week 8</div>
+        <div class="module-title">AI Agents: What Each One Does</div>
+        <div class="module-hook">11 agents across 4 categories. The deployment sequence that delivers Month 1 ROI. Tool-first vs. agent-first — the architectural distinction that separates platforms worth using.</div>
+        <ul class="module-outcomes">
+          <li>Core, Detection, Relationship, and Business Cycle agent categories</li>
+          <li>The 4-priority deployment sequence</li>
+          <li>The human escalation layer: where automation stops and humans start</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-id">M8.3 · Week 8</div>
+        <div class="module-title">The CS Operations Playbook</div>
+        <div class="module-hook">A living playbook — not a PDF updated annually. The anatomy of a CS operating system that evolves with the business and surfaces the right play at the right moment.</div>
+        <ul class="module-outcomes">
+          <li>Signal → prediction → automated workflow architecture</li>
+          <li>Building playbooks that CSMs actually use</li>
+          <li>Playbook governance and continuous improvement</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-id">M9.1 · Week 9</div>
+        <div class="module-title">CS in 2030: 6 Predictions Worth Making</div>
+        <div class="module-hook">Not trend observations — falsifiable predictions, each with specific outcomes and test conditions. The CS leaders making the right bets in the next 18 months will be significantly better positioned.</div>
+        <ul class="module-outcomes">
+          <li>AI-native platforms displacing incumbents (architecture, not features)</li>
+          <li>CRO roles from CS backgrounds, NRR in executive compensation</li>
+          <li>The end of the CS/PLG distinction</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-id">M9.2 · Week 9</div>
+        <div class="module-title">The 90-Day War Plan</div>
+        <div class="module-hook">Week 1: Diagnose. Weeks 2–3: Build and prove. The complete execution roadmap — what to do, in what order, to move from here to measurably better outcomes within one quarter.</div>
+        <ul class="module-outcomes">
+          <li>Day-by-day Week 1 diagnostic protocol</li>
+          <li>Weeks 2–3 priority build sequence</li>
+          <li>Weeks 4–12 proof and optimization cadence</li>
+        </ul>
+      </div>
+
+      <div class="module-card">
+        <div class="module-id">M9.3 · Week 9</div>
+        <div class="module-title">The Manifesto</div>
+        <div class="module-hook">A position worth defending. What you believe about customer success — stated clearly enough that people can agree or disagree with it. The CS leader who can articulate this has become the CCO their organization needs.</div>
+        <ul class="module-outcomes">
+          <li>Synthesizing 9 weeks into a coherent operating philosophy</li>
+          <li>Writing a CS leadership manifesto that drives alignment</li>
+          <li>The posture and positioning of the Outcome Architect</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+
+<!-- PROOF STRIP -->
+<div class="proof-strip">
+  <div class="proof-stat">
+    <span class="proof-value">22%→7%</span>
+    <span class="proof-label">Churn rate reduction achieved with this methodology in a live deployment</span>
+  </div>
+  <div class="proof-stat">
+    <span class="proof-value">85%→115%</span>
+    <span class="proof-label">NRR improvement — the documented outcome target of this curriculum</span>
+  </div>
+  <div class="proof-stat">
+    <span class="proof-value">2× IBM</span>
+    <span class="proof-label">Successful exits to IBM and ServiceNow at the CS leadership level</span>
+  </div>
+  <div class="proof-stat">
+    <span class="proof-value">25+ yrs</span>
+    <span class="proof-label">C-suite experience across SaaS, enterprise, and high-growth environments</span>
+  </div>
+</div>
+
+
+<!-- WHO IT'S FOR -->
+<section class="section">
+  <div class="section-label">Program Fit</div>
+  <h2 class="section-title">Who Gets the <em>Most</em> From This</h2>
+  <div class="audience-grid">
+
+    <div class="audience-card">
+      <div class="audience-role">Primary Audience</div>
+      <div class="audience-title">CS Leaders & VPs</div>
+      <div class="audience-desc">Managing teams of 5–50 CSMs. Responsible for NRR, churn, and expansion at a SaaS company post-Series A. You have the headcount — the program gives you the operating model.</div>
+    </div>
+
+    <div class="audience-card">
+      <div class="audience-role">Primary Audience</div>
+      <div class="audience-title">Senior CSMs Ready to Lead</div>
+      <div class="audience-desc">2–5 years in CS, building toward a management or Outcome Architect role. The curriculum gives you the vocabulary, frameworks, and financial fluency to make that move credibly.</div>
+    </div>
+
+    <div class="audience-card">
+      <div class="audience-role">Strong Fit</div>
+      <div class="audience-title">Founders & CEOs</div>
+      <div class="audience-desc">Building or inheriting a CS function for the first time. Seed through Series C. You need the operating model before you hire — this prevents expensive rearchitecting later.</div>
+    </div>
+
+    <div class="audience-card">
+      <div class="audience-role">Strong Fit</div>
+      <div class="audience-title">CROs Owning Post-Sale</div>
+      <div class="audience-desc">Revenue leaders who have inherited CS. You need the CS-specific methodology to complement your sales operating model — and to understand where the NRR gap is coming from.</div>
+    </div>
+
+    <div class="audience-card">
+      <div class="audience-role">Specific Fit</div>
+      <div class="audience-title">CS Ops & Analysts</div>
+      <div class="audience-desc">Building the data infrastructure, health scoring, and AI agent architecture. Phase 3 (Weeks 7–9) is specifically designed for the operational and technical implementation layer.</div>
+    </div>
+
+    <div class="audience-card">
+      <div class="audience-role">Not the Best Fit</div>
+      <div class="audience-title">Year 0–1 CSMs</div>
+      <div class="audience-desc">The curriculum is intentionally advanced and challenges assumptions rather than establishing basics. Entry-level CSMs will benefit more from foundational training first — this program is built for those who already know the fundamentals are broken.</div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- BEFORE / AFTER -->
+<section class="section">
+  <div class="section-label">Transformation Outcomes</div>
+  <h2 class="section-title">Before This Program.<br><em>After This Program.</em></h2>
+
+  <table class="outcomes-table">
+    <thead>
+      <tr>
+        <th>Area</th>
+        <th><span class="before-label">Before</span></th>
+        <th><span class="after-label">After</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Primary health metric</td>
+        <td>NPS score reported to board quarterly</td>
+        <td>NRR tracked weekly, portfolio segmented by risk signal</td>
+      </tr>
+      <tr>
+        <td>Executive engagement</td>
+        <td>60-minute QBR with slides every 90 days</td>
+        <td>25-minute Value Proof Conversation, signal-triggered</td>
+      </tr>
+      <tr>
+        <td>Expansion motion</td>
+        <td>Informal Slack mentions when CSMs notice opportunity</td>
+        <td>CSQL framework with signal identification, 48-hr SLA, pipeline metrics</td>
+      </tr>
+      <tr>
+        <td>Churn detection</td>
+        <td>Yellow/red health score 2 weeks before renewal</td>
+        <td>Predictive signal at T-90 across 6 validated indicators</td>
+      </tr>
+      <tr>
+        <td>AI posture</td>
+        <td>Tool features inside the CS platform</td>
+        <td>Agent-first architecture: 15 agents across 4 deployment tiers</td>
+      </tr>
+      <tr>
+        <td>CSM time allocation</td>
+        <td>50–60% on briefing prep, reporting, and manual health checks</td>
+        <td>50–60% freed for executive relationships, expansion, high-judgment work</td>
+      </tr>
+      <tr>
+        <td>Financial fluency</td>
+        <td>CS metrics not translatable to CFO or board conversations</td>
+        <td>NRR compounding model, CS investment case, board-ready data</td>
+      </tr>
+      <tr>
+        <td>Career trajectory</td>
+        <td>CSM → Senior CSM → CS Manager</td>
+        <td>Outcome Architect → CS Leader → CRO candidate by 2028</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- FORMAT -->
+<section class="section">
+  <div class="section-label">Program Format</div>
+  <h2 class="section-title">How It's <em>Delivered</em></h2>
+  <div class="format-grid">
+    <div class="format-card">
+      <span class="format-icon">📋</span>
+      <div class="format-title">Module Presentations</div>
+      <div class="format-desc">27 structured modules, each 8–12 minutes with cold opens, data-backed frameworks, and concrete "Do This Monday" action sets.</div>
+    </div>
+    <div class="format-card">
+      <span class="format-icon">⚡</span>
+      <div class="format-title">Weekly Action Sets</div>
+      <div class="format-desc">Every module ends with 3 specific actions to take before the next session. Learning without immediate application does not transfer.</div>
+    </div>
+    <div class="format-card">
+      <span class="format-icon">🏗️</span>
+      <div class="format-title">Live Build Sessions</div>
+      <div class="format-desc">Phases 2 and 3 include live working sessions: building your CSQL framework, health score validation, and agent deployment roadmap against your actual accounts.</div>
+    </div>
+    <div class="format-card">
+      <span class="format-icon">📊</span>
+      <div class="format-title">Diagnostic Toolkits</div>
+      <div class="format-desc">Health score audit template, QBR replacement framework, churn autopsy protocol, 90-Day War Plan template — each designed for immediate deployment.</div>
+    </div>
+    <div class="format-card">
+      <span class="format-icon">🎯</span>
+      <div class="format-title">Individual or Team</div>
+      <div class="format-desc">Available for individual CS leaders building toward a VP or CRO role, or for intact CS teams of 5–50 with group licensing and facilitated cohorts.</div>
+    </div>
+    <div class="format-card">
+      <span class="format-icon">🔄</span>
+      <div class="format-title">Fractional CCO Option</div>
+      <div class="format-desc">For organizations that want embedded implementation alongside the training — Shane James available as Fractional CCO through CCO2go.ai for Seed through Series C companies.</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- INSTRUCTOR -->
+<div class="instructor-section">
+  <div>
+    <div class="instructor-label">Curriculum Architect & Instructor</div>
+    <div class="instructor-name">R. Shane<br>James</div>
+    <div class="instructor-title">Chief Customer Officer · CCO2go.ai · Avolv.ai</div>
+    <div class="instructor-bio">
+      <p>Shane James spent 25+ years in CS leadership before building this program — not from theory, but from the specific set of decisions that moved NRR from 85% to 115% and churn from 22% to 7% across multiple enterprise SaaS deployments.</p>
+      <p>He has led CS organizations through two successful exits — to IBM and to ServiceNow — and built fractional CCO services for startups from Seed through Series C as the founder of CCO2go.ai.</p>
+      <p>The curriculum reflects a single conviction: the gap between CS teams that perform and those that don't is almost never talent. It is almost always method.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="credentials">
+      <div class="credential">
+        <div class="credential-dot"></div>
+        <div class="credential-text">
+          <strong>Exit to IBM</strong>
+          CS leadership through acquisition — enterprise integration, retention architecture, and team scaling
+        </div>
+      </div>
+      <div class="credential">
+        <div class="credential-dot"></div>
+        <div class="credential-text">
+          <strong>Exit to ServiceNow</strong>
+          Second acquisition exit — CS operating model recognized as a core acquisition value driver
+        </div>
+      </div>
+      <div class="credential">
+        <div class="credential-dot"></div>
+        <div class="credential-text">
+          <strong>22% → 7% Churn</strong>
+          Live deployment result using the exact methodology taught in this curriculum
+        </div>
+      </div>
+      <div class="credential">
+        <div class="credential-dot"></div>
+        <div class="credential-text">
+          <strong>85% → 115%+ NRR</strong>
+          The documented NRR outcome of this curriculum, applied across multiple SaaS organizations
+        </div>
+      </div>
+      <div class="credential">
+        <div class="credential-dot"></div>
+        <div class="credential-text">
+          <strong>CCO2go.ai</strong>
+          Fractional Chief Customer Officer services for Seed through Series C startups
+        </div>
+      </div>
+      <div class="credential">
+        <div class="credential-dot"></div>
+        <div class="credential-text">
+          <strong>Avolv.ai</strong>
+          AI automation solutions for SMB operations — applied AI practitioner, not theorist
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2 class="cta-title">The Teams That Win in 2030<br>Are <em>Building Now.</em></h2>
+  <p class="cta-sub">9 weeks. 27 modules. One operating model that actually moves NRR. Cohorts forming for Q2 2026.</p>
+
+  <div class="cta-contact">
+    <div class="cta-item">
+      <div class="cta-item-label">Contact</div>
+      <div class="cta-item-value">R. Shane James</div>
+    </div>
+    <div class="cta-item">
+      <div class="cta-item-label">Phone</div>
+      <div class="cta-item-value">(813) 666-8427</div>
+    </div>
+    <div class="cta-item">
+      <div class="cta-item-label">Email</div>
+      <div class="cta-item-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d8abb0b9b6bdf6b2b9b5bdab98bbbbb7eabfb7f6b9b1">[email&#160;protected]</a></div>
+    </div>
+    <div class="cta-item">
+      <div class="cta-item-label">Website</div>
+      <div class="cta-item-value">CCO2go.ai</div>
+    </div>
+  </div>
+</section>
+
+
+<footer>
+  <div><strong>CCO2go.ai</strong> · CSM Training Program · 2026</div>
+  <di
