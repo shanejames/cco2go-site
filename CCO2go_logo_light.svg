@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" fill="none">
+  <defs>
+    <linearGradient id="chev-front" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a8d4f8"/>
+      <stop offset="60%" stop-color="#5ba3e0"/>
+      <stop offset="100%" stop-color="#2a6ab0"/>
+    </linearGradient>
+    <linearGradient id="chev-mid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6db4e8"/>
+      <stop offset="100%" stop-color="#1e4f88"/>
+    </linearGradient>
+    <linearGradient id="chev-back" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3a6ea8"/>
+      <stop offset="100%" stop-color="#0e2d56"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Motion streak lines -->
+  <line x1="2"  y1="32" x2="16" y2="32" stroke="#3a7fc1" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+  <line x1="2"  y1="40" x2="14" y2="40" stroke="#3a7fc1" stroke-width="2"   stroke-linecap="round" opacity="0.5"/>
+  <line x1="2"  y1="48" x2="16" y2="48" stroke="#3a7fc1" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+  <line x1="6"  y1="36" x2="14" y2="36" stroke="#3a7fc1" stroke-width="1.2" stroke-linecap="round" opacity="0.35"/>
+  <line x1="6"  y1="44" x2="14" y2="44" stroke="#3a7fc1" stroke-width="1.2" stroke-linecap="round" opacity="0.25"/>
+
+  <!-- Chevron 3 — back -->
+  <polyline points="22,16 42,40 22,64" stroke="#d0e8f8" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <polyline points="22,16 42,40 22,64" stroke="url(#chev-back)" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.7"/>
+
+  <!-- Chevron 2 — middle -->
+  <polyline points="32,16 52,40 32,64" stroke="#d0e8f8" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <polyline points="32,16 52,40 32,64" stroke="url(#chev-mid)" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <!-- Chevron 1 — front -->
+  <polyline points="43,16 63,40 43,64" stroke="#d0e8f8" stroke-width="9.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <polyline points="43,16 63,40 43,64" stroke="url(#chev-front)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <!-- TM -->
+  <text x="66" y="14" font-family="Arial,sans-serif" font-size="9" fill="#0d1833" opacity="0.4">™</text>
+
+  <!-- Wordmark — navy for light bg -->
+  <text x="82"  y="52" font-family="'Arial Black','Helvetica Neue',Arial,sans-serif" font-weight="900" font-size="30" fill="#0d1833" letter-spacing="-0.5">CCO</text>
+  <text x="142" y="52" font-family="'Arial Black','Helvetica Neue',Arial,sans-serif" font-weight="900" font-size="30" fill="#4A9EE8" letter-spacing="-0.5">2Go.ai</text>
+  <text x="306" y="30" font-family="Arial,sans-serif" font-size="10" fill="#0d1833" opacity="0.35">™</text>
+</svg>
