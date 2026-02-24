@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal | CS Transformation Program</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .fraunces { font-family: 'Fraunces', serif; }
+        .sticky-nav { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(16px); }
+        .wk { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; }
+        .row { transition: background 0.15s; }
+        .row:hover { background: rgba(255,255,255,0.03); }
+        .locked { opacity: 0.35; pointer-events: none; cursor: default; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-200">
+
+    <!-- NAV -->
+    <nav class="sticky-nav bg-slate-950/90 border-b border-slate-800/60">
+        <div class="max-w-4xl mx-auto px-6 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-emerald-500 w-8 h-8 rounded flex items-center justify-center font-bold text-slate-900 text-sm">CS</div>
+                <span class="text-slate-300 font-semibold text-sm">CS Transformation Program</span>
+            </div>
+            <a href="https://scheduler.zoom.us/r-shane-james/hello-i-am-an-event-card" target="_blank"
+               class="flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-300 transition">
+                <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+                <span class="hidden sm:inline">Book office hours</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="border-b border-slate-800 px-6 py-14"
+             style="background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(62,207,142,0.07) 0%, transparent 60%), #020408;">
+        <div class="max-w-4xl mx-auto">
+            <span class="inline-block mb-5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full tracking-widest uppercase">2026 Cohort · In Progress</span>
+            <h1 class="fraunces text-4xl md:text-5xl font-black text-white leading-tight mb-4">
+                Welcome to the<br><span class="text-emerald-400 italic">CS Transformation</span>
+            </h1>
+            <p class="text-slate-400 text-lg font-light max-w-xl leading-relaxed mb-8">
+                9 weeks. 27 modules. Each ends with specific actions to take before the next session.
+                <strong class="text-slate-300">Don't just watch — do the work.</strong>
+            </p>
+            <div class="flex flex-wrap gap-3">
+                <div class="flex items-center gap-3 bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-3">
+                    <div class="w-7 h-7 rounded-lg bg-blue-500/15 border border-blue-500/30 flex items-center justify-center">
+                        <i data-lucide="layers" class="w-3.5 h-3.5 text-blue-400"></i>
+                    </div>
+                    <div><div class="wk text-slate-500 mb-0.5">Phase 1 · Weeks 1–3</div><div class="text-sm font-bold text-white">Diagnose</div></div>
+                </div>
+                <div class="flex items-center gap-3 bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-3">
+                    <div class="w-7 h-7 rounded-lg bg-orange-500/15 border border-orange-500/30 flex items-center justify-center">
+                        <i data-lucide="wrench" class="w-3.5 h-3.5 text-orange-400"></i>
+                    </div>
+                    <div><div class="wk text-slate-500 mb-0.5">Phase 2 · Weeks 4–6</div><div class="text-sm font-bold text-white">Build</div></div>
+                </div>
+                <div class="flex items-center gap-3 bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-3">
+                    <div class="w-7 h-7 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center">
+                        <i data-lucide="trending-up" class="w-3.5 h-3.5 text-emerald-400"></i>
+                    </div>
+                    <div><div class="wk text-slate-500 mb-0.5">Phase 3 · Weeks 7–9</div><div class="text-sm font-bold text-white">Prove</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="max-w-4xl mx-auto px-6 py-12 space-y-14">
+
+        <!-- ═══════════════ PHASE 1 ═══════════════ -->
+        <section>
+            <div class="flex items-center gap-3 mb-5 border-l-4 border-blue-500 pl-4">
+                <span class="bg-blue-500/15 text-blue-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest border border-blue-500/30">Phase 1</span>
+                <h2 class="fraunces text-2xl font-black text-white">Diagnose</h2>
+                <span class="text-slate-500 text-sm hidden sm:inline ml-1">Weeks 1–3</span>
+            </div>
+            <p class="text-sm text-slate-400 leading-relaxed mb-7 max-w-2xl">
+                Phase 1 dismantles the metrics and practices that feel safe but aren't working.
+                You'll leave with a fundamentally different understanding of what actually predicts retention —
+                and why your current signals are hiding the real data.
+            </p>
+
+            <!-- W1 -->
+            <div class="mb-6">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="wk text-blue-500/70">Week 1</span>
+                    <div class="h-px flex-1 bg-slate-800"></div>
+                    <span class="text-xs text-slate-600">Metrics & Measurement</span>
+                </div>
+                <div class="bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden divide-y divide-slate-800/50">
+                    <a href="/M1.1_Animated_Presentation.html" class="row flex items-center gap-4 px-5 py-4">
+                        <span class="font-mono text-blue-400 text-xs bg-blue-500/10 px-2 py-1 rounded shrink-0">M1.1</span>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-semibold text-white text-sm">The NPS Myth</div>
+                            <div class="text-xs text-slate-500 mt-0.5">Why the industry's most trusted metric became its biggest liability.</div>
+                        </div>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <span class="text-xs text-slate-600 hidden sm:block">8–12 min</span>
+                            <span class="bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-400 text-xs font-semibold px-3 py-1.5 rounded flex items-center gap-1.5 transition">
+                                <i data-lucide="play" class="w-3 h-3"></i>Open
+                            </span>
+                        </div>
+                    </a>
+                    <a href="/M1.2_Animated_Presentation.html" class="row flex items-center gap-4 px-5 py-4">
+                        <span class="font-mono text-blue-400 text-xs bg-blue-500/10 px-2 py-1 rounded shrink-0">M1.2</span>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-semibold text-white text-sm">The NRR Truth Test</div>
+                            <div class="text-xs text-slate-500 mt-0.5">The most honest metric in your CS org — learn to read it, present it, and build toward it.</div>
+                        </div>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <span class="text-xs text-slate-600 hidden sm:block">8–12 min</span>
+                            <span class="bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-400 text-xs font-semibold px-3 py-1.5 rounded flex items-center gap-1.5 transition"><i data-lucide="play" class="w-3 h-3"></i>Open</span>
+                        </div>
+                    </a>
+                    <a href="/M1.3_Animated_Presentation.html" class="row flex items-center gap-4 px-5 py-4">
+                        <span class="font-mono text-blue-400 text-xs bg-blue-500/10 px-2 py-1 rounded shrink-0">M1.3</span>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-semibold text-white text-sm">Reading Health Scores</div>
+                            <div class="text-xs text-slate-500 mt-0.5">Most health scores confirm what CSMs already knew. A validated score predicts churn at T-90.</div>
+                        </div>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <span class="text-xs text-slate-600 hidden sm:block">8–12 min</span>
+                            <span class="bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-400 text-xs font-semibold px-3 py-1.5 rounded flex items-center gap-1.5 transition"><i data-lucide="play" class="w-3 h-3"></i>Open</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- W2 -->
+            <div class="mb-6">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="wk text-blue-500/70">Week 2</span>
+                    <div class="h-px flex-1 bg-slate-800"></div>
+                    <span class="text-xs text-slate-600">Relationship Architecture</span>
+                </div>
+                <div class="bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden divide-y divide-slate-800/50">
+                    <a href="/M2.1_Animated_Presentation.html" class="row flex items-center gap-4 px-5 py-4">
+                        <span class="font-mono text-blue-400 text-xs bg-blue-500/10 px-2 py-1 rounded shrink-0">M2.1</span>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-semibold text-white text-sm">The Discovery Framework</div>
+                            <div class="text-xs text-slate-500 mt-0.5">The 5 handoff questions every CSM must answer before sales transition is complete.</div>
+                        </div>
+                        <div class="flex items-center gap-2 shrink-0"><span class="text-xs text-slate-600 hidden sm:block">8–12 min</span><span class="bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-400 text-xs font-semibold px-3 py-1.5 rounded flex items-center gap-1.5 transition"><i data-lucide="play" class="w-3 h-3"></i>Open</span></div>
+                    </a>
+                    <a href="/M2.2_Animated_Presentation.html" class="row flex items-center gap-4 px-5 py-4">
+                        <span class="font-mono text-blue-400 text-xs bg-blue-500/10 px-2 py-1 rounded shrink-0">M2.2</span>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-semibold text-white text-sm">Champion Mapping</div>
+                            <div class="text-xs text-slate-500 mt-0.5">Three roles, all required. What to do in the 48 hours after your champion leaves.</div>
+                        </div>
+                        <div class="flex items-center gap-2 shrink-0"><span class="text-xs text-slate-600 hidden sm:block">8–12 min</span><span class="bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-400 text-xs font-semibold px-3 py-1.5 rounded flex items-center gap-1.5 transition"><i data-lucide="play" class="w-3 h-3"></i>Open</span></div>
+                    </a>
+                    <a href="/M2.3_Animated_Presentation.html" class="row flex items-center gap-4 px-5 py-4">
+                        <span class="font-mono text-blue-400 text-xs bg-blue-500/10 px-2 py-1 rounded shrink-0">M2.3</span>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-semibold text-white text-sm">Segmentation That Works</div>
+                            <div class="text-xs text-slate-500 mt-0.5">Why most segmentation models are built on the wrong variables — and the 3 that actually matter.</div>
+                        </div>
+                        <div class="flex items-center gap-2 shrink-0"><span class="text-xs text-slate-600 hidden sm:block">8–12 min</span><span class="bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-400 text-xs font-semibold px-3 py-1.5 rounded flex items-center gap-1.5 transition"><i data-lucide="play" class="w-3 h-3"></i>Open</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- W3 -->
+            <div>
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="wk text-blue-500/70">Week 3</span>
+                    <div class="h-px flex-1 bg-slate-800"></div>
+                    <span class="text-xs text-slate-600">Touchpoints & Timing</span>
+                </div>
+                <div class="bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden divide-y divide-slate-800/50">
+                    <a href="/M3.1_Animated_Presentation.html" class="row flex items-center gap-4 px-5 py-4">
+                        <span class="font-mono text-blue-400 text-xs bg-blue-500/10 px-2 py-1 rounded shrink-0">M3.1</span>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-semibold text-white text-sm">The 5 Moments That Matter</div>
+                            <div class="text-xs text-slate-500 mt-0.5">Relationships don't fail randomly — they fail at 5 predictable inflection points on a predictable schedule.</div>
+                        </div>
+                        <div class="flex items-center gap-2 shrink-0"><span class="text-xs text-slate-600 hidden sm:block">8–12 min</span><span class="bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-400 text-xs font-semibold px-3 py-1.5 rounded flex items-center gap-1.5 transition"><i data-lucide="play" class="w-3 h-3"></i>Open</span></div>
+                    </a>
+                    <a href="/M3.2_Animated_Presentation.html" class="row flex items-center gap-4 px-5 py-4">
+                        <span class="font-mono text-blue-400 text-xs bg-blue-500/10 px-2 py-1 rounded shrink-0">M3.2</span>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-semibold text-white text-sm">Negative Touchpoints</div>
+                            <div class="text-xs text-slate-500 mt-0.5">Negative touchpoints don't just feel bad — they compound. The audit framework for every friction point.</div>
+                        </div>
+                        <div class="flex items-center gap-2 shrink-0"><span class="text-xs text-slate-600 hidden sm:block">8–12 min</span><span class="bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-400 text-xs font-semibold px-3 py-1.5 rounded flex items-center gap-1.5 transition"><i data-lucide="play" class="w-3 h-3"></i>Open</span></div>
+                    </a>
+                    <div class="locked flex items-center gap-4 px-5 py-4">
+                        <span class="font-mono text-slate-600 text-xs bg-slate-800/60 px-2 py-1 rounded shrink-0">M3.3</span>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-semibold text-slate-600 text-sm">Time to First Value</div>
+                            <div class="text-xs text-slate-700 mt-0.5">The 6-stage Onboarding Waterfall.</div>
+                        </div>
+                        <span class="flex items-center gap-1.5 text-xs text-slate-700 shrink-0"><i data-lucide="calendar" class="w-3.5 h-3.5"></i>Coming soon</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════ PHASE 2 ═══════════════ -->
+        <section>
+            <div class="flex items-center gap-3 mb-5 border-l-4 border-orange-500 pl-4">
+                <span class="bg-orange-500/15 text-orange-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest border border-orange-500/30">Phase 2</span>
+                <h2 class="fraunces text-2xl font-black text-white">Build</h2>
+                <span class="text-slate-500 text-sm hidden sm:inline ml-1">Weeks 4–6</span>
+            </div>
+            <p class="text-sm text-slate-400 leading-relaxed mb-7 max-w-2xl">
+                Phase 2 replaces broken rituals with frameworks that work.
+                QBR → VPC. Reactive retention → proactive save plays.
+                "We don't sell" → a formal expansion motion that compounds every quarter.
+            </p>
+
+            <!-- W4 -->
+            <div class="mb-6">
+                <div class="flex items-center gap-3 mb-3"><span class="wk text-orange-500/70">Week 4</span><div class="h-px flex-1 bg-slate-800"></div><span class="text-xs text-slate-600">Engagement & AI Reality</span></div>
+                <div class="bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden divide-y divide-slate-800/50">
+                    <a href="/M4.1_Presentation.html" class="row flex items-center gap-4 px-5 py-4">
+                        <span class="font-mono text-orange-400 text-xs bg-orange-500/10 px-2 py-1 rounded shrink-0">M4.1</span>
+                        <div class="flex-1 min-w-0"><div class="font-semibold text-white text-sm">Kill the QBR</div><div class="text-xs text-slate-500 mt-0.5">Replace the 60-minute slide ceremony with a 25-min conversation that actually drives outcomes.</div></div>
+                        <div class="flex items-center gap-2 shrink-0"><span class="text-xs text-slate-600 hidden sm:block">8–12 min</span><span class="bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/30 text-orange-400 text-xs font-semibold px-3 py-1.5 rounded flex items-center gap-1.5 transition"><i data-lucide="play" class="w-3 h-3"></i>Open</span></div>
+                    </a>
+                    <a href="/M4.2_Presentation.html" class="row flex items-center gap-4 px-5 py-4">
+                        <span class="font-mono text-orange-400 text-xs bg-orange-500/10 px-2 py-1 rounded shrink-0">M4.2</span>
+                        <div class="flex-1 min-w-0"><div class="font-semibold text-white text-sm">The Churn Autopsy</div><div class="text-xs text-slate-500 mt-0.5">70% of churn is preventable. How to run the post-mortem that changes the next outcome.</div></div>
+                        <div class="flex items-center gap-2 shrink-0"><span class="text-xs text-slate-600 hidden sm:block">8–12 min</span><span class="bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/30 text-orange-400 text-xs font-semibold px-3 py-1.5 rounded flex items-center gap-1.5 transition"><i data-lucide="play" class="w-3 h-3"></i>Open</span></div>
+                    </a>
+                    <a href="/M4.3_Presentation.html" class="row flex items-center gap-4 px-5 py-4">
+                        <span class="font-mono text-orange-400 text-xs bg-orange-500/10 px-2 py-1 rounded shrink-0">M4.3</span>
+                        <div class="flex-1 min-w-0"><div class="font-semibold text-white text-sm">The AI Reality Check</div><div class="text-xs text-slate-500 mt-0.5">Why most CS AI projects fail before generating ROI — and how to deploy it right from day one.</div></div>
+                        <div class="flex items-center gap-2 shrink-0"><span class="text-xs text-slate-600 hidden sm:block">8–12 min</span><span class="bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/30 text-orange-400 text-xs font-semibold px-3 py-1.5 rounded flex items-center gap-1.5 transition"><i data-lucide="play" class="w-3 h-3"></i>Open</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- W5 -->
+            <div class="mb-6">
+                <div class="flex items-center gap-3 mb-3"><span class="wk text-orange-500/70">Week 5</span><div class="h-px flex-1 bg-slate-800"></div><span class="text-xs text-slate-600">The Revenue Engine</span></div>
+                <div class="bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden divide-y divide-slate-800/50">
+                    <a href="/M5.1_Presentation.html" class="row flex items-center gap-4 px-5 py-4">
+                        <span class="font-mono text-orange-400 text-xs bg-orange-500/10 px-2 py-1 rounded shrink-0">M5.1</span>
+                        <div class="flex-1 min-w-0"><div class="font-semibold text-white text-sm">Stop Asking Permission</div><div class="text-xs text-slate-500 mt-0.5">The expansion motion CS should have had from day one. This is not a sales motion — it's an outcome motion.</div></div>
+                        <div class="flex items-center gap-2 shrink-0"><span class="text-xs text-slate-600 hidden sm:block">8–12 min</span><span class="bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/30 text-orange-400 text-xs font-semibold px-3 py-1.5 rounded flex items-center gap-1.5 transition"><i data-lucide="play" class="w-3 h-3"></i>Open</span></div>
+                    </a>
+                    <a href="/M5.2_Presentation.html" class="row flex items-center gap-4 px-5 py-4">
+                        <span class="font-mono text-orange-400 text-xs bg-orange-500/10 px-2 py-1 rounded shrink-0">M5.2</span>
+                        <div class="flex-1 min-w-0"><div class="font-semibold text-white text-sm">The Expansion Staircase</div><div class="text-xs text-slate-500 mt-0.5">Five steps. One direction. From initial contract to maximum value — the structured sequence.</div></div>
+                        <div class="flex items-center gap-2 shrink-0"><span class="text-xs text-slate-600 hidden sm:block">8–12 min</span><span class="bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/30 text-orange-400 text-xs font-semibold px-3 py-1.5 rounded flex items-center gap-1.5 transition"><i data-lucide="play" class="w-3 h-3"></i>Open</span></div>
+                    </a>
+                    <a href="/M5.3_Presentation.html" class="row flex items-center gap-4 px-5 py-4">
+                        <span class="font-mono text-orange-400 text-xs bg-orange-500/10 px-2 py-1 rounded shrink-0">M5.3</span>
+                        <div class="flex-1 min-w-0"><div class="font-semibold text-white text-sm">Save Plays</div><div class="text-xs text-slate-500 mt-0.5">Four plays with specific trigger criteria. The difference between a system and a heroic one-off rescue.</div></div>
+                        <div class="flex items-center gap-2 shrink-0"><span class="text-xs text-slate-600 hidden sm:block">8–12 min</span><span class="bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/30 text-orange-400 text-xs font-semibold px-3 py-1.5 rounded flex items-center gap-1.5 transition"><i data-lucide="play" class="w-3 h-3"></i>Open</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- W6 -->
+            <div>
+                <div class="flex items-center gap-3 mb-3"><span class="wk text-orange-500/70">Week 6</span><div class="h-px flex-1 bg-slate-800"></div><span class="text-xs text-slate-600">Infrastructure & Operating Model</span></div>
+                <div class="bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden divide-y divide-slate-800/50">
+                    <a href="/M6.1_Presentation.html" class="row flex items-center gap-4 px-5 py-4">
+                        <span class="font-mono text-orange-400 text-xs bg-orange-500/10 px-2 py-1 rounded shrink-0">M6.1</span>
+                        <div class="flex-1 min-w-0"><div class="font-semibold text-white text-sm">Five Pillars Rebuilt for Machines</div><div class="text-xs text-slate-500 mt-0.5">People, Process, Technology, Learning, Management — all five must evolve together or they fight each other.</div></div>
+                        <div class="flex items-center gap-2 shrink-0"><span class="text-xs text-slate-600 hidden sm:block">8–12 min</span><span class="bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/30 text-orange-400 text-xs font-semibold px-3 py-1.5 rounded flex items-center gap-1.5 transition"><i data-lucide="play" class="w-3 h-3"></i>Open</span></div>
+                    </a>
+                    <div class="locked flex items-center gap-4 px-5 py-4">
+                        <span class="font-mono text-slate-600 text-xs bg-slate-800/60 px-2 py-1 rounded shrink-0">M6.2</span>
+                        <div class="flex-1 min-w-0"><div class="font-semibold text-slate-600 text-sm">The Outcome Architect Operating Model</div><div class="text-xs text-slate-700 mt-0.5">The job description being written at leading CS orgs in 2026.</div></div>
+                        <span class="flex items-center gap-1.5 text-xs text-slate-700 shrink-0"><i data-lucide="calendar" class="w-3.5 h-3.5"></i>Coming soon</span>
+                    </div>
+                    <a href="/M6.3_Presentation.html" class="row flex items-center gap-4 px-5 py-4">
+                        <span class="font-mono text-orange-400 text-xs bg-orange-500/10 px-2 py-1 rounded shrink-0">M6.3</span>
+                        <div class="flex-1 min-w-0"><div class="font-semibold text-white text-sm">Digital-First CS</div><div class="text-xs text-slate-500 mt-0.5">Why reserving human interaction for the right moments creates significantly more value than high-touch for everyone.</div></div>
+                        <div class="flex items-center gap-2 shrink-0"><span class="text-xs text-slate-600 hidden sm:block">8–12 min</span><span class="bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/30 text-orange-400 text-xs font-semibold px-3 py-1.5 rounded flex items-center gap-1.5 transition"><i data-lucide="play" class="w-3 h-3"></i>Open</span></div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════ PHASE 3 ═══════════════ -->
+        <section>
+            <div class="flex items-center gap-3 mb-5 border-l-4 border-emerald-500 pl-4">
+                <span class="bg-emerald-500/15 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest border border-emerald-500/30">Phase 3</span>
+                <h2 class="fraunces text-2xl font-black text-white">Prove</h2>
+                <span class="text-slate-500 text-sm hidden sm:inline ml-1">Weeks 7–9</span>
+            </div>
+            <p class="text-sm text-slate-400 leading-relaxed mb-7 max-w-2xl">
+                Phase 3 is about demonstrating what you've built. Predictive health scores.
+                Board-level financial fluency. A 15-agent AI architecture. And a 90-day plan you will actually execute.
+                Week 9 ends with a manifesto — write yours before you arrive.
+            </p>
+
+            <!-- W7 -->
+            <div class="mb-6">
+                <div class="flex items-center gap-3 mb-3"><span class="wk text-emerald-500/70">Week 7</span><div class="h-px flex-1 bg-slate-800"></div><span class="text-xs text-slate-600">Health Scores & Financial Fluency</span></div>
+                <div class="bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden divide-y divide-slate-800/50">
+                    <a href="/Section_K_M7.1_M7.2_Presentation.html" class="row flex items-center gap-4 px-5 py-4">
+                        <div class="flex items-center gap-1 shrink-0">
+                            <span class="font-mono text-emerald-400 text-xs bg-emerald-500/10 px-2 py-1 rounded">M7.1</span>
+                            <span class="font-mono text-emerald-400 text-xs bg-emerald-500/10 px-2 py-1 rounded">M7.2</span>
+                        </div>
+                        <div class="flex-1 min-w-0"><div class="font-semibold text-white text-sm">Health Scores & Board-Ready Metrics</div><div class="text-xs text-slate-500 mt-0.5">The 6-signal validated score and 3-phase build plan. Then: making CS data legible to boards and CFOs.</div></div>
+                        <div class="flex items-center gap-2 shrink-0"><span class="text-xs text-slate-600 hidden sm:block">15–20 min</span><span class="bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-xs font-semibold px-3 py-1.5 rounded flex items-center gap-1.5 transition"><i data-lucide="play" class="w-3 h-3"></i>Open</span></div>
+                    </a>
+                    <a href="/Section_L_M7.3_M8.1_Presentation.html" class="row flex items-center gap-4 px-5 py-4">
+                        <div class="flex items-center gap-1 shrink-0">
+                            <span class="font-mono text-emerald-400 text-xs bg-emerald-500/10 px-2 py-1 rounded">M7.3</span>
+                            <span class="font-mono text-emerald-400 text-xs bg-emerald-500/10 px-2 py-1 rounded">M8.1</span>
+                        </div>
+                        <div class="flex-1 min-w-0"><div class="font-semibold text-white text-sm">The CFO Conversation + Onboarding Waterfall Audit</div><div class="text-xs text-slate-500 mt-0.5">The NRR compounding table and how to make the CS investment case. Then: auditing all 6 onboarding stages.</div></div>
+                        <div class="flex items-center gap-2 shrink-0"><span class="text-xs text-slate-600 hidden sm:block">15–20 min</span><span class="bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-xs font-semibold px-3 py-1.5 rounded flex items-center gap-1.5 transition"><i data-lucide="play" class="w-3 h-3"></i>Open</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- W8 -->
+            <div class="mb-6">
+                <div class="flex items-center gap-3 mb-3"><span class="wk text-emerald-500/70">Week 8</span><div class="h-px flex-1 bg-slate-800"></div><span class="text-xs text-slate-600">AI Agents & Operations</span></div>
+                <div class="bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden">
+                    <a href="/Section_M_M8.2_M8.3_Presentation.html" class="row flex items-center gap-4 px-5 py-4">
+                        <div class="flex items-center gap-1 shrink-0">
+                            <span class="font-mono text-emerald-400 text-xs bg-emerald-500/10 px-2 py-1 rounded">M8.2</span>
+                            <span class="font-mono text-emerald-400 text-xs bg-emerald-500/10 px-2 py-1 rounded">M8.3</span>
+                        </div>
+                        <div class="flex-1 min-w-0"><div class="font-semibold text-white text-sm">AI Agents: What Each One Does + CS Operations Playbook</div><div class="text-xs text-slate-500 mt-0.5">15 agents across 4 categories, Month 1 ROI deployment sequence. Then: building the living playbook CSMs actually use.</div></div>
+                        <div class="flex items-center gap-2 shrink-0"><span class="text-xs text-slate-600 hidden sm:block">15–20 min</span><span class="bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-xs font-semibold px-3 py-1.5 rounded flex items-center gap-1.5 transition"><i data-lucide="play" class="w-3 h-3"></i>Open</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- W9 -->
+            <div>
+                <div class="flex items-center gap-3 mb-3"><span class="wk text-emerald-500/70">Week 9</span><div class="h-px flex-1 bg-slate-800"></div><span class="text-xs text-slate-600">Future, 90-Day Plan & Manifesto</span></div>
+                <div class="bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden">
+                    <a href="/Section_NO_M9.1_M9.2_M9.3_Presentation_1_.html" class="row flex items-center gap-4 px-5 py-4">
+                        <div class="flex items-center gap-1 shrink-0 flex-wrap">
+                            <span class="font-mono text-emerald-400 text-xs bg-emerald-500/10 px-2 py-1 rounded">M9.1</span>
+                            <span class="font-mono text-emerald-400 text-xs bg-emerald-500/10 px-2 py-1 rounded">M9.2</span>
+                            <span class="font-mono text-emerald-400 text-xs bg-emerald-500/10 px-2 py-1 rounded">M9.3</span>
+                        </div>
+                        <div class="flex-1 min-w-0"><div class="font-semibold text-white text-sm">CS in 2030 · The 90-Day War Plan · The Manifesto</div><div class="text-xs text-slate-500 mt-0.5">6 falsifiable predictions. A day-by-day 90-day execution roadmap. A CS leadership manifesto worth defending.</div></div>
+                        <div class="flex items-center gap-2 shrink-0"><span class="text-xs text-slate-600 hidden sm:block">20–25 min</span><span class="bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-xs font-semibold px-3 py-1.5 rounded flex items-center gap-1.5 transition"><i data-lucide="play" class="w-3 h-3"></i>Open</span></div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- REFERENCE DOCS -->
+        <section>
+            <div class="flex items-center gap-3 mb-5" style="border-left: 3px solid #f0c44a; padding-left: 1rem;">
+                <span class="bg-yellow-500/15 text-yellow-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest border border-yellow-500/30">Reference</span>
+                <h2 class="fraunces text-2xl font-black text-white">Reading Materials</h2>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-4">
+                <a href="/CCO2go_WhitePaper_The_CS_Reckoning.html"
+                   class="flex items-center gap-4 bg-slate-900/40 border border-slate-800 hover:border-amber-500/50 rounded-xl p-5 transition group">
+                    <div class="bg-amber-500/10 border border-amber-500/20 rounded-lg p-3 shrink-0"><i data-lucide="file-text" class="w-5 h-5 text-amber-400"></i></div>
+                    <div>
+                        <div class="font-bold text-white text-sm group-hover:text-amber-300 transition mb-0.5">The CS Reckoning</div>
+                        <div class="text-xs text-slate-500">White paper — read before Module 1.1 for context on why this matters now.</div>
+                    </div>
+                    <i data-lucide="external-link" class="w-4 h-4 text-slate-700 group-hover:text-amber-400 transition ml-auto shrink-0"></i>
+                </a>
+                <a href="/CCO2go_Training_Program_Overview.html"
+                   class="flex items-center gap-4 bg-slate-900/40 border border-slate-800 hover:border-violet-500/50 rounded-xl p-5 transition group">
+                    <div class="bg-violet-500/10 border border-violet-500/20 rounded-lg p-3 shrink-0"><i data-lucide="graduation-cap" class="w-5 h-5 text-violet-400"></i></div>
+                    <div>
+                        <div class="font-bold text-white text-sm group-hover:text-violet-300 transition mb-0.5">Program Overview</div>
+                        <div class="text-xs text-slate-500">Full curriculum map, learning outcomes, and before/after transformation benchmarks.</div>
+                    </div>
+                    <i data-lucide="external-link" class="w-4 h-4 text-slate-700 group-hover:text-violet-400 transition ml-auto shrink-0"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- INSTRUCTOR CARD -->
+        <section class="bg-slate-900/40 border border-slate-800 rounded-xl p-6 flex flex-col sm:flex-row items-start gap-5">
+            <div class="bg-cyan-500 w-14 h-14 rounded-xl flex items-center justify-center font-black text-slate-900 text-2xl fraunces shrink-0">SJ</div>
+            <div class="flex-1">
+                <div class="wk text-slate-500 mb-1">Your Instructor</div>
+                <div class="fraunces text-xl font-black text-white mb-1">R. Shane James</div>
+                <p class="text-sm text-slate-400 mb-4 leading-relaxed">25+ years in CS leadership. Two exits — IBM and ServiceNow. Churn from 22% → 7%. NRR from 85% → 115%+. The curriculum reflects one conviction: the gap between teams that perform and those that don't is almost never talent. It's method.</p>
+                <div class="flex flex-wrap gap-2">
+                    <a href="https://scheduler.zoom.us/r-shane-james/hello-i-am-an-event-card" target="_blank"
+                       class="bg-cyan-500 hover:bg-cyan-400 text-slate-900 text-xs font-bold px-4 py-2 rounded-lg transition">Book Office Hours</a>
+                    <a href="mailto:shane.james@cco2go.ai"
+                       class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium px-4 py-2 rounded-lg transition">Email Shane</a>
+                    <a href="https://www.linkedin.com/in/rshanejames/" target="_blank"
+                       class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium px-4 py-2 rounded-lg transition flex items-center gap-1.5">
+                        <i data-lucide="linkedin" class="w-3.5 h-3.5"></i>LinkedIn
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="border-t border-slate-800 px-6 py-5">
+        <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <div class="bg-emerald-500 w-7 h-7 rounded flex items-center justify-center font-bold text-slate-900 text-xs">CS</div>
+                <span class="text-slate-500 text-sm">CS Transformation Program · CCO2go.ai · 2026</span>
+            </div>
+            <div class="flex items-center gap-5 text-sm text-slate-600">
+                <a href="/training.html" class="hover:text-slate-400 transition">Full Portal</a>
+                <a href="/instructor.html" class="hover:text-slate-400 transition">Instructor Hub</a>
+                <a href="mailto:shane.james@cco2go.ai" class="hover:text-slate-400 transition">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>
