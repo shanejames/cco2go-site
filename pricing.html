@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>Pricing & Packages | CCO2go.ai</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -48,27 +48,73 @@ body::before {
 
 .wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
 
-/* ── HEADER ── */
-header {
-  padding: 40px 0 0;
-  text-align: center;
+/* ── TOP NAV ── */
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(6,8,16,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
 }
 
-.back-link {
+.top-nav-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.nav-logo img {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+}
+
+.nav-back {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-muted);
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: 1.2px;
   font-family: 'DM Mono', monospace;
-  margin-bottom: 40px;
   transition: color 0.2s;
 }
-.back-link:hover { color: var(--cyan); }
-.back-link svg { width: 12px; height: 12px; }
+.nav-back:hover { color: var(--cyan); }
+.nav-back svg { width: 12px; height: 12px; }
+
+/* ── TIER LOGO ── */
+.tier-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.tier-logo img {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* ── HEADER ── */
+header {
+  padding: 40px 0 0;
+  text-align: center;
+}
 
 .eyebrow {
   font-family: 'DM Mono', monospace;
@@ -80,7 +126,7 @@ header {
 }
 
 h1 {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: clamp(26px, 2.6vw, 38px);
   font-weight: 700;
   line-height: 1.15;
@@ -188,7 +234,7 @@ h1 em {
 .tier-badge.t3 { background: rgba(240,165,0,0.08); color: var(--gold); border: 1px solid rgba(240,165,0,0.2); }
 
 .tier-name {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 19px;
   font-weight: 700;
   color: #fff;
@@ -209,7 +255,7 @@ h1 em {
 }
 
 .price-main {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 34px;
   font-weight: 700;
   color: #fff;
@@ -285,7 +331,7 @@ h1 em {
   width: 100%;
   padding: 13px;
   border-radius: 8px;
-  font-family: 'Syne', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 14px;
   font-weight: 600;
   text-align: center;
@@ -330,7 +376,7 @@ h1 em {
 }
 
 .outcome-band-text h3 {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 18px;
   font-weight: 700;
   color: #fff;
@@ -353,7 +399,7 @@ h1 em {
 
 .ostat { text-align: center; }
 .ostat .num {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 28px;
   font-weight: 700;
   color: var(--green);
@@ -371,7 +417,7 @@ h1 em {
 .addons-section { margin-bottom: 60px; }
 
 .section-title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 20px;
   font-weight: 700;
   color: #fff;
@@ -411,7 +457,7 @@ h1 em {
 }
 
 .addon-name {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 14px;
   font-weight: 700;
   color: #fff;
@@ -471,7 +517,7 @@ h1 em {
 }
 
 .cta-footer h2 {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 28px;
   font-weight: 700;
   color: #fff;
@@ -492,7 +538,7 @@ h1 em {
   background: var(--cyan);
   color: #000;
   border-radius: 8px;
-  font-family: 'Syne', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 14px;
   font-weight: 700;
   text-decoration: none;
@@ -505,7 +551,7 @@ h1 em {
   border: 1px solid var(--border);
   color: var(--text-muted);
   border-radius: 8px;
-  font-family: 'Syne', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
@@ -526,14 +572,23 @@ h1 em {
 </head>
 <body>
 
-<div class="wrap">
-
-  <header>
-    <a href="/marketing" class="back-link">
+<!-- TOP NAV -->
+<nav class="top-nav">
+  <div class="top-nav-inner">
+    <a href="/" class="nav-logo">
+      <img src="/CCO2go_logo.png" alt="CCO2go.ai" />
+    </a>
+    <a href="/marketing" class="nav-back">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
       Marketing Hub
     </a>
-    <div class="eyebrow">CCO2go.ai · Pricing & Packages</div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Pricing & Packages</div>
     <h1>Enterprise CS Leadership.<br><em>Startup Budget.</em></h1>
     <p class="header-desc">One engagement gives you a fractional CCO, the AI platform built for the work, and the training to make your team self-sufficient.</p>
     <div class="stage-pills">
@@ -549,6 +604,9 @@ h1 em {
 
     <!-- TIER 1: Platform Only -->
     <div class="tier">
+      <div class="tier-logo">
+        <img src="/CCOPilot_logo.png" alt="CCOPilot.ai" />
+      </div>
       <span class="tier-badge t1">Platform</span>
       <div class="tier-name">CCOPilot Only</div>
       <div class="tier-tagline">You already have CS leadership. You need the AI infrastructure.</div>
@@ -567,7 +625,6 @@ h1 em {
         <li><span class="check">✓</span><span><strong>Value Proof Conversation (VPC) builder</strong> — AI-generated with ROI data</span></li>
         <li><span class="check">✓</span><span><strong>Email & sentiment intelligence</strong></span></li>
         <li><span class="check">✓</span><span><strong>Meeting prep AI</strong> + voice notes</span></li>
-        <li><span class="check">✓</span><span><strong>Mobile app</strong> — manage customers anywhere</span></li>
         <li><span class="check">✓</span><span>All upgrades + support included</span></li>
         <li><span class="check">✓</span><span>Onboarding + data import (you own setup)</span></li>
       </ul>
@@ -583,14 +640,13 @@ h1 em {
       <div class="tier-tagline">Fractional CCO expertise paired with the AI platform — the complete solution.</div>
 
       <div class="price-block">
-        <div class="price-main">$6,500<span>/mo</span></div>
+        <div class="price-main">$12,000<span>/mo</span></div>
         <div class="price-note">6-month minimum · vs $29K/mo full-time CCO</div>
-        <div class="price-alt">Outcome-based pricing available — ask</div>
       </div>
 
       <div class="includes-label">Everything in Platform, plus</div>
       <ul class="feature-list t2">
-        <li><span class="check">✓</span><span><strong>Fractional CCO hours</strong> — <em>[X] hrs/mo</em>, Shane James, 25+ yrs C-suite CS</span></li>
+        <li><span class="check">✓</span><span><strong>Fractional CCO hours</strong> — 30 hrs/mo, Shane James, 25+ yrs C-suite CS</span></li>
         <li><span class="check">✓</span><span><strong>CCOPilot included</strong> — no additional cost during engagement; continues at $4K/mo after</span></li>
         <li><span class="check">✓</span><span><strong>30/60/90 day plan</strong> — diagnosis → action → reporting</span></li>
         <li><span class="check">✓</span><span><strong>Customer interviews</strong> — 10 strategic + 5 churned in first 30 days</span></li>
@@ -611,14 +667,13 @@ h1 em {
       <div class="tier-tagline">CCO + Platform + Team training + Management reporting. Your CS org, built to run without you.</div>
 
       <div class="price-block">
-        <div class="price-main">$9,500<span>/mo</span></div>
-        <div class="price-note">12-month engagement · Custom scoping available</div>
-        <div class="price-alt">Outcome-based pricing available — ask</div>
+        <div class="price-main">$15,000<span>/mo</span></div>
+        <div class="price-note">6-month minimum · Custom scoping available</div>
       </div>
 
       <div class="includes-label">Everything in Accelerator, plus</div>
       <ul class="feature-list t3">
-        <li><span class="check">✓</span><span><strong>Expanded CCO hours</strong> — <em>[Y] hrs/mo</em> to cover training, org design & leadership sessions</span></li>
+        <li><span class="check">✓</span><span><strong>Expanded CCO hours</strong> — additional time for training delivery, org design & leadership sessions</span></li>
         <li><span class="check">✓</span><span><strong>CSM Team training</strong> — 9-week program, 27 modules, 3 phases</span></li>
         <li><span class="check">✓</span><span><strong>CS org design & hiring</strong> — role definitions, scorecards, onboarding</span></li>
         <li><span class="check">✓</span><span><strong>Executive management reporting</strong> — board-ready dashboards monthly</span></li>
@@ -658,15 +713,9 @@ h1 em {
         <div class="addon-price">Custom pricing per cohort</div>
       </div>
       <div class="addon-card">
-        <div class="addon-icon">📊</div>
-        <div class="addon-name">Management Reporting</div>
-        <div class="addon-desc">Monthly board-ready CS dashboards — churn trends, NRR movement, health score distribution, and executive narrative.</div>
-        <div class="addon-price">From $1,500/mo</div>
-      </div>
-      <div class="addon-card">
         <div class="addon-icon">🔍</div>
         <div class="addon-name">CS Diagnostic</div>
-        <div class="addon-desc">One-time 2-hour deep dive — root cause analysis of your churn, a written findings report, and a 90-day action plan.</div>
+        <div class="addon-desc">One-time 1-hour deep dive — root cause analysis of your churn, a written findings report, and a 90-day action plan.</div>
         <div class="addon-price">$0 — included in discovery</div>
       </div>
       <div class="addon-card">
@@ -681,12 +730,6 @@ h1 em {
         <div class="addon-desc">Ad hoc strategic advice — hiring decisions, pricing strategy, CS org design, or preparing for a raise. Billed in 1-hour blocks.</div>
         <div class="addon-price">$250/hr</div>
       </div>
-      <div class="addon-card">
-        <div class="addon-icon">🤝</div>
-        <div class="addon-name">Outcome-Based Engagement</div>
-        <div class="addon-desc">Reduced rate in Year 1 while we prove the model. Rate increases in Year 2 if agreed targets are hit — we win when you win.</div>
-        <div class="addon-price">Ask for details</div>
-      </div>
     </div>
   </div>
 
@@ -700,7 +743,7 @@ h1 em {
         How many hours per month do I get from Shane?
         <span class="arrow">+</span>
       </div>
-      <div class="faq-a">The Accelerator engagement includes <strong>[X] dedicated CCO hours per month</strong> — covering strategy sessions, customer interviews, leadership readouts, async reviews, and board prep. The Full Stack tier includes <strong>[Y] hours per month</strong> to account for the additional team training and org design work. Hours don't roll over but we're outcome-focused, not clock-watching. If a critical situation needs more time in a given month, we handle it. Ask on your discovery call and we'll scope it precisely for your situation.</div>
+      <div class="faq-a">The Accelerator engagement includes <strong>30 dedicated CCO hours per month</strong> — covering strategy sessions, customer interviews, leadership readouts, async reviews, and board prep. The Full Stack tier includes additional hours to cover the expanded scope (team training delivery, org design, and leadership sessions). Hours don't roll over but we're outcome-focused, not clock-watching. If a critical situation needs more time in a given month, we handle it.</div>
     </div>
 
     <div class="faq-item">
@@ -732,7 +775,7 @@ h1 em {
         Do I need to sign a long contract?
         <span class="arrow">+</span>
       </div>
-      <div class="faq-a">The Accelerator package requires a 6-month minimum — not because we need to lock you in, but because meaningful CS change takes at least a quarter to demonstrate. We've done 3-month engagements but they rarely get past diagnosis and into execution. If you're uncertain, ask about an outcome-based structure where our rate is lower in Year 1 and tied to results.</div>
+      <div class="faq-a">Both the Accelerator and Full Stack packages require a 6-month minimum — not because we need to lock you in, but because meaningful CS change takes at least a quarter to demonstrate. We've done shorter engagements but they rarely get past diagnosis and into execution. The 6-month commitment gives us enough runway to deliver results you can actually take to your board.</div>
     </div>
 
     <div class="faq-item">
@@ -755,17 +798,18 @@ h1 em {
 
   <!-- CTA FOOTER -->
   <div class="cta-footer">
-    <h2>Start with a free 2-hour diagnostic.</h2>
+    <img src="/CCO2go_logo.png" alt="CCO2go.ai" style="height:44px;width:auto;object-fit:contain;margin-bottom:20px;opacity:0.9;" />
+    <h2>Start with a free 1-hour diagnostic.</h2>
     <p>No contract. No pitch. Walk away with a diagnosis of what's driving your churn and a 90-day plan — whether you hire us or not.</p>
     <div class="cta-row">
       <a href="https://scheduler.zoom.us/r-shane-james/hello-i-am-an-event-card" class="btn-primary">Book Discovery Call →</a>
       <a href="/one-pager.html" class="btn-outline">View Executive One-Pager</a>
     </div>
     <div class="contact-line">
-      <a href="/cdn-cgi/l/email-protection#f7849f969992d99d969a9284b7949498c59098d9969e"><span class="__cf_email__" data-cfemail="8ffce7eee1eaa1e5eee2eafccfecece0bde8e0a1eee6">[email&#160;protected]</span></a>
+      <a href="mailto:shane.james@cco2go.ai">shane.james@cco2go.ai</a>
       &nbsp;·&nbsp;
       <a href="tel:8136668427">(813) 666-8427</a>
       &nbsp;·&nbsp;
       <a href="https://www.linkedin.com/in/rshanejames/" target="_blank">LinkedIn</a>
     </div>
-  </div
+  </div>
