@@ -46,7 +46,7 @@ body::before {
   z-index: 0;
 }
 
-.wrap { max-width: 1060px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+.wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
 
 /* ── HEADER ── */
 header {
@@ -81,9 +81,9 @@ header {
 
 h1 {
   font-family: 'Syne', sans-serif;
-  font-size: clamp(36px, 5vw, 60px);
-  font-weight: 800;
-  line-height: 1.05;
+  font-size: clamp(26px, 2.6vw, 38px);
+  font-weight: 700;
+  line-height: 1.15;
   color: #fff;
   margin-bottom: 20px;
 }
@@ -137,7 +137,7 @@ h1 em {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 32px 28px;
+  padding: 28px 22px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -189,7 +189,7 @@ h1 em {
 
 .tier-name {
   font-family: 'Syne', sans-serif;
-  font-size: 22px;
+  font-size: 19px;
   font-weight: 700;
   color: #fff;
   margin-bottom: 6px;
@@ -210,8 +210,8 @@ h1 em {
 
 .price-main {
   font-family: 'Syne', sans-serif;
-  font-size: 40px;
-  font-weight: 800;
+  font-size: 34px;
+  font-weight: 700;
   color: #fff;
   line-height: 1;
 }
@@ -355,7 +355,7 @@ h1 em {
 .ostat .num {
   font-family: 'Syne', sans-serif;
   font-size: 28px;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--green);
   display: block;
 }
@@ -473,7 +473,7 @@ h1 em {
 .cta-footer h2 {
   font-family: 'Syne', sans-serif;
   font-size: 28px;
-  font-weight: 800;
+  font-weight: 700;
   color: #fff;
   margin-bottom: 12px;
 }
@@ -561,10 +561,10 @@ h1 em {
 
       <div class="includes-label">What's included</div>
       <ul class="feature-list t1">
-        <li><span class="check">✓</span><span><strong>CCOPilot platform</strong> — full access</span></li>
+        <li><span class="check">✓</span><span><strong>CCOPilot platform</strong> — full access for your team</span></li>
         <li><span class="check">✓</span><span><strong>15 AI agents</strong> — churn monitor, renewal prep, expansion finder + 12 more</span></li>
         <li><span class="check">✓</span><span><strong>Intelligent health scoring</strong> — 4-component model</span></li>
-        <li><span class="check">✓</span><span><strong>EBR/QBR builder</strong> — AI-generated with ROI data</span></li>
+        <li><span class="check">✓</span><span><strong>Value Proof Conversation (VPC) builder</strong> — AI-generated with ROI data</span></li>
         <li><span class="check">✓</span><span><strong>Email & sentiment intelligence</strong></span></li>
         <li><span class="check">✓</span><span><strong>Meeting prep AI</strong> + voice notes</span></li>
         <li><span class="check">✓</span><span><strong>Mobile app</strong> — manage customers anywhere</span></li>
@@ -590,7 +590,8 @@ h1 em {
 
       <div class="includes-label">Everything in Platform, plus</div>
       <ul class="feature-list t2">
-        <li><span class="check">✓</span><span><strong>Fractional CCO hours</strong> — Shane James, 25+ yrs C-suite CS</span></li>
+        <li><span class="check">✓</span><span><strong>Fractional CCO hours</strong> — <em>[X] hrs/mo</em>, Shane James, 25+ yrs C-suite CS</span></li>
+        <li><span class="check">✓</span><span><strong>CCOPilot included</strong> — no additional cost during engagement; continues at $4K/mo after</span></li>
         <li><span class="check">✓</span><span><strong>30/60/90 day plan</strong> — diagnosis → action → reporting</span></li>
         <li><span class="check">✓</span><span><strong>Customer interviews</strong> — 10 strategic + 5 churned in first 30 days</span></li>
         <li><span class="check">✓</span><span><strong>Radical candor readout</strong> — leadership team, day 30</span></li>
@@ -612,11 +613,12 @@ h1 em {
       <div class="price-block">
         <div class="price-main">$9,500<span>/mo</span></div>
         <div class="price-note">12-month engagement · Custom scoping available</div>
-        <div class="price-alt">PE-backed / Series B+ recommended</div>
+        <div class="price-alt">Outcome-based pricing available — ask</div>
       </div>
 
       <div class="includes-label">Everything in Accelerator, plus</div>
       <ul class="feature-list t3">
+        <li><span class="check">✓</span><span><strong>Expanded CCO hours</strong> — <em>[Y] hrs/mo</em> to cover training, org design & leadership sessions</span></li>
         <li><span class="check">✓</span><span><strong>CSM Team training</strong> — 9-week program, 27 modules, 3 phases</span></li>
         <li><span class="check">✓</span><span><strong>CS org design & hiring</strong> — role definitions, scorecards, onboarding</span></li>
         <li><span class="check">✓</span><span><strong>Executive management reporting</strong> — board-ready dashboards monthly</span></li>
@@ -695,6 +697,22 @@ h1 em {
 
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFAQ(this)">
+        How many hours per month do I get from Shane?
+        <span class="arrow">+</span>
+      </div>
+      <div class="faq-a">The Accelerator engagement includes <strong>[X] dedicated CCO hours per month</strong> — covering strategy sessions, customer interviews, leadership readouts, async reviews, and board prep. The Full Stack tier includes <strong>[Y] hours per month</strong> to account for the additional team training and org design work. Hours don't roll over but we're outcome-focused, not clock-watching. If a critical situation needs more time in a given month, we handle it. Ask on your discovery call and we'll scope it precisely for your situation.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFAQ(this)">
+        What happens to CCOPilot when the engagement ends?
+        <span class="arrow">+</span>
+      </div>
+      <div class="faq-a">CCOPilot is included at no additional cost during your active engagement. When the engagement concludes, you can continue using the platform at $4,000/month — same full access, same 15 AI agents, same support. Most clients keep it running because the platform is doing ongoing work (health scoring, renewal monitoring, expansion signals) that doesn't stop when the engagement does. You own your data throughout. There's no lock-in beyond the engagement period.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFAQ(this)">
         How is this different from hiring a full-time CCO?
         <span class="arrow">+</span>
       </div>
@@ -722,7 +740,7 @@ h1 em {
         Can we use CCOPilot without the fractional CCO engagement?
         <span class="arrow">+</span>
       </div>
-      <div class="faq-a">Yes — the Platform tier is exactly that. It's $4K/mo for full access to CCOPilot including all 15 AI agents, health scoring, EBR builder, and support. You configure and run it yourselves. If you later want strategic support layered on, you can upgrade to Accelerator at any time.</div>
+      <div class="faq-a">Yes — the Platform tier is exactly that. It's $4K/mo for full access to CCOPilot including all 15 AI agents, health scoring, VPC builder, and support. You configure and run it yourselves. If you later want strategic support layered on, you can upgrade to Accelerator at any time.</div>
     </div>
 
     <div class="faq-item">
@@ -730,7 +748,7 @@ h1 em {
         Why do you also sell a platform — isn't that a conflict of interest?
         <span class="arrow">+</span>
       </div>
-      <div class="faq-a">Fair question. Most consultants recommend tools they don't understand. I built CCOPilot specifically because nothing on the market was designed for how fractional CCO work actually runs — the agents, the EBR builder, the health models reflect 25 years of doing this work. You're not paying for Gainsight with a consultant slapped on top. You're getting a system designed by the person executing it.</div>
+      <div class="faq-a">Fair question. Most consultants recommend tools they don't understand. I built CCOPilot specifically because nothing on the market was designed for how fractional CCO work actually runs — the agents, the VPC builder, the health models reflect 25 years of doing this work. You're not paying for Gainsight with a consultant slapped on top. You're getting a system designed by the person executing it.</div>
     </div>
 
   </div>
@@ -744,21 +762,10 @@ h1 em {
       <a href="/one-pager.html" class="btn-outline">View Executive One-Pager</a>
     </div>
     <div class="contact-line">
-      <a href="mailto:shane.james@cco2go.ai">shane.james@cco2go.ai</a>
+      <a href="/cdn-cgi/l/email-protection#f7849f969992d99d969a9284b7949498c59098d9969e"><span class="__cf_email__" data-cfemail="8ffce7eee1eaa1e5eee2eafccfecece0bde8e0a1eee6">[email&#160;protected]</span></a>
       &nbsp;·&nbsp;
       <a href="tel:8136668427">(813) 666-8427</a>
       &nbsp;·&nbsp;
       <a href="https://www.linkedin.com/in/rshanejames/" target="_blank">LinkedIn</a>
     </div>
-  </div>
-
-</div>
-
-<script>
-function toggleFAQ(el) {
-  const item = el.parentElement;
-  item.classList.toggle('open');
-}
-</script>
-</body>
-</html>
+  </div
