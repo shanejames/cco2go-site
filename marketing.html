@@ -709,6 +709,56 @@
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         lucide.createIcons();
 
+        // Utility function to copy text with fallback
+        function copyToClipboard(text, successMessage) {
+            // Try modern clipboard API first
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    alert(successMessage);
+                }).catch(err => {
+                    console.error('Clipboard API failed:', err);
+                    // Fallback to execCommand
+                    fallbackCopyTextToClipboard(text, successMessage);
+                });
+            } else {
+                // Use fallback for older browsers
+                fallbackCopyTextToClipboard(text, successMessage);
+            }
+        }
+
+        // Fallback copy method using textarea
+        function fallbackCopyTextToClipboard(text, successMessage) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.width = "2em";
+            textArea.style.height = "2em";
+            textArea.style.padding = "0";
+            textArea.style.border = "none";
+            textArea.style.outline = "none";
+            textArea.style.boxShadow = "none";
+            textArea.style.background = "transparent";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    alert(successMessage);
+                } else {
+                    alert('Failed to copy. Please copy manually.');
+                }
+            } catch (err) {
+                console.error('Fallback copy failed:', err);
+                alert('Failed to copy. Please copy manually.');
+            }
+
+            document.body.removeChild(textArea);
+        }
+
         // New Email Templates
         function copyMasterEmail() {
             const text = `Subject: Your board just asked about churn. Here's what to tell them.
@@ -787,12 +837,7 @@ shane.james@cco2go.ai
 
 P.S. - Based in Tampa/Apollo Beach. If you're local, I'll buy the coffee and we can do this in person.`;
             
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Master Email copied to clipboard!');
-            }).catch(err => {
-                console.error('Failed to copy:', err);
-                alert('Failed to copy. Please try again or copy manually.');
-            });
+            copyToClipboard(text, 'Master Email copied to clipboard!');
         }
 
         function copyCrisisEmail() {
@@ -878,12 +923,7 @@ shane.james@cco2go.ai
 
 Full program details: https://cco2go.ai/churn-crisis`;
             
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Crisis Email copied to clipboard!');
-            }).catch(err => {
-                console.error('Failed to copy:', err);
-                alert('Failed to copy. Please try again or copy manually.');
-            });
+            copyToClipboard(text, 'Crisis Email copied to clipboard!');
         }
 
         function copyExitEmail() {
@@ -986,12 +1026,7 @@ shane.james@cco2go.ai
 Full methodology: https://cco2go.ai/architect  
 Case study: https://cco2go.ai/manta-case-study`;
             
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Exit Architect Email copied to clipboard!');
-            }).catch(err => {
-                console.error('Failed to copy:', err);
-                alert('Failed to copy. Please try again or copy manually.');
-            });
+            copyToClipboard(text, 'Exit Architect Email copied to clipboard!');
         }
 
         function copyTrainingEmail() {
@@ -1094,12 +1129,7 @@ shane.james@cco2go.ai
 Full curriculum: https://cco2go.ai/CCO2go_Training_Program_Overview.html  
 White paper: https://cco2go.ai/CCO2go_WhitePaper_The_CS_Reckoning.html`;
             
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Training Offer Email copied to clipboard!');
-            }).catch(err => {
-                console.error('Failed to copy:', err);
-                alert('Failed to copy. Please try again or copy manually.');
-            });
+            copyToClipboard(text, 'Training Offer Email copied to clipboard!');
         }
 
         // Original templates
@@ -1117,12 +1147,7 @@ If anyone in your network fits, I'd love a warm intro. No worries if not - eithe
 Shane
 (813) 666-8427`;
             
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Warm intro template copied to clipboard!');
-            }).catch(err => {
-                console.error('Failed to copy:', err);
-                alert('Failed to copy. Please try again or copy manually.');
-            });
+            copyToClipboard(text, 'Warm intro template copied to clipboard!');
         }
 
         function copyTampaOutreach() {
@@ -1137,12 +1162,7 @@ Would love to grab coffee in Tampa. No sales pitch - just comparing notes on the
 Shane
 (813) 666-8427`;
             
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Tampa outreach template copied to clipboard!');
-            }).catch(err => {
-                console.error('Failed to copy:', err);
-                alert('Failed to copy. Please try again or copy manually.');
-            });
+            copyToClipboard(text, 'Tampa outreach template copied to clipboard!');
         }
 
         function copyPEOutreach() {
@@ -1158,12 +1178,7 @@ Shane James
 shane.james@cco2go.ai
 (813) 666-8427`;
             
-            navigator.clipboard.writeText(text).then(() => {
-                alert('PE outreach template copied!');
-            }).catch(err => {
-                console.error('Failed to copy:', err);
-                alert('Failed to copy. Please try again or copy manually.');
-            });
+            copyToClipboard(text, 'PE outreach template copied!');
         }
 
         function copyFollowUp() {
@@ -1183,4 +1198,16 @@ What's included: Fractional CCO time + CCOPilot platform (15 AI agents, health s
 
 Attached is a one-pager with more detail. I'm also happy to join your next board/leadership call for 15 minutes if that would help.
 
-What's your timing look l
+What's your timing look like to move forward?
+
+Shane James
+shane.james@cco2go.ai
+(813) 666-8427
+www.cco2go.ai`;
+            
+            copyToClipboard(text, 'Post-discovery follow-up copied!');
+        }
+    </script>
+
+</body>
+</html>
