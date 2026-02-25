@@ -787,8 +787,12 @@ shane.james@cco2go.ai
 
 P.S. - Based in Tampa/Apollo Beach. If you're local, I'll buy the coffee and we can do this in person.`;
             
-            navigator.clipboard.writeText(text);
-            alert('Master Email copied to clipboard!');
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Master Email copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                alert('Failed to copy. Please try again or copy manually.');
+            });
         }
 
         function copyCrisisEmail() {
@@ -874,8 +878,12 @@ shane.james@cco2go.ai
 
 Full program details: https://cco2go.ai/churn-crisis`;
             
-            navigator.clipboard.writeText(text);
-            alert('Crisis Email copied to clipboard!');
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Crisis Email copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                alert('Failed to copy. Please try again or copy manually.');
+            });
         }
 
         function copyExitEmail() {
@@ -978,8 +986,12 @@ shane.james@cco2go.ai
 Full methodology: https://cco2go.ai/architect  
 Case study: https://cco2go.ai/manta-case-study`;
             
-            navigator.clipboard.writeText(text);
-            alert('Exit Architect Email copied to clipboard!');
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Exit Architect Email copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                alert('Failed to copy. Please try again or copy manually.');
+            });
         }
 
         function copyTrainingEmail() {
@@ -1082,8 +1094,12 @@ shane.james@cco2go.ai
 Full curriculum: https://cco2go.ai/CCO2go_Training_Program_Overview.html  
 White paper: https://cco2go.ai/CCO2go_WhitePaper_The_CS_Reckoning.html`;
             
-            navigator.clipboard.writeText(text);
-            alert('Training Offer Email copied to clipboard!');
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Training Offer Email copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                alert('Failed to copy. Please try again or copy manually.');
+            });
         }
 
         // Original templates
@@ -1101,8 +1117,12 @@ If anyone in your network fits, I'd love a warm intro. No worries if not - eithe
 Shane
 (813) 666-8427`;
             
-            navigator.clipboard.writeText(text);
-            alert('Warm intro template copied to clipboard!');
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Warm intro template copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                alert('Failed to copy. Please try again or copy manually.');
+            });
         }
 
         function copyTampaOutreach() {
@@ -1117,8 +1137,12 @@ Would love to grab coffee in Tampa. No sales pitch - just comparing notes on the
 Shane
 (813) 666-8427`;
             
-            navigator.clipboard.writeText(text);
-            alert('Tampa outreach template copied to clipboard!');
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Tampa outreach template copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                alert('Failed to copy. Please try again or copy manually.');
+            });
         }
 
         function copyPEOutreach() {
@@ -1133,8 +1157,13 @@ If any of your portfolio companies need CS leadership before their next raise, I
 Shane James
 shane.james@cco2go.ai
 (813) 666-8427`;
-            navigator.clipboard.writeText(text);
-            alert('PE outreach template copied!');
+            
+            navigator.clipboard.writeText(text).then(() => {
+                alert('PE outreach template copied!');
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                alert('Failed to copy. Please try again or copy manually.');
+            });
         }
 
         function copyFollowUp() {
