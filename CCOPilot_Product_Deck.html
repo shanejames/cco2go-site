@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCOPilot.ai — The AI-Powered Customer Success Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0f172a;--dark:#1e293b;--slate:#334155;--muted:#94a3b8;
+  --ice:#e2e8f0;--white:#fff;--emerald:#10b981;--red:#ef4444;
+  --amber:#f59e0b;--purple:#8b5cf6;--blue:#3b82f6;--cyan:#06b6d4;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--ice);line-height:1.6;overflow-x:hidden}
+
+/* ── Hero / Title ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:4rem 2rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(6,182,212,.08),transparent);pointer-events:none}
+.hero h1{font-family:'Instrument Serif',serif;font-size:clamp(3rem,8vw,6rem);color:var(--white);letter-spacing:-.02em;margin-bottom:.5rem}
+.hero .sub{font-size:clamp(1.1rem,2.5vw,1.5rem);color:var(--cyan);margin-bottom:1rem}
+.hero .tagline{color:var(--muted);font-size:1rem;margin-bottom:3rem}
+.hero .contact{color:var(--muted);font-size:.85rem;border-top:1px solid var(--slate);padding-top:1.5rem;margin-top:auto}
+
+/* ── Sections ── */
+.section{max-width:1200px;margin:0 auto;padding:6rem 2rem}
+.section-divider{min-height:50vh;display:flex;flex-direction:column;justify-content:center;padding:6rem 2rem;max-width:1200px;margin:0 auto;border-left:4px solid var(--emerald)}
+.section-divider h2{font-family:'Instrument Serif',serif;font-size:clamp(2rem,5vw,3.5rem);color:var(--white);margin-bottom:.75rem}
+.section-divider p{color:var(--muted);font-size:1.1rem;max-width:700px}
+
+/* ── Stat Cards ── */
+.stats-title{font-family:'Instrument Serif',serif;font-size:clamp(1.5rem,3vw,2.2rem);color:var(--white);margin-bottom:2.5rem;text-align:center}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-bottom:1rem}
+.stat-card{background:var(--dark);border-radius:1rem;padding:2rem 1.5rem;text-align:center;border:1px solid var(--slate);transition:border-color .3s}
+.stat-card:hover{border-color:var(--cyan)}
+.stat-value{font-family:'Instrument Serif',serif;font-size:2.8rem;font-weight:700;line-height:1.1;margin-bottom:.5rem}
+.stat-label{font-size:.95rem;color:var(--ice);font-weight:600;margin-bottom:.4rem}
+.stat-sub{font-size:.8rem;color:var(--muted);line-height:1.4}
+
+/* ── Problem Slide ── */
+.problem-card{background:var(--dark);border-radius:1rem;padding:2.5rem;border:1px solid var(--slate);margin-bottom:3rem}
+.problem-card h2{font-family:'Instrument Serif',serif;font-size:clamp(1.8rem,4vw,2.5rem);color:var(--white);margin-bottom:.75rem}
+.problem-card .intro{color:var(--muted);margin-bottom:2rem;font-size:1rem}
+.problem-row{display:flex;align-items:flex-start;gap:1rem;padding:.75rem 0;border-bottom:1px solid rgba(148,163,184,.1)}
+.problem-row:last-child{border-bottom:none}
+.problem-x{flex-shrink:0;width:2rem;height:2rem;background:var(--red);border-radius:.4rem;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--white);font-size:.85rem}
+.problem-text{flex:1}
+.problem-text strong{color:var(--white);display:block;margin-bottom:.15rem}
+.problem-text span{color:var(--muted);font-size:.9rem}
+
+/* ── Screenshot Slides ── */
+.slide{margin-bottom:5rem}
+.slide-header{background:var(--dark);border-radius:1rem 1rem 0 0;padding:1.5rem 2rem;border:1px solid var(--slate);border-bottom:none}
+.slide-header h3{font-family:'Instrument Serif',serif;font-size:clamp(1.3rem,2.5vw,1.8rem);color:var(--white)}
+.slide-body{display:grid;grid-template-columns:1.6fr 1fr;gap:2rem;background:var(--dark);border-radius:0 0 1rem 1rem;padding:2rem;border:1px solid var(--slate);border-top:none}
+.slide-img{border-radius:.75rem;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.4);border:1px solid var(--slate)}
+.slide-img img{width:100%;height:auto;display:block}
+.slide-content{}
+.slide-outcome{color:var(--cyan);font-weight:700;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem}
+.slide-content ul{list-style:none;padding:0}
+.slide-content li{position:relative;padding-left:1.2rem;margin-bottom:.75rem;font-size:.9rem;color:var(--ice);line-height:1.5}
+.slide-content li::before{content:'';position:absolute;left:0;top:.55rem;width:.4rem;height:.4rem;border-radius:50%;background:var(--emerald)}
+
+/* ── Integration Grid ── */
+.int-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+.int-item{display:flex;align-items:flex-start;gap:.75rem;padding:.75rem 1rem;background:var(--dark);border-radius:.6rem;border:1px solid var(--slate)}
+.int-bar{width:3px;min-height:100%;border-radius:2px;background:var(--emerald);flex-shrink:0;align-self:stretch}
+.int-name{color:var(--white);font-weight:600;font-size:.9rem}
+.int-desc{color:var(--muted);font-size:.8rem}
+
+/* ── ROI / Closing ── */
+.closing{text-align:center;padding:8rem 2rem 4rem;max-width:800px;margin:0 auto}
+.closing h2{font-family:'Instrument Serif',serif;font-size:clamp(2rem,5vw,3rem);color:var(--white);margin-bottom:1rem}
+.closing .cta{color:var(--cyan);font-size:1.2rem;margin-bottom:2.5rem}
+.closing .info{color:var(--muted);font-size:.9rem;line-height:1.8}
+.closing .info strong{color:var(--white)}
+.closing .cred{color:var(--muted);font-size:.8rem;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--slate)}
+
+@media(max-width:768px){
+  .slide-body{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <h1>CCOPilot.ai</h1>
+  <p class="sub">The AI-Powered Customer Success Platform</p>
+  <p class="tagline">20 AI Agents &nbsp;•&nbsp; One Platform &nbsp;•&nbsp; Zero Churn Surprises</p>
+  <p class="contact">Shane James &nbsp;|&nbsp; Founder & CEO &nbsp;|&nbsp; shane.james@cco2go.ai &nbsp;|&nbsp; (813) 666-8427</p>
+</section>
+
+<!-- ═══ THE PROBLEM ═══ -->
+<section class="section">
+  <div class="problem-card">
+    <h2>The $1.6 Trillion Problem</h2>
+    <p class="intro">Customer churn costs U.S. companies $1.6T per year. Most CS teams are fighting it with spreadsheets and gut instinct.</p>
+    <div class="problem-row"><div class="problem-x">✕</div><div class="problem-text"><strong>CSMs manage 30-50 accounts manually</strong><span>No prioritization, no signals, no automation</span></div></div>
+    <div class="problem-row"><div class="problem-x">✕</div><div class="problem-text"><strong>Health scores that don't predict anything</strong><span>Built on lagging indicators, not AI-weighted signals</span></div></div>
+    <div class="problem-row"><div class="problem-x">✕</div><div class="problem-text"><strong>Churn surprises blindside leadership</strong><span>Risk is invisible until the customer cancels</span></div></div>
+    <div class="problem-row"><div class="problem-x">✕</div><div class="problem-text"><strong>Expansion revenue left on the table</strong><span>No CSQL pipeline, no formal expansion motion</span></div></div>
+    <div class="problem-row"><div class="problem-x">✕</div><div class="problem-text"><strong>5-6 disconnected tools per CS team</strong><span>CRM, ticketing, surveys, docs, spreadsheets, Slack</span></div></div>
+  </div>
+</section>
+
+<!-- ═══ SOLUTION STATS ═══ -->
+<section class="section">
+  <h2 class="stats-title">CCOPilot Replaces the Entire CS Tech Stack</h2>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-value" style="color:var(--emerald)">20</div><div class="stat-label">AI Agents</div><div class="stat-sub">Working 24/7 across your portfolio</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:var(--cyan)">1</div><div class="stat-label">Platform</div><div class="stat-sub">Replaces 5-6 tools your team uses today</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:var(--purple)">22%→7%</div><div class="stat-label">Churn Reduction</div><div class="stat-sub">Proven results from 25+ years in CS leadership</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:var(--amber)">115%</div><div class="stat-label">NRR Achieved</div><div class="stat-sub">From 85% — expansion revenue unlocked by AI</div></div>
+  </div>
+</section>
+
+<!-- ═══ SECTION: DAY IN THE LIFE ═══ -->
+<div class="section-divider"><h2>A Day in the Life of a CSM</h2><p>From morning login to end of day — how CCOPilot transforms every workflow</p></div>
+
+<section class="section">
+
+<div class="slide">
+  <div class="slide-header"><h3>8:00 AM — The CSM Opens Their Day</h3></div>
+  <div class="slide-body">
+    <div class="slide-img"><img src="1773329042541_image.png" alt="Today Page"></div>
+    <div class="slide-content">
+      <div class="slide-outcome">Outcome: Zero Wasted Time</div>
+      <ul>
+        <li>AI-prioritized daily queue — fires first, then tasks, then follow-ups</li>
+        <li>Portfolio health bar shows 10 accounts at a glance with color zones</li>
+        <li>30 AI actions queued overnight — the system worked while you slept</li>
+        <li>No digging through CRM, email, or Slack to figure out what to do today</li>
+        <li>Result: CSMs start working in 30 seconds, not 30 minutes</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="slide-header"><h3>8:15 AM — The AI Queue: Approvals & Prioritization</h3></div>
+  <div class="slide-body">
+    <div class="slide-img"><img src="1773329058474_image.png" alt="My Queue"></div>
+    <div class="slide-content">
+      <div class="slide-outcome">Outcome: AI Does the Triage</div>
+      <ul>
+        <li>VOC approvals surface customer complaints with revenue context ($12K/mo exposed)</li>
+        <li>Survey approvals queue health check surveys for CSM review before sending</li>
+        <li>Portfolio Pulse sidebar — health score, at-risk MRR, expansion ready count</li>
+        <li>Agent Queue shows 60 AI-proposed actions awaiting human review</li>
+        <li>Result: CSM reviews and acts on AI recommendations, not raw data</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="slide-header"><h3>8:30 AM — Customer 360: AI Brief in 10 Seconds</h3></div>
+  <div class="slide-body">
+    <div class="slide-img"><img src="1773329076774_image.png" alt="Customer 360"></div>
+    <div class="slide-content">
+      <div class="slide-outcome">Outcome: Know Everything Instantly</div>
+      <ul>
+        <li>AI Customer Brief auto-generates: health analysis, recommended actions, key risks, opportunities</li>
+        <li>One-click task creation from any AI recommendation ('+Task' buttons)</li>
+        <li>Health score 48/100, renewal in 34 days, competitor evaluation in progress</li>
+        <li>5 tabs: Overview, Relationship, Work, Business, Intelligence</li>
+        <li>Result: CSMs walk into every meeting fully prepared, every time</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="slide-header"><h3>9:00 AM — AI Meeting Prep with Churn Cascade</h3></div>
+  <div class="slide-body">
+    <div class="slide-img"><img src="1773329098334_image.png" alt="Call Prep"></div>
+    <div class="slide-content">
+      <div class="slide-outcome">Outcome: Never Walk In Blind</div>
+      <ul>
+        <li>Auto-generated meeting briefing with health signals, churn stage, and red flags</li>
+        <li>Churn Cascade maps to book chapters — 'Stage 3: Escalation to Buyer'</li>
+        <li>Matched Scenarios from proven playbooks with success rates</li>
+        <li>Call Objective written by AI: 'Surface value received, defend the investment to CFO'</li>
+        <li>Export to PowerPoint for exec-level customer meetings</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</section>
+
+<!-- ═══ SECTION: PORTFOLIO INTELLIGENCE ═══ -->
+<div class="section-divider"><h2>Portfolio Intelligence</h2><p>Three views for three roles — CSM, Manager, Executive</p></div>
+
+<section class="section">
+
+<div class="slide">
+  <div class="slide-header"><h3>Portfolio View — Risk Dimensions at a Glance</h3></div>
+  <div class="slide-body">
+    <div class="slide-img"><img src="1773329115441_image.png" alt="Portfolio View"></div>
+    <div class="slide-content">
+      <div class="slide-outcome">Outcome: See the Forest, Not Just Trees</div>
+      <ul>
+        <li>$4M ARR across 9 accounts with 6 health dimensions scored and ranked</li>
+        <li>Primary Risk Driver identified automatically — 'Usage Patterns' dragging portfolio down</li>
+        <li>AI suggests matching playbooks: Onboarding Kickoff, Rescue, Expansion Capture</li>
+        <li>Every dimension is clickable — drill into which accounts are affected</li>
+        <li>Result: Managers fix systemic problems, not individual fires</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="slide-header"><h3>Team View — CSM Workload & Coaching Signals</h3></div>
+  <div class="slide-body">
+    <div class="slide-img"><img src="1773329143293_image.png" alt="Team View"></div>
+    <div class="slide-content">
+      <div class="slide-outcome">Outcome: Manage the Team, Not Just the Accounts</div>
+      <ul>
+        <li>ARR per CSM with load-vs-average comparison (+140%, -62%, -78%)</li>
+        <li>Coaching Flags auto-detected — which CSMs need a 1:1 this week</li>
+        <li>Click any CSM row to open their account list with health breakdown</li>
+        <li>AI-generated 1:1 agenda with coaching priorities and driving questions</li>
+        <li>Result: VP of CS knows exactly where to spend their time</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="slide-header"><h3>Executive View — CFO-Ready Portfolio Dashboard</h3></div>
+  <div class="slide-body">
+    <div class="slide-img"><img src="1773329155022_image.png" alt="Executive View"></div>
+    <div class="slide-content">
+      <div class="slide-outcome">Outcome: Board-Ready Numbers in One Click</div>
+      <ul>
+        <li>ARR at Risk ($648K), Churn Forecast ($227K), Expansion Ready (2 accounts)</li>
+        <li>Portfolio Health Waterfall — ARR distribution across zones</li>
+        <li>CSQL Pipeline with $195K in active expansion opportunities</li>
+        <li>Every stat card is clickable — drill into the accounts behind the number</li>
+        <li>Result: Board decks built from real data, not fabricated optimism</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="slide-header"><h3>AI-Powered 1:1 Prep — Manager ↔ CSM</h3></div>
+  <div class="slide-body">
+    <div class="slide-img"><img src="1773329183686_image.png" alt="1:1 Prep"></div>
+    <div class="slide-content">
+      <div class="slide-outcome">Outcome: Coaching That Actually Improves Performance</div>
+      <ul>
+        <li>Portfolio Snapshot: 4 accounts, $3.2M ARR, 1G/1Y/2R health distribution</li>
+        <li>AI-generated coaching priorities: 'Walk me through your save plan for $455K at risk'</li>
+        <li>Session History tracks answers over time — did the CSM follow through?</li>
+        <li>Export to PPTX or send calendar invite directly from the platform</li>
+        <li>Result: Manager 1:1s become data-driven coaching sessions, not status updates</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</section>
+
+<!-- ═══ SECTION: AI AGENTS ═══ -->
+<div class="section-divider"><h2>20 AI Agents — Your Always-On CS Team</h2><p>Working 24/7: monitoring health, detecting churn, scoring sentiment, qualifying expansion</p></div>
+
+<section class="section">
+
+<div class="stats-grid" style="margin-bottom:3rem">
+  <div class="stat-card"><div class="stat-value" style="color:var(--emerald)">20</div><div class="stat-label">Active Agents</div><div class="stat-sub">Churn, renewal, sentiment, onboarding, expansion...</div></div>
+  <div class="stat-card"><div class="stat-value" style="color:var(--cyan)">24/7</div><div class="stat-label">Monitoring</div><div class="stat-sub">Every account scored every day, not monthly</div></div>
+  <div class="stat-card"><div class="stat-value" style="color:var(--purple)">60+</div><div class="stat-label">Actions/Day</div><div class="stat-sub">AI-proposed tasks, alerts, and escalations</div></div>
+  <div class="stat-card"><div class="stat-value" style="color:var(--amber)">Human</div><div class="stat-label">In the Loop</div><div class="stat-sub">AI proposes, human approves and personalizes</div></div>
+</div>
+
+<div class="slide">
+  <div class="slide-header"><h3>Agent Settings — Configure & Control Every Agent</h3></div>
+  <div class="slide-body">
+    <div class="slide-img"><img src="1773329356435_image.png" alt="Agent Settings"></div>
+    <div class="slide-content">
+      <div class="slide-outcome">Outcome: AI You Can Tune, Not a Black Box</div>
+      <ul>
+        <li>20 agents organized by category: Core, Detection, Relationship, Expansion</li>
+        <li>Each agent has configurable thresholds (e.g., health drop = 10 points)</li>
+        <li>'Run Now' buttons for on-demand execution</li>
+        <li>'How it works' expandable section explains every agent's logic</li>
+        <li>Result: CS leaders control the AI — it doesn't control them</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="slide-header"><h3>Agent Queue — Review & Approve AI Actions</h3></div>
+  <div class="slide-body">
+    <div class="slide-img"><img src="1773329385487_image.png" alt="Agent Queue"></div>
+    <div class="slide-content">
+      <div class="slide-outcome">Outcome: Trust but Verify</div>
+      <ul>
+        <li>49 pending AI-proposed actions with confidence scores (55%-100%)</li>
+        <li>Filter by agent type: Churn Monitor, Engagement, Renewal Prep, Escalation, Onboarding</li>
+        <li>Each action shows: customer, ARR, signal type, and recommended task</li>
+        <li>Approve, reject, or modify before execution — full human control</li>
+        <li>Result: AI scales the team without sacrificing judgment</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="slide-header"><h3>Virtual CSM Builder — Create Custom AI Agents</h3></div>
+  <div class="slide-body">
+    <div class="slide-img"><img src="1773329399317_image.png" alt="Virtual CSM Builder"></div>
+    <div class="slide-content">
+      <div class="slide-outcome">Outcome: Build Your Own AI Workforce</div>
+      <ul>
+        <li>5 active custom agents: Survey Response, Recovery, Engagement, Renewals, Onboarding</li>
+        <li>Each agent has configurable workers and triggers</li>
+        <li>'Run Now' with customer selection for on-demand agent execution</li>
+        <li>Execution History tracks every action taken by each agent</li>
+        <li>Result: CS leaders build automation without engineering resources</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</section>
+
+<!-- ═══ SECTION: VoC ═══ -->
+<div class="section-divider"><h2>Voice of Customer Intelligence</h2><p>From raw feedback to product decisions — with AI doing the analysis</p></div>
+
+<section class="section">
+<div class="slide">
+  <div class="slide-header"><h3>VoC Dashboard — Feedback Intelligence at Scale</h3></div>
+  <div class="slide-body">
+    <div class="slide-img"><img src="1773329196326_image.png" alt="VoC Dashboard"></div>
+    <div class="slide-content">
+      <div class="slide-outcome">Outcome: Hear Every Customer, Not Just the Loudest</div>
+      <ul>
+        <li>23 feedback items in 30 days, broken down by priority (Critical/High/Medium)</li>
+        <li>Sentiment scoring: 36% negative — automatic alert threshold</li>
+        <li>PM Queue Health: 9 pending items for product team review</li>
+        <li>Feedback by Type: 70% bugs, 22% feature requests, 9% complaints</li>
+        <li>Result: Product team gets structured, prioritized customer voice</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══ SECTION: CS MOTIONS ═══ -->
+<div class="section-divider"><h2>Proactive CS Motions</h2><p>Success Plans, Playbooks, CSQL Pipeline, and Churn Pattern Detection</p></div>
+
+<section class="section">
+
+<div class="slide">
+  <div class="slide-header"><h3>Success Plans — Structured Customer Journeys</h3></div>
+  <div class="slide-body">
+    <div class="slide-img"><img src="1773329213191_image.png" alt="Success Plans"></div>
+    <div class="slide-content">
+      <div class="slide-outcome">Outcome: Every Customer Has a Plan</div>
+      <ul>
+        <li>Active plans with milestone tracking (0/4, 2/10 completed)</li>
+        <li>Duration tracking: 59 days, 180 days — tailored to customer segment</li>
+        <li>Three plan types visible: Recovery, Enterprise Expansion, Rapid Adoption</li>
+        <li>Status tracking: Active, Completed — with start dates and progress bars</li>
+        <li>Result: No customer falls through the cracks</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="slide-header"><h3>Playbooks — Automated Workflows for Every Scenario</h3></div>
+  <div class="slide-body">
+    <div class="slide-img"><img src="1773329226599_image.png" alt="Playbooks"></div>
+    <div class="slide-content">
+      <div class="slide-outcome">Outcome: Best Practices That Execute Themselves</div>
+      <ul>
+        <li>6 active playbooks: Re-engagement, Expansion Capture, Onboarding Rescue, At-Risk Recovery, Silent Churn, Critical Escalation</li>
+        <li>Each playbook has triggers, actions, execution count, and success rate</li>
+        <li>Goal-Back Wizard: start with the outcome, AI builds the playbook</li>
+        <li>Template library + create from scratch options</li>
+        <li>Result: Your best CSM's playbook runs for every CSM, automatically</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="slide-header"><h3>CSQL Pipeline — CS-Sourced Expansion Revenue</h3></div>
+  <div class="slide-body">
+    <div class="slide-img"><img src="1773329259695_image.png" alt="CSQL Pipeline"></div>
+    <div class="slide-content">
+      <div class="slide-outcome">Outcome: CS Becomes a Revenue Engine</div>
+      <ul>
+        <li>$195K in active pipeline ARR with 50% conversion rate on closed deals</li>
+        <li>Kanban board: Identified → Qualified → Conversation → Proposal → Won/Lost</li>
+        <li>48-hour SLA enforcement — breached opportunities are flagged in red</li>
+        <li>Qualification criteria: health above threshold + usage growth + triggering event</li>
+        <li>Result: CS sources expansion revenue with the same rigor as Sales sources new logos</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="slide-header"><h3>Churn Pattern Detection — Predict Before It Happens</h3></div>
+  <div class="slide-body">
+    <div class="slide-img"><img src="1773329273190_image.png" alt="Churn Patterns"></div>
+    <div class="slide-content">
+      <div class="slide-outcome">Outcome: Save Accounts Before They Leave</div>
+      <ul>
+        <li>Active Threat Matching: 5 accounts showing churn patterns, $3.1M ARR at risk</li>
+        <li>Champion Loss pattern detected across 5 accounts with health and match scores</li>
+        <li>Autopsy Pipeline: completed churn analysis feeds back into pattern detection</li>
+        <li>'Could Have Saved: 100%' — the system learns from every churned account</li>
+        <li>Result: Churn prediction based on real patterns, not guesswork</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</section>
+
+<!-- ═══ SECTION: ONBOARDING & ADOPTION ═══ -->
+<div class="section-divider"><h2>Onboarding & Adoption Intelligence</h2><p>Time to First Value tracking, feature adoption monitoring, and early warning detection</p></div>
+
+<section class="section">
+
+<div class="slide">
+  <div class="slide-header"><h3>Onboarding Command Center — T2FV Tracking</h3></div>
+  <div class="slide-body">
+    <div class="slide-img"><img src="1773329308416_image.png" alt="Onboarding"></div>
+    <div class="slide-content">
+      <div class="slide-outcome">Outcome: Customers Hit Value Faster</div>
+      <ul>
+        <li>T2FV Analytics: 4 achieved, 1 overdue, avg 46 days (target: 45d)</li>
+        <li>Segment benchmarking: SMB 3d, Mid-Market 14d, Enterprise 30d</li>
+        <li>Overdue T2FV alerts with variance tracking (+1d behind, 5d overdue)</li>
+        <li>Recently Achieved list with early/late indicators (11d early, 36d late)</li>
+        <li>Result: Onboarding failures caught at day 5, not day 90</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="slide-header"><h3>Feature Adoption Intelligence</h3></div>
+  <div class="slide-body">
+    <div class="slide-img"><img src="1773329286778_image.png" alt="Feature Adoption"></div>
+    <div class="slide-content">
+      <div class="slide-outcome">Outcome: Know What Customers Actually Use</div>
+      <ul>
+        <li>2,625 total feature events tracked across 9 active customers</li>
+        <li>Per-feature adoption rates with visual bars — instantly see what's sticky</li>
+        <li>Healthy vs. Critical segmentation: 0 healthy, 36 critical adoption gaps</li>
+        <li>Alerts & Nudges tab: auto-nudge customers toward underused features</li>
+        <li>Result: Product and CS align on what drives retention vs. what's shelfware</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</section>
+
+<!-- ═══ SECTION: SUPPORT & INTEGRATIONS ═══ -->
+<div class="section-divider"><h2>Support Ticketing & Integrations</h2><p>Built-in ticketing system plus deep integrations with your existing stack</p></div>
+
+<section class="section">
+
+<div class="slide">
+  <div class="slide-header"><h3>Support Tickets — Unified in the CS Platform</h3></div>
+  <div class="slide-body">
+    <div class="slide-img"><img src="1773329467162_image.png" alt="Tickets"></div>
+    <div class="slide-content">
+      <div class="slide-outcome">Outcome: Support Data Feeds CS Intelligence</div>
+      <ul>
+        <li>26 total tickets with priority, source (Portal/Internal/Jira), and status tracking</li>
+        <li>6 critical tickets flagged — AI escalation agent monitors these automatically</li>
+        <li>Each ticket links to customer health score</li>
+        <li>Multi-source: Portal submissions, internal reports, Jira sync</li>
+        <li>Result: Support isn't a silo — ticket patterns feed health scores and churn prediction</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="slide-header"><h3>Integrations — Connect Your Entire Stack</h3></div>
+  <div class="slide-body" style="grid-template-columns:1fr">
+    <div class="int-grid">
+      <div class="int-item"><div class="int-bar"></div><div><div class="int-name">Gmail</div><div class="int-desc">Email sync + AI sentiment analysis on every customer email</div></div></div>
+      <div class="int-item"><div class="int-bar"></div><div><div class="int-name">Google Calendar</div><div class="int-desc">Meeting sync for call prep and activity tracking</div></div></div>
+      <div class="int-item"><div class="int-bar"></div><div><div class="int-name">Zoom</div><div class="int-desc">Auto-match meetings to customers (85% confidence threshold)</div></div></div>
+      <div class="int-item"><div class="int-bar"></div><div><div class="int-name">HubSpot</div><div class="int-desc">CRM sync — contacts, deals, and activity bidirectional</div></div></div>
+      <div class="int-item"><div class="int-bar"></div><div><div class="int-name">Salesforce</div><div class="int-desc">Enterprise CRM integration for larger deployments</div></div></div>
+      <div class="int-item"><div class="int-bar"></div><div><div class="int-name">Jira</div><div class="int-desc">Issue sync — ticket patterns feed churn prediction</div></div></div>
+      <div class="int-item"><div class="int-bar"></div><div><div class="int-name">Slack</div><div class="int-desc">Notifications and alerts delivered where your team works</div></div></div>
+      <div class="int-item"><div class="int-bar"></div><div><div class="int-name">Stripe</div><div class="int-desc">Revenue data for ARR tracking and expansion signals</div></div></div>
+      <div class="int-item"><div class="int-bar"></div><div><div class="int-name">Zendesk</div><div class="int-desc">Support ticket ingestion for health score calculation</div></div></div>
+      <div class="int-item"><div class="int-bar"></div><div><div class="int-name">QuickBooks / FreshBooks</div><div class="int-desc">Financial data for SMB customer segments</div></div></div>
+      <div class="int-item"><div class="int-bar"></div><div><div class="int-name">Microsoft 365</div><div class="int-desc">Calendar and email for Microsoft-shop customers</div></div></div>
+    </div>
+  </div>
+</div>
+
+</section>
+
+<!-- ═══ ROI STATS ═══ -->
+<section class="section">
+  <h2 class="stats-title">The Business Case — ROI in 90 Days</h2>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-value" style="color:var(--emerald)">3-5x</div><div class="stat-label">CSM Productivity</div><div class="stat-sub">AI handles triage, prep, and monitoring</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:var(--cyan)">40%</div><div class="stat-label">Churn Reduction</div><div class="stat-sub">From 22% to 7% — proven track record</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:var(--purple)">$195K</div><div class="stat-label">Pipeline Created</div><div class="stat-sub">CS-sourced expansion revenue in 90 days</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:var(--amber)">5→1</div><div class="stat-label">Tool Consolidation</div><div class="stat-sub">One platform replaces Gainsight, Zendesk, etc.</div></div>
+  </div>
+</section>
+
+<!-- ═══ CLOSING ═══ -->
+<section class="closing">
+  <h2>Ready to See It Live?</h2>
+  <p class="cta">Book a personalized demo with your actual customer data</p>
+  <div class="info">
+    <strong>Shane James</strong><br>
+    Founder & CEO — CCOPilot.ai<br>
+    shane.james@cco2go.ai &nbsp;|&nbsp; (813) 666-8427<br>
+    <a href="https://www.ccopilot.ai" style="color:var(--cyan)">www.ccopilot.ai</a>
+  </div>
+  <p class="cred">25+ years C-suite CS leadership &nbsp;•&nbsp; 2 Fortune 500 acquisitions (IBM, ServiceNow) &nbsp;•&nbsp; Author: 'Your Customers Are Lying to You'</p>
+</section>
+
+</body>
+</html>
