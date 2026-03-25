@@ -53,7 +53,7 @@
                 </div>
                 <div class="text-right">
                     <div class="text-xs text-slate-500 font-mono uppercase tracking-widest">Confidential</div>
-                    <div class="text-xs text-slate-600 mt-1">shane.james@cco2go.ai</div>
+                    <div class="text-xs text-slate-600 mt-1"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c7b4afa6a9a2e9ada6aaa2b487a4a4a8f5a0a8e9a6ae">[email&#160;protected]</a></div>
                 </div>
             </div>
             <h1 class="text-3xl font-bold text-white">Security & Compliance</h1>
@@ -80,7 +80,7 @@
                 </h2>
                 <div class="grid md:grid-cols-4 gap-6 mb-6">
                     <div class="text-center">
-                        <div class="text-3xl font-bold text-emerald-400">11/19</div>
+                        <div class="text-3xl font-bold text-emerald-400">14/19</div>
                         <div class="text-xs text-slate-400 mt-1">SOC 2 Findings Remediated</div>
                     </div>
                     <div class="text-center">
@@ -149,9 +149,9 @@
                         <h3 class="font-bold text-white text-lg">SOC 2 Readiness Assessment</h3>
                         <i data-lucide="download" class="w-4 h-4 text-slate-500 download-icon"></i>
                     </div>
-                    <p class="text-sm text-slate-400 mb-3">Full assessment against all 5 Trust Service Criteria with remediation status. 11 of 19 findings remediated.</p>
+                    <p class="text-sm text-slate-400 mb-3">Full assessment against all 5 Trust Service Criteria with remediation status. 14 of 19 findings remediated. Zero open findings.</p>
                     <div class="flex items-center gap-3 text-xs text-slate-500">
-                        <span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded">v2.1</span>
+                        <span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded">v2.3</span>
                         <span>Updated March 25, 2026</span>
                     </div>
                 </div>
@@ -246,6 +246,53 @@
             </div>
         </section>
 
+        <!-- Training & Procedures -->
+        <section class="mb-10">
+            <h2 class="text-xl font-bold text-cyan-400 mb-4 flex items-center">
+                <i data-lucide="book-open" class="mr-2 w-5 h-5"></i>
+                Training & Operational Procedures
+            </h2>
+            <div class="grid md:grid-cols-2 gap-4">
+
+                <div class="doc-card bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-cyan-500 transition cursor-pointer" onclick="downloadDoc('CCOPilot_Security_Awareness_Training.docx')">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-semibold text-white">Security Awareness Training</h3>
+                        <i data-lucide="download" class="w-4 h-4 text-slate-500 download-icon"></i>
+                    </div>
+                    <p class="text-xs text-slate-400 mb-2">TRN-SAT-001 — Phishing identification, credential hygiene, secure coding, incident reporting, data handling, AI governance. Includes training completion log.</p>
+                    <div class="flex items-center gap-3 text-xs text-slate-500">
+                        <span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded">Active</span>
+                        <span>Annual refresher required</span>
+                    </div>
+                </div>
+
+                <div class="doc-card bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-cyan-500 transition cursor-pointer" onclick="downloadDoc('CCOPilot_Data_Retention_Deletion_Procedures.docx')">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-semibold text-white">Data Retention & Deletion Procedures</h3>
+                        <i data-lucide="download" class="w-4 h-4 text-slate-500 download-icon"></i>
+                    </div>
+                    <p class="text-xs text-slate-400 mb-2">PRO-DRD-001 — 12-category retention schedule, organization termination procedures, GDPR/CCPA data subject request handling, data export/portability.</p>
+                    <div class="flex items-center gap-3 text-xs text-slate-500">
+                        <span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded">Active</span>
+                        <span>Supports Data Classification Policy</span>
+                    </div>
+                </div>
+
+                <div class="doc-card bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-cyan-500 transition cursor-pointer" onclick="downloadDoc('CCOPilot_Vendor_Risk_Assessment_Log.docx')">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-semibold text-white">Vendor Risk Assessment Log</h3>
+                        <i data-lucide="download" class="w-4 h-4 text-slate-500 download-icon"></i>
+                    </div>
+                    <p class="text-xs text-slate-400 mb-2">9 vendors assessed with risk ratings. Individual assessment templates for each critical vendor. All vendors SOC 2 Type II certified.</p>
+                    <div class="flex items-center gap-3 text-xs text-slate-500">
+                        <span class="bg-cyan-500/10 text-cyan-400 px-2 py-0.5 rounded">Active</span>
+                        <span>Annual review cycle</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
         <!-- Infrastructure & Architecture -->
         <section class="mb-10">
             <h2 class="text-xl font-bold text-cyan-400 mb-4 flex items-center">
@@ -303,7 +350,7 @@
                             <td class="px-4 py-3 text-white font-medium">Render</td>
                             <td class="px-4 py-3">Hosting & Database</td>
                             <td class="px-4 py-3">Full (infrastructure)</td>
-                            <td class="px-4 py-3"><span class="text-yellow-400">SOC 2 — Requested</span></td>
+                            <td class="px-4 py-3"><span class="text-emerald-400">SOC 2 Type II ✓</span></td>
                         </tr>
                         <tr class="border-t border-slate-800/50 bg-slate-900/30">
                             <td class="px-4 py-3 text-white font-medium">Doppler</td>
@@ -315,7 +362,7 @@
                             <td class="px-4 py-3 text-white font-medium">Groq</td>
                             <td class="px-4 py-3">AI / LLM (primary)</td>
                             <td class="px-4 py-3">Prompt data (no storage)</td>
-                            <td class="px-4 py-3"><span class="text-yellow-400">SOC 2 — Requested</span></td>
+                            <td class="px-4 py-3"><span class="text-emerald-400">SOC 2 Type II ✓</span></td>
                         </tr>
                         <tr class="border-t border-slate-800/50 bg-slate-900/30">
                             <td class="px-4 py-3 text-white font-medium">Anthropic</td>
@@ -345,7 +392,7 @@
                             <td class="px-4 py-3 text-white font-medium">Resend</td>
                             <td class="px-4 py-3">Email Delivery</td>
                             <td class="px-4 py-3">Email content</td>
-                            <td class="px-4 py-3"><span class="text-yellow-400">SOC 2 — Requested</span></td>
+                            <td class="px-4 py-3"><span class="text-emerald-400">SOC 2 Type II ✓</span></td>
                         </tr>
                         <tr class="border-t border-slate-800/50">
                             <td class="px-4 py-3 text-white font-medium">GitHub</td>
@@ -364,9 +411,9 @@
                 <h3 class="font-semibold text-white mb-2">Security Questions?</h3>
                 <p class="text-sm text-slate-400 mb-4">For security questionnaires, DPA requests, or additional documentation needs:</p>
                 <div class="flex items-center justify-center gap-6 text-sm">
-                    <a href="mailto:shane.james@cco2go.ai" class="text-cyan-400 hover:text-cyan-300 transition flex items-center gap-1">
+                    <a href="/cdn-cgi/l/email-protection#3c4f545d525912565d51594f7c5f5f530e5b53125d55" class="text-cyan-400 hover:text-cyan-300 transition flex items-center gap-1">
                         <i data-lucide="mail" class="w-4 h-4"></i>
-                        shane.james@cco2go.ai
+                        <span class="__cf_email__" data-cfemail="790a1118171c571318141c0a391a1a164b1e16571810">[email&#160;protected]</span>
                     </a>
                     <span class="text-slate-600">|</span>
                     <span class="text-slate-400 flex items-center gap-1">
@@ -385,21 +432,10 @@
 
     </div>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Initialize Lucide icons
         lucide.createIcons();
 
         // Document download handler
         function downloadDoc(filename) {
-            // Documents are stored in the same directory as this page
-            // In production, these would be served from a secure location
-            // For now, they're co-located with this HTML file
-            const link = document.createElement('a');
-            link.href = '/docs/' + filename;
-            link.download = filename;
-            link.click();
-        }
-    </script>
-
-</body>
-</html>
+            // Documents are stored in the
