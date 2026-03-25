@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security & Compliance | CCOPilot.ai</title>
+    <meta name="robots" content="noindex, nofollow">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .doc-card:hover .download-icon { opacity: 1; transform: translateY(0); }
+        .download-icon { opacity: 0; transform: translateY(4px); transition: all 0.2s; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-200 p-8">
+
+    <div class="max-w-5xl mx-auto">
+        
+        <!-- Header -->
+        <div class="mb-12 pb-8 border-b border-slate-800">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 80" height="52" fill="none" style="display:block;">
+  <defs>
+    <linearGradient id="pbg-sec" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1a3a5c"/><stop offset="100%" stop-color="#0a1828"/></linearGradient>
+    <linearGradient id="ppb-sec" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stop-color="#a8d4f5"/><stop offset="100%" stop-color="#ffffff"/></linearGradient>
+    <linearGradient id="ppm-sec" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3a6ea8"/><stop offset="100%" stop-color="#1e4070"/></linearGradient>
+  </defs>
+  <circle cx="40" cy="40" r="37" fill="url(#pbg-sec)" stroke="#1e4a7a" stroke-width="2"/>
+  <path d="M 14 58 A 34 34 0 0 1 62 16" stroke="#3a6ea8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <path d="M 18 54 A 27 27 0 0 1 58 22" stroke="#2a5a8a" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+  <polygon points="18,62 57,15 40,46" fill="url(#ppm-sec)" opacity="0.9"/>
+  <polygon points="57,15 40,46 56,56" fill="url(#ppb-sec)"/>
+  <polygon points="18,62 40,46 56,56" fill="#1e3d6a" opacity="0.85"/>
+  <line x1="57" y1="15" x2="40" y2="46" stroke="white" stroke-width="1" opacity="0.6"/>
+  <g stroke="#4A9EE8" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.9">
+    <line x1="30" y1="56" x2="20" y2="64"/>
+    <line x1="20" y1="64" x2="13" y2="68"/>
+    <line x1="20" y1="64" x2="18" y2="71"/>
+    <line x1="30" y1="56" x2="25" y2="63"/>
+    <line x1="25" y1="63" x2="28" y2="70"/>
+    <line x1="25" y1="63" x2="20" y2="70"/>
+  </g>
+  <g fill="#4A9EE8" opacity="0.95">
+    <circle cx="13" cy="68" r="2.2"/><circle cx="18" cy="71" r="2"/>
+    <circle cx="28" cy="70" r="2"/><circle cx="20" cy="70" r="2"/>
+  </g>
+  <text x="90" y="52" font-family="Arial Black,Helvetica Neue,Arial,sans-serif" font-weight="900" font-size="30" fill="white" letter-spacing="-0.5">CCO</text>
+  <text x="152" y="52" font-family="Arial Black,Helvetica Neue,Arial,sans-serif" font-weight="900" font-size="30" fill="#4A9EE8" letter-spacing="-0.5">Pilot.ai</text>
+</svg>
+                </div>
+                <div class="text-right">
+                    <div class="text-xs text-slate-500 font-mono uppercase tracking-widest">Confidential</div>
+                    <div class="text-xs text-slate-600 mt-1">shane.james@cco2go.ai</div>
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-white">Security & Compliance</h1>
+            <p class="text-slate-400 mt-2">Security documentation for CCOPilot.ai — shared with prospects and customers on request</p>
+            <div class="mt-5 flex items-center gap-4">
+                <a href="/marketing.html" class="inline-flex items-center gap-2 text-slate-500 hover:text-slate-300 text-sm transition">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                    Back to Marketing Assets
+                </a>
+                <a href="https://stats.uptimerobot.com/j8LMMVikNW" target="_blank" class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/40 hover:border-emerald-400 text-emerald-400 hover:text-emerald-300 px-4 py-2 rounded-lg text-sm font-semibold transition group">
+                    <i data-lucide="activity" class="w-4 h-4"></i>
+                    Live System Status
+                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Trust Overview -->
+        <section class="mb-10">
+            <div class="bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 border border-emerald-500/20 rounded-2xl p-8 mb-8">
+                <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                    <i data-lucide="shield-check" class="w-6 h-6 text-emerald-400"></i>
+                    Security Posture Summary
+                </h2>
+                <div class="grid md:grid-cols-4 gap-6 mb-6">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-emerald-400">11/19</div>
+                        <div class="text-xs text-slate-400 mt-1">SOC 2 Findings Remediated</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-cyan-400">106</div>
+                        <div class="text-xs text-slate-400 mt-1">Tables with Row-Level Security</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-blue-400">100%</div>
+                        <div class="text-xs text-slate-400 mt-1">Platform Uptime (Current)</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-purple-400">8</div>
+                        <div class="text-xs text-slate-400 mt-1">Formal Security Policies</div>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-3 gap-4 text-sm">
+                    <div class="flex items-start gap-2">
+                        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 mt-0.5 flex-shrink-0"></i>
+                        <span class="text-slate-300">httpOnly cookie authentication (no localStorage tokens)</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 mt-0.5 flex-shrink-0"></i>
+                        <span class="text-slate-300">Multi-tenant isolation (middleware + PostgreSQL RLS)</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 mt-0.5 flex-shrink-0"></i>
+                        <span class="text-slate-300">Doppler secrets management (SOC 2 Type II certified)</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 mt-0.5 flex-shrink-0"></i>
+                        <span class="text-slate-300">CSRF protection on all state-changing requests</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 mt-0.5 flex-shrink-0"></i>
+                        <span class="text-slate-300">AI agent human-in-the-loop approval queue</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 mt-0.5 flex-shrink-0"></i>
+                        <span class="text-slate-300">TLS 1.2+ in transit, AES-256 at rest</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 mt-0.5 flex-shrink-0"></i>
+                        <span class="text-slate-300">Helmet.js security headers (CSP, HSTS, X-Frame-Options)</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 mt-0.5 flex-shrink-0"></i>
+                        <span class="text-slate-300">Tiered rate limiting with progressive lockout</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 mt-0.5 flex-shrink-0"></i>
+                        <span class="text-slate-300">PITR backup tested (3-min recovery verified)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOC 2 & Compliance Documents -->
+        <section class="mb-10">
+            <h2 class="text-xl font-bold text-cyan-400 mb-4 flex items-center">
+                <i data-lucide="shield" class="mr-2 w-5 h-5"></i>
+                SOC 2 Readiness & Compliance
+            </h2>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="doc-card bg-slate-900/40 p-6 rounded-xl border border-slate-800 hover:border-emerald-500 transition cursor-pointer" onclick="downloadDoc('CCOPilot_SOC2_Readiness_Assessment_v2.1.docx')">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-bold text-white text-lg">SOC 2 Readiness Assessment</h3>
+                        <i data-lucide="download" class="w-4 h-4 text-slate-500 download-icon"></i>
+                    </div>
+                    <p class="text-sm text-slate-400 mb-3">Full assessment against all 5 Trust Service Criteria with remediation status. 11 of 19 findings remediated.</p>
+                    <div class="flex items-center gap-3 text-xs text-slate-500">
+                        <span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded">v2.1</span>
+                        <span>Updated March 25, 2026</span>
+                    </div>
+                </div>
+
+                <div class="doc-card bg-slate-900/40 p-6 rounded-xl border border-slate-800 hover:border-emerald-500 transition cursor-pointer" onclick="downloadDoc('CCOPilot_Disaster_Recovery_Plan_v1.2.docx')">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-bold text-white text-lg">Disaster Recovery Plan</h3>
+                        <i data-lucide="download" class="w-4 h-4 text-slate-500 download-icon"></i>
+                    </div>
+                    <p class="text-sm text-slate-400 mb-3">RTO/RPO definitions, PITR tested procedures, backup strategy, vendor responsibility matrix, weekly maintenance schedule.</p>
+                    <div class="flex items-center gap-3 text-xs text-slate-500">
+                        <span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded">v1.2</span>
+                        <span>Tested March 25, 2026</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Security Policies -->
+        <section class="mb-10">
+            <h2 class="text-xl font-bold text-cyan-400 mb-4 flex items-center">
+                <i data-lucide="file-text" class="mr-2 w-5 h-5"></i>
+                Security Policies
+            </h2>
+            <p class="text-sm text-slate-400 mb-4">Eight formal security policies adopted March 25, 2026. All policies are reviewed quarterly.</p>
+            <div class="grid md:grid-cols-2 gap-4">
+                
+                <div class="doc-card bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-cyan-500 transition cursor-pointer" onclick="downloadDoc('01_Information_Security_Policy.docx')">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-semibold text-white">1. Information Security Policy</h3>
+                        <i data-lucide="download" class="w-4 h-4 text-slate-500 download-icon"></i>
+                    </div>
+                    <p class="text-xs text-slate-400">POL-ISP-001 — Umbrella policy defining the security program, controls, principles, and AI governance framework.</p>
+                </div>
+
+                <div class="doc-card bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-cyan-500 transition cursor-pointer" onclick="downloadDoc('02_Access_Control_Policy.docx')">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-semibold text-white">2. Access Control Policy</h3>
+                        <i data-lucide="download" class="w-4 h-4 text-slate-500 download-icon"></i>
+                    </div>
+                    <p class="text-xs text-slate-400">POL-ACP-002 — RBAC roles, provisioning/revocation, access reviews, multi-tenant isolation, password requirements.</p>
+                </div>
+
+                <div class="doc-card bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-cyan-500 transition cursor-pointer" onclick="downloadDoc('03_Change_Management_Policy.docx')">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-semibold text-white">3. Change Management Policy</h3>
+                        <i data-lucide="download" class="w-4 h-4 text-slate-500 download-icon"></i>
+                    </div>
+                    <p class="text-xs text-slate-400">POL-CMP-003 — Standard/Normal/Emergency change categories, rollback procedures, schema migrations, release tagging.</p>
+                </div>
+
+                <div class="doc-card bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-cyan-500 transition cursor-pointer" onclick="downloadDoc('04_Incident_Response_Policy.docx')">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-semibold text-white">4. Incident Response Policy</h3>
+                        <i data-lucide="download" class="w-4 h-4 text-slate-500 download-icon"></i>
+                    </div>
+                    <p class="text-xs text-slate-400">POL-IRP-004 — SEV-1 through SEV-4 classification, detection, triage, containment, resolution, post-mortem process.</p>
+                </div>
+
+                <div class="doc-card bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-cyan-500 transition cursor-pointer" onclick="downloadDoc('05_Business_Continuity_DR_Policy.docx')">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-semibold text-white">5. Business Continuity & DR Policy</h3>
+                        <i data-lucide="download" class="w-4 h-4 text-slate-500 download-icon"></i>
+                    </div>
+                    <p class="text-xs text-slate-400">POL-BCD-005 — Backup requirements, RTO/RPO, testing schedule, monitoring. References DR Plan v1.2.</p>
+                </div>
+
+                <div class="doc-card bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-cyan-500 transition cursor-pointer" onclick="downloadDoc('06_Vendor_Management_Policy.docx')">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-semibold text-white">6. Vendor Management Policy</h3>
+                        <i data-lucide="download" class="w-4 h-4 text-slate-500 download-icon"></i>
+                    </div>
+                    <p class="text-xs text-slate-400">POL-VMP-006 — Vendor inventory (9 vendors), risk ratings, assessment process, contingency plans, sub-processor list.</p>
+                </div>
+
+                <div class="doc-card bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-cyan-500 transition cursor-pointer" onclick="downloadDoc('07_Data_Classification_Handling_Policy.docx')">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-semibold text-white">7. Data Classification & Handling Policy</h3>
+                        <i data-lucide="download" class="w-4 h-4 text-slate-500 download-icon"></i>
+                    </div>
+                    <p class="text-xs text-slate-400">POL-DCH-007 — Four classification levels, PII inventory, retention schedules, data subject rights (GDPR/CCPA).</p>
+                </div>
+
+                <div class="doc-card bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-cyan-500 transition cursor-pointer" onclick="downloadDoc('08_Acceptable_Use_Policy.docx')">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-semibold text-white">8. Acceptable Use Policy</h3>
+                        <i data-lucide="download" class="w-4 h-4 text-slate-500 download-icon"></i>
+                    </div>
+                    <p class="text-xs text-slate-400">POL-AUP-008 — Prohibited activities, AI governance rules, reporting obligations, personal device requirements.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Infrastructure & Architecture -->
+        <section class="mb-10">
+            <h2 class="text-xl font-bold text-cyan-400 mb-4 flex items-center">
+                <i data-lucide="server" class="mr-2 w-5 h-5"></i>
+                Infrastructure & Architecture
+            </h2>
+            <div class="bg-slate-900/40 p-6 rounded-xl border border-slate-800">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-semibold text-white mb-3">Platform Stack</h3>
+                        <div class="space-y-2 text-sm text-slate-400">
+                            <div class="flex justify-between"><span>Frontend</span><span class="text-slate-300">React 18 / TypeScript</span></div>
+                            <div class="flex justify-between"><span>Backend</span><span class="text-slate-300">Node.js / Express</span></div>
+                            <div class="flex justify-between"><span>Database</span><span class="text-slate-300">PostgreSQL 18 (Render Managed)</span></div>
+                            <div class="flex justify-between"><span>ORM</span><span class="text-slate-300">Prisma (parameterized queries)</span></div>
+                            <div class="flex justify-between"><span>Hosting</span><span class="text-slate-300">Render (Oregon, US West)</span></div>
+                            <div class="flex justify-between"><span>Secrets</span><span class="text-slate-300">Doppler (SOC 2 Type II)</span></div>
+                            <div class="flex justify-between"><span>AI Providers</span><span class="text-slate-300">Groq / Anthropic (configurable)</span></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-white mb-3">Security Controls</h3>
+                        <div class="space-y-2 text-sm text-slate-400">
+                            <div class="flex justify-between"><span>Authentication</span><span class="text-slate-300">JWT in httpOnly cookies</span></div>
+                            <div class="flex justify-between"><span>CSRF</span><span class="text-slate-300">Content-Type + Auth header validation</span></div>
+                            <div class="flex justify-between"><span>Tenant Isolation</span><span class="text-slate-300">Middleware + PostgreSQL RLS</span></div>
+                            <div class="flex justify-between"><span>Encryption (Transit)</span><span class="text-slate-300">TLS 1.2+</span></div>
+                            <div class="flex justify-between"><span>Encryption (Rest)</span><span class="text-slate-300">AES-256</span></div>
+                            <div class="flex justify-between"><span>Headers</span><span class="text-slate-300">Helmet.js (CSP, HSTS, XFO)</span></div>
+                            <div class="flex justify-between"><span>Monitoring</span><span class="text-slate-300">UptimeRobot (5-min intervals)</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sub-Processors -->
+        <section class="mb-10">
+            <h2 class="text-xl font-bold text-cyan-400 mb-4 flex items-center">
+                <i data-lucide="link" class="mr-2 w-5 h-5"></i>
+                Sub-Processors
+            </h2>
+            <div class="bg-slate-900/40 rounded-xl border border-slate-800 overflow-hidden">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="bg-slate-800/50 text-slate-300 text-left">
+                            <th class="px-4 py-3 font-semibold">Vendor</th>
+                            <th class="px-4 py-3 font-semibold">Service</th>
+                            <th class="px-4 py-3 font-semibold">Data Access</th>
+                            <th class="px-4 py-3 font-semibold">Compliance</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-slate-400">
+                        <tr class="border-t border-slate-800/50">
+                            <td class="px-4 py-3 text-white font-medium">Render</td>
+                            <td class="px-4 py-3">Hosting & Database</td>
+                            <td class="px-4 py-3">Full (infrastructure)</td>
+                            <td class="px-4 py-3"><span class="text-yellow-400">SOC 2 — Requested</span></td>
+                        </tr>
+                        <tr class="border-t border-slate-800/50 bg-slate-900/30">
+                            <td class="px-4 py-3 text-white font-medium">Doppler</td>
+                            <td class="px-4 py-3">Secrets Management</td>
+                            <td class="px-4 py-3">Secrets only</td>
+                            <td class="px-4 py-3"><span class="text-emerald-400">SOC 2 Type II ✓</span></td>
+                        </tr>
+                        <tr class="border-t border-slate-800/50">
+                            <td class="px-4 py-3 text-white font-medium">Groq</td>
+                            <td class="px-4 py-3">AI / LLM (primary)</td>
+                            <td class="px-4 py-3">Prompt data (no storage)</td>
+                            <td class="px-4 py-3"><span class="text-yellow-400">SOC 2 — Requested</span></td>
+                        </tr>
+                        <tr class="border-t border-slate-800/50 bg-slate-900/30">
+                            <td class="px-4 py-3 text-white font-medium">Anthropic</td>
+                            <td class="px-4 py-3">AI / LLM (secondary)</td>
+                            <td class="px-4 py-3">Prompt data (no storage)</td>
+                            <td class="px-4 py-3"><span class="text-emerald-400">SOC 2 Type II ✓</span></td>
+                        </tr>
+                        <tr class="border-t border-slate-800/50">
+                            <td class="px-4 py-3 text-white font-medium">Google</td>
+                            <td class="px-4 py-3">OAuth, Gmail, Calendar</td>
+                            <td class="px-4 py-3">OAuth tokens, email sync</td>
+                            <td class="px-4 py-3"><span class="text-emerald-400">SOC 2 Type II ✓</span></td>
+                        </tr>
+                        <tr class="border-t border-slate-800/50 bg-slate-900/30">
+                            <td class="px-4 py-3 text-white font-medium">Microsoft</td>
+                            <td class="px-4 py-3">OAuth, Outlook, Calendar</td>
+                            <td class="px-4 py-3">OAuth tokens, email sync</td>
+                            <td class="px-4 py-3"><span class="text-emerald-400">SOC 2 Type II ✓</span></td>
+                        </tr>
+                        <tr class="border-t border-slate-800/50">
+                            <td class="px-4 py-3 text-white font-medium">Stripe</td>
+                            <td class="px-4 py-3">Payment Processing</td>
+                            <td class="px-4 py-3">Payment data</td>
+                            <td class="px-4 py-3"><span class="text-emerald-400">PCI DSS L1 + SOC 2 ✓</span></td>
+                        </tr>
+                        <tr class="border-t border-slate-800/50 bg-slate-900/30">
+                            <td class="px-4 py-3 text-white font-medium">Resend</td>
+                            <td class="px-4 py-3">Email Delivery</td>
+                            <td class="px-4 py-3">Email content</td>
+                            <td class="px-4 py-3"><span class="text-yellow-400">SOC 2 — Requested</span></td>
+                        </tr>
+                        <tr class="border-t border-slate-800/50">
+                            <td class="px-4 py-3 text-white font-medium">GitHub</td>
+                            <td class="px-4 py-3">Source Code Hosting</td>
+                            <td class="px-4 py-3">Source code</td>
+                            <td class="px-4 py-3"><span class="text-emerald-400">SOC 2 Type II ✓</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section class="mb-10">
+            <div class="bg-slate-900/40 p-6 rounded-xl border border-slate-800 text-center">
+                <h3 class="font-semibold text-white mb-2">Security Questions?</h3>
+                <p class="text-sm text-slate-400 mb-4">For security questionnaires, DPA requests, or additional documentation needs:</p>
+                <div class="flex items-center justify-center gap-6 text-sm">
+                    <a href="mailto:shane.james@cco2go.ai" class="text-cyan-400 hover:text-cyan-300 transition flex items-center gap-1">
+                        <i data-lucide="mail" class="w-4 h-4"></i>
+                        shane.james@cco2go.ai
+                    </a>
+                    <span class="text-slate-600">|</span>
+                    <span class="text-slate-400 flex items-center gap-1">
+                        <i data-lucide="phone" class="w-4 h-4"></i>
+                        (813) 666-8427
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <div class="border-t border-slate-800 pt-6 text-center text-xs text-slate-600">
+            <p>This page is not indexed by search engines. Share the URL directly with authorized recipients only.</p>
+            <p class="mt-1">© 2026 CCO2go.ai | CCOPilot.ai — All rights reserved</p>
+        </div>
+
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Document download handler
+        function downloadDoc(filename) {
+            // Documents are stored in the same directory as this page
+            // In production, these would be served from a secure location
+            // For now, they're co-located with this HTML file
+            const link = document.createElement('a');
+            link.href = '/docs/' + filename;
+            link.download = filename;
+            link.click();
+        }
+    </script>
+
+</body>
+</html>
