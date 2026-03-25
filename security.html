@@ -53,7 +53,7 @@
                 </div>
                 <div class="text-right">
                     <div class="text-xs text-slate-500 font-mono uppercase tracking-widest">Confidential</div>
-                    <div class="text-xs text-slate-600 mt-1"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c7b4afa6a9a2e9ada6aaa2b487a4a4a8f5a0a8e9a6ae">[email&#160;protected]</a></div>
+                    <div class="text-xs text-slate-600 mt-1">shane.james@cco2go.ai</div>
                 </div>
             </div>
             <h1 class="text-3xl font-bold text-white">Security & Compliance</h1>
@@ -413,7 +413,7 @@
                 <div class="flex items-center justify-center gap-6 text-sm">
                     <a href="/cdn-cgi/l/email-protection#3c4f545d525912565d51594f7c5f5f530e5b53125d55" class="text-cyan-400 hover:text-cyan-300 transition flex items-center gap-1">
                         <i data-lucide="mail" class="w-4 h-4"></i>
-                        <span class="__cf_email__" data-cfemail="790a1118171c571318141c0a391a1a164b1e16571810">[email&#160;protected]</span>
+                        shane.james@cco2go.ai
                     </a>
                     <span class="text-slate-600">|</span>
                     <span class="text-slate-400 flex items-center gap-1">
@@ -432,10 +432,20 @@
 
     </div>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script>
         // Initialize Lucide icons
         lucide.createIcons();
 
         // Document download handler
         function downloadDoc(filename) {
-            // Documents are stored in the
+            var link = document.createElement('a');
+            link.href = '/docs/' + filename;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+
+</body>
+</html>
