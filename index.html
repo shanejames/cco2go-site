@@ -148,11 +148,13 @@
 
 <script>
 // === Email construction (Cloudflare-proof) ===
-var eU='shane.james';var eD='cco2go.ai';var eA=eU+'@'+eD;
-var eH='mai'+'lto:'+eA;
-document.getElementById('emailBtn').href=eH;
-document.getElementById('emailLink2').href=eH;
-var e3=document.getElementById('emailLink3');e3.href=eH;e3.textContent=eA;
+// === Email (Cloudflare-proof via onclick) ===
+function openEmail(){var a='shane.ja';var b='mes';var c='cco2go';var d='.ai';window.location.href='mai'+'lto:'+a+b+'@'+c+d}
+document.getElementById('emailBtn').onclick=function(e){e.preventDefault();openEmail()};
+document.getElementById('emailLink2').onclick=function(e){e.preventDefault();openEmail()};
+var e3=document.getElementById('emailLink3');
+e3.onclick=function(e){e.preventDefault();openEmail()};
+e3.textContent='shane.james'+'@'+'cco2go.ai';
 
 // === Scroll nav ===
 window.addEventListener('scroll',function(){document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50)});
