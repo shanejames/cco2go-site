@@ -4,530 +4,199 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CCO2Go.ai — Fractional Chief Customer Officer for Startups</title>
-<meta name="description" content="Fractional Chief Customer Officer + AI-powered CS platform. No $350K hire. Measurable results from week one. Serving Seed through Series C startups.">
-<meta name="keywords" content="fractional CCO, customer success, churn reduction, NRR, SaaS startups, customer success platform, CCOPilot">
-<meta property="og:title" content="CCO2Go.ai — Your customers are leaving. I make them stay.">
-<meta property="og:description" content="Fractional Chief Customer Officer + AI-powered CS platform for B2B SaaS startups.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://cco2go.ai">
+<meta name="description" content="Fractional Chief Customer Officer + AI-powered CS platform. No $350K hire. Measurable results from week one.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#08090E;--bg2:#0E1019;--card:#12141F;--card-h:#181B29;
-  --bdr:#1C1F2E;--bdr-hi:#2A2E42;
-  --cyan:#00E5CC;--cyan-d:rgba(0,229,204,.08);--cyan-g:rgba(0,229,204,.20);
-  --amber:#FACC15;--amber-d:rgba(250,204,21,.10);
-  --red:#F43F5E;--red-d:rgba(244,63,94,.10);
-  --green:#34D399;--green-d:rgba(52,211,153,.10);
-  --txt:#E8ECF4;--muted:#8B95AD;--dim:#5B6478;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-::selection{background:var(--cyan);color:var(--bg)}
-body{background:var(--bg);color:var(--txt);font-family:'Outfit',sans-serif;overflow-x:hidden}
-a{color:inherit;text-decoration:none}
-button{font-family:inherit}
-
-/* Animations */
+:root{--bg:#08090E;--bg2:#0E1019;--card:#12141F;--card-h:#181B29;--bdr:#1C1F2E;--bdr-hi:#2A2E42;--cyan:#00E5CC;--cyan-d:rgba(0,229,204,.08);--cyan-g:rgba(0,229,204,.20);--amber:#FACC15;--amber-d:rgba(250,204,21,.10);--red:#F43F5E;--red-d:rgba(244,63,94,.10);--green:#34D399;--green-d:rgba(52,211,153,.10);--txt:#E8ECF4;--muted:#8B95AD;--dim:#5B6478}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}::selection{background:var(--cyan);color:var(--bg)}body{background:var(--bg);color:var(--txt);font-family:'Outfit',sans-serif;overflow-x:hidden}a{color:inherit;text-decoration:none}button{font-family:inherit}
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 @keyframes slideIn{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:translateX(0)}}
 @keyframes gradShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-.fu{animation:fadeUp .6s ease both}
-.fu1{animation-delay:.08s}.fu2{animation-delay:.16s}.fu3{animation-delay:.24s}.fu4{animation-delay:.32s}
-.si{animation:slideIn .4s ease both}
-
-/* Buttons */
-.bp{
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--cyan);color:var(--bg);font-weight:600;font-size:15px;
-  padding:14px 32px;border-radius:10px;border:none;cursor:pointer;
-  transition:all .25s;font-family:inherit;
-  box-shadow:0 0 40px var(--cyan-g);
-}
-.bp:hover{transform:translateY(-2px);box-shadow:0 0 60px var(--cyan-g),0 12px 40px rgba(0,0,0,.5)}
-.bs{
-  display:inline-flex;align-items:center;gap:8px;
-  background:transparent;color:var(--txt);font-weight:500;font-size:15px;
-  padding:14px 32px;border-radius:10px;border:1px solid var(--bdr);cursor:pointer;
-  transition:all .25s;font-family:inherit;
-}
-.bs:hover{border-color:var(--cyan);color:var(--cyan);background:var(--cyan-d)}
-
-/* Cards */
-.crd{
-  background:var(--card);border:1px solid var(--bdr);border-radius:16px;
-  padding:32px;transition:all .3s;
-}
-.crd:hover{border-color:var(--bdr-hi);background:var(--card-h);transform:translateY(-3px);box-shadow:0 24px 60px rgba(0,0,0,.35)}
-
-/* Pill */
-.pill{
-  display:inline-block;font-size:11px;font-weight:600;letter-spacing:1.8px;
-  text-transform:uppercase;border-radius:100px;padding:6px 18px;
-  font-family:'JetBrains Mono',monospace;
-}
-
-/* Section */
+.fu{animation:fadeUp .6s ease both}.fu1{animation-delay:.08s}.fu2{animation-delay:.16s}.fu3{animation-delay:.24s}.fu4{animation-delay:.32s}.si{animation:slideIn .4s ease both}
+.bp{display:inline-flex;align-items:center;gap:8px;background:var(--cyan);color:var(--bg);font-weight:600;font-size:15px;padding:14px 32px;border-radius:10px;border:none;cursor:pointer;transition:all .25s;font-family:inherit;box-shadow:0 0 40px var(--cyan-g)}.bp:hover{transform:translateY(-2px);box-shadow:0 0 60px var(--cyan-g),0 12px 40px rgba(0,0,0,.5)}
+.bs{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--txt);font-weight:500;font-size:15px;padding:14px 32px;border-radius:10px;border:1px solid var(--bdr);cursor:pointer;transition:all .25s;font-family:inherit}.bs:hover{border-color:var(--cyan);color:var(--cyan);background:var(--cyan-d)}
+.crd{background:var(--card);border:1px solid var(--bdr);border-radius:16px;padding:32px;transition:all .3s}.crd:hover{border-color:var(--bdr-hi);background:var(--card-h);transform:translateY(-3px);box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.pill{display:inline-block;font-size:11px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;border-radius:100px;padding:6px 18px;font-family:'JetBrains Mono',monospace}
 .sec{max-width:1200px;margin:0 auto;padding:100px 24px}
-
-/* Grid */
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:28px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
-.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.g2a{display:grid;grid-template-columns:1fr 1.2fr;gap:56px;align-items:start}
-
-/* Nav */
-.nav{position:fixed;top:0;left:0;right:0;z-index:1000;transition:all .35s;border-bottom:1px solid transparent}
-.nav.scrolled{background:rgba(8,9,14,.88);backdrop-filter:blur(24px) saturate(1.4);border-bottom-color:var(--bdr)}
-.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:72px}
-.nav-links{display:flex;align-items:center;gap:28px}
-.nav-link{background:none;border:none;color:var(--dim);cursor:pointer;font-size:13.5px;font-weight:500;font-family:inherit;transition:color .2s;padding:4px 0}
-.nav-link:hover{color:var(--cyan)}
-
-/* Feature check */
-.feat{display:flex;align-items:center;gap:10px;padding:9px 0}
-.feat+.feat{border-top:1px solid var(--bdr)}
-.feat .ck{color:var(--green);font-size:14px;font-family:'JetBrains Mono',monospace}
-.feat span{font-size:14px;color:var(--muted);font-weight:400}
-
-/* Tab btns */
-.tab-btn{padding:10px 24px;border-radius:10px;border:1px solid var(--bdr);background:transparent;color:var(--dim);cursor:pointer;font-family:inherit;font-size:14px;font-weight:500;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
-.tab-btn.active{border-color:var(--cyan);background:var(--cyan-d);color:var(--cyan)}
-.tab-btn[data-color="green"].active{border-color:var(--green);background:var(--green-d);color:var(--green)}
-.tab-btn[data-color="amber"].active{border-color:var(--amber);background:var(--amber-d);color:var(--amber)}
-.tab-btn[data-color="red"].active{border-color:var(--red);background:var(--red-d);color:var(--red)}
-
-/* Testimonial dots */
-.t-dot{width:8px;height:8px;border-radius:4px;background:var(--bdr);border:none;cursor:pointer;transition:all .3s}
-.t-dot.active{width:24px;background:var(--cyan)}
-
-/* Responsive */
-@media(max-width:820px){
-  .g2,.g3,.g2a{grid-template-columns:1fr!important}
-  .g4{grid-template-columns:1fr 1fr!important}
-  .hm{display:none!important}
-  .hero-h{font-size:36px!important}
-  .sec{padding:60px 16px}
-}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:28px}.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.g2a{display:grid;grid-template-columns:1fr 1.2fr;gap:56px;align-items:start}
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;transition:all .35s;border-bottom:1px solid transparent}.nav.scrolled{background:rgba(8,9,14,.88);backdrop-filter:blur(24px) saturate(1.4);border-bottom-color:var(--bdr)}
+.nav-link{background:none;border:none;color:var(--dim);cursor:pointer;font-size:13.5px;font-weight:500;font-family:inherit;transition:color .2s;padding:4px 0}.nav-link:hover{color:var(--cyan)}
+.feat{display:flex;align-items:center;gap:10px;padding:9px 0}.feat+.feat{border-top:1px solid var(--bdr)}.feat .ck{color:var(--green);font-size:14px;font-family:'JetBrains Mono',monospace}.feat span{font-size:14px;color:var(--muted);font-weight:400}
+.tab-btn{padding:10px 24px;border-radius:10px;border:1px solid var(--bdr);background:transparent;color:var(--dim);cursor:pointer;font-family:inherit;font-size:14px;font-weight:500;transition:all .2s;display:inline-flex;align-items:center;gap:8px}.tab-btn.active{border-color:var(--cyan);background:var(--cyan-d);color:var(--cyan)}
+.t-dot{width:8px;height:8px;border-radius:4px;background:var(--bdr);border:none;cursor:pointer;transition:all .3s}.t-dot.active{width:24px;background:var(--cyan)}
+@media(max-width:820px){.g2,.g3,.g2a{grid-template-columns:1fr!important}.g4{grid-template-columns:1fr 1fr!important}.hm{display:none!important}.hero-h{font-size:36px!important}.sec{padding:60px 16px}}
 </style>
 </head>
 <body>
 
-<!-- ══════ NAV ══════ -->
+<!-- NAV -->
 <nav class="nav" id="navbar">
-  <div class="nav-inner">
-    <a href="#hero" style="display:flex;align-items:center;gap:10px">
-      <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--cyan),#0EA5E9);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--bg);font-family:'JetBrains Mono',monospace">C2G</div>
-      <span style="font-weight:700;font-size:19px;letter-spacing:-.5px">CCO2Go<span style="color:var(--cyan)">.ai</span></span>
-    </a>
-    <div class="nav-links hm">
-      <button class="nav-link" onclick="go('problem')">Problem</button>
-      <button class="nav-link" onclick="go('solution')">Solution</button>
-      <button class="nav-link" onclick="go('platform')">Platform</button>
-      <button class="nav-link" onclick="go('results')">Results</button>
-      <button class="nav-link" onclick="go('testimonials')">Testimonials</button>
-      <button class="nav-link" onclick="go('about')">About</button>
-    </div>
-    <div style="display:flex;align-items:center;gap:12px">
-      <a href="https://www.ccopilot.ai" target="_blank" class="hm" style="font-size:13.5px;font-weight:500;color:var(--dim);padding:8px 16px;transition:color .2s" onmouseenter="this.style.color='var(--cyan)'" onmouseleave="this.style.color='var(--dim)'">Log in</a>
-      <a href="https://scheduler.zoom.us/r-shane-james/hello-i-am-an-event-card" target="_blank" class="bp" style="padding:10px 24px;font-size:13.5px">Book a Demo</a>
-    </div>
-  </div>
+<div style="max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:72px">
+<a href="#hero" style="display:flex;align-items:center;gap:10px"><div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--cyan),#0EA5E9);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--bg);font-family:'JetBrains Mono',monospace">C2G</div><span style="font-weight:700;font-size:19px;letter-spacing:-.5px">CCO2Go<span style="color:var(--cyan)">.ai</span></span></a>
+<div class="hm" style="display:flex;align-items:center;gap:28px"><button class="nav-link" onclick="go('problem')">Problem</button><button class="nav-link" onclick="go('solution')">Solution</button><button class="nav-link" onclick="go('platform')">Platform</button><button class="nav-link" onclick="go('results')">Results</button><button class="nav-link" onclick="go('testimonials')">Testimonials</button><button class="nav-link" onclick="go('about')">About</button></div>
+<div style="display:flex;align-items:center;gap:12px"><a href="https://www.ccopilot.ai" target="_blank" class="hm" style="font-size:13.5px;font-weight:500;color:var(--dim);padding:8px 16px">Log in</a><a href="https://scheduler.zoom.us/r-shane-james/hello-i-am-an-event-card" target="_blank" class="bp" style="padding:10px 24px;font-size:13.5px">Book a Demo</a></div>
+</div>
 </nav>
 
-<!-- ══════ HERO ══════ -->
+<!-- HERO -->
 <section id="hero" style="position:relative;overflow:hidden;padding-top:160px;padding-bottom:100px">
-  <div style="position:absolute;top:-300px;right:-200px;width:900px;height:900px;background:radial-gradient(circle,var(--cyan-g) 0%,transparent 65%);filter:blur(140px);opacity:.25;pointer-events:none"></div>
-  <div style="position:absolute;bottom:-200px;left:-300px;width:700px;height:700px;background:radial-gradient(circle,rgba(250,204,21,.08) 0%,transparent 65%);filter:blur(120px);opacity:.35;pointer-events:none"></div>
-  <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(28,31,46,.25) 1px,transparent 1px),linear-gradient(90deg,rgba(28,31,46,.25) 1px,transparent 1px);background-size:64px 64px;opacity:.3;pointer-events:none"></div>
+<div style="position:absolute;top:-300px;right:-200px;width:900px;height:900px;background:radial-gradient(circle,var(--cyan-g) 0%,transparent 65%);filter:blur(140px);opacity:.25;pointer-events:none"></div>
+<div style="position:absolute;bottom:-200px;left:-300px;width:700px;height:700px;background:radial-gradient(circle,rgba(250,204,21,.08) 0%,transparent 65%);filter:blur(120px);opacity:.35;pointer-events:none"></div>
+<div style="position:absolute;inset:0;background-image:linear-gradient(rgba(28,31,46,.25) 1px,transparent 1px),linear-gradient(90deg,rgba(28,31,46,.25) 1px,transparent 1px);background-size:64px 64px;opacity:.3;pointer-events:none"></div>
+<div style="max-width:1200px;margin:0 auto;padding:0 24px;position:relative;text-align:center">
+<div class="fu"><span class="pill" style="color:var(--cyan);background:var(--cyan-d);border:1px solid rgba(0,229,204,.19)">Seed → Series C Startups</span></div>
+<h1 class="fu fu1 hero-h" style="font-size:68px;font-weight:800;line-height:1.04;letter-spacing:-3px;max-width:820px;margin:28px auto"><span>Your customers are leaving.</span><br><span style="background:linear-gradient(135deg,var(--cyan),#0EA5E9,var(--cyan));background-size:200% 200%;animation:gradShift 4s ease infinite;-webkit-background-clip:text;-webkit-text-fill-color:transparent">I make them stay.</span></h1>
+<p class="fu fu2" style="font-size:20px;color:var(--muted);max-width:580px;margin:0 auto 48px;line-height:1.65;font-weight:300">Fractional Chief Customer Officer + AI-powered CS platform. No $350K hire. Measurable results from week one.</p>
+<div class="fu fu3" style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap"><a href="https://scheduler.zoom.us/r-shane-james/hello-i-am-an-event-card" target="_blank" class="bp" style="font-size:16px;padding:16px 40px">Book a 20-Min Strategy Call →</a><button onclick="go('platform')" class="bs" style="font-size:16px;padding:16px 40px">Explore the Platform</button></div>
+<div class="fu fu4" style="display:flex;justify-content:center;gap:56px;margin-top:88px;flex-wrap:wrap">
+<div style="text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;color:var(--green);margin-bottom:6px">22% → 7%</div><div style="font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:1.5px;font-weight:500">Churn Reduction</div></div>
+<div style="text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;color:var(--cyan);margin-bottom:6px">85% → 115%</div><div style="font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:1.5px;font-weight:500">NRR Improvement</div></div>
+<div style="text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;color:var(--amber);margin-bottom:6px">+20% Faster</div><div style="font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:1.5px;font-weight:500">Time to Value</div></div>
+</div></div></section>
 
-  <div style="max-width:1200px;margin:0 auto;padding:0 24px;position:relative;text-align:center">
-    <div class="fu"><span class="pill" style="color:var(--cyan);background:var(--cyan-d);border:1px solid rgba(0,229,204,.19)">Seed → Series C Startups</span></div>
-    <h1 class="fu fu1 hero-h" style="font-size:68px;font-weight:800;line-height:1.04;letter-spacing:-3px;max-width:820px;margin:28px auto">
-      Your customers are leaving.<br>
-      <span style="background:linear-gradient(135deg,var(--cyan),#0EA5E9,var(--cyan));background-size:200% 200%;animation:gradShift 4s ease infinite;-webkit-background-clip:text;-webkit-text-fill-color:transparent">I make them stay.</span>
-    </h1>
-    <p class="fu fu2" style="font-size:20px;color:var(--muted);max-width:580px;margin:0 auto 48px;line-height:1.65;font-weight:300">
-      Fractional Chief Customer Officer + AI-powered CS platform. No $350K hire. Measurable results from week one.
-    </p>
-    <div class="fu fu3" style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
-      <a href="https://scheduler.zoom.us/r-shane-james/hello-i-am-an-event-card" target="_blank" class="bp" style="font-size:16px;padding:16px 40px">Book a 20-Min Strategy Call →</a>
-      <button onclick="go('platform')" class="bs" style="font-size:16px;padding:16px 40px">Explore the Platform</button>
-    </div>
-    <div class="fu fu4" style="display:flex;justify-content:center;gap:56px;margin-top:88px;flex-wrap:wrap">
-      <div style="text-align:center">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;color:var(--green);margin-bottom:6px">22% → 7%</div>
-        <div style="font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:1.5px;font-weight:500">Churn Reduction</div>
-      </div>
-      <div style="text-align:center">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;color:var(--cyan);margin-bottom:6px">85% → 115%</div>
-        <div style="font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:1.5px;font-weight:500">NRR Improvement</div>
-      </div>
-      <div style="text-align:center">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;color:var(--amber);margin-bottom:6px">+20% Faster</div>
-        <div style="font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:1.5px;font-weight:500">Time to Value</div>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- PROBLEM -->
+<section id="problem" style="background:var(--bg2)"><div class="sec">
+<div style="text-align:center;margin-bottom:64px"><span class="pill" style="color:var(--red);background:var(--red-d);border:1px solid rgba(244,63,94,.19)">The Problem</span><h2 style="font-size:44px;font-weight:700;letter-spacing:-1.5px;margin-top:24px;margin-bottom:16px">When growth speeds up, retention falls apart</h2><p style="font-size:18px;color:var(--muted);max-width:600px;margin:0 auto;font-weight:300;line-height:1.6">You closed the deals. Built the product. But customers keep leaving — and nobody knows how to stop it.</p></div>
+<div class="g3">
+<div class="crd"><div style="font-size:36px;margin-bottom:20px">📉</div><h3 style="font-size:20px;font-weight:600;margin-bottom:12px">Churn is eating your growth</h3><p style="font-size:15px;color:var(--muted);line-height:1.65;margin-bottom:20px;font-weight:300">You spend $50K+ to acquire each customer, then watch them walk after 8 months. Your board is starting to notice.</p><div style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--red);background:rgba(244,63,94,.06);padding:8px 14px;border-radius:8px;border-left:3px solid var(--red)">$50K+ CAC wasted per churn</div></div>
+<div class="crd"><div style="font-size:36px;margin-bottom:20px">🔥</div><h3 style="font-size:20px;font-weight:600;margin-bottom:12px">Your CS team is firefighting</h3><p style="font-size:15px;color:var(--muted);line-height:1.65;margin-bottom:20px;font-weight:300">No playbooks. No health scores. No early warning system. You find out about churn when the cancellation email hits.</p><div style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--amber);background:rgba(250,204,21,.06);padding:8px 14px;border-radius:8px;border-left:3px solid var(--amber)">Zero visibility into at-risk accounts</div></div>
+<div class="crd"><div style="font-size:36px;margin-bottom:20px">💸</div><h3 style="font-size:20px;font-weight:600;margin-bottom:12px">A full-time CCO costs $350K+</h3><p style="font-size:15px;color:var(--muted);line-height:1.65;margin-bottom:20px;font-weight:300">Salary, equity, benefits, ramp time. For a Series A-C startup, that's a massive bet — with 6+ months before ROI.</p><div style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--red);background:rgba(244,63,94,.06);padding:8px 14px;border-radius:8px;border-left:3px solid var(--red)">6-9 month ramp before impact</div></div>
+</div></div></section>
 
-<!-- ══════ PROBLEM ══════ -->
-<section id="problem" style="background:var(--bg2)">
-  <div class="sec">
-    <div style="text-align:center;margin-bottom:64px">
-      <span class="pill" style="color:var(--red);background:var(--red-d);border:1px solid rgba(244,63,94,.19)">The Problem</span>
-      <h2 style="font-size:44px;font-weight:700;letter-spacing:-1.5px;margin-top:24px;margin-bottom:16px">When growth speeds up, retention falls apart</h2>
-      <p style="font-size:18px;color:var(--muted);max-width:600px;margin:0 auto;font-weight:300;line-height:1.6">You closed the deals. Built the product. But customers keep leaving — and nobody knows how to stop it.</p>
-    </div>
-    <div class="g3">
-      <div class="crd">
-        <div style="font-size:36px;margin-bottom:20px">📉</div>
-        <h3 style="font-size:20px;font-weight:600;margin-bottom:12px">Churn is eating your growth</h3>
-        <p style="font-size:15px;color:var(--muted);line-height:1.65;margin-bottom:20px;font-weight:300">You spend $50K+ to acquire each customer, then watch them walk after 8 months. Your board is starting to notice.</p>
-        <div style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--red);background:rgba(244,63,94,.06);padding:8px 14px;border-radius:8px;border-left:3px solid var(--red)">$50K+ CAC wasted per churn</div>
-      </div>
-      <div class="crd">
-        <div style="font-size:36px;margin-bottom:20px">🔥</div>
-        <h3 style="font-size:20px;font-weight:600;margin-bottom:12px">Your CS team is firefighting</h3>
-        <p style="font-size:15px;color:var(--muted);line-height:1.65;margin-bottom:20px;font-weight:300">No playbooks. No health scores. No early warning system. You find out about churn when the cancellation email hits.</p>
-        <div style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--amber);background:rgba(250,204,21,.06);padding:8px 14px;border-radius:8px;border-left:3px solid var(--amber)">Zero visibility into at-risk accounts</div>
-      </div>
-      <div class="crd">
-        <div style="font-size:36px;margin-bottom:20px">💸</div>
-        <h3 style="font-size:20px;font-weight:600;margin-bottom:12px">A full-time CCO costs $350K+</h3>
-        <p style="font-size:15px;color:var(--muted);line-height:1.65;margin-bottom:20px;font-weight:300">Salary, equity, benefits, ramp time. For a Series A–C startup, that's a massive bet — with 6+ months before ROI.</p>
-        <div style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--red);background:rgba(244,63,94,.06);padding:8px 14px;border-radius:8px;border-left:3px solid var(--red)">6–9 month ramp before impact</div>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- SOLUTION -->
+<section id="solution"><div class="sec">
+<div style="text-align:center;margin-bottom:64px"><span class="pill" style="color:var(--green);background:var(--green-d);border:1px solid rgba(52,211,153,.19)">The Solution</span><h2 style="font-size:44px;font-weight:700;letter-spacing:-1.5px;margin-top:24px;margin-bottom:16px">You get the executive <em style="color:var(--cyan);font-style:italic">and</em> the platform</h2><p style="font-size:18px;color:var(--muted);max-width:600px;margin:0 auto;font-weight:300;line-height:1.6">Not advice on a slide deck — a battle-tested CS leader backed by a proprietary AI engine deployed inside your org.</p></div>
+<div class="g2">
+<div class="crd" style="border-top:3px solid var(--cyan);position:relative;overflow:hidden"><div style="position:absolute;top:0;right:0;width:200px;height:200px;background:radial-gradient(circle,var(--cyan-g) 0%,transparent 70%);filter:blur(60px);opacity:.15;pointer-events:none"></div><div style="display:flex;align-items:center;gap:14px;margin-bottom:28px;position:relative"><div style="width:52px;height:52px;border-radius:14px;background:var(--cyan-d);border:1px solid rgba(0,229,204,.15);display:flex;align-items:center;justify-content:center;font-size:24px">👤</div><div><div style="font-weight:700;font-size:19px">Fractional CCO</div><div style="font-size:13px;color:var(--dim)">The Executive</div></div></div><p style="font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:28px;font-weight:300">25+ years of C-suite customer success leadership — from Oracle to high-growth startups — embedded in your team at a fraction of the cost.</p><div class="feat"><span class="ck">✓</span><span>CS org design &amp; hiring strategy</span></div><div class="feat"><span class="ck">✓</span><span>Churn root-cause analysis &amp; remediation</span></div><div class="feat"><span class="ck">✓</span><span>NRR &amp; expansion revenue playbooks</span></div><div class="feat"><span class="ck">✓</span><span>Board-ready CS metrics &amp; reporting</span></div><div class="feat"><span class="ck">✓</span><span>Team coaching &amp; process documentation</span></div><div class="feat" style="border:none"><span class="ck">✓</span><span>Executive Business Reviews (EBR/QBR)</span></div></div>
+<div class="crd" style="border-top:3px solid var(--green);position:relative;overflow:hidden"><div style="position:absolute;top:0;right:0;width:200px;height:200px;background:radial-gradient(circle,var(--green-d) 0%,transparent 70%);filter:blur(60px);opacity:.3;pointer-events:none"></div><div style="display:flex;align-items:center;gap:14px;margin-bottom:28px;position:relative"><div style="width:52px;height:52px;border-radius:14px;background:var(--green-d);border:1px solid rgba(52,211,153,.15);display:flex;align-items:center;justify-content:center;font-size:24px">🧠</div><div><div style="font-weight:700;font-size:19px">CCOPilot.ai</div><div style="font-size:13px;color:var(--dim)">The Platform</div></div></div><p style="font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:28px;font-weight:300">A proprietary AI-powered customer success platform — deployed as part of every engagement. Not a recommendation to buy Gainsight.</p><div class="feat"><span class="ck">✓</span><span>Predictive health scoring &amp; risk alerts</span></div><div class="feat"><span class="ck">✓</span><span>15 AI agents for CS automation</span></div><div class="feat"><span class="ck">✓</span><span>Automated EBR/QBR generation</span></div><div class="feat"><span class="ck">✓</span><span>Workflow orchestration engine</span></div><div class="feat"><span class="ck">✓</span><span>Customer journey &amp; lifecycle tracking</span></div><div class="feat" style="border:none"><span class="ck">✓</span><span>ROI &amp; value realization dashboards</span></div></div>
+</div></div></section>
 
-<!-- ══════ SOLUTION ══════ -->
-<section id="solution">
-  <div class="sec">
-    <div style="text-align:center;margin-bottom:64px">
-      <span class="pill" style="color:var(--green);background:var(--green-d);border:1px solid rgba(52,211,153,.19)">The Solution</span>
-      <h2 style="font-size:44px;font-weight:700;letter-spacing:-1.5px;margin-top:24px;margin-bottom:16px">You get the executive <em style="color:var(--cyan);font-style:italic">and</em> the platform</h2>
-      <p style="font-size:18px;color:var(--muted);max-width:600px;margin:0 auto;font-weight:300;line-height:1.6">Not advice on a slide deck — a battle-tested CS leader backed by a proprietary AI engine deployed inside your org.</p>
-    </div>
-    <div class="g2">
-      <!-- Executive -->
-      <div class="crd" style="border-top:3px solid var(--cyan);position:relative;overflow:hidden">
-        <div style="position:absolute;top:0;right:0;width:200px;height:200px;background:radial-gradient(circle,var(--cyan-g) 0%,transparent 70%);filter:blur(60px);opacity:.15;pointer-events:none"></div>
-        <div style="display:flex;align-items:center;gap:14px;margin-bottom:28px;position:relative">
-          <div style="width:52px;height:52px;border-radius:14px;background:var(--cyan-d);border:1px solid rgba(0,229,204,.15);display:flex;align-items:center;justify-content:center;font-size:24px">👤</div>
-          <div><div style="font-weight:700;font-size:19px">Fractional CCO</div><div style="font-size:13px;color:var(--dim)">The Executive</div></div>
-        </div>
-        <p style="font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:28px;font-weight:300">25+ years of C-suite customer success leadership — from Oracle to high-growth startups — embedded in your team at a fraction of the cost.</p>
-        <div class="feat"><span class="ck">✓</span><span>CS org design & hiring strategy</span></div>
-        <div class="feat"><span class="ck">✓</span><span>Churn root-cause analysis & remediation</span></div>
-        <div class="feat"><span class="ck">✓</span><span>NRR & expansion revenue playbooks</span></div>
-        <div class="feat"><span class="ck">✓</span><span>Board-ready CS metrics & reporting</span></div>
-        <div class="feat"><span class="ck">✓</span><span>Team coaching & process documentation</span></div>
-        <div class="feat" style="border:none"><span class="ck">✓</span><span>Executive Business Reviews (EBR/QBR)</span></div>
-      </div>
-      <!-- Platform -->
-      <div class="crd" style="border-top:3px solid var(--green);position:relative;overflow:hidden">
-        <div style="position:absolute;top:0;right:0;width:200px;height:200px;background:radial-gradient(circle,var(--green-d) 0%,transparent 70%);filter:blur(60px);opacity:.3;pointer-events:none"></div>
-        <div style="display:flex;align-items:center;gap:14px;margin-bottom:28px;position:relative">
-          <div style="width:52px;height:52px;border-radius:14px;background:var(--green-d);border:1px solid rgba(52,211,153,.15);display:flex;align-items:center;justify-content:center;font-size:24px">🧠</div>
-          <div><div style="font-weight:700;font-size:19px">CCOPilot.ai</div><div style="font-size:13px;color:var(--dim)">The Platform</div></div>
-        </div>
-        <p style="font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:28px;font-weight:300">A proprietary AI-powered customer success platform — deployed as part of every engagement. Not a recommendation to buy Gainsight.</p>
-        <div class="feat"><span class="ck">✓</span><span>Predictive health scoring & risk alerts</span></div>
-        <div class="feat"><span class="ck">✓</span><span>15 AI agents for CS automation</span></div>
-        <div class="feat"><span class="ck">✓</span><span>Automated EBR/QBR generation</span></div>
-        <div class="feat"><span class="ck">✓</span><span>Workflow orchestration engine</span></div>
-        <div class="feat"><span class="ck">✓</span><span>Customer journey & lifecycle tracking</span></div>
-        <div class="feat" style="border:none"><span class="ck">✓</span><span>ROI & value realization dashboards</span></div>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- PLATFORM -->
+<section id="platform" style="background:var(--bg2)"><div class="sec">
+<div style="text-align:center;margin-bottom:56px"><span class="pill" style="color:var(--cyan);background:var(--cyan-d);border:1px solid rgba(0,229,204,.19)">CCOPilot.ai</span><h2 style="font-size:44px;font-weight:700;letter-spacing:-1.5px;margin-top:24px">CS automation, without the enterprise price tag</h2></div>
+<div style="display:flex;gap:8px;margin-bottom:40px;flex-wrap:wrap;justify-content:center" id="ptabs"><button class="tab-btn active" onclick="sTab(0)"><span style="font-family:'JetBrains Mono',monospace;font-size:16px">◉</span> Health Scoring</button><button class="tab-btn" onclick="sTab(1)"><span style="font-family:'JetBrains Mono',monospace;font-size:16px">⬡</span> AI Agents</button><button class="tab-btn" onclick="sTab(2)"><span style="font-family:'JetBrains Mono',monospace;font-size:16px">⟐</span> Workflows</button><button class="tab-btn" onclick="sTab(3)"><span style="font-family:'JetBrains Mono',monospace;font-size:16px">◧</span> Reporting</button></div>
+<div class="crd" style="padding:48px" id="pcontent"></div>
+</div></section>
 
-<!-- ══════ PLATFORM ══════ -->
-<section id="platform" style="background:var(--bg2)">
-  <div class="sec">
-    <div style="text-align:center;margin-bottom:56px">
-      <span class="pill" style="color:var(--cyan);background:var(--cyan-d);border:1px solid rgba(0,229,204,.19)">CCOPilot.ai</span>
-      <h2 style="font-size:44px;font-weight:700;letter-spacing:-1.5px;margin-top:24px">CS automation, without the enterprise price tag</h2>
-    </div>
-    <div style="display:flex;gap:8px;margin-bottom:40px;flex-wrap:wrap;justify-content:center" id="platform-tabs">
-      <button class="tab-btn active" data-tab="0" onclick="switchTab(0)"><span style="font-family:'JetBrains Mono',monospace;font-size:16px">◉</span> Health Scoring</button>
-      <button class="tab-btn" data-tab="1" data-color="cyan" onclick="switchTab(1)"><span style="font-family:'JetBrains Mono',monospace;font-size:16px">⬡</span> AI Agents</button>
-      <button class="tab-btn" data-tab="2" data-color="amber" onclick="switchTab(2)"><span style="font-family:'JetBrains Mono',monospace;font-size:16px">⟐</span> Workflows</button>
-      <button class="tab-btn" data-tab="3" data-color="red" onclick="switchTab(3)"><span style="font-family:'JetBrains Mono',monospace;font-size:16px">◧</span> Reporting</button>
-    </div>
-    <div class="crd" style="padding:48px" id="platform-content">
-      <!-- Filled by JS -->
-    </div>
-  </div>
-</section>
+<!-- HOW IT WORKS -->
+<section><div class="sec">
+<div style="text-align:center;margin-bottom:64px"><span class="pill" style="color:var(--amber);background:var(--amber-d);border:1px solid rgba(250,204,21,.19)">How It Works</span><h2 style="font-size:44px;font-weight:700;letter-spacing:-1.5px;margin-top:24px">From diagnosis to results in weeks</h2></div>
+<div class="g3" style="position:relative">
+<div class="crd" style="text-align:center;position:relative"><div style="font-family:'JetBrains Mono',monospace;font-size:56px;font-weight:700;color:var(--red);opacity:.12">01</div><h3 style="font-size:22px;font-weight:700;margin-bottom:12px">Diagnose</h3><p style="font-size:15px;color:var(--muted);line-height:1.65;font-weight:300">Deep-dive into churn data, customer journey, team structure. Root causes identified within two weeks.</p><div class="hm" style="position:absolute;right:-14px;top:50%;transform:translateY(-50%);color:var(--dim);font-size:18px;z-index:1">→</div></div>
+<div class="crd" style="text-align:center;position:relative"><div style="font-family:'JetBrains Mono',monospace;font-size:56px;font-weight:700;color:var(--amber);opacity:.12">02</div><h3 style="font-size:22px;font-weight:700;margin-bottom:12px">Deploy</h3><p style="font-size:15px;color:var(--muted);line-height:1.65;font-weight:300">Implement playbooks, health scoring, and AI automation through CCOPilot.ai. Working tools on day one.</p><div class="hm" style="position:absolute;right:-14px;top:50%;transform:translateY(-50%);color:var(--dim);font-size:18px;z-index:1">→</div></div>
+<div class="crd" style="text-align:center"><div style="font-family:'JetBrains Mono',monospace;font-size:56px;font-weight:700;color:var(--green);opacity:.12">03</div><h3 style="font-size:22px;font-weight:700;margin-bottom:12px">Scale</h3><p style="font-size:15px;color:var(--muted);line-height:1.65;font-weight:300">Optimize, measure, and build the self-sustaining CS engine. When ready for a full-time CCO, I help you hire and transition.</p></div>
+</div></div></section>
 
-<!-- ══════ HOW IT WORKS ══════ -->
-<section>
-  <div class="sec">
-    <div style="text-align:center;margin-bottom:64px">
-      <span class="pill" style="color:var(--amber);background:var(--amber-d);border:1px solid rgba(250,204,21,.19)">How It Works</span>
-      <h2 style="font-size:44px;font-weight:700;letter-spacing:-1.5px;margin-top:24px">From diagnosis to results in weeks</h2>
-    </div>
-    <div class="g3" style="position:relative">
-      <div class="crd" style="text-align:center;position:relative">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:56px;font-weight:700;color:var(--red);opacity:.12">01</div>
-        <h3 style="font-size:22px;font-weight:700;margin-bottom:12px">Diagnose</h3>
-        <p style="font-size:15px;color:var(--muted);line-height:1.65;font-weight:300">Deep-dive into churn data, customer journey, team structure. Root causes — not symptoms — identified within two weeks.</p>
-        <div class="hm" style="position:absolute;right:-14px;top:50%;transform:translateY(-50%);color:var(--dim);font-size:18px;z-index:1">→</div>
-      </div>
-      <div class="crd" style="text-align:center;position:relative">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:56px;font-weight:700;color:var(--amber);opacity:.12">02</div>
-        <h3 style="font-size:22px;font-weight:700;margin-bottom:12px">Deploy</h3>
-        <p style="font-size:15px;color:var(--muted);line-height:1.65;font-weight:300">Implement playbooks, health scoring, and AI automation through CCOPilot.ai. Working tools on day one.</p>
-        <div class="hm" style="position:absolute;right:-14px;top:50%;transform:translateY(-50%);color:var(--dim);font-size:18px;z-index:1">→</div>
-      </div>
-      <div class="crd" style="text-align:center">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:56px;font-weight:700;color:var(--green);opacity:.12">03</div>
-        <h3 style="font-size:22px;font-weight:700;margin-bottom:12px">Scale</h3>
-        <p style="font-size:15px;color:var(--muted);line-height:1.65;font-weight:300">Optimize, measure, and build the self-sustaining CS engine. When you're ready for a full-time CCO, I help you hire and transition.</p>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- RESULTS -->
+<section id="results" style="background:var(--bg2)"><div class="sec">
+<div style="text-align:center;margin-bottom:64px"><span class="pill" style="color:var(--green);background:var(--green-d);border:1px solid rgba(52,211,153,.19)">Proven Results</span><h2 style="font-size:44px;font-weight:700;letter-spacing:-1.5px;margin-top:24px">Real numbers. Real engagements.</h2></div>
+<div class="g4" style="margin-bottom:48px">
+<div class="crd" style="text-align:center;padding:24px"><div style="font-size:24px;margin-bottom:10px">↓</div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--dim);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">Customer Churn</div><div style="display:flex;align-items:center;justify-content:center;gap:8px"><span style="font-size:15px;color:var(--dim);text-decoration:line-through">22%</span><span style="color:var(--green);font-size:12px">→</span><span style="font-size:26px;font-weight:700;color:var(--green);font-family:'JetBrains Mono',monospace">7%</span></div></div>
+<div class="crd" style="text-align:center;padding:24px"><div style="font-size:24px;margin-bottom:10px">↑</div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--dim);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">Net Revenue Retention</div><div style="display:flex;align-items:center;justify-content:center;gap:8px"><span style="font-size:15px;color:var(--dim);text-decoration:line-through">85%</span><span style="color:var(--cyan);font-size:12px">→</span><span style="font-size:26px;font-weight:700;color:var(--cyan);font-family:'JetBrains Mono',monospace">115%</span></div></div>
+<div class="crd" style="text-align:center;padding:24px"><div style="font-size:24px;margin-bottom:10px">⚡</div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--dim);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">Time to Value</div><div style="display:flex;align-items:center;justify-content:center;gap:8px"><span style="font-size:15px;color:var(--dim);text-decoration:line-through">Slow</span><span style="color:var(--amber);font-size:12px">→</span><span style="font-size:26px;font-weight:700;color:var(--amber);font-family:'JetBrains Mono',monospace">+20%</span></div></div>
+<div class="crd" style="text-align:center;padding:24px"><div style="font-size:24px;margin-bottom:10px">⏱</div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--dim);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">MTTR</div><div style="display:flex;align-items:center;justify-content:center;gap:8px"><span style="font-size:15px;color:var(--dim);text-decoration:line-through">High</span><span style="color:var(--green);font-size:12px">→</span><span style="font-size:26px;font-weight:700;color:var(--green);font-family:'JetBrains Mono',monospace">-15%</span></div></div>
+</div>
+<div class="g4">
+<div class="crd" style="text-align:center;padding:24px"><div style="font-size:32px;margin-bottom:12px">🚀</div><h4 style="font-size:15px;font-weight:700;margin-bottom:8px">Seed / Series A</h4><p style="font-size:13px;color:var(--muted);line-height:1.6;font-weight:300">PMF but no CS function. Foundation needed fast.</p></div>
+<div class="crd" style="text-align:center;padding:24px"><div style="font-size:32px;margin-bottom:12px">📈</div><h4 style="font-size:15px;font-weight:700;margin-bottom:8px">Series B</h4><p style="font-size:13px;color:var(--muted);line-height:1.6;font-weight:300">Growth is real but churn scaling. Investors asking about NRR.</p></div>
+<div class="crd" style="text-align:center;padding:24px"><div style="font-size:32px;margin-bottom:12px">⚡</div><h4 style="font-size:15px;font-weight:700;margin-bottom:8px">Series C</h4><p style="font-size:13px;color:var(--muted);line-height:1.6;font-weight:300">Enterprise-grade CS ops needed before next round.</p></div>
+<div class="crd" style="text-align:center;padding:24px"><div style="font-size:32px;margin-bottom:12px">🔄</div><h4 style="font-size:15px;font-weight:700;margin-bottom:8px">Turnaround</h4><p style="font-size:13px;color:var(--muted);line-height:1.6;font-weight:300">Churn is a crisis. Need someone who has done this before.</p></div>
+</div></div></section>
 
-<!-- ══════ RESULTS ══════ -->
-<section id="results" style="background:var(--bg2)">
-  <div class="sec">
-    <div style="text-align:center;margin-bottom:64px">
-      <span class="pill" style="color:var(--green);background:var(--green-d);border:1px solid rgba(52,211,153,.19)">Proven Results</span>
-      <h2 style="font-size:44px;font-weight:700;letter-spacing:-1.5px;margin-top:24px">Real numbers. Real engagements.</h2>
-    </div>
-    <div class="g4" style="margin-bottom:48px">
-      <div class="crd" style="text-align:center;padding:24px">
-        <div style="font-size:24px;margin-bottom:10px">↓</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--dim);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">Customer Churn</div>
-        <div style="display:flex;align-items:center;justify-content:center;gap:8px"><span style="font-size:15px;color:var(--dim);text-decoration:line-through">22%</span><span style="color:var(--green);font-size:12px">→</span><span style="font-size:26px;font-weight:700;color:var(--green);font-family:'JetBrains Mono',monospace">7%</span></div>
-      </div>
-      <div class="crd" style="text-align:center;padding:24px">
-        <div style="font-size:24px;margin-bottom:10px">↑</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--dim);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">Net Revenue Retention</div>
-        <div style="display:flex;align-items:center;justify-content:center;gap:8px"><span style="font-size:15px;color:var(--dim);text-decoration:line-through">85%</span><span style="color:var(--cyan);font-size:12px">→</span><span style="font-size:26px;font-weight:700;color:var(--cyan);font-family:'JetBrains Mono',monospace">115%</span></div>
-      </div>
-      <div class="crd" style="text-align:center;padding:24px">
-        <div style="font-size:24px;margin-bottom:10px">⚡</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--dim);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">Time to Value</div>
-        <div style="display:flex;align-items:center;justify-content:center;gap:8px"><span style="font-size:15px;color:var(--dim);text-decoration:line-through">Slow</span><span style="color:var(--amber);font-size:12px">→</span><span style="font-size:26px;font-weight:700;color:var(--amber);font-family:'JetBrains Mono',monospace">+20%</span></div>
-      </div>
-      <div class="crd" style="text-align:center;padding:24px">
-        <div style="font-size:24px;margin-bottom:10px">⏱</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--dim);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">MTTR</div>
-        <div style="display:flex;align-items:center;justify-content:center;gap:8px"><span style="font-size:15px;color:var(--dim);text-decoration:line-through">High</span><span style="color:var(--green);font-size:12px">→</span><span style="font-size:26px;font-weight:700;color:var(--green);font-family:'JetBrains Mono',monospace">-15%</span></div>
-      </div>
-    </div>
-    <div class="g4">
-      <div class="crd" style="text-align:center;padding:24px"><div style="font-size:32px;margin-bottom:12px">🚀</div><h4 style="font-size:15px;font-weight:700;margin-bottom:8px">Seed / Series A</h4><p style="font-size:13px;color:var(--muted);line-height:1.6;font-weight:300">PMF but no CS function. Foundation needed fast.</p></div>
-      <div class="crd" style="text-align:center;padding:24px"><div style="font-size:32px;margin-bottom:12px">📈</div><h4 style="font-size:15px;font-weight:700;margin-bottom:8px">Series B</h4><p style="font-size:13px;color:var(--muted);line-height:1.6;font-weight:300">Growth is real but churn scaling. Investors asking about NRR.</p></div>
-      <div class="crd" style="text-align:center;padding:24px"><div style="font-size:32px;margin-bottom:12px">⚡</div><h4 style="font-size:15px;font-weight:700;margin-bottom:8px">Series C</h4><p style="font-size:13px;color:var(--muted);line-height:1.6;font-weight:300">Enterprise-grade CS ops needed before next round.</p></div>
-      <div class="crd" style="text-align:center;padding:24px"><div style="font-size:32px;margin-bottom:12px">🔄</div><h4 style="font-size:15px;font-weight:700;margin-bottom:8px">Turnaround</h4><p style="font-size:13px;color:var(--muted);line-height:1.6;font-weight:300">Churn is a crisis. Need someone who's done this before.</p></div>
-    </div>
-  </div>
-</section>
+<!-- TESTIMONIALS -->
+<section id="testimonials"><div class="sec">
+<div style="text-align:center;margin-bottom:64px"><span class="pill" style="color:var(--cyan);background:var(--cyan-d);border:1px solid rgba(0,229,204,.19)">What People Say</span><h2 style="font-size:44px;font-weight:700;letter-spacing:-1.5px;margin-top:24px">Trusted by leaders across Oracle, IBM, Onapsis &amp; more</h2></div>
+<div style="max-width:760px;margin:0 auto 56px"><div class="crd" style="padding:44px;border-left:4px solid var(--cyan);position:relative;overflow:hidden"><div style="position:absolute;top:-20px;right:20px;font-size:120px;color:var(--cyan);opacity:.04;font-family:Georgia,serif;line-height:1">&ldquo;</div><div id="tfeat"></div><div style="display:flex;gap:6px;margin-top:28px;justify-content:center" id="tdots"></div></div></div>
+<div class="g3" id="tgrid"></div>
+</div></section>
 
-<!-- ══════ TESTIMONIALS ══════ -->
-<section id="testimonials">
-  <div class="sec">
-    <div style="text-align:center;margin-bottom:64px">
-      <span class="pill" style="color:var(--cyan);background:var(--cyan-d);border:1px solid rgba(0,229,204,.19)">What People Say</span>
-      <h2 style="font-size:44px;font-weight:700;letter-spacing:-1.5px;margin-top:24px">Trusted by leaders across Oracle, IBM, Onapsis & more</h2>
-    </div>
-    <div style="max-width:760px;margin:0 auto 56px">
-      <div class="crd" style="padding:44px;border-left:4px solid var(--cyan);position:relative;overflow:hidden">
-        <div style="position:absolute;top:-20px;right:20px;font-size:120px;color:var(--cyan);opacity:.04;font-family:Georgia,serif;line-height:1">"</div>
-        <div id="testimonial-featured"><!-- Filled by JS --></div>
-        <div style="display:flex;gap:6px;margin-top:28px;justify-content:center" id="testimonial-dots"><!-- Filled by JS --></div>
-      </div>
-    </div>
-    <div class="g3" id="testimonial-grid"><!-- Filled by JS --></div>
-  </div>
-</section>
+<!-- ABOUT -->
+<section id="about" style="background:var(--bg2)"><div class="sec">
+<div class="g2a">
+<div>
+<span class="pill" style="color:var(--cyan);background:var(--cyan-d);border:1px solid rgba(0,229,204,.19)">Your Fractional CCO</span>
+<h2 style="font-size:38px;font-weight:700;letter-spacing:-1px;margin-top:24px;margin-bottom:20px">I've built this before.<br>Multiple times.</h2>
+<p style="font-size:16px;color:var(--muted);line-height:1.7;margin-bottom:20px;font-weight:300">25+ years leading Customer Success, Professional Services, and Support — from Oracle's enterprise CS division to high-growth cybersecurity startups. Two successful Fortune 500 acquisitions (IBM and ServiceNow).</p>
+<p style="font-size:16px;color:var(--muted);line-height:1.7;margin-bottom:32px;font-weight:300">I also built CCOPilot.ai because I got tired of watching startups manage customer health in spreadsheets.</p>
+<div style="display:flex;gap:12px;flex-wrap:wrap"><a href="https://scheduler.zoom.us/r-shane-james/hello-i-am-an-event-card" target="_blank" class="bp">Book a Call</a><a href="#" class="bs" id="emailBtn">Email Me</a></div>
+</div>
+<div>
+<div class="crd" style="padding:0;overflow:hidden"><div style="padding:32px">
+<div style="display:flex;align-items:center;gap:16px;margin-bottom:24px"><div style="width:68px;height:68px;border-radius:18px;overflow:hidden;border:2px solid rgba(0,229,204,.3)"><img src="docs/001-bonus-GPGCr0c4LMo.jpeg" alt="Shane James" style="width:100%;height:100%;object-fit:cover"></div><div><div style="font-size:22px;font-weight:700">Shane James</div><div style="font-size:14px;color:var(--dim)">Fractional CCO &amp; Founder</div></div></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><span style="font-size:11px;padding:5px 12px;border-radius:6px;background:var(--cyan-d);border:1px solid rgba(0,229,204,.12);color:var(--cyan);font-family:'JetBrains Mono',monospace;font-weight:500">Reduced churn 22%→7%</span><span style="font-size:11px;padding:5px 12px;border-radius:6px;background:var(--cyan-d);border:1px solid rgba(0,229,204,.12);color:var(--cyan);font-family:'JetBrains Mono',monospace;font-weight:500">NRR 85%→115%</span><span style="font-size:11px;padding:5px 12px;border-radius:6px;background:var(--cyan-d);border:1px solid rgba(0,229,204,.12);color:var(--cyan);font-family:'JetBrains Mono',monospace;font-weight:500">2 Fortune 500 exits</span></div>
+</div>
+<div style="border-top:1px solid var(--bdr);padding:16px 32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px"><span style="font-size:13px;color:var(--dim)">📍 Apollo Beach, FL</span><div style="display:flex;gap:16px"><a href="tel:8136668427" style="font-size:13px;color:var(--cyan);font-weight:500">📞 (813) 666-8427</a><a href="#" id="emailLink2" style="font-size:13px;color:var(--cyan);font-weight:500">✉ Email</a></div></div></div>
+<div class="crd" style="margin-top:14px;display:flex;align-items:center;gap:20px;padding:22px"><div style="font-size:32px">📖</div><div style="flex:1"><div style="font-size:14px;font-weight:600;margin-bottom:4px">Author</div><div style="font-size:13px;color:var(--muted);line-height:1.5;font-weight:300">"Your Customers Are Lying to You: How AI Exposed Everything Wrong with Customer Success — And What to Do About It"</div></div></div>
+</div></div></div></section>
 
-<!-- ══════ ABOUT ══════ -->
-<section id="about" style="background:var(--bg2)">
-  <div class="sec">
-    <div class="g2a">
-      <div>
-        <span class="pill" style="color:var(--cyan);background:var(--cyan-d);border:1px solid rgba(0,229,204,.19)">Your Fractional CCO</span>
-        <h2 style="font-size:38px;font-weight:700;letter-spacing:-1px;margin-top:24px;margin-bottom:20px">I've built this before.<br>Multiple times.</h2>
-        <p style="font-size:16px;color:var(--muted);line-height:1.7;margin-bottom:20px;font-weight:300">25+ years leading Customer Success, Professional Services, and Support — from Oracle's enterprise CS division to high-growth cybersecurity startups. Two successful Fortune 500 acquisitions (IBM and ServiceNow).</p>
-        <p style="font-size:16px;color:var(--muted);line-height:1.7;margin-bottom:32px;font-weight:300">I also built CCOPilot.ai because I got tired of watching startups manage customer health in spreadsheets.</p>
-        <div style="display:flex;gap:12px;flex-wrap:wrap">
-          <a href="https://scheduler.zoom.us/r-shane-james/hello-i-am-an-event-card" target="_blank" class="bp">Book a Call</a>
-          <a href="mailto:shane.james@cco2go.ai" class="bs">Email Me</a>
-        </div>
-      </div>
-      <div>
-        <div class="crd" style="padding:0;overflow:hidden">
-          <div style="padding:32px">
-            <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px">
-              <div style="width:68px;height:68px;border-radius:18px;overflow:hidden;border:2px solid rgba(0,229,204,.3)"><img src="docs/001-bonus-GPGCr0c4LMo.jpeg" alt="Shane James" style="width:100%;height:100%;object-fit:cover"></div>
-              <div><div style="font-size:22px;font-weight:700">Shane James</div><div style="font-size:14px;color:var(--dim)">Fractional CCO & Founder</div></div>
-            </div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <span style="font-size:11px;padding:5px 12px;border-radius:6px;background:var(--cyan-d);border:1px solid rgba(0,229,204,.12);color:var(--cyan);font-family:'JetBrains Mono',monospace;font-weight:500">Reduced churn 22%→7%</span>
-              <span style="font-size:11px;padding:5px 12px;border-radius:6px;background:var(--cyan-d);border:1px solid rgba(0,229,204,.12);color:var(--cyan);font-family:'JetBrains Mono',monospace;font-weight:500">NRR 85%→115%</span>
-              <span style="font-size:11px;padding:5px 12px;border-radius:6px;background:var(--cyan-d);border:1px solid rgba(0,229,204,.12);color:var(--cyan);font-family:'JetBrains Mono',monospace;font-weight:500">2 Fortune 500 exits</span>
-            </div>
-          </div>
-          <div style="border-top:1px solid var(--bdr);padding:16px 32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-            <span style="font-size:13px;color:var(--dim)">📍 Apollo Beach, FL</span>
-            <div style="display:flex;gap:16px">
-              <a href="tel:8136668427" style="font-size:13px;color:var(--cyan);font-weight:500">📞 (813) 666-8427</a>
-              <a href="mailto:shane.james@cco2go.ai" style="font-size:13px;color:var(--cyan);font-weight:500">✉ Email</a>
-            </div>
-          </div>
-        </div>
-        <div class="crd" style="margin-top:14px;display:flex;align-items:center;gap:20px;padding:22px">
-          <div style="font-size:32px">📖</div>
-          <div style="flex:1">
-            <div style="font-size:14px;font-weight:600;margin-bottom:4px">Author</div>
-            <div style="font-size:13px;color:var(--muted);line-height:1.5;font-weight:300">"Your Customers Are Lying to You: How AI Exposed Everything Wrong with Customer Success — And What to Do About It"</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- CTA -->
+<section style="position:relative;overflow:hidden"><div style="position:absolute;inset:0;background:linear-gradient(135deg,var(--bg),#0c1020)"></div><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;background:radial-gradient(circle,var(--cyan-g) 0%,transparent 65%);filter:blur(120px);opacity:.2"></div>
+<div style="max-width:1200px;margin:0 auto;padding:120px 24px;position:relative;text-align:center"><h2 style="font-size:52px;font-weight:800;letter-spacing:-2.5px;max-width:700px;margin:0 auto 20px;line-height:1.08">Stop losing customers you <span style="color:var(--cyan)">didn't need to lose.</span></h2><p style="font-size:18px;color:var(--muted);max-width:480px;margin:0 auto 44px;font-weight:300;line-height:1.6">Book a 20-minute strategy call. No pitch, no pressure — just an honest look at your churn data.</p><a href="https://scheduler.zoom.us/r-shane-james/hello-i-am-an-event-card" target="_blank" class="bp" style="font-size:17px;padding:18px 52px">Book Your Strategy Call →</a><div style="display:flex;gap:24px;justify-content:center;font-size:14px;color:var(--dim);margin-top:28px"><span>⏱ 20 minutes</span><span>📋 No commitment</span><a href="tel:8136668427" style="color:var(--dim)">📞 (813) 666-8427</a></div></div></section>
 
-<!-- ══════ CTA ══════ -->
-<section style="position:relative;overflow:hidden">
-  <div style="position:absolute;inset:0;background:linear-gradient(135deg,var(--bg),#0c1020)"></div>
-  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;background:radial-gradient(circle,var(--cyan-g) 0%,transparent 65%);filter:blur(120px);opacity:.2"></div>
-  <div style="max-width:1200px;margin:0 auto;padding:120px 24px;position:relative;text-align:center">
-    <h2 style="font-size:52px;font-weight:800;letter-spacing:-2.5px;max-width:700px;margin:0 auto 20px;line-height:1.08">Stop losing customers you <span style="color:var(--cyan)">didn't need to lose.</span></h2>
-    <p style="font-size:18px;color:var(--muted);max-width:480px;margin:0 auto 44px;font-weight:300;line-height:1.6">Book a 20-minute strategy call. No pitch, no pressure — just an honest look at your churn data.</p>
-    <a href="https://scheduler.zoom.us/r-shane-james/hello-i-am-an-event-card" target="_blank" class="bp" style="font-size:17px;padding:18px 52px">Book Your Strategy Call →</a>
-    <div style="display:flex;gap:24px;justify-content:center;font-size:14px;color:var(--dim);margin-top:28px">
-      <span>⏱ 20 minutes</span><span>📋 No commitment</span><a href="tel:8136668427" style="color:var(--dim)">📞 (813) 666-8427</a>
-    </div>
-  </div>
-</section>
-
-<!-- ══════ FOOTER ══════ -->
-<footer style="border-top:1px solid var(--bdr);background:var(--bg)">
-  <div style="max-width:1200px;margin:0 auto;padding:60px 24px 36px">
-    <div class="g4" style="gap:40px;margin-bottom:40px">
-      <div>
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
-          <div style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--cyan),#0EA5E9);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;color:var(--bg);font-family:'JetBrains Mono',monospace">C2G</div>
-          <span style="font-weight:700;font-size:16px">CCO2Go<span style="color:var(--cyan)">.ai</span></span>
-        </div>
-        <p style="font-size:13px;color:var(--dim);line-height:1.6;max-width:260px;font-weight:300">Fractional Chief Customer Officer + AI-powered CS platform for B2B SaaS startups.</p>
-      </div>
-      <div>
-        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--dim);margin-bottom:16px">Platform</div>
-        <a href="https://www.ccopilot.ai" target="_blank" style="display:block;font-size:13px;color:var(--muted);padding:5px 0">Health Scoring</a>
-        <a href="https://www.ccopilot.ai" target="_blank" style="display:block;font-size:13px;color:var(--muted);padding:5px 0">AI Agents</a>
-        <a href="https://www.ccopilot.ai" target="_blank" style="display:block;font-size:13px;color:var(--muted);padding:5px 0">Workflows</a>
-        <a href="https://www.ccopilot.ai" target="_blank" style="display:block;font-size:13px;color:var(--muted);padding:5px 0">Reporting</a>
-      </div>
-      <div>
-        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--dim);margin-bottom:16px">Company</div>
-        <a href="#about" style="display:block;font-size:13px;color:var(--muted);padding:5px 0">About</a>
-        <a href="#results" style="display:block;font-size:13px;color:var(--muted);padding:5px 0">Results</a>
-        <a href="#testimonials" style="display:block;font-size:13px;color:var(--muted);padding:5px 0">Testimonials</a>
-        <a href="https://scheduler.zoom.us/r-shane-james/hello-i-am-an-event-card" target="_blank" style="display:block;font-size:13px;color:var(--muted);padding:5px 0">Book a Call</a>
-      </div>
-      <div>
-        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--dim);margin-bottom:16px">Contact</div>
-        <a href="tel:8136668427" style="display:block;font-size:13px;color:var(--muted);padding:5px 0">(813) 666-8427</a>
-        <a href="mailto:shane.james@cco2go.ai" style="display:block;font-size:13px;color:var(--muted);padding:5px 0">shane.james@cco2go.ai</a>
-        <div style="font-size:13px;color:var(--dim);padding:5px 0">Apollo Beach, FL</div>
-      </div>
-    </div>
-    <div style="border-top:1px solid var(--bdr);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
-      <div style="font-size:12px;color:var(--dim)">© 2026 CCO2Go.ai · All rights reserved</div>
-      <a href="https://www.ccopilot.ai" target="_blank" style="font-size:12px;color:var(--dim)">CCOPilot.ai →</a>
-    </div>
-  </div>
-</footer>
+<!-- FOOTER -->
+<footer style="border-top:1px solid var(--bdr);background:var(--bg)"><div style="max-width:1200px;margin:0 auto;padding:60px 24px 36px">
+<div class="g4" style="gap:40px;margin-bottom:40px">
+<div><div style="display:flex;align-items:center;gap:8px;margin-bottom:16px"><div style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--cyan),#0EA5E9);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;color:var(--bg);font-family:'JetBrains Mono',monospace">C2G</div><span style="font-weight:700;font-size:16px">CCO2Go<span style="color:var(--cyan)">.ai</span></span></div><p style="font-size:13px;color:var(--dim);line-height:1.6;max-width:260px;font-weight:300">Fractional Chief Customer Officer + AI-powered CS platform for B2B SaaS startups.</p></div>
+<div><div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--dim);margin-bottom:16px">Platform</div><a href="https://www.ccopilot.ai" target="_blank" style="display:block;font-size:13px;color:var(--muted);padding:5px 0">Health Scoring</a><a href="https://www.ccopilot.ai" target="_blank" style="display:block;font-size:13px;color:var(--muted);padding:5px 0">AI Agents</a><a href="https://www.ccopilot.ai" target="_blank" style="display:block;font-size:13px;color:var(--muted);padding:5px 0">Workflows</a><a href="https://www.ccopilot.ai" target="_blank" style="display:block;font-size:13px;color:var(--muted);padding:5px 0">Reporting</a></div>
+<div><div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--dim);margin-bottom:16px">Company</div><a href="#about" style="display:block;font-size:13px;color:var(--muted);padding:5px 0">About</a><a href="#results" style="display:block;font-size:13px;color:var(--muted);padding:5px 0">Results</a><a href="#testimonials" style="display:block;font-size:13px;color:var(--muted);padding:5px 0">Testimonials</a><a href="https://scheduler.zoom.us/r-shane-james/hello-i-am-an-event-card" target="_blank" style="display:block;font-size:13px;color:var(--muted);padding:5px 0">Book a Call</a></div>
+<div><div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--dim);margin-bottom:16px">Contact</div><a href="tel:8136668427" style="display:block;font-size:13px;color:var(--muted);padding:5px 0">(813) 666-8427</a><a href="#" id="emailLink3" style="display:block;font-size:13px;color:var(--muted);padding:5px 0"></a><div style="font-size:13px;color:var(--dim);padding:5px 0">Apollo Beach, FL</div></div>
+</div>
+<div style="border-top:1px solid var(--bdr);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px"><div style="font-size:12px;color:var(--dim)">&copy; 2026 CCO2Go.ai</div><a href="https://www.ccopilot.ai" target="_blank" style="font-size:12px;color:var(--dim)">CCOPilot.ai →</a></div>
+</div></footer>
 
 <script>
-// ─── Scroll nav ───
-window.addEventListener('scroll',function(){
-  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50);
-});
+// === Email construction (Cloudflare-proof) ===
+var eU='shane.james';var eD='cco2go.ai';var eA=eU+'@'+eD;
+var eH='mai'+'lto:'+eA;
+document.getElementById('emailBtn').href=eH;
+document.getElementById('emailLink2').href=eH;
+var e3=document.getElementById('emailLink3');e3.href=eH;e3.textContent=eA;
+
+// === Scroll nav ===
+window.addEventListener('scroll',function(){document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50)});
 function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
 
-// ─── Platform tabs ───
-var platformData=[
-  {icon:'◉',title:'Health Scoring',color:'green',img:'docs/Healthscore.png',headline:'Predictive health scores that catch churn before it happens',body:'AI-driven composite scoring across product usage, support sentiment, engagement patterns, and billing signals. Configure weights across five dimensions — your team sees the risk weeks before the renewal.',features:['Multi-signal aggregation','Trend-based alerts','Configurable weights','Risk tier automation']},
-  {icon:'⬡',title:'AI Agents',color:'cyan',img:'docs/AI_Agents_pic.png',headline:'15 purpose-built agents that automate the CS grind',body:'From drafting EBR decks to triaging support tickets to generating renewal briefs — each agent handles a specific workflow so your team focuses on relationships.',features:['EBR/QBR generation','Call prep briefs','Churn risk synthesis','Onboarding orchestration']},
-  {icon:'⟐',title:'Workflows',color:'amber',img:'docs/Workflows.png',headline:'Orchestration that turns playbooks into automated action',body:'Define triggers, route tasks, escalate risks, and sequence outreach — all without code. Your CS process runs even when your team is heads-down.',features:['Visual workflow builder','Conditional branching','Multi-step automation','SLA tracking']},
-  {icon:'◧',title:'Reporting',color:'red',img:'docs/Rollup.png',headline:'Board-ready dashboards your investors actually trust',body:'NRR, GRR, logo retention, expansion revenue, health distribution — pre-built and customizable. Stop building slides manually every quarter.',features:['Executive dashboards','Cohort analysis','ROI calculators','PowerPoint export']}
+// === Platform tabs ===
+var PD=[
+{icon:'\u25C9',title:'Health Scoring',color:'green',img:'docs/Healthscore.png',hl:'Predictive health scores that catch churn before it happens',body:'AI-driven composite scoring across product usage, support sentiment, engagement patterns, and billing signals. Configure weights across five dimensions.',feats:['Multi-signal aggregation','Trend-based alerts','Configurable weights','Risk tier automation']},
+{icon:'\u2B21',title:'AI Agents',color:'cyan',img:'docs/AI_Agents_pic.png',hl:'15 purpose-built agents that automate the CS grind',body:'From drafting EBR decks to triaging support tickets to generating renewal briefs \u2014 each agent handles a specific workflow.',feats:['EBR/QBR generation','Call prep briefs','Churn risk synthesis','Onboarding orchestration']},
+{icon:'\u27D0',title:'Workflows',color:'amber',img:'docs/Workflows.png',hl:'Orchestration that turns playbooks into automated action',body:'Define triggers, route tasks, escalate risks, and sequence outreach \u2014 all without code.',feats:['Visual workflow builder','Conditional branching','Multi-step automation','SLA tracking']},
+{icon:'\u25E7',title:'Reporting',color:'red',img:'docs/Rollup.png',hl:'Board-ready dashboards your investors actually trust',body:'NRR, GRR, logo retention, expansion revenue, health distribution \u2014 pre-built and customizable.',feats:['Executive dashboards','Cohort analysis','ROI calculators','PowerPoint export']}
 ];
-var colorMap={green:'var(--green)',cyan:'var(--cyan)',amber:'var(--amber)',red:'var(--red)'};
-var colorDMap={green:'var(--green-d)',cyan:'var(--cyan-d)',amber:'var(--amber-d)',red:'var(--red-d)'};
-
-function switchTab(i){
-  var btns=document.querySelectorAll('#platform-tabs .tab-btn');
-  btns.forEach(function(b,j){b.classList.toggle('active',j===i)});
-  var d=platformData[i],c=colorMap[d.color],cd=colorDMap[d.color];
-  var featsHtml=d.features.map(function(f){
-    return '<div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);padding:10px 14px;background:var(--bg2);border-radius:8px;border:1px solid var(--bdr)"><span style="color:'+c+';font-family:\'JetBrains Mono\',monospace">→</span>'+f+'</div>';
-  }).join('');
-  document.getElementById('platform-content').innerHTML=
-    '<div class="g2" style="align-items:center">'+
-      '<div class="si">'+
-        '<h3 style="font-size:28px;font-weight:700;letter-spacing:-.8px;margin-bottom:16px;line-height:1.2">'+d.headline+'</h3>'+
-        '<p style="font-size:16px;color:var(--muted);line-height:1.7;margin-bottom:32px;font-weight:300">'+d.body+'</p>'+
-        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">'+featsHtml+'</div>'+
-        '<a href="https://www.ccopilot.ai" target="_blank" class="bp" style="margin-top:28px;display:inline-flex;padding:12px 28px;font-size:14px">Try Interactive Demo →</a>'+
-      '</div>'+
-      '<div style="border-radius:16px;overflow:hidden;border:1px solid var(--bdr);position:relative;background:var(--bg)">'+
-        '<img src="'+d.img+'" alt="CCOPilot '+d.title+'" style="width:100%;height:auto;display:block;border-radius:15px;opacity:.9;transition:opacity .3s" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=.9">'+
-      '</div>'+
-    '</div>';
+var cM={green:'var(--green)',cyan:'var(--cyan)',amber:'var(--amber)',red:'var(--red)'};
+function sTab(i){
+var bs=document.querySelectorAll('#ptabs .tab-btn');bs.forEach(function(b,j){b.classList.toggle('active',j===i)});
+var d=PD[i],c=cM[d.color];
+var fh=d.feats.map(function(f){return '<div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);padding:10px 14px;background:var(--bg2);border-radius:8px;border:1px solid var(--bdr)"><span style="color:'+c+';font-family:JetBrains Mono,monospace">\u2192</span>'+f+'</div>'}).join('');
+document.getElementById('pcontent').innerHTML='<div class="g2" style="align-items:center"><div class="si"><h3 style="font-size:28px;font-weight:700;letter-spacing:-.8px;margin-bottom:16px;line-height:1.2">'+d.hl+'</h3><p style="font-size:16px;color:var(--muted);line-height:1.7;margin-bottom:32px;font-weight:300">'+d.body+'</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">'+fh+'</div><a href="https://www.ccopilot.ai" target="_blank" class="bp" style="margin-top:28px;display:inline-flex;padding:12px 28px;font-size:14px">Try Interactive Demo \u2192</a></div><div style="border-radius:16px;overflow:hidden;border:1px solid var(--bdr);background:var(--bg)"><img src="'+d.img+'" alt="CCOPilot '+d.title+'" style="width:100%;height:auto;display:block;border-radius:15px;opacity:.9" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=.9"></div></div>';
 }
-switchTab(0);
+sTab(0);
 
-// ─── Testimonials ───
-var testimonials=[
-  {quote:"Shane joined Manta when we had no formal customer success function and built it from the ground up. He's hard-working, process-oriented, and relentlessly focused on disciplined execution.",highlight:"He led his team with care and clarity, invested in their growth, and built a culture of trust and accountability. Smart, loyal, and a real fighter when things get ugly.",name:"Tomas Kratky",title:"Founder & Angel Investor",company:"Manta / IBM",rel:"Managed Shane directly",tag:"Built CS from Zero"},
-  {quote:"Shane's impact on our organization has been truly transformative. His dedication and vision were the driving force behind my decision to move across the country to work under his leadership.",highlight:"One of Shane's most outstanding achievements was his ability to drastically reduce churn rates. He didn't just manage customers; he built enduring relationships.",name:"Ryan Dalton",title:"Technical Product Manager · Solutions Architect",company:"IBM (formerly Manta)",rel:"Reported to Shane",tag:"Churn Reduction"},
-  {quote:"Shane was my North American counterpart in the pre-sales and customer success leadership team. He is a strong leader and the epitome of a play-coach management style.",highlight:"Shane pioneered the Customer Success program in our organization. He was instrumental in driving impactful enablement initiatives globally.",name:"Chia Zyn Loo",title:"Director, JAPAC Sales Consulting",company:"Oracle",rel:"Worked on same team",tag:"Global CS Programs"},
-  {quote:"Shane was my manager at Oracle. He was one of the fairest managers I reported to over the years. He always listened to feedback and would help bring new ideas to the table from the team.",highlight:"I feel he enriched my career and helped me grow to where I am today. Shane is a good listener and that is also hard to find in a person.",name:"Bryan Tanoue",title:"Igniting Business Change with the Embers of Technology",company:"Oracle",rel:"Reported to Shane",tag:"People Leadership"},
-  {quote:"I had the pleasure of working with Shane as my SVP of Customer Success at Manta. He is a consummate professional and an incredible leader providing not just direction but mentoring.",highlight:"Shane is incredibly approachable yet a firm and effective leader. I would work for / with Shane without hesitation and he has my highest recommendation.",name:"Brian Perkins",title:"Sr Data Architect",company:"Manta (now Hagerty)",rel:"Reported to Shane",tag:"Team Leadership"},
-  {quote:"I have known and worked with Shane James for over 10 years. Shane led the North America Sales Consulting team that I was part of and had a solid head for technology and business.",highlight:"While at Oracle, he constantly looked for ways to improve process and was instrumental in creating the Open Source Center of Excellence and Customer Success Programs.",name:"Ken Ellis",title:"AI · Data Integration · Oracle SaaS",company:"Oracle",rel:"Reported to Shane",tag:"Process Innovation"},
-  {quote:"I worked with Shane for several years as he was leading a team of solution engineers at Oracle. He has outstanding business acumen and was exceptional at identifying, analyzing and positioning business value.",highlight:"His business skills complement his technical knowledge. He was a great leader — his team really respected him.",name:"Glenn Habib",title:"Supply Chain Executive",company:"Oracle",rel:"Worked on same team",tag:"Business Acumen"},
-  {quote:"Shane James is a fantastic team member with a strong orientation toward results. His attention to detail, customer success, and delivering true value make him an impressive partner.",highlight:"I really enjoyed working with Shane during our time together at Oracle and would welcome any opportunity to do so again. He's a keeper.",name:"Nick Kritikos",title:"COO & CCO · Strategic Growth Expert",company:"Oracle",rel:"Managed Shane directly",tag:"Results Orientation"}
+// === Testimonials ===
+var T=[
+{q:"Shane joined Manta when we had no formal customer success function and built it from the ground up. He\u2019s hard-working, process-oriented, and relentlessly focused on disciplined execution.",h:"He led his team with care and clarity, invested in their growth, and built a culture of trust and accountability. Smart, loyal, and a real fighter when things get ugly.",n:"Tomas Kratky",t:"Founder & Angel Investor",c:"Manta / IBM",r:"Managed Shane directly",tag:"Built CS from Zero"},
+{q:"Shane\u2019s impact on our organization has been truly transformative. His dedication and vision were the driving force behind my decision to move across the country to work under his leadership.",h:"One of Shane\u2019s most outstanding achievements was his ability to drastically reduce churn rates. He didn\u2019t just manage customers; he built enduring relationships.",n:"Ryan Dalton",t:"Technical Product Manager",c:"IBM (formerly Manta)",r:"Reported to Shane",tag:"Churn Reduction"},
+{q:"Shane was my North American counterpart in the pre-sales and customer success leadership team. He is a strong leader and the epitome of a play-coach management style.",h:"Shane pioneered the Customer Success program in our organization. He was instrumental in driving impactful enablement initiatives globally.",n:"Chia Zyn Loo",t:"Director, JAPAC Sales Consulting",c:"Oracle",r:"Worked on same team",tag:"Global CS Programs"},
+{q:"Shane was my manager at Oracle. He was one of the fairest managers I reported to over the years. He always listened to feedback and would help bring new ideas to the table.",h:"I feel he enriched my career and helped me grow to where I am today. Shane is a good listener and that is hard to find.",n:"Bryan Tanoue",t:"Business Change Leader",c:"Oracle",r:"Reported to Shane",tag:"People Leadership"},
+{q:"I had the pleasure of working with Shane as my SVP of Customer Success at Manta. He is a consummate professional and an incredible leader providing not just direction but mentoring.",h:"Shane is incredibly approachable yet a firm and effective leader. I would work for or with Shane without hesitation.",n:"Brian Perkins",t:"Sr Data Architect",c:"Manta (now Hagerty)",r:"Reported to Shane",tag:"Team Leadership"},
+{q:"I have known and worked with Shane James for over 10 years. Shane led the North America Sales Consulting team and had a solid head for technology and business.",h:"At Oracle, he was instrumental in creating the Open Source Center of Excellence and Customer Success Programs.",n:"Ken Ellis",t:"AI & Data Integration",c:"Oracle",r:"Reported to Shane",tag:"Process Innovation"},
+{q:"I worked with Shane for several years as he was leading a team of solution engineers at Oracle. He has outstanding business acumen.",h:"His business skills complement his technical knowledge. He was a great leader \u2014 his team really respected him.",n:"Glenn Habib",t:"Supply Chain Executive",c:"Oracle",r:"Worked on same team",tag:"Business Acumen"},
+{q:"Shane James is a fantastic team member with a strong orientation toward results. His attention to detail and delivering true value make him an impressive partner.",h:"I really enjoyed working with Shane at Oracle and would welcome any opportunity to do so again. He\u2019s a keeper.",n:"Nick Kritikos",t:"COO & CCO",c:"Oracle",r:"Managed Shane directly",tag:"Results Orientation"}
 ];
-var tIdx=0;
-
-function renderTestimonial(){
-  var t=testimonials[tIdx];
-  document.getElementById('testimonial-featured').innerHTML=
-    '<div class="si">'+
-      '<div style="margin-bottom:20px"><span class="pill" style="color:var(--cyan);background:var(--cyan-d);border:1px solid rgba(0,229,204,.12);font-size:10px;padding:4px 12px">'+t.tag+'</span></div>'+
-      '<p style="font-size:17px;line-height:1.75;color:var(--txt);margin-bottom:12px;font-weight:300">'+t.quote+'</p>'+
-      '<p style="font-size:17px;line-height:1.75;color:var(--cyan);margin-bottom:28px;font-weight:500">'+t.highlight+'</p>'+
-      '<div><div style="font-weight:600;font-size:16px">'+t.name+'</div>'+
-      '<div style="font-size:13px;color:var(--dim)">'+t.title+'</div>'+
-      '<div style="font-size:13px;color:var(--muted);margin-top:2px">'+t.company+' · <span style="color:var(--dim)">'+t.rel+'</span></div></div>'+
-    '</div>';
-  // Dots
-  var dots='';
-  for(var i=0;i<testimonials.length;i++){
-    dots+='<button class="t-dot'+(i===tIdx?' active':'')+'" onclick="jumpT('+i+')"></button>';
-  }
-  document.getElementById('testimonial-dots').innerHTML=dots;
-  // Mini grid
-  var grid='';var count=0;
-  for(var j=0;j<testimonials.length&&count<3;j++){
-    if(j===tIdx)continue;
-    var m=testimonials[j];
-    grid+='<div class="crd" style="padding:24px;cursor:pointer" onclick="jumpT('+j+')">'+
-      '<p style="font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:16px;font-weight:300;font-style:italic">"'+m.highlight+'"</p>'+
-      '<div style="border-top:1px solid var(--bdr);padding-top:12px">'+
-        '<div style="font-weight:600;font-size:13px">'+m.name+'</div>'+
-        '<div style="font-size:12px;color:var(--dim)">'+m.title+'</div>'+
-        '<div style="font-size:12px;co
+var tI=0;
+function rT(){
+var t=T[tI];
+document.getElementById('tfeat').innerHTML='<div class="si"><div style="margin-bottom:20px"><span class="pill" style="color:var(--cyan);background:var(--cyan-d);border:1px solid rgba(0,229,204,.12);font-size:10px;padding:4px 12px">'+t.tag+'</span></div><p style="font-size:17px;line-height:1.75;color:var(--txt);margin-bottom:12px;font-weight:300">'+t.q+'</p><p style="font-size:17px;line-height:1.75;color:var(--cyan);margin-bottom:28px;font-weight:500">'+t.h+'</p><div><div style="font-weight:600;font-size:16px">'+t.n+'</div><div style="font-size:13px;color:var(--dim)">'+t.t+'</div><div style="font-size:13px;color:var(--muted);margin-top:2px">'+t.c+' \u00B7 <span style="color:var(--dim)">'+t.r+'</span></div></div></div>';
+var dots='';for(var i=0;i<T.length;i++){dots+='<button class="t-dot'+(i===tI?' active':'')+'" onclick="jT('+i+')"></button>'}
+document.getElementById('tdots').innerHTML=dots;
+var g='';var ct=0;for(var j=0;j<T.length&&ct<3;j++){if(j===tI)continue;var m=T[j];g+='<div class="crd" style="padding:24px;cursor:pointer" onclick="jT('+j+')"><p style="font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:16px;font-weight:300;font-style:italic">\u201C'+m.h+'\u201D</p><div style="border-top:1px solid var(--bdr);padding-top:12px"><div style="font-weight:600;font-size:13px">'+m.n+'</div><div style="font-size:12px;color:var(--dim)">'+m.t+'</div><div style="font-size:12px;color:var(--dim)">'+m.c+'</div></div></div>';ct++}
+document.getElementById('tgrid').innerHTML=g;
+}
+function jT(i){tI=i;rT()}
+rT();
+setInterval(function(){tI=(tI+1)%T.length;rT()},6000);
+</script>
+</body>
+</html>
