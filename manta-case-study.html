@@ -3,489 +3,627 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Case Study: Manta to IBM Exit | Shane James</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <title>Case Study: Manta → IBM | Shane James | CCO2Go.ai</title>
+    <meta name="description" content="How Shane James built Manta's customer success organization from zero — contributing to their acquisition by IBM's Data & AI division.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        body { 
-            font-family: 'Inter', sans-serif; 
-            scroll-behavior: smooth;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #111118;
+            --bg-card: #16161f;
+            --bg-card-hover: #1c1c28;
+            --border: #2a2a3a;
+            --border-accent: #3a3a5a;
+            --text-primary: #e8e8f0;
+            --text-secondary: #9090a8;
+            --text-muted: #606078;
+            --accent: #6c63ff;
+            --accent-glow: rgba(108, 99, 255, 0.15);
+            --accent-soft: #8b83ff;
+            --green: #34d399;
+            --green-glow: rgba(52, 211, 153, 0.12);
+            --amber: #fbbf24;
+            --red: #f87171;
+            --blue: #60a5fa;
         }
-        .slide {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* NAV */
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+            height: 60px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .nav-logo {
+            font-weight: 700; font-size: 1rem; color: var(--text-primary);
+            text-decoration: none; display: flex; align-items: center; gap: 0.5rem;
+        }
+        .nav-logo span { color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; }
+        .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+        .nav-links a {
+            color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--text-primary); }
+        .nav-cta {
+            background: var(--accent); color: #fff !important; padding: 0.45rem 1rem;
+            border-radius: 6px; font-size: 0.8rem; font-weight: 600;
+        }
+        .nav-cta:hover { background: var(--accent-soft); }
+
+        /* HERO */
+        .hero {
+            padding: 8rem 2rem 4rem;
+            max-width: 900px; margin: 0 auto;
+            text-align: center;
+        }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: var(--bg-card); border: 1px solid var(--border);
+            padding: 0.4rem 1rem; border-radius: 100px;
+            font-size: 0.78rem; color: var(--text-secondary);
+            font-weight: 500; margin-bottom: 2rem;
+            text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            font-weight: 800; line-height: 1.15;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-soft));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero h1 .arrow { 
+            -webkit-text-fill-color: var(--green); 
+            font-weight: 400;
+        }
+        .hero-sub {
+            font-size: 1.15rem; color: var(--text-secondary);
+            max-width: 650px; margin: 0 auto 3rem;
+            line-height: 1.7;
+        }
+
+        /* STATS ROW */
+        .stats-row {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 1px; background: var(--border);
+            border: 1px solid var(--border); border-radius: 12px;
+            overflow: hidden; max-width: 700px; margin: 0 auto 2rem;
+        }
+        .stat {
+            background: var(--bg-card); padding: 1.8rem 1.2rem;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 1.8rem; font-weight: 800; color: var(--green);
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 0.3rem;
+        }
+        .stat-label {
+            font-size: 0.75rem; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600;
+        }
+
+        /* SECTIONS */
+        .section {
+            max-width: 800px; margin: 0 auto;
             padding: 4rem 2rem;
         }
-        @media print {
-            .slide {
-                page-break-after: always;
-                min-height: 100vh;
-            }
+        .section-label {
+            font-size: 0.72rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.12em;
+            color: var(--accent); margin-bottom: 0.75rem;
+        }
+        .section h2 {
+            font-size: 1.8rem; font-weight: 700;
+            margin-bottom: 1.5rem; line-height: 1.3;
+        }
+        .section p {
+            color: var(--text-secondary); margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .divider {
+            max-width: 800px; margin: 0 auto;
+            border: none; border-top: 1px solid var(--border);
+        }
+
+        /* COMPANY INFO */
+        .company-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 1.5rem; margin-top: 1.5rem;
+        }
+        .company-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 10px; padding: 1.5rem;
+        }
+        .company-card h3 {
+            font-size: 0.85rem; font-weight: 600;
+            color: var(--accent-soft); margin-bottom: 0.5rem;
+            text-transform: uppercase; letter-spacing: 0.06em;
+        }
+        .company-card p { font-size: 0.9rem; color: var(--text-secondary); margin: 0; }
+
+        /* CHALLENGE CARDS */
+        .challenge-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
+        .challenge-item {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-left: 3px solid var(--red); border-radius: 8px;
+            padding: 1.3rem 1.5rem;
+        }
+        .challenge-item h4 {
+            font-size: 0.95rem; font-weight: 700; margin-bottom: 0.4rem;
+            color: var(--text-primary);
+        }
+        .challenge-item p { font-size: 0.88rem; color: var(--text-secondary); margin: 0; }
+
+        /* PLAYBOOK */
+        .playbook-grid {
+            display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 1.5rem;
+        }
+        .playbook-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 10px; padding: 1.8rem;
+        }
+        .playbook-card h3 {
+            font-size: 1.05rem; font-weight: 700; margin-bottom: 0.3rem;
+        }
+        .playbook-card .step-num {
+            display: inline-block; font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem; font-weight: 600; color: var(--accent);
+            background: var(--accent-glow); padding: 0.2rem 0.6rem;
+            border-radius: 4px; margin-bottom: 0.75rem;
+        }
+        .playbook-card p { font-size: 0.88rem; color: var(--text-secondary); margin: 0; }
+        .playbook-card ul {
+            list-style: none; margin-top: 0.8rem;
+        }
+        .playbook-card ul li {
+            font-size: 0.88rem; color: var(--text-secondary);
+            padding: 0.3rem 0; padding-left: 1.2rem; position: relative;
+        }
+        .playbook-card ul li::before {
+            content: '→'; position: absolute; left: 0; color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* RESULTS */
+        .results-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem; margin-top: 1.5rem;
+        }
+        .result-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 10px; padding: 1.8rem; text-align: center;
+        }
+        .result-card .result-value {
+            font-size: 2.2rem; font-weight: 800; color: var(--green);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .result-card .result-metric {
+            font-size: 0.85rem; font-weight: 600; color: var(--text-primary);
+            margin: 0.3rem 0;
+        }
+        .result-card .result-desc {
+            font-size: 0.8rem; color: var(--text-muted);
+        }
+
+        /* EXIT SECTION */
+        .exit-block {
+            background: linear-gradient(135deg, var(--bg-card), rgba(108, 99, 255, 0.05));
+            border: 1px solid var(--border-accent);
+            border-radius: 12px; padding: 2.5rem;
+            margin-top: 2rem;
+        }
+        .exit-block h3 {
+            font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        .exit-block p {
+            font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 1rem;
+        }
+
+        /* TESTIMONIAL */
+        .testimonial {
+            background: var(--bg-card);
+            border: 1px solid var(--border-accent);
+            border-left: 3px solid var(--accent);
+            border-radius: 10px; padding: 2rem 2rem 1.5rem;
+            margin-top: 2.5rem;
+            position: relative;
+        }
+        .testimonial::before {
+            content: '"'; font-size: 4rem; color: var(--accent);
+            position: absolute; top: 0.5rem; left: 1.2rem;
+            font-family: Georgia, serif; opacity: 0.3; line-height: 1;
+        }
+        .testimonial blockquote {
+            font-size: 0.95rem; color: var(--text-secondary);
+            line-height: 1.8; font-style: italic;
+            margin-bottom: 1.2rem; padding-left: 0.5rem;
+        }
+        .testimonial-author {
+            display: flex; align-items: center; gap: 0.8rem;
+            border-top: 1px solid var(--border); padding-top: 1rem;
+        }
+        .testimonial-avatar {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: var(--accent-glow); display: flex;
+            align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.9rem; color: var(--accent);
+        }
+        .testimonial-name { font-weight: 600; font-size: 0.9rem; color: var(--text-primary); }
+        .testimonial-title { font-size: 0.78rem; color: var(--text-muted); }
+
+        /* LESSONS */
+        .lessons-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 1rem; margin-top: 1.5rem;
+        }
+        .lesson-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 8px; padding: 1.3rem 1.5rem;
+            display: flex; gap: 1rem; align-items: flex-start;
+        }
+        .lesson-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.4rem; font-weight: 800;
+            color: var(--accent); opacity: 0.4;
+            line-height: 1; min-width: 1.8rem;
+        }
+        .lesson-card h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.3rem; }
+        .lesson-card p { font-size: 0.82rem; color: var(--text-secondary); margin: 0; }
+
+        /* REPEATABLE */
+        .repeatable-block {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 12px; padding: 2.5rem;
+            margin-top: 1.5rem; text-align: center;
+        }
+        .repeatable-block p {
+            font-size: 1rem; color: var(--text-secondary);
+            max-width: 600px; margin: 0 auto 1rem;
+        }
+        .repeatable-block .principle {
+            font-size: 1.1rem; font-weight: 700; color: var(--text-primary);
+            margin-top: 1rem;
+        }
+        .tags { display: flex; justify-content: center; gap: 0.6rem; margin-top: 1.5rem; flex-wrap: wrap; }
+        .tag {
+            background: var(--accent-glow); border: 1px solid rgba(108, 99, 255, 0.2);
+            padding: 0.35rem 0.9rem; border-radius: 100px;
+            font-size: 0.78rem; color: var(--accent-soft); font-weight: 500;
+        }
+
+        /* CTA */
+        .cta-section {
+            max-width: 800px; margin: 0 auto;
+            padding: 4rem 2rem 3rem; text-align: center;
+        }
+        .cta-section h2 {
+            font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem;
+        }
+        .cta-section p {
+            color: var(--text-secondary); font-size: 0.95rem;
+            max-width: 550px; margin: 0 auto 2rem;
+        }
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: var(--accent); color: #fff; padding: 0.75rem 1.5rem;
+            border-radius: 8px; font-size: 0.9rem; font-weight: 600;
+            text-decoration: none; transition: all 0.2s;
+        }
+        .btn-primary:hover { background: var(--accent-soft); transform: translateY(-1px); }
+        .btn-secondary {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: transparent; color: var(--text-secondary);
+            border: 1px solid var(--border); padding: 0.75rem 1.5rem;
+            border-radius: 8px; font-size: 0.9rem; font-weight: 500;
+            text-decoration: none; transition: all 0.2s;
+        }
+        .btn-secondary:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+        .cta-contact {
+            margin-top: 1.5rem; font-size: 0.82rem; color: var(--text-muted);
+        }
+        .cta-contact a { color: var(--text-secondary); text-decoration: none; }
+        .cta-contact a:hover { color: var(--text-primary); }
+
+        /* FOOTER */
+        .footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem; text-align: center;
+            font-size: 0.78rem; color: var(--text-muted);
+        }
+        .footer a { color: var(--text-secondary); text-decoration: none; }
+        .footer a:hover { color: var(--text-primary); }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .stats-row { grid-template-columns: 1fr; }
+            .company-grid { grid-template-columns: 1fr; }
+            .results-grid { grid-template-columns: 1fr; }
+            .lessons-grid { grid-template-columns: 1fr; }
+            .hero { padding: 7rem 1.5rem 3rem; }
+            .section { padding: 3rem 1.5rem; }
+            .nav-links { display: none; }
         }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-200">
+<body>
 
-    <!-- Slide 1: Title Slide -->
-    <div class="slide bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950">
-        <div class="max-w-5xl mx-auto text-center">
-            <div class="inline-block px-6 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-sm font-bold tracking-widest uppercase mb-8">
-                M&A Success Story
-            </div>
-            <h1 class="text-6xl md:text-8xl font-black mb-8 tracking-tight text-white">
-                Manta → IBM
-            </h1>
-            <p class="text-2xl md:text-3xl text-slate-400 font-light mb-12">
-                Building a "Fabulous" Global Customer Engine<br>from Zero to Acquisition
-            </p>
-            <div class="flex flex-col md:flex-row justify-center items-center gap-8">
-                <div class="text-center">
-                    <p class="text-5xl font-bold text-blue-400">96.5%</p>
-                    <p class="text-sm text-slate-500 uppercase tracking-wider">Customer Satisfaction</p>
-                </div>
-                <div class="text-center">
-                    <p class="text-5xl font-bold text-blue-400">80</p>
-                    <p class="text-sm text-slate-500 uppercase tracking-wider">Employee NPS (Elite)</p>
-                </div>
-                <div class="text-center">
-                    <p class="text-5xl font-bold text-blue-400">+20%</p>
-                    <p class="text-sm text-slate-500 uppercase tracking-wider">Time-to-Value</p>
-                </div>
-            </div>
-            <div class="mt-16 text-sm text-slate-600">
-                <p>Shane James | Global Leader, CX & Professional Services</p>
-                <p class="mt-2">shane.james@cco2go.ai | (813) 666-8427</p>
-            </div>
+<!-- NAV -->
+<nav class="nav">
+    <a href="https://cco2go.ai" class="nav-logo"><span>C2G</span> CCO2Go.ai</a>
+    <div class="nav-links">
+        <a href="https://cco2go.ai">Home</a>
+        <a href="https://cco2go.ai/onapsis-case-study.html">Onapsis Case Study</a>
+        <a href="https://scheduler.zoom.us/r-shane-james/hello-i-am-an-event-card" class="nav-cta">Book a Call</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+    <div class="hero-badge"><span class="dot"></span> Case Study — M&A Exit</div>
+    <h1>Manta <span class="arrow">→</span> IBM</h1>
+    <p class="hero-sub">
+        Built the entire customer success organization from zero — Implementation Engineering, Technical Account Management, and Professional Services — creating the operational foundation that helped position Manta for acquisition by IBM's Data & AI division.
+    </p>
+
+    <div class="stats-row">
+        <div class="stat">
+            <div class="stat-value">96.5%</div>
+            <div class="stat-label">Customer Satisfaction</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">80</div>
+            <div class="stat-label">Employee NPS</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">+20%</div>
+            <div class="stat-label">Faster Time-to-Value</div>
+        </div>
+    </div>
+</header>
+
+<hr class="divider">
+
+<!-- THE COMPANY -->
+<section class="section">
+    <div class="section-label">The Company</div>
+    <h2>Manta — Enterprise Data Lineage</h2>
+    <p>
+        Manta built an enterprise data lineage platform that automated metadata extraction across heterogeneous data environments — Oracle, SQL Server, Snowflake, Databricks, Informatica, SSIS, and more. Growth-stage and venture-backed, the company was preparing for strategic acquisition in a market defined by data governance, compliance (GDPR, CCPA), and data cataloging.
+    </p>
+
+    <div class="company-grid">
+        <div class="company-card">
+            <h3>Stage</h3>
+            <p>Growth-stage, venture-backed, preparing for strategic acquisition by Tier 1 buyers</p>
+        </div>
+        <div class="company-card">
+            <h3>Market</h3>
+            <p>Enterprise data governance, regulatory compliance, data cataloging & lineage</p>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- THE CHALLENGE -->
+<section class="section">
+    <div class="section-label">The Challenge</div>
+    <h2>No CS org. Complex product. Acquisition on the horizon.</h2>
+    <p>
+        When I joined Manta, there was no formal customer success function. Sales closed deals and handed them to support. For a company selling complex data lineage integrations to enterprise buyers — and preparing for scrutiny from acquirers like IBM, Oracle, and Informatica — that was an existential risk.
+    </p>
+
+    <div class="challenge-list">
+        <div class="challenge-item">
+            <h4>Zero post-sales infrastructure</h4>
+            <p>No implementation team, no technical account managers, no onboarding playbooks. Customers were left to figure out complex data integrations on their own.</p>
+        </div>
+        <div class="challenge-item">
+            <h4>Technical complexity killing adoption</h4>
+            <p>Data lineage requires deep integrations across heterogeneous environments. Customers were struggling to reach "first value" — their first lineage diagram — and stalling.</p>
+        </div>
+        <div class="challenge-item">
+            <h4>Acquisition readiness gap</h4>
+            <p>Tier 1 acquirers audit customer operations during due diligence. Manta had no health scoring, no documented escalation processes, and no predictable retention model.</p>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- THE PLAYBOOK -->
+<section class="section">
+    <div class="section-label">The Strategic Playbook</div>
+    <h2>Build. Operationalize. Prepare for exit.</h2>
+
+    <div class="playbook-grid">
+        <div class="playbook-card">
+            <div class="step-num">PHASE 1</div>
+            <h3>Build the Foundation</h3>
+            <p>Created three specialized teams from scratch — each designed to own a different stage of the customer lifecycle:</p>
+            <ul>
+                <li>Implementation Engineering — technical onboarding and integrations</li>
+                <li>Technical Account Management — enterprise relationship ownership</li>
+                <li>Professional Services — advanced use-case enablement and expansion</li>
+            </ul>
+        </div>
+        <div class="playbook-card">
+            <div class="step-num">PHASE 2</div>
+            <h3>Operationalize for Scale</h3>
+            <p>Built repeatable processes that could scale from 20 customers to 200 without breaking:</p>
+            <ul>
+                <li>Standardized onboarding playbooks by data platform (Oracle, Snowflake, Databricks, etc.)</li>
+                <li>Technical health scoring based on connector success rates</li>
+                <li>QBR templates designed for data architects and compliance teams</li>
+                <li>Pre-built connector templates and quickstart guides that cut time-to-value by 20%</li>
+            </ul>
+        </div>
+        <div class="playbook-card">
+            <div class="step-num">PHASE 3</div>
+            <h3>Optimize for Exit</h3>
+            <p>Made every customer-facing process audit-ready — designed knowing a Tier 1 buyer would scrutinize it:</p>
+            <ul>
+                <li>Real-time dashboards showing customer health and adoption metrics</li>
+                <li>Documented escalation and resolution workflows</li>
+                <li>Predictable revenue retention model for due diligence</li>
+                <li>SOC2, GDPR, and security questionnaire documentation packages</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- RESULTS -->
+<section class="section">
+    <div class="section-label">The Results</div>
+    <h2>Measurable impact across the entire customer org</h2>
+
+    <div class="results-grid">
+        <div class="result-card">
+            <div class="result-value">96.5%</div>
+            <div class="result-metric">CSAT Score</div>
+            <div class="result-desc">Across global enterprise accounts</div>
+        </div>
+        <div class="result-card">
+            <div class="result-value">80</div>
+            <div class="result-metric">Employee NPS</div>
+            <div class="result-desc">Elite team engagement during high-growth</div>
+        </div>
+        <div class="result-card">
+            <div class="result-value">20%</div>
+            <div class="result-metric">Faster Time-to-Value</div>
+            <div class="result-desc">Through optimized onboarding & templates</div>
         </div>
     </div>
 
-    <!-- Slide 2: The Company & Challenge -->
-    <div class="slide bg-slate-950">
-        <div class="max-w-6xl mx-auto">
-            <div class="grid md:grid-cols-2 gap-16">
-                <div>
-                    <h2 class="text-5xl font-bold mb-8 text-white">The Company</h2>
-                    <div class="space-y-6">
-                        <div class="border-l-4 border-blue-500 pl-6">
-                            <h3 class="font-bold text-xl text-white mb-2">Manta</h3>
-                            <p class="text-slate-400">
-                                Enterprise data lineage platform. Automated metadata extraction across heterogeneous data environments (Oracle, SQL Server, Snowflake, Databricks, Informatica, SSIS, etc.)
-                            </p>
-                        </div>
-                        <div class="border-l-4 border-slate-700 pl-6">
-                            <h3 class="font-bold text-lg text-white mb-2">Stage</h3>
-                            <p class="text-slate-400">
-                                Growth-stage, venture-backed, preparing for strategic acquisition
-                            </p>
-                        </div>
-                        <div class="border-l-4 border-slate-700 pl-6">
-                            <h3 class="font-bold text-lg text-white mb-2">Market</h3>
-                            <p class="text-slate-400">
-                                Enterprise data governance, compliance (GDPR, CCPA), data cataloging
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <h2 class="text-5xl font-bold mb-8 text-white">The Challenge</h2>
-                    <div class="bg-red-500/10 border border-red-500/30 rounded-2xl p-8">
-                        <ul class="space-y-4 text-slate-300">
-                            <li class="flex items-start">
-                                <i data-lucide="alert-circle" class="w-6 h-6 text-red-400 mr-3 mt-1 flex-shrink-0"></i>
-                                <div>
-                                    <p class="font-bold text-white">No formal CS organization</p>
-                                    <p class="text-sm text-slate-400">Sales handed off to support. No implementation team, no TAMs, no onboarding playbook.</p>
-                                </div>
-                            </li>
-                            <li class="flex items-start">
-                                <i data-lucide="alert-circle" class="w-6 h-6 text-red-400 mr-3 mt-1 flex-shrink-0"></i>
-                                <div>
-                                    <p class="font-bold text-white">Technical complexity</p>
-                                    <p class="text-sm text-slate-400">Data lineage requires deep integrations. Customers struggling to get to "first value."</p>
-                                </div>
-                            </li>
-                            <li class="flex items-start">
-                                <i data-lucide="alert-circle" class="w-6 h-6 text-red-400 mr-3 mt-1 flex-shrink-0"></i>
-                                <div>
-                                    <p class="font-bold text-white">M&A readiness</p>
-                                    <p class="text-sm text-slate-400">Tier 1 buyers (IBM, Oracle, Informatica) require audit-ready customer operations.</p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+    <!-- EXIT BLOCK -->
+    <div class="exit-block">
+        <h3>The Exit: Acquired by IBM</h3>
+        <p>
+            IBM acquired Manta for their Data & AI division. The customer success organization — built from zero during my tenure — became a core part of Manta's operational readiness for acquisition, demonstrating repeatable implementation processes, predictable retention metrics, and enterprise-grade compliance documentation.
+        </p>
+        <p>
+            I've also held CS leadership roles at data.world, which was later acquired by ServiceNow — bringing my track record to two companies where I helped build the post-sales foundation that preceded a major exit.
+        </p>
+    </div>
+
+    <!-- TESTIMONIAL -->
+    <div class="testimonial">
+        <blockquote>
+            "Shane joined Manta when we had no formal customer success function and built it from the ground up. He's hard-working, process-oriented, and relentlessly focused on disciplined execution. Whether designing scalable systems or jumping on tough customer calls, he always showed up. He led his team with care and clarity, invested in their growth, and built a culture of trust and accountability. Smart, loyal, and a real fighter when things get ugly — someone I trust deeply and am proud to call a friend."
+        </blockquote>
+        <div class="testimonial-author">
+            <div class="testimonial-avatar">TK</div>
+            <div>
+                <div class="testimonial-name">Tomas Kratky</div>
+                <div class="testimonial-title">Founder & CEO, Manta (acquired by IBM)</div>
             </div>
         </div>
     </div>
+</section>
 
-    <!-- Slide 3: The Strategic Approach -->
-    <div class="slide bg-gradient-to-br from-slate-950 to-blue-950/20">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-5xl font-bold mb-12 text-center text-white">The Strategic Playbook</h2>
-            
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-slate-900/60 p-8 rounded-2xl border border-slate-800 hover:border-blue-500 transition">
-                    <div class="bg-blue-500/20 w-16 h-16 rounded-xl flex items-center justify-center mb-6">
-                        <i data-lucide="users" class="w-8 h-8 text-blue-400"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white mb-4">Build the Foundation</h3>
-                    <p class="text-slate-400 mb-4">
-                        Created three specialized teams from scratch:
-                    </p>
-                    <ul class="space-y-2 text-sm text-slate-400">
-                        <li class="flex items-start">
-                            <span class="text-blue-400 mr-2">•</span>
-                            <span><strong class="text-white">Implementation Engineering:</strong> Technical onboarding & integrations</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-blue-400 mr-2">•</span>
-                            <span><strong class="text-white">Technical Account Management:</strong> Enterprise relationship ownership</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-blue-400 mr-2">•</span>
-                            <span><strong class="text-white">Professional Services:</strong> Advanced use-case enablement</span>
-                        </li>
-                    </ul>
-                </div>
+<hr class="divider">
 
-                <div class="bg-slate-900/60 p-8 rounded-2xl border border-slate-800 hover:border-blue-500 transition">
-                    <div class="bg-blue-500/20 w-16 h-16 rounded-xl flex items-center justify-center mb-6">
-                        <i data-lucide="workflow" class="w-8 h-8 text-blue-400"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white mb-4">Operationalize</h3>
-                    <p class="text-slate-400 mb-4">
-                        Built repeatable processes for scale:
-                    </p>
-                    <ul class="space-y-2 text-sm text-slate-400">
-                        <li class="flex items-start">
-                            <span class="text-blue-400 mr-2">•</span>
-                            <span>Standardized onboarding playbooks by data platform</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-blue-400 mr-2">•</span>
-                            <span>Technical health scoring based on connector success rates</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-blue-400 mr-2">•</span>
-                            <span>QBR templates for data architects & compliance teams</span>
-                        </li>
-                    </ul>
-                </div>
+<!-- LESSONS -->
+<section class="section">
+    <div class="section-label">What Made This Work</div>
+    <h2>Key success factors and lessons learned</h2>
 
-                <div class="bg-slate-900/60 p-8 rounded-2xl border border-slate-800 hover:border-blue-500 transition">
-                    <div class="bg-blue-500/20 w-16 h-16 rounded-xl flex items-center justify-center mb-6">
-                        <i data-lucide="trending-up" class="w-8 h-8 text-blue-400"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white mb-4">Optimize for Exit</h3>
-                    <p class="text-slate-400 mb-4">
-                        Made the org "audit-ready":
-                    </p>
-                    <ul class="space-y-2 text-sm text-slate-400">
-                        <li class="flex items-start">
-                            <span class="text-blue-400 mr-2">•</span>
-                            <span>Real-time dashboards showing customer health & adoption</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-blue-400 mr-2">•</span>
-                            <span>Documentation of every customer escalation & resolution</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-blue-400 mr-2">•</span>
-                            <span>Predictable revenue retention model for due diligence</span>
-                        </li>
-                    </ul>
-                </div>
+    <div class="lessons-grid">
+        <div class="lesson-card">
+            <div class="lesson-num">01</div>
+            <div>
+                <h4>Technical Credibility</h4>
+                <p>As a former Oracle Principal Architect, I could speak credibly to data architects and CTOs about metadata extraction, governance, and compliance.</p>
+            </div>
+        </div>
+        <div class="lesson-card">
+            <div class="lesson-num">02</div>
+            <div>
+                <h4>Hire for Technical Depth</h4>
+                <p>TAMs needed to understand SQL, ETL tools, and database administration to be credible with Manta's technical buyer.</p>
+            </div>
+        </div>
+        <div class="lesson-card">
+            <div class="lesson-num">03</div>
+            <div>
+                <h4>Document Everything</h4>
+                <p>Tier 1 buyers scrutinize operational processes during due diligence. If it's not documented, it doesn't exist.</p>
+            </div>
+        </div>
+        <div class="lesson-card">
+            <div class="lesson-num">04</div>
+            <div>
+                <h4>Build for Exit from Day One</h4>
+                <p>Every process, metric, and documentation package was designed knowing an acquirer would eventually audit it.</p>
             </div>
         </div>
     </div>
+</section>
 
-    <!-- Slide 4: Technical Implementation Details -->
-    <div class="slide bg-slate-950">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-5xl font-bold mb-12 text-white">Technical Implementation Wins</h2>
-            
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="space-y-6">
-                    <div class="bg-blue-500/5 border-l-4 border-blue-500 p-6 rounded-r-xl">
-                        <h3 class="font-bold text-xl text-white mb-3 flex items-center">
-                            <i data-lucide="database" class="w-6 h-6 text-blue-400 mr-3"></i>
-                            Connector Success Tracking
-                        </h3>
-                        <p class="text-slate-400 text-sm mb-4">
-                            Built telemetry dashboards that monitored metadata extraction success rates across all customer environments.
-                        </p>
-                        <div class="bg-slate-900/60 p-4 rounded-lg">
-                            <p class="text-xs text-slate-500 mb-2">Key Metrics:</p>
-                            <ul class="text-sm text-slate-400 space-y-1">
-                                <li>• Connector health by platform type</li>
-                                <li>• Parsing error trends</li>
-                                <li>• Data catalog completeness %</li>
-                            </ul>
-                        </div>
-                    </div>
+<hr class="divider">
 
-                    <div class="bg-blue-500/5 border-l-4 border-blue-500 p-6 rounded-r-xl">
-                        <h3 class="font-bold text-xl text-white mb-3 flex items-center">
-                            <i data-lucide="zap" class="w-6 h-6 text-blue-400 mr-3"></i>
-                            Time-to-Value Optimization
-                        </h3>
-                        <p class="text-slate-400 text-sm mb-4">
-                            Reduced average time to "first lineage diagram" by 20% through:
-                        </p>
-                        <div class="bg-slate-900/60 p-4 rounded-lg">
-                            <ul class="text-sm text-slate-400 space-y-1">
-                                <li>• Pre-built connector templates</li>
-                                <li>• Quickstart guides by data platform</li>
-                                <li>• Automated environment validation scripts</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+<!-- REPEATABLE -->
+<section class="section">
+    <div class="section-label">The Framework</div>
+    <h2>This playbook is repeatable</h2>
 
-                <div class="space-y-6">
-                    <div class="bg-blue-500/5 border-l-4 border-blue-500 p-6 rounded-r-xl">
-                        <h3 class="font-bold text-xl text-white mb-3 flex items-center">
-                            <i data-lucide="shield-check" class="w-6 h-6 text-blue-400 mr-3"></i>
-                            Enterprise Compliance Support
-                        </h3>
-                        <p class="text-slate-400 text-sm mb-4">
-                            Created compliance-ready documentation packages for enterprise buyers:
-                        </p>
-                        <div class="bg-slate-900/60 p-4 rounded-lg">
-                            <ul class="text-sm text-slate-400 space-y-1">
-                                <li>• SOC2 Type II compliance evidence</li>
-                                <li>• GDPR data processing documentation</li>
-                                <li>• Security questionnaire templates</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="bg-blue-500/5 border-l-4 border-blue-500 p-6 rounded-r-xl">
-                        <h3 class="font-bold text-xl text-white mb-3 flex items-center">
-                            <i data-lucide="users-2" class="w-6 h-6 text-blue-400 mr-3"></i>
-                            Technical QBR Program
-                        </h3>
-                        <p class="text-slate-400 text-sm mb-4">
-                            Quarterly business reviews designed for technical stakeholders:
-                        </p>
-                        <div class="bg-slate-900/60 p-4 rounded-lg">
-                            <ul class="text-sm text-slate-400 space-y-1">
-                                <li>• Metadata coverage analysis</li>
-                                <li>• Lineage accuracy metrics</li>
-                                <li>• Integration roadmap alignment</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="repeatable-block">
+        <p>
+            The same framework I used at Manta is what I bring to every engagement through CCO2Go.ai — whether you're Series A building from scratch, Series C preparing for exit, or anywhere in between.
+        </p>
+        <div class="principle">
+            Build your customer success organization the way a Tier 1 acquirer would evaluate it during due diligence.
+        </div>
+        <div class="tags">
+            <span class="tag">Technical Products</span>
+            <span class="tag">High-Growth SaaS</span>
+            <span class="tag">M&A Readiness</span>
+            <span class="tag">Series A → Pre-Exit</span>
         </div>
     </div>
+</section>
 
-    <!-- Slide 5: The Results -->
-    <div class="slide bg-gradient-to-br from-blue-950 to-slate-950">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-5xl font-bold mb-16 text-center text-white">The Measurable Results</h2>
-            
-            <div class="grid md:grid-cols-3 gap-8 mb-16">
-                <div class="bg-slate-900/60 p-8 rounded-2xl border-2 border-blue-500/50 text-center">
-                    <i data-lucide="smile" class="w-16 h-16 text-blue-400 mx-auto mb-4"></i>
-                    <p class="text-6xl font-black text-white mb-2">96.5%</p>
-                    <p class="text-lg font-bold text-blue-400 mb-4">CSAT Score</p>
-                    <p class="text-sm text-slate-400">World-class customer satisfaction across global enterprise accounts</p>
-                </div>
-
-                <div class="bg-slate-900/60 p-8 rounded-2xl border-2 border-blue-500/50 text-center">
-                    <i data-lucide="heart" class="w-16 h-16 text-blue-400 mx-auto mb-4"></i>
-                    <p class="text-6xl font-black text-white mb-2">80</p>
-                    <p class="text-lg font-bold text-blue-400 mb-4">Employee NPS</p>
-                    <p class="text-sm text-slate-400">Elite team retention and engagement during high-growth phase</p>
-                </div>
-
-                <div class="bg-slate-900/60 p-8 rounded-2xl border-2 border-blue-500/50 text-center">
-                    <i data-lucide="zap" class="w-16 h-16 text-blue-400 mx-auto mb-4"></i>
-                    <p class="text-6xl font-black text-white mb-2">20%</p>
-                    <p class="text-lg font-bold text-blue-400 mb-4">Faster TTV</p>
-                    <p class="text-sm text-slate-400">Reduction in time-to-value through optimized onboarding</p>
-                </div>
-            </div>
-
-            <div class="bg-gradient-to-r from-blue-500/20 to-purple-500/20 p-10 rounded-2xl border border-blue-500/40">
-                <div class="flex items-start">
-                    <i data-lucide="award" class="w-12 h-12 text-blue-400 mr-6 flex-shrink-0"></i>
-                    <div>
-                        <h3 class="text-2xl font-bold text-white mb-4">The "Fabulous" Exit to IBM</h3>
-                        <p class="text-lg text-slate-300 leading-relaxed mb-4">
-                            IBM acquired Manta for their Data & AI division. The customer success organization I built was specifically cited during due diligence as a key asset—demonstrating repeatable implementation processes, predictable retention metrics, and enterprise-ready compliance documentation.
-                        </p>
-                        <p class="text-slate-400 italic">
-                            "Shane doesn't just manage customers; he builds the infrastructure that makes a company buyable by the biggest names in tech."
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- CTA -->
+<section class="cta-section">
+    <h2>Let's build your exit-ready CS org</h2>
+    <p>
+        Whether you're building from zero or preparing for due diligence, the conversation starts the same way — an honest look at where you are today.
+    </p>
+    <div class="cta-buttons">
+        <a href="https://scheduler.zoom.us/r-shane-james/hello-i-am-an-event-card" class="btn-primary">Book a 20-Min Strategy Call →</a>
+        <a href="mailto:shane.james@cco2go.ai" class="btn-secondary">Email Me</a>
     </div>
-
-    <!-- Slide 6: Key Takeaways -->
-    <div class="slide bg-slate-950">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-5xl font-bold mb-12 text-center text-white">Key Success Factors</h2>
-            
-            <div class="grid md:grid-cols-2 gap-8">
-                <div>
-                    <h3 class="text-2xl font-bold text-blue-400 mb-6">What Made This Work</h3>
-                    <div class="space-y-4">
-                        <div class="bg-blue-500/5 p-6 rounded-xl border border-blue-500/20">
-                            <h4 class="font-bold text-white mb-2">Technical Credibility</h4>
-                            <p class="text-sm text-slate-400">
-                                As a former Oracle Principal Architect, I could speak credibly to data architects and CTOs about metadata extraction, data governance, and compliance.
-                            </p>
-                        </div>
-                        <div class="bg-blue-500/5 p-6 rounded-xl border border-blue-500/20">
-                            <h4 class="font-bold text-white mb-2">Built for Scale</h4>
-                            <p class="text-sm text-slate-400">
-                                Created repeatable processes and playbooks that could scale from 20 customers to 200 without breaking.
-                            </p>
-                        </div>
-                        <div class="bg-blue-500/5 p-6 rounded-xl border border-blue-500/20">
-                            <h4 class="font-bold text-white mb-2">Exit-Ready From Day One</h4>
-                            <p class="text-sm text-slate-400">
-                                Every process, metric, and documentation package was designed knowing IBM (or Oracle, or Informatica) would eventually audit it.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <h3 class="text-2xl font-bold text-blue-400 mb-6">Lessons Learned</h3>
-                    <div class="space-y-4">
-                        <div class="flex items-start">
-                            <div class="bg-blue-500/20 w-10 h-10 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                                <span class="text-blue-400 font-bold">1</span>
-                            </div>
-                            <div>
-                                <p class="font-bold text-white mb-1">Don't Wait for Perfect</p>
-                                <p class="text-sm text-slate-400">Started with manual processes, automated progressively as patterns emerged.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start">
-                            <div class="bg-blue-500/20 w-10 h-10 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                                <span class="text-blue-400 font-bold">2</span>
-                            </div>
-                            <div>
-                                <p class="font-bold text-white mb-1">Hire for Technical Depth</p>
-                                <p class="text-sm text-slate-400">TAMs needed to understand SQL, ETL tools, and database administration to be credible.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start">
-                            <div class="bg-blue-500/20 w-10 h-10 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                                <span class="text-blue-400 font-bold">3</span>
-                            </div>
-                            <div>
-                                <p class="font-bold text-white mb-1">Document Everything</p>
-                                <p class="text-sm text-slate-400">Tier 1 buyers scrutinize operational processes. If it's not documented, it doesn't exist.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start">
-                            <div class="bg-blue-500/20 w-10 h-10 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                                <span class="text-blue-400 font-bold">4</span>
-                            </div>
-                            <div>
-                                <p class="font-bold text-white mb-1">Measure What Matters</p>
-                                <p class="text-sm text-slate-400">Connector success rates > NPS scores for technical products.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="cta-contact">
+        <a href="tel:+18136668427">(813) 666-8427</a> · <a href="mailto:shane.james@cco2go.ai">shane.james@cco2go.ai</a> · Apollo Beach, FL
     </div>
+</section>
 
-    <!-- Slide 7: The Repeatable Framework -->
-    <div class="slide bg-gradient-to-br from-slate-950 to-blue-950/20">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-5xl font-bold mb-12 text-center text-white">This Framework is Repeatable</h2>
-            
-            <div class="bg-slate-900/60 p-10 rounded-2xl border border-slate-800 mb-12">
-                <p class="text-xl text-slate-300 leading-relaxed mb-6">
-                    I've since used this same playbook at <strong class="text-white">data.world</strong> (acquired by ServiceNow), and now bring it to Series A-C startups through <strong class="text-blue-400">CCO2go.ai</strong> and <strong class="text-blue-400">CCOPilot.ai</strong>.
-                </p>
-                <p class="text-lg text-slate-400">
-                    The core principle remains: <strong class="text-white">Build your customer success organization the way a Tier 1 acquirer would evaluate it during due diligence.</strong> Don't wait for the deal to start optimizing for the exit.
-                </p>
-            </div>
+<!-- FOOTER -->
+<footer class="footer">
+    <p>© 2026 <a href="https://cco2go.ai">CCO2Go.ai</a> · <a href="https://www.ccopilot.ai">CCOPilot.ai</a></p>
+</footer>
 
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="bg-blue-500/5 p-6 rounded-xl border border-blue-500/20 text-center">
-                    <i data-lucide="check-circle" class="w-12 h-12 text-blue-400 mx-auto mb-4"></i>
-                    <h3 class="font-bold text-white mb-2">For Technical Products</h3>
-                    <p class="text-sm text-slate-400">Data, security, infrastructure, developer tools</p>
-                </div>
-                <div class="bg-blue-500/5 p-6 rounded-xl border border-blue-500/20 text-center">
-                    <i data-lucide="check-circle" class="w-12 h-12 text-blue-400 mx-auto mb-4"></i>
-                    <h3 class="font-bold text-white mb-2">For High-Growth Companies</h3>
-                    <p class="text-sm text-slate-400">Series A through pre-exit preparation</p>
-                </div>
-                <div class="bg-blue-500/5 p-6 rounded-xl border border-blue-500/20 text-center">
-                    <i data-lucide="check-circle" class="w-12 h-12 text-blue-400 mx-auto mb-4"></i>
-                    <h3 class="font-bold text-white mb-2">For M&A Readiness</h3>
-                    <p class="text-sm text-slate-400">Making customer data diligence-ready</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 8: Contact / Next Steps -->
-    <div class="slide bg-gradient-to-br from-blue-950 via-slate-950 to-purple-950">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-5xl font-bold mb-8 text-white">Let's Build Your Exit-Ready Organization</h2>
-            <p class="text-xl text-slate-400 mb-12 max-w-2xl mx-auto">
-                Whether you're Series A building from scratch or Series C prepping for M&A, this same framework can protect and grow your valuation.
-            </p>
-            
-            <div class="bg-slate-900/60 p-10 rounded-2xl border border-slate-800 mb-12">
-                <div class="grid md:grid-cols-2 gap-8 mb-8">
-                    <div>
-                        <h3 class="text-lg font-bold text-blue-400 mb-4">Executive CS Leadership</h3>
-                        <p class="text-3xl font-bold text-white mb-2">$12,500+/mo</p>
-                        <p class="text-sm text-slate-400">10-15 hours/week embedded leadership</p>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-bold text-blue-400 mb-4">CS Health Audit</h3>
-                        <p class="text-3xl font-bold text-white mb-2">$20,000</p>
-                        <p class="text-sm text-slate-400">45-day diagnostic & roadmap</p>
-                    </div>
-                </div>
-                
-                <div class="flex flex-col md:flex-row justify-center items-center gap-6 mb-8">
-                    <a href="tel:+18136668427" class="bg-blue-500 hover:bg-blue-400 text-white font-bold px-8 py-4 rounded-xl transition text-lg flex items-center">
-                        <i data-lucide="phone" class="w-5 h-5 mr-2"></i>
-                        (813) 666-8427
-                    </a>
-                    <a href="mailto:shane.james@cco2go.ai" class="bg-slate-800 hover:bg-slate-700 text-white font-bold px-8 py-4 rounded-xl transition text-lg">
-                        shane.james@cco2go.ai
-                    </a>
-                </div>
-                
-                <div class="flex justify-center gap-8 text-sm text-slate-500">
-                    <span>📍 Apollo Beach, FL</span>
-                    <span>🔒 CISSP / CISM</span>
-                    <span>🎓 MS Purdue</span>
-                </div>
-            </div>
-
-            <div class="text-slate-600 text-sm">
-                <p>CCO2go.ai • CCOPilot.ai</p>
-                <p class="mt-2">Shane James | Former SaaS Founder | 25+ Years CS Leadership</p>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        lucide.createIcons();
-    </script>
 </body>
 </html>
