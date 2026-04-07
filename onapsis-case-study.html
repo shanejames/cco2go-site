@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Study: Onapsis — CS Transformation | Shane James | CCO2Go.ai</title>
+    <meta name="description" content="How Shane James transformed Onapsis's customer success function from reactive support to proactive, executive-level partnership — driving net retention and expansion.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #111118;
+            --bg-card: #16161f;
+            --bg-card-hover: #1c1c28;
+            --border: #2a2a3a;
+            --border-accent: #3a3a5a;
+            --text-primary: #e8e8f0;
+            --text-secondary: #9090a8;
+            --text-muted: #606078;
+            --accent: #6c63ff;
+            --accent-glow: rgba(108, 99, 255, 0.15);
+            --accent-soft: #8b83ff;
+            --green: #34d399;
+            --green-glow: rgba(52, 211, 153, 0.12);
+            --amber: #fbbf24;
+            --red: #f87171;
+            --blue: #60a5fa;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem; height: 60px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .nav-logo {
+            font-weight: 700; font-size: 1rem; color: var(--text-primary);
+            text-decoration: none; display: flex; align-items: center; gap: 0.5rem;
+        }
+        .nav-logo span { color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; }
+        .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+        .nav-links a {
+            color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--text-primary); }
+        .nav-cta {
+            background: var(--accent); color: #fff !important; padding: 0.45rem 1rem;
+            border-radius: 6px; font-size: 0.8rem; font-weight: 600;
+        }
+        .nav-cta:hover { background: var(--accent-soft); }
+
+        .hero {
+            padding: 8rem 2rem 4rem;
+            max-width: 900px; margin: 0 auto; text-align: center;
+        }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: var(--bg-card); border: 1px solid var(--border);
+            padding: 0.4rem 1rem; border-radius: 100px;
+            font-size: 0.78rem; color: var(--text-secondary);
+            font-weight: 500; margin-bottom: 2rem;
+            text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--amber); }
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            font-weight: 800; line-height: 1.15; margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--amber));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero-sub {
+            font-size: 1.15rem; color: var(--text-secondary);
+            max-width: 650px; margin: 0 auto 3rem; line-height: 1.7;
+        }
+
+        .stats-row {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 1px; background: var(--border);
+            border: 1px solid var(--border); border-radius: 12px;
+            overflow: hidden; max-width: 700px; margin: 0 auto 2rem;
+        }
+        .stat { background: var(--bg-card); padding: 1.8rem 1.2rem; text-align: center; }
+        .stat-value {
+            font-size: 1.8rem; font-weight: 800; color: var(--amber);
+            font-family: 'JetBrains Mono', monospace; margin-bottom: 0.3rem;
+        }
+        .stat-label {
+            font-size: 0.75rem; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600;
+        }
+
+        .section { max-width: 800px; margin: 0 auto; padding: 4rem 2rem; }
+        .section-label {
+            font-size: 0.72rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.12em;
+            color: var(--accent); margin-bottom: 0.75rem;
+        }
+        .section h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 1.5rem; line-height: 1.3; }
+        .section p { color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.95rem; }
+
+        .divider { max-width: 800px; margin: 0 auto; border: none; border-top: 1px solid var(--border); }
+
+        .company-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+        .company-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 10px; padding: 1.5rem;
+        }
+        .company-card h3 {
+            font-size: 0.85rem; font-weight: 600; color: var(--accent-soft);
+            margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.06em;
+        }
+        .company-card p { font-size: 0.9rem; color: var(--text-secondary); margin: 0; }
+
+        .challenge-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
+        .challenge-item {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-left: 3px solid var(--red); border-radius: 8px; padding: 1.3rem 1.5rem;
+        }
+        .challenge-item h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.4rem; }
+        .challenge-item p { font-size: 0.88rem; color: var(--text-secondary); margin: 0; }
+
+        .playbook-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+        .playbook-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 10px; padding: 1.8rem;
+        }
+        .playbook-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.3rem; }
+        .playbook-card .step-num {
+            display: inline-block; font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem; font-weight: 600; color: var(--accent);
+            background: var(--accent-glow); padding: 0.2rem 0.6rem;
+            border-radius: 4px; margin-bottom: 0.75rem;
+        }
+        .playbook-card p { font-size: 0.88rem; color: var(--text-secondary); margin: 0; }
+        .playbook-card ul { list-style: none; margin-top: 0.8rem; }
+        .playbook-card ul li {
+            font-size: 0.88rem; color: var(--text-secondary);
+            padding: 0.3rem 0 0.3rem 1.2rem; position: relative;
+        }
+        .playbook-card ul li::before {
+            content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 600;
+        }
+
+        .results-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem; margin-top: 1.5rem;
+        }
+        .result-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 10px; padding: 1.8rem; text-align: center;
+        }
+        .result-card .result-value {
+            font-size: 2.2rem; font-weight: 800; color: var(--amber);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .result-card .result-metric { font-size: 0.85rem; font-weight: 600; margin: 0.3rem 0; }
+        .result-card .result-desc { font-size: 0.8rem; color: var(--text-muted); }
+
+        .impact-block {
+            background: linear-gradient(135deg, var(--bg-card), rgba(251, 191, 36, 0.04));
+            border: 1px solid var(--border-accent);
+            border-radius: 12px; padding: 2.5rem; margin-top: 2rem;
+        }
+        .impact-block h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; }
+        .impact-block p { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 1rem; }
+
+        .testimonial {
+            background: var(--bg-card); border: 1px solid var(--border-accent);
+            border-left: 3px solid var(--accent); border-radius: 10px;
+            padding: 2rem 2rem 1.5rem; margin-top: 2.5rem; position: relative;
+        }
+        .testimonial::before {
+            content: '"'; font-size: 4rem; color: var(--accent);
+            position: absolute; top: 0.5rem; left: 1.2rem;
+            font-family: Georgia, serif; opacity: 0.3; line-height: 1;
+        }
+        .testimonial blockquote {
+            font-size: 0.95rem; color: var(--text-secondary);
+            line-height: 1.8; font-style: italic;
+            margin-bottom: 1.2rem; padding-left: 0.5rem;
+        }
+        .testimonial-author {
+            display: flex; align-items: center; gap: 0.8rem;
+            border-top: 1px solid var(--border); padding-top: 1rem;
+        }
+        .testimonial-avatar {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: var(--accent-glow); display: flex;
+            align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.9rem; color: var(--accent);
+        }
+        .testimonial-name { font-weight: 600; font-size: 0.9rem; }
+        .testimonial-title { font-size: 0.78rem; color: var(--text-muted); }
+
+        .lessons-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; }
+        .lesson-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 8px; padding: 1.3rem 1.5rem;
+            display: flex; gap: 1rem; align-items: flex-start;
+        }
+        .lesson-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.4rem; font-weight: 800;
+            color: var(--accent); opacity: 0.4; line-height: 1; min-width: 1.8rem;
+        }
+        .lesson-card h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.3rem; }
+        .lesson-card p { font-size: 0.82rem; color: var(--text-secondary); margin: 0; }
+
+        .repeatable-block {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 12px; padding: 2.5rem; margin-top: 1.5rem; text-align: center;
+        }
+        .repeatable-block p { font-size: 1rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto 1rem; }
+        .repeatable-block .principle { font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-top: 1rem; }
+        .tags { display: flex; justify-content: center; gap: 0.6rem; margin-top: 1.5rem; flex-wrap: wrap; }
+        .tag {
+            background: var(--accent-glow); border: 1px solid rgba(108, 99, 255, 0.2);
+            padding: 0.35rem 0.9rem; border-radius: 100px;
+            font-size: 0.78rem; color: var(--accent-soft); font-weight: 500;
+        }
+
+        .cta-section {
+            max-width: 800px; margin: 0 auto;
+            padding: 4rem 2rem 3rem; text-align: center;
+        }
+        .cta-section h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem; }
+        .cta-section p {
+            color: var(--text-secondary); font-size: 0.95rem;
+            max-width: 550px; margin: 0 auto 2rem;
+        }
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: var(--accent); color: #fff; padding: 0.75rem 1.5rem;
+            border-radius: 8px; font-size: 0.9rem; font-weight: 600;
+            text-decoration: none; transition: all 0.2s;
+        }
+        .btn-primary:hover { background: var(--accent-soft); transform: translateY(-1px); }
+        .btn-secondary {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: transparent; color: var(--text-secondary);
+            border: 1px solid var(--border); padding: 0.75rem 1.5rem;
+            border-radius: 8px; font-size: 0.9rem; font-weight: 500;
+            text-decoration: none; transition: all 0.2s;
+        }
+        .btn-secondary:hover { border-color: var(--text-muted); color: var(--text-primary); }
+        .cta-contact { margin-top: 1.5rem; font-size: 0.82rem; color: var(--text-muted); }
+        .cta-contact a { color: var(--text-secondary); text-decoration: none; }
+        .cta-contact a:hover { color: var(--text-primary); }
+
+        .footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem; text-align: center;
+            font-size: 0.78rem; color: var(--text-muted);
+        }
+        .footer a { color: var(--text-secondary); text-decoration: none; }
+        .footer a:hover { color: var(--text-primary); }
+
+        @media (max-width: 768px) {
+            .stats-row { grid-template-columns: 1fr; }
+            .company-grid { grid-template-columns: 1fr; }
+            .results-grid { grid-template-columns: 1fr; }
+            .lessons-grid { grid-template-columns: 1fr; }
+            .hero { padding: 7rem 1.5rem 3rem; }
+            .section { padding: 3rem 1.5rem; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+    <a href="https://cco2go.ai" class="nav-logo"><span>C2G</span> CCO2Go.ai</a>
+    <div class="nav-links">
+        <a href="https://cco2go.ai">Home</a>
+        <a href="https://cco2go.ai/manta-case-study.html">Manta → IBM Case Study</a>
+        <a href="https://scheduler.zoom.us/r-shane-james/hello-i-am-an-event-card" class="nav-cta">Book a Call</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+    <div class="hero-badge"><span class="dot"></span> Case Study — CS Transformation</div>
+    <h1>Onapsis</h1>
+    <p class="hero-sub">
+        Transformed customer success from reactive support into a strategic, executive-level function — building the data infrastructure, health scoring, and cross-functional alignment that directly fueled net retention and expansion revenue.
+    </p>
+
+    <div class="stats-row">
+        <div class="stat">
+            <div class="stat-value">NRR ↑</div>
+            <div class="stat-label">Net Retention Growth</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">VoC</div>
+            <div class="stat-label">Cross-Functional Alignment</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">Exec</div>
+            <div class="stat-label">Executive Sponsorship</div>
+        </div>
+    </div>
+</header>
+
+<hr class="divider">
+
+<!-- THE COMPANY -->
+<section class="section">
+    <div class="section-label">The Company</div>
+    <h2>Onapsis — Enterprise Cybersecurity</h2>
+    <p>
+        Onapsis is a cybersecurity company focused on protecting business-critical applications — SAP, Oracle, and Salesforce environments — from cyber threats, compliance gaps, and vulnerabilities. Their customers are large enterprises with complex security requirements and high-stakes compliance mandates.
+    </p>
+
+    <div class="company-grid">
+        <div class="company-card">
+            <h3>Stage</h3>
+            <p>Growth-stage cybersecurity company with enterprise customers and expanding market presence</p>
+        </div>
+        <div class="company-card">
+            <h3>Market</h3>
+            <p>Enterprise application security, SAP/Oracle vulnerability management, compliance automation</p>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- THE CHALLENGE -->
+<section class="section">
+    <div class="section-label">The Challenge</div>
+    <h2>Reactive support masquerading as customer success</h2>
+    <p>
+        Onapsis had a customer success function — on paper. In reality, the team was operating in reactive mode: responding to escalations, fielding support requests, and managing renewals at the last minute. There was no health scoring, no data-driven insights, and no mechanism to ensure the voice of the customer informed Product, Sales, or Marketing decisions.
+    </p>
+
+    <div class="challenge-list">
+        <div class="challenge-item">
+            <h4>No proactive customer intelligence</h4>
+            <p>The team lacked health scoring, usage data, and early warning systems. At-risk accounts were discovered during renewal conversations — far too late to intervene.</p>
+        </div>
+        <div class="challenge-item">
+            <h4>CS disconnected from the business</h4>
+            <p>Customer insights weren't flowing to Product, Sales, or Marketing. Expansion opportunities were being missed. Churn patterns went undiagnosed.</p>
+        </div>
+        <div class="challenge-item">
+            <h4>Transactional relationships, not strategic partnerships</h4>
+            <p>Customer engagement was reactive and support-driven. Enterprise buyers expected executive-level strategic partnership — and weren't getting it.</p>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- THE PLAYBOOK -->
+<section class="section">
+    <div class="section-label">The Strategic Playbook</div>
+    <h2>From reactive support to strategic revenue driver</h2>
+
+    <div class="playbook-grid">
+        <div class="playbook-card">
+            <div class="step-num">PHASE 1</div>
+            <h3>Build the Data Foundation</h3>
+            <p>Implemented the instrumentation and scoring infrastructure the team had been missing:</p>
+            <ul>
+                <li>Health scoring system capturing critical data points across engagement, adoption, and outcomes</li>
+                <li>Success planning framework tied to measurable customer objectives</li>
+                <li>Internal initiatives for capturing and acting on customer intelligence</li>
+            </ul>
+        </div>
+        <div class="playbook-card">
+            <div class="step-num">PHASE 2</div>
+            <h3>Elevate Customer Engagement</h3>
+            <p>Transformed how the team engaged with enterprise accounts — from ticket-takers to executive sponsors:</p>
+            <ul>
+                <li>Executive sponsorship program for top strategic accounts</li>
+                <li>Customer advocacy initiatives that turned satisfied customers into references and case studies</li>
+                <li>Proactive outreach cadences replacing reactive firefighting</li>
+            </ul>
+        </div>
+        <div class="playbook-card">
+            <div class="step-num">PHASE 3</div>
+            <h3>Drive Cross-Functional Alignment</h3>
+            <p>Made the voice of the customer a strategic input across the entire organization:</p>
+            <ul>
+                <li>Customer insights surfaced to Product for roadmap prioritization</li>
+                <li>Expansion signals shared with Sales for upsell and cross-sell targeting</li>
+                <li>Customer feedback loops integrated into Marketing for positioning and advocacy</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- RESULTS -->
+<section class="section">
+    <div class="section-label">The Results</div>
+    <h2>Customer success as a core business multiplier</h2>
+
+    <div class="results-grid">
+        <div class="result-card">
+            <div class="result-value">NRR ↑</div>
+            <div class="result-metric">Net Retention</div>
+            <div class="result-desc">Repeatable expansion through data-driven engagement</div>
+        </div>
+        <div class="result-card">
+            <div class="result-value">360°</div>
+            <div class="result-metric">VoC Integration</div>
+            <div class="result-desc">Customer insights driving Product, Sales & Marketing</div>
+        </div>
+        <div class="result-card">
+            <div class="result-value">↑</div>
+            <div class="result-metric">Customer Advocacy</div>
+            <div class="result-desc">Strategic accounts converted to active advocates</div>
+        </div>
+    </div>
+
+    <!-- IMPACT BLOCK -->
+    <div class="impact-block">
+        <h3>The Transformation</h3>
+        <p>
+            The customer success function at Onapsis went from a reactive support layer to a strategic business driver. The team was no longer waiting for problems — they were anticipating them, acting on data, and creating repeatable, high-value customer experiences that directly fueled net retention and expansion revenue.
+        </p>
+        <p>
+            More importantly, customer success stopped being a department and became a cross-functional discipline — with Product, Sales, and Marketing all operating on shared customer intelligence.
+        </p>
+    </div>
+
+    <!-- TESTIMONIAL -->
+    <div class="testimonial">
+        <blockquote>
+            "I had the distinct privilege of hiring Shane into my team at Onapsis. He joined us at a time when we needed to build out our Customer Success function grounded in best practices, data, consistent execution, and high customer engagement. He rose to the challenge. Shane is a strategic, results-driven executive who fundamentally understands that Customer Success is not just a department but a core business multiplier. His leadership was defined by a relentless focus on creating repeatable, high-value customer experiences that directly fueled our net retention and expansion efforts. Any organization looking for an executive who can strategically leverage Customer Success to fuel aggressive growth, long-term value creation, and a world-class customer experience would be wise to bring Shane aboard."
+        </blockquote>
+        <div class="testimonial-author">
+            <div class="testimonial-avatar">KS</div>
+            <div>
+                <div class="testimonial-name">Kellie Snyder</div>
+                <div class="testimonial-title">Chief Customer & Operations Officer, Onapsis</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- LESSONS -->
+<section class="section">
+    <div class="section-label">What Made This Work</div>
+    <h2>Key success factors</h2>
+
+    <div class="lessons-grid">
+        <div class="lesson-card">
+            <div class="lesson-num">01</div>
+            <div>
+                <h4>Data Before Opinions</h4>
+                <p>Built the health scoring and customer intelligence infrastructure first — then let the data drive every decision about where to focus.</p>
+            </div>
+        </div>
+        <div class="lesson-card">
+            <div class="lesson-num">02</div>
+            <div>
+                <h4>Executive Sponsorship</h4>
+                <p>Enterprise cybersecurity buyers expect C-level engagement. Personally sponsored top accounts to set the standard for the team.</p>
+            </div>
+        </div>
+        <div class="lesson-card">
+            <div class="lesson-num">03</div>
+            <div>
+                <h4>Break Down the Silos</h4>
+                <p>CS can't drive retention alone. Made customer insights a shared asset across Product, Sales, and Marketing — not a CS-only metric.</p>
+            </div>
+        </div>
+        <div class="lesson-card">
+            <div class="lesson-num">04</div>
+            <div>
+                <h4>Hire for Gravitas</h4>
+                <p>CISOs and VP-level security buyers won't engage with junior CSMs. Elevated the team's credibility to match the customer's seniority.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- REPEATABLE -->
+<section class="section">
+    <div class="section-label">The Framework</div>
+    <h2>This transformation is repeatable</h2>
+
+    <div class="repeatable-block">
+        <p>
+            The same playbook I used to transform Onapsis's CS function is what I bring to every engagement through CCO2Go.ai. Whether your CS team is stuck in reactive mode or you're building the function from scratch, the framework is the same.
+        </p>
+        <div class="principle">
+            Customer success isn't a department. It's how the entire company retains and grows revenue.
+        </div>
+        <div class="tags">
+            <span class="tag">Cybersecurity & Enterprise SaaS</span>
+            <span class="tag">CS Transformation</span>
+            <span class="tag">NRR & Expansion</span>
+            <span class="tag">Cross-Functional Alignment</span>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <h2>Ready to transform your CS function?</h2>
+    <p>
+        Whether your team is firefighting or you need to build the strategic foundation from scratch — the conversation starts with an honest assessment.
+    </p>
+    <div class="cta-buttons">
+        <a href="https://scheduler.zoom.us/r-shane-james/hello-i-am-an-event-card" class="btn-primary">Book a 20-Min Strategy Call →</a>
+        <a href="mailto:shane.james@cco2go.ai" class="btn-secondary">Email Me</a>
+    </div>
+    <div class="cta-contact">
+        <a href="tel:+18136668427">(813) 666-8427</a> · <a href="mailto:shane.james@cco2go.ai">shane.james@cco2go.ai</a> · Apollo Beach, FL
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <p>© 2026 <a href="https://cco2go.ai">CCO2Go.ai</a> · <a href="https://www.ccopilot.ai">CCOPilot.ai</a></p>
+</footer>
+
+</body>
+</html>
