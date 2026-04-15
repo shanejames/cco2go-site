@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The CS Transformation Framework — CCO2Go.ai + CCOPilot.ai</title>
+<meta name="description" content="People. Process. Platform. The three-lever CS transformation from Shane James.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --navy: #0F1B2D;
+    --dark: #0A1220;
+    --slate: #1E3A5F;
+    --gold: #D4A84B;
+    --gold-dim: rgba(212,168,75,0.3);
+    --mid-blue: #2D5F8A;
+    --red: #E53E3E;
+    --green: #38A169;
+    --body: #CBD5E1;
+    --muted: #94A3B8;
+    --card-bg: rgba(255,255,255,0.04);
+    --card-border: rgba(255,255,255,0.06);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--dark);
+    color: #fff;
+    font-family: 'Inter', system-ui, sans-serif;
+    overflow: hidden;
+    height: 100vh;
+  }
+
+  .app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  /* Progress bar */
+  .progress-bar { height: 3px; background: rgba(255,255,255,0.06); flex-shrink: 0; }
+  .progress-fill { height: 100%; background: var(--gold); transition: width 0.3s linear; }
+
+  /* Slide area */
+  .slide-area {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+  }
+  .slide.active { opacity: 1; pointer-events: auto; }
+
+  /* Controls */
+  .controls {
+    flex-shrink: 0;
+    background: rgba(255,255,255,0.03);
+    border-top: 1px solid var(--card-border);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .ctrl-btn {
+    background: none; border: none; color: var(--gold); cursor: pointer; font-size: 18px; padding: 4px 8px;
+  }
+  .ctrl-btn.small { color: var(--muted); font-size: 14px; }
+  .dots { display: flex; gap: 6px; flex: 1; justify-content: center; }
+  .dot {
+    height: 8px; border-radius: 4px; border: none; cursor: pointer;
+    transition: all 0.3s ease; background: rgba(255,255,255,0.1);
+  }
+  .dot.past { background: var(--gold-dim); }
+  .dot.active { background: var(--gold); width: 28px !important; }
+  .slide-label { font-size: 12px; color: var(--muted); text-align: right; min-width: 110px; }
+  .slide-label .name { color: var(--body); }
+
+  /* Start screen */
+  .start-screen {
+    height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .start-btn {
+    background: var(--gold); border: none; border-radius: 50px; padding: 16px 52px;
+    font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700;
+    color: var(--navy); cursor: pointer; box-shadow: 0 4px 24px rgba(212,168,75,0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .start-btn:hover { transform: scale(1.04); box-shadow: 0 6px 32px rgba(212,168,75,0.4); }
+
+  /* Shared styles */
+  .serif { font-family: 'Playfair Display', Georgia, serif; }
+  .center { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; padding: 40px; }
+  .pad { padding: 48px 40px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .tag { font-size: 12px; letter-spacing: 3px; font-weight: 700; }
+  .headline { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; margin-top: 8px; }
+  .gold-line { width: 80px; height: 3px; background: var(--gold); margin: 24px auto; }
+  .gold-line-left { width: 40px; height: 2px; background: var(--gold); }
+
+  /* Animated elements */
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.show { opacity: 1; transform: translateY(0); }
+  .reveal-left {
+    opacity: 0; transform: translateX(-24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal-left.show { opacity: 1; transform: translateX(0); }
+  .reveal-scale {
+    opacity: 0; transform: scale(0.92);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal-scale.show { opacity: 1; transform: scale(1); }
+
+  /* Cards */
+  .problem-card {
+    background: var(--card-bg); border-radius: 12px; padding: 24px; border-top: 3px solid var(--red);
+  }
+  .pillar-card { border-radius: 12px; padding: 24px; }
+  .feature-card {
+    display: flex; gap: 14px; background: var(--card-bg); border-radius: 10px; padding: 16px 18px;
+    border-left: 3px solid var(--gold);
+  }
+  .phase-card { border-radius: 12px; overflow: hidden; }
+  .phase-header { padding: 16px 20px; text-align: center; }
+  .phase-body { background: var(--card-bg); padding: 20px; }
+  .fail-row {
+    display: flex; align-items: center; background: var(--card-bg); border-radius: 10px; padding: 16px 24px; margin-bottom: 12px;
+  }
+
+  /* Comparison table */
+  .comp-grid { display: grid; grid-template-columns: 2.5fr 1fr 1fr 1fr; gap: 2px; }
+  .comp-header { background: var(--slate); padding: 12px 8px; text-align: center; border-radius: 8px 8px 0 0; }
+  .comp-row { padding: 14px 20px; }
+  .comp-check { padding: 14px; text-align: center; font-size: 22px; }
+  .highlight-row { background: rgba(212,168,75,0.08); }
+
+  .cta-btn {
+    display: inline-block; margin-top: 36px; padding: 14px 32px; background: var(--gold); border-radius: 8px;
+    font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--navy);
+    text-decoration: none;
+  }
+
+  .logos { display: flex; gap: 28px; align-items: center; }
+</style>
+</head>
+<body>
+
+<div class="app" id="app">
+  <!-- Start Screen -->
+  <div class="start-screen" id="startScreen">
+    <div class="logos" style="margin-bottom:40px" id="startLogos"></div>
+    <div class="serif" style="font-size:36px;font-weight:700;margin-bottom:12px">The CS Transformation Framework</div>
+    <div style="font-size:16px;color:var(--muted);margin-bottom:40px">People · Process · Platform</div>
+    <button class="start-btn" onclick="startPitch()">▶ Watch the Pitch</button>
+    <div style="font-size:13px;color:var(--muted);margin-top:16px" id="durationLabel"></div>
+  </div>
+
+  <!-- Presentation -->
+  <div id="presentation" style="display:none;flex-direction:column;height:100vh">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="slide-area" id="slideArea"></div>
+    <div class="controls">
+      <button class="ctrl-btn" id="playBtn" onclick="togglePlay()">⏸</button>
+      <button class="ctrl-btn small" onclick="skipBack()">⏮</button>
+      <button class="ctrl-btn small" onclick="skipForward()">⏭</button>
+      <div class="dots" id="dots"></div>
+      <div class="slide-label"><span class="name" id="slideName"></span> · <span id="slideCount"></span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── LOGOS SVG ───
+const ccopilotSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 80" width="WIDTH" height="HEIGHT"><defs><linearGradient id="pg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#10b981"/><stop offset="50%" stop-color="#34d399"/><stop offset="100%" stop-color="#10b981"/></linearGradient></defs><circle cx="35" cy="40" r="28" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="5 4" opacity="0.45"/><path d="M10 40 L20 40 L27 20 L35 60 L43 25 L50 40 L60 40" fill="none" stroke="url(#pg)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><text x="75" y="47" font-family="Arial Black,Helvetica Neue,Arial,sans-serif" font-weight="900" font-size="28" fill="#ffffff" letter-spacing="-0.5">CCO</text><text x="133" y="47" font-family="Arial Black,Helvetica Neue,Arial,sans-serif" font-weight="900" font-size="28" fill="#4A9EE8" letter-spacing="-0.5">Pilot.ai</text></svg>`;
+const cco2goSVG = `<svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" width="WIDTH" height="HEIGHT"><g transform="translate(28,32)"><circle cx="0" cy="-7" r="6" fill="#6B9FFF"/><path d="M-8 4Q-8 0 0 0Q8 0 8 4L6 11-6 11Z" fill="#6B9FFF"/><circle cx="-13" cy="4" r="4.5" fill="#93B5FF"/><path d="M-19 12Q-19 8-13 8Q-7 8-7 12L-8 18-18 18Z" fill="#93B5FF"/><circle cx="13" cy="4" r="4.5" fill="#93B5FF"/><path d="M7 12Q7 8 13 8Q19 8 19 12L18 18 8 18Z" fill="#93B5FF"/></g><text x="58" y="38" font-family="Arial,sans-serif" font-size="24" font-weight="bold" fill="#ffffff">CCO2go</text><text x="172" y="38" font-family="Arial,sans-serif" font-size="24" font-weight="bold" fill="#6B9FFF">.ai</text></svg>`;
+
+function logos(w1=150,w2=130) {
+  return ccopilotSVG.replace('WIDTH',w1).replace('HEIGHT',Math.round(w1*35/150)) + cco2goSVG.replace('WIDTH',w2).replace('HEIGHT',Math.round(w2*28/130));
+}
+
+// ─── SLIDE DEFINITIONS ───
+const slideLabels = ["Title","Hook","Proof","Problem","Partial Fails","Solution","Platform","Roadmap","Comparison","Close"];
+const slideDurations = [8000, 8000, 10000, 12000, 10000, 14000, 16000, 12000, 12000, 10000];
+
+function buildSlides() {
+  const area = document.getElementById('slideArea');
+
+  // 0: Title
+  area.innerHTML += `<div class="slide" data-idx="0"><div class="center">
+    <div class="logos reveal" data-delay="100">${logos(170,150)}</div>
+    <div class="serif reveal" data-delay="300" style="font-size:48px;font-weight:700;line-height:1.15;margin-top:32px">The CS Transformation<br>Framework</div>
+    <div class="gold-line reveal" data-delay="500"></div>
+    <div class="reveal" data-delay="700" style="font-size:20px;color:var(--gold);letter-spacing:4px">PEOPLE · PROCESS · PLATFORM</div>
+    <div class="reveal" data-delay="1200" style="margin-top:32px"><div style="font-size:16px;color:var(--body)">Shane James</div><div style="font-size:13px;color:var(--muted);margin-top:4px">25 Years CS Leadership · 2 Fortune 500 Exits · Author of 3 Books</div></div>
+  </div></div>`;
+
+  // 1: Hook
+  area.innerHTML += `<div class="slide" data-idx="1"><div class="center">
+    <div class="serif reveal-scale" data-delay="200" style="font-size:52px;font-weight:700">Your customers<br>are lying to you.</div>
+    <div class="reveal" data-delay="1200" style="font-size:18px;color:var(--body);margin-top:24px;max-width:600;line-height:1.6">And your CS team doesn't have the tools, training, or leadership to catch it before it's too late.</div>
+  </div></div>`;
+
+  // 2: Proof
+  area.innerHTML += `<div class="slide" data-idx="2"><div class="center">
+    <div class="tag reveal" data-delay="100" style="color:var(--gold);margin-bottom:16px">PROVEN RESULTS</div>
+    <div style="display:flex;gap:48;margin-top:20px">
+      <div class="reveal" data-delay="400" style="text-align:center"><div class="serif" style="font-size:44px;font-weight:700">22% → 7%</div><div style="font-size:14px;color:var(--muted);margin-top:8px">Churn Reduction</div></div>
+      <div class="reveal" data-delay="800" style="text-align:center"><div class="serif" style="font-size:44px;font-weight:700">85% → 115%</div><div style="font-size:14px;color:var(--muted);margin-top:8px">Net Revenue Retention</div></div>
+      <div class="reveal" data-delay="1200" style="text-align:center"><div class="serif" style="font-size:44px;font-weight:700">2 Exits</div><div style="font-size:14px;color:var(--muted);margin-top:8px">IBM · ServiceNow</div></div>
+    </div>
+    <div class="reveal" data-delay="3000" style="margin-top:48px;font-size:15px;color:var(--body);font-style:italic">Same team. Same product. Same customers. Different information, different process, different outcomes.</div>
+  </div></div>`;
+
+  // 3: Problem
+  area.innerHTML += `<div class="slide" data-idx="3"><div class="pad">
+    <div class="tag reveal" data-delay="100" style="color:var(--red)">THE PROBLEM</div>
+    <div class="headline reveal" data-delay="300">Failing in Three Places at Once</div>
+    <div class="grid3" style="margin-top:32px">
+      <div class="problem-card reveal" data-delay="600"><div style="font-size:28px;margin-bottom:8px">👥</div><div class="serif" style="font-size:18px;margin-bottom:8px">Untrained Teams</div><div style="font-size:13px;color:var(--body);line-height:1.5;margin-bottom:16px">CSMs hired for empathy — not commercial acumen or AI fluency.</div><div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:12px"><div class="serif" style="font-size:28px;color:var(--gold)">66%</div><div style="font-size:11px;color:var(--muted)">spend most of their day on admin</div></div></div>
+      <div class="problem-card reveal" data-delay="900"><div style="font-size:28px;margin-bottom:8px">⚙️</div><div class="serif" style="font-size:18px;margin-bottom:8px">Broken Processes</div><div style="font-size:13px;color:var(--body);line-height:1.5;margin-bottom:16px">Playbooks from 2019. Calendar check-ins. Reactive QBRs.</div><div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:12px"><div class="serif" style="font-size:28px;color:var(--gold)">73%</div><div style="font-size:11px;color:var(--muted)">say CS is critical but have no leader</div></div></div>
+      <div class="problem-card reveal" data-delay="1200"><div style="font-size:28px;margin-bottom:8px">🔧</div><div class="serif" style="font-size:18px;margin-bottom:8px">Wrong Tooling</div><div style="font-size:13px;color:var(--body);line-height:1.5;margin-bottom:16px">CRMs as CS platforms. Manual health scores. No AI layer.</div><div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:12px"><div class="serif" style="font-size:28px;color:var(--gold)">$1.6M</div><div style="font-size:11px;color:var(--muted)">avg ARR lost to silent churn</div></div></div>
+    </div>
+    <div class="reveal" data-delay="4000" style="margin-top:24px;font-size:14px;color:var(--body);font-style:italic">Fix one without the other two and you're back where you started in 90 days.</div>
+  </div></div>`;
+
+  // 4: Partial Fails
+  area.innerHTML += `<div class="slide" data-idx="4"><div class="center" style="align-items:flex-start;padding:48px 60px">
+    <div class="tag reveal" data-delay="100" style="color:#F59E0B">WHY PARTIAL SOLUTIONS FAIL</div>
+    <div class="headline reveal" data-delay="300" style="margin-bottom:32px">You Can't Fix CS With Just One Lever</div>
+    <div class="fail-row reveal-left" data-delay="600"><div style="font-size:24px;margin-right:16px;color:var(--red)">✕</div><div class="serif" style="font-size:16px;width:220px;flex-shrink:0">Platform Only</div><div style="width:1px;height:30px;background:rgba(255,255,255,0.1);margin:0 20px"></div><div style="font-size:14px;color:var(--body)">Shelfware. Adoption dies in 90 days.</div></div>
+    <div class="fail-row reveal-left" data-delay="1000"><div style="font-size:24px;margin-right:16px;color:var(--red)">✕</div><div class="serif" style="font-size:16px;width:220px;flex-shrink:0">Consultant Only</div><div style="width:1px;height:30px;background:rgba(255,255,255,0.1);margin:0 20px"></div><div style="font-size:14px;color:var(--body)">Great deck. Nobody to execute. Team reverts.</div></div>
+    <div class="fail-row reveal-left" data-delay="1400"><div style="font-size:24px;margin-right:16px;color:var(--red)">✕</div><div class="serif" style="font-size:16px;width:220px;flex-shrink:0">Training Only</div><div style="width:1px;height:30px;background:rgba(255,255,255,0.1);margin:0 20px"></div><div style="font-size:14px;color:var(--body)">Skills fade. No infrastructure to sustain them.</div></div>
+  </div></div>`;
+
+  // 5: Solution
+  area.innerHTML += `<div class="slide" data-idx="5"><div class="pad">
+    <div class="tag reveal" data-delay="100" style="color:var(--gold)">THE SOLUTION</div>
+    <div class="headline reveal" data-delay="300" style="margin-bottom:32px">Three Levers. One Operator. All at Once.</div>
+    <div class="grid3">
+      <div class="pillar-card reveal" data-delay="500" style="background:var(--slate)"><div style="display:flex;justify-content:space-between;align-items:center"><span class="serif" style="font-size:32px;color:var(--gold)">01</span><span style="font-size:28px">👥</span></div><div class="serif" style="font-size:18px;margin:12px 0">Retrain<br>Your People</div><div class="gold-line-left" style="margin-bottom:16px"></div><div style="font-size:13px;color:var(--body);line-height:1.8">✓ Commercial acumen<br>✓ AI fluency<br>✓ Value-based QBRs<br>✓ Orchestrator mindset</div></div>
+      <div class="pillar-card reveal" data-delay="800" style="background:var(--mid-blue)"><div style="display:flex;justify-content:space-between;align-items:center"><span class="serif" style="font-size:32px;color:var(--gold)">02</span><span style="font-size:28px">⚙️</span></div><div class="serif" style="font-size:18px;margin:12px 0">Redesign<br>Processes</div><div class="gold-line-left" style="margin-bottom:16px"></div><div style="font-size:13px;color:var(--body);line-height:1.8">✓ Signal-based workflows<br>✓ Onboarding Waterfall<br>✓ Expansion Staircase<br>✓ Churn Autopsy Protocol</div></div>
+      <div class="pillar-card reveal" data-delay="1100" style="background:var(--navy)"><div style="display:flex;justify-content:space-between;align-items:center"><span class="serif" style="font-size:32px;color:var(--gold)">03</span><span style="font-size:28px">🚀</span></div><div class="serif" style="font-size:18px;margin:12px 0">Implement<br>CCOPilot</div><div class="gold-line-left" style="margin-bottom:16px"></div><div style="font-size:13px;color:var(--body);line-height:1.8">✓ 15+ AI agents<br>✓ Value Intelligence Engine<br>✓ Health scoring<br>✓ Portfolio rollup</div></div>
+    </div>
+  </div></div>`;
+
+  // 6: Platform
+  area.innerHTML += `<div class="slide" data-idx="6"><div class="pad">
+    <div class="tag reveal" data-delay="100" style="color:#3B82F6">THE PLATFORM</div>
+    <div class="headline reveal" data-delay="300">What CCOPilot Actually Does</div>
+    <div class="reveal" data-delay="400" style="font-size:14px;color:var(--muted);margin-bottom:28px;margin-top:8px">Built by a CS operator — not a dev team guessing what CSMs need.</div>
+    <div class="grid2">
+      <div class="feature-card reveal" data-delay="500"><div style="font-size:24px;flex-shrink:0">📊</div><div><div class="serif" style="font-size:14px;margin-bottom:4px">Customer 360 & Health Score</div><div style="font-size:12px;color:var(--body);line-height:1.45">Composite scoring across 6 dimensions. AI-detected risk signals.</div></div></div>
+      <div class="feature-card reveal" data-delay="700"><div style="font-size:24px;flex-shrink:0">🧠</div><div><div class="serif" style="font-size:14px;margin-bottom:4px">Value Intelligence Engine</div><div style="font-size:12px;color:var(--body);line-height:1.45">Extracts VALUE, PAIN, BUDGET, COMPETITIVE signals automatically.</div></div></div>
+      <div class="feature-card reveal" data-delay="900"><div style="font-size:24px;flex-shrink:0">📈</div><div><div class="serif" style="font-size:14px;margin-bottom:4px">Portfolio Rollup</div><div style="font-size:12px;color:var(--body);line-height:1.45">Manager & exec visibility. Renewal forecasting. Board-ready.</div></div></div>
+      <div class="feature-card reveal" data-delay="1100"><div style="font-size:24px;flex-shrink:0">📋</div><div><div class="serif" style="font-size:14px;margin-bottom:4px">VPC / QBR Creator</div><div style="font-size:12px;color:var(--body);line-height:1.45">Exec-ready decks with ROI data. PowerPoint export.</div></div></div>
+      <div class="feature-card reveal" data-delay="1300"><div style="font-size:24px;flex-shrink:0">🤖</div><div><div class="serif" style="font-size:14px;margin-bottom:4px">15+ AI Agents</div><div style="font-size:12px;color:var(--body);line-height:1.45">Churn prediction, call prep, coaching, feature adoption analysis.</div></div></div>
+      <div class="feature-card reveal" data-delay="1500"><div style="font-size:24px;flex-shrink:0">🔥</div><div><div class="serif" style="font-size:14px;margin-bottom:4px">Feature Adoption Intelligence</div><div style="font-size:12px;color:var(--body);line-height:1.45">Heatmap of usage depth. See what drives retention.</div></div></div>
+    </div>
+  </div></div>`;
+
+  // 7: Roadmap
+  area.innerHTML += `<div class="slide" data-idx="7"><div class="pad">
+    <div class="tag reveal" data-delay="100" style="color:var(--green)">ENGAGEMENT MODEL</div>
+    <div class="headline reveal" data-delay="300" style="margin-bottom:32px">90-Day Transformation Roadmap</div>
+    <div class="grid3">
+      <div class="phase-card reveal" data-delay="500"><div class="phase-header" style="background:var(--slate)"><div style="font-size:10px;color:var(--gold);letter-spacing:2px">DAYS 1–30</div><div class="serif" style="font-size:20px;margin-top:4px">Onboarding</div></div><div class="phase-body"><div style="font-size:13px;color:var(--body);line-height:2"><span style="color:var(--gold)">→</span> CS org assessment<br><span style="color:var(--gold)">→</span> CCOPilot deployed<br><span style="color:var(--gold)">→</span> Health score baseline<br><span style="color:var(--gold)">→</span> Playbook design</div></div></div>
+      <div class="phase-card reveal" data-delay="800"><div class="phase-header" style="background:var(--mid-blue)"><div style="font-size:10px;color:var(--gold);letter-spacing:2px">DAYS 31–60</div><div class="serif" style="font-size:20px;margin-top:4px">Acclimation</div></div><div class="phase-body"><div style="font-size:13px;color:var(--body);line-height:2"><span style="color:var(--gold)">→</span> Training delivered<br><span style="color:var(--gold)">→</span> Workflows activated<br><span style="color:var(--gold)">→</span> AI agents tuned<br><span style="color:var(--gold)">→</span> First QBRs generated</div></div></div>
+      <div class="phase-card reveal" data-delay="1100"><div class="phase-header" style="background:var(--navy)"><div style="font-size:10px;color:var(--gold);letter-spacing:2px">DAYS 61–90</div><div class="serif" style="font-size:20px;margin-top:4px">Ongoing</div></div><div class="phase-body"><div style="font-size:13px;color:var(--body);line-height:2"><span style="color:var(--gold)">→</span> Team independent<br><span style="color:var(--gold)">→</span> Expansion signals live<br><span style="color:var(--gold)">→</span> Board-ready reporting<br><span style="color:var(--gold)">→</span> Continuous optimization</div></div></div>
+    </div>
+  </div></div>`;
+
+  // 8: Comparison
+  area.innerHTML += `<div class="slide" data-idx="8"><div class="center" style="align-items:flex-start;padding:48px 60px">
+    <div class="tag reveal" data-delay="100" style="color:var(--gold)">WHY THIS IS DIFFERENT</div>
+    <div class="headline reveal" data-delay="300" style="margin-bottom:36px">Nobody Else Sells All Three</div>
+    <div class="comp-grid reveal" data-delay="600" style="width:100%">
+      <div></div><div class="comp-header"><span style="font-size:13px;font-weight:700;color:var(--gold)">Training</span></div><div class="comp-header"><span style="font-size:13px;font-weight:700;color:var(--gold)">Process</span></div><div class="comp-header"><span style="font-size:13px;font-weight:700;color:var(--gold)">Platform</span></div>
+      <div class="comp-row" style="font-size:15px;color:var(--body)">Gainsight / ChurnZero</div><div class="comp-check" style="color:rgba(255,255,255,0.12)">—</div><div class="comp-check" style="color:rgba(255,255,255,0.12)">—</div><div class="comp-check" style="color:var(--green)">✓</div>
+      <div class="comp-row" style="font-size:15px;color:var(--body)">McKinsey / Bain</div><div class="comp-check" style="color:rgba(255,255,255,0.12)">—</div><div class="comp-check" style="color:var(--green)">✓</div><div class="comp-check" style="color:rgba(255,255,255,0.12)">—</div>
+      <div class="comp-row" style="font-size:15px;color:var(--body)">CS Academy / SuccessHACKER</div><div class="comp-check" style="color:var(--green)">✓</div><div class="comp-check" style="color:rgba(255,255,255,0.12)">—</div><div class="comp-check" style="color:rgba(255,255,255,0.12)">—</div>
+      <div class="comp-row highlight-row" style="font-size:15px;color:var(--gold);font-weight:700;font-family:'Playfair Display',serif;border-radius:8px 0 0 8px">Shane James + CCOPilot</div><div class="comp-check highlight-row" style="color:var(--gold)">✓</div><div class="comp-check highlight-row" style="color:var(--gold)">✓</div><div class="comp-check highlight-row" style="color:var(--gold);border-radius:0 8px 8px 0">✓</div>
+    </div>
+    <div class="reveal" data-delay="2500" style="font-size:14px;color:var(--body);font-style:italic;margin-top:28px">The only solution built by a CS operator who's done the strategy, trained the teams, AND built the AI platform.</div>
+  </div></div>`;
+
+  // 9: Close
+  area.innerHTML += `<div class="slide" data-idx="9"><div class="center">
+    <div class="serif reveal-scale" data-delay="200" style="font-size:48px;font-weight:700">Let's fix that.</div>
+    <div class="gold-line reveal" data-delay="600"></div>
+    <div class="logos reveal" data-delay="1000" style="margin-bottom:32px">${logos(150,130)}</div>
+    <div class="reveal" data-delay="1500"><div class="serif" style="font-size:20px;font-weight:700;margin-bottom:8px">Shane James</div><div style="font-size:15px;color:var(--body)">shane.james@cco2go.ai · (813) 666-8427</div><div style="font-size:13px;color:var(--muted);margin-top:12px;font-style:italic">Author: Your Customers Are Lying to You · The AI-Era CSM · The Great Orchestration</div></div>
+    <a href="https://scheduler.zoom.us/r-shane-james/hello-i-am-an-event-card" class="cta-btn reveal" data-delay="2500" target="_blank">15-Minute Demo — See the Platform Live</a>
+  </div></div>`;
+}
+
+// ─── ENGINE ───
+let current = 0;
+let playing = false;
+let startTime = 0;
+let animFrame = null;
+
+function startPitch() {
+  document.getElementById('startScreen').style.display = 'none';
+  const pres = document.getElementById('presentation');
+  pres.style.display = 'flex';
+  buildSlides();
+  buildDots();
+  current = 0;
+  playing = true;
+  showSlide(0);
+  startTime = Date.now();
+  animFrame = requestAnimationFrame(tick);
+}
+
+function showSlide(idx) {
+  current = idx;
+  const allSlides = document.querySelectorAll('.slide');
+  allSlides.forEach(s => {
+    s.classList.remove('active');
+    s.querySelectorAll('.reveal, .reveal-left, .reveal-scale').forEach(el => el.classList.remove('show'));
+  });
+  const slide = allSlides[idx];
+  if (!slide) return;
+  slide.classList.add('active');
+  // Trigger reveals with delays
+  slide.querySelectorAll('[data-delay]').forEach(el => {
+    const delay = parseInt(el.dataset.delay) || 0;
+    setTimeout(() => el.classList.add('show'), delay);
+  });
+  updateDots();
+  document.getElementById('slideName').textContent = slideLabels[idx];
+  document.getElementById('slideCount').textContent = `${idx+1}/${slideLabels.length}`;
+  document.getElementById('playBtn').textContent = playing ? '⏸' : '▶';
+}
+
+function tick() {
+  if (!playing) return;
+  const elapsed = Date.now() - startTime;
+  const dur = slideDurations[current];
+  // Update progress
+  const totalDur = slideDurations.reduce((a,b) => a+b, 0);
+  let beforeDur = 0;
+  for (let i = 0; i < current; i++) beforeDur += slideDurations[i];
+  const globalP = (beforeDur + Math.min(elapsed, dur)) / totalDur;
+  document.getElementById('progressFill').style.width = (globalP * 100) + '%';
+
+  if (elapsed >= dur) {
+    if (current < slideDurations.length - 1) {
+      current++;
+      startTime = Date.now();
+      showSlide(current);
+    } else {
+      playing = false;
+      document.getElementById('playBtn').textContent = '▶';
+      return;
+    }
+  }
+  animFrame = requestAnimationFrame(tick);
+}
+
+function togglePlay() {
+  if (!playing && current >= slideDurations.length - 1) {
+    // Restart
+    current = 0;
+    startTime = Date.now();
+    playing = true;
+    showSlide(0);
+    animFrame = requestAnimationFrame(tick);
+  } else {
+    playing = !playing;
+    if (playing) {
+      startTime = Date.now();
+      animFrame = requestAnimationFrame(tick);
+    }
+  }
+  document.getElementById('playBtn').textContent = playing ? '⏸' : '▶';
+}
+
+function skipBack() { if (current > 0) goTo(current - 1); }
+function skipForward() { if (current < slideDurations.length - 1) goTo(current + 1); }
+function goTo(idx) {
+  startTime = Date.now();
+  showSlide(idx);
+  if (playing) { cancelAnimationFrame(animFrame); animFrame = requestAnimationFrame(tick); }
+}
+
+function buildDots() {
+  const container = document.getElementById('dots');
+  container.innerHTML = '';
+  for (let i = 0; i < slideDurations.length; i++) {
+    const d = document.createElement('button');
+    d.className = 'dot';
+    d.style.width = '8px';
+    d.title = slideLabels[i];
+    d.onclick = () => goTo(i);
+    container.appendChild(d);
+  }
+}
+
+function updateDots() {
+  const dots = document.querySelectorAll('.dot');
+  dots.forEach((d, i) => {
+    d.className = 'dot';
+    d.style.width = '8px';
+    if (i < current) d.classList.add('past');
+    if (i === current) { d.classList.add('active'); d.style.width = '28px'; }
+  });
+}
+
+// Init start screen logos
+document.getElementById('startLogos').innerHTML = logos(160, 140);
+const totalSec = slideDurations.reduce((a,b)=>a+b,0) / 1000;
+document.getElementById('durationLabel').textContent = `~${Math.round(totalSec/60)} minutes · ${slideDurations.length} slides · auto-advances`;
+
+// Keyboard controls
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space') { e.preventDefault(); togglePlay(); }
+  if (e.code === 'ArrowRight') skipForward();
+  if (e.code === 'ArrowLeft') skipBack();
+});
+</script>
+
+</body>
+</html>
