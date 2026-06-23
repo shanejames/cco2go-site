@@ -12,6 +12,38 @@
         body { font-family: 'Inter', sans-serif; }
         .doc-card:hover .download-icon { opacity: 1; transform: translateY(0); }
         .download-icon { opacity: 0; transform: translateY(4px); transition: all 0.2s; }
+            /* WHITE-BLUE REBRAND OVERRIDES (applied on top of Tailwind utilities) */
+        body { background:#FFFFFF !important; color:#14253F !important; }
+        [class*="bg-slate-950"], [class*="bg-slate-900"] { background-color:#FFFFFF !important; box-shadow:0 2px 12px rgba(15,44,87,.05); }
+        [class*="bg-slate-800"] { background-color:#F1F6FC !important; }
+        [class*="bg-cyan-500/10"] { background-color:rgba(30,99,208,.07) !important; }
+        [class*="bg-emerald-500/10"] { background-color:rgba(21,160,74,.08) !important; }
+        .text-white { color:#14253F !important; }
+        .text-slate-200 { color:#2E3E57 !important; }
+        .text-slate-300, .text-slate-400 { color:#54627C !important; }
+        .text-slate-500, .text-slate-600 { color:#6B7A8F !important; }
+        .text-slate-900 { color:#14253F !important; }
+        .text-cyan-400, .text-cyan-300 { color:#1E63D0 !important; }
+        .text-blue-400 { color:#2563EB !important; }
+        .text-emerald-400, .text-emerald-300 { color:#15A04A !important; }
+        .text-indigo-400, .text-purple-400 { color:#3B5BDB !important; }
+        [class*="border-slate-700"], [class*="border-slate-800"] { border-color:#E4EBF5 !important; }
+        [class*="border-cyan-500"] { border-color:rgba(30,99,208,.35) !important; }
+        [class*="border-emerald-500"], [class*="border-emerald-400"] { border-color:rgba(21,160,74,.35) !important; }
+        [class*="border-indigo-500"] { border-color:rgba(59,91,219,.30) !important; }
+        .bg-cyan-500 { background-color:#1E63D0 !important; }
+        .bg-cyan-400 { background-color:#3B82F6 !important; }
+        .bg-cyan-500.text-slate-900, .bg-cyan-500 { color:#fff !important; }
+        .bg-cyan-500 * { color:#fff !important; }
+        .from-cyan-500 { --tw-gradient-from:#1E63D0 !important; }
+        .to-blue-500 { --tw-gradient-to:#3B82F6 !important; }
+        .from-cyan-500, .from-cyan-500 * { color:#fff !important; }
+        [class*="from-cyan-500/10"] { --tw-gradient-from:rgba(30,99,208,.10) !important; }
+        [class*="to-blue-500/10"] { --tw-gradient-to:rgba(59,130,246,.10) !important; }
+        [class*="from-emerald-500/10"] { --tw-gradient-from:rgba(21,160,74,.10) !important; }
+        [class*="to-cyan-500/10"] { --tw-gradient-to:rgba(30,99,208,.10) !important; }
+        [class*="from-indigo-500/10"] { --tw-gradient-from:rgba(59,91,219,.10) !important; }
+        [class*="to-purple-500/10"] { --tw-gradient-to:rgba(59,91,219,.10) !important; }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-200 p-8">
@@ -57,7 +89,7 @@
                 </div>
             </div>
             <h1 class="text-3xl font-bold text-white">Security & Compliance</h1>
-            <p class="text-slate-400 mt-2">Security documentation for CCOPilot.ai — shared with prospects and customers on request</p>
+            <p class="text-slate-400 mt-2">Security documentation for CCOPilot.ai, shared with prospects and customers on request</p>
             <div class="mt-5 flex items-center gap-4">
                 <a href="/marketing.html" class="inline-flex items-center gap-2 text-slate-500 hover:text-slate-300 text-sm transition">
                     <i data-lucide="arrow-left" class="w-4 h-4"></i>
@@ -184,7 +216,7 @@
                         <h3 class="font-semibold text-white">1. Information Security Policy</h3>
                         <i data-lucide="download" class="w-4 h-4 text-slate-500 download-icon"></i>
                     </div>
-                    <p class="text-xs text-slate-400">POL-ISP-001 — Umbrella policy defining the security program, controls, principles, and AI governance framework.</p>
+                    <p class="text-xs text-slate-400">POL-ISP-001, Umbrella policy defining the security program, controls, principles, and AI governance framework.</p>
                 </div>
 
                 <div class="doc-card bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-cyan-500 transition cursor-pointer" onclick="downloadDoc('02_Access_Control_Policy.docx')">
@@ -192,7 +224,7 @@
                         <h3 class="font-semibold text-white">2. Access Control Policy</h3>
                         <i data-lucide="download" class="w-4 h-4 text-slate-500 download-icon"></i>
                     </div>
-                    <p class="text-xs text-slate-400">POL-ACP-002 — RBAC roles, provisioning/revocation, access reviews, multi-tenant isolation, password requirements.</p>
+                    <p class="text-xs text-slate-400">POL-ACP-002, RBAC roles, provisioning/revocation, access reviews, multi-tenant isolation, password requirements.</p>
                 </div>
 
                 <div class="doc-card bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-cyan-500 transition cursor-pointer" onclick="downloadDoc('03_Change_Management_Policy.docx')">
@@ -200,7 +232,7 @@
                         <h3 class="font-semibold text-white">3. Change Management Policy</h3>
                         <i data-lucide="download" class="w-4 h-4 text-slate-500 download-icon"></i>
                     </div>
-                    <p class="text-xs text-slate-400">POL-CMP-003 — Standard/Normal/Emergency change categories, rollback procedures, schema migrations, release tagging.</p>
+                    <p class="text-xs text-slate-400">POL-CMP-003, Standard/Normal/Emergency change categories, rollback procedures, schema migrations, release tagging.</p>
                 </div>
 
                 <div class="doc-card bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-cyan-500 transition cursor-pointer" onclick="downloadDoc('04_Incident_Response_Policy.docx')">
@@ -208,7 +240,7 @@
                         <h3 class="font-semibold text-white">4. Incident Response Policy</h3>
                         <i data-lucide="download" class="w-4 h-4 text-slate-500 download-icon"></i>
                     </div>
-                    <p class="text-xs text-slate-400">POL-IRP-004 — SEV-1 through SEV-4 classification, detection, triage, containment, resolution, post-mortem process.</p>
+                    <p class="text-xs text-slate-400">POL-IRP-004, SEV-1 through SEV-4 classification, detection, triage, containment, resolution, post-mortem process.</p>
                 </div>
 
                 <div class="doc-card bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-cyan-500 transition cursor-pointer" onclick="downloadDoc('05_Business_Continuity_DR_Policy.docx')">
@@ -216,7 +248,7 @@
                         <h3 class="font-semibold text-white">5. Business Continuity & DR Policy</h3>
                         <i data-lucide="download" class="w-4 h-4 text-slate-500 download-icon"></i>
                     </div>
-                    <p class="text-xs text-slate-400">POL-BCD-005 — Backup requirements, RTO/RPO, testing schedule, monitoring. References DR Plan v1.2.</p>
+                    <p class="text-xs text-slate-400">POL-BCD-005, Backup requirements, RTO/RPO, testing schedule, monitoring. References DR Plan v1.2.</p>
                 </div>
 
                 <div class="doc-card bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-cyan-500 transition cursor-pointer" onclick="downloadDoc('06_Vendor_Management_Policy.docx')">
@@ -224,7 +256,7 @@
                         <h3 class="font-semibold text-white">6. Vendor Management Policy</h3>
                         <i data-lucide="download" class="w-4 h-4 text-slate-500 download-icon"></i>
                     </div>
-                    <p class="text-xs text-slate-400">POL-VMP-006 — Vendor inventory (9 vendors), risk ratings, assessment process, contingency plans, sub-processor list.</p>
+                    <p class="text-xs text-slate-400">POL-VMP-006, Vendor inventory (9 vendors), risk ratings, assessment process, contingency plans, sub-processor list.</p>
                 </div>
 
                 <div class="doc-card bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-cyan-500 transition cursor-pointer" onclick="downloadDoc('07_Data_Classification_Handling_Policy.docx')">
@@ -232,7 +264,7 @@
                         <h3 class="font-semibold text-white">7. Data Classification & Handling Policy</h3>
                         <i data-lucide="download" class="w-4 h-4 text-slate-500 download-icon"></i>
                     </div>
-                    <p class="text-xs text-slate-400">POL-DCH-007 — Four classification levels, PII inventory, retention schedules, data subject rights (GDPR/CCPA).</p>
+                    <p class="text-xs text-slate-400">POL-DCH-007, Four classification levels, PII inventory, retention schedules, data subject rights (GDPR/CCPA).</p>
                 </div>
 
                 <div class="doc-card bg-slate-900/40 p-5 rounded-xl border border-slate-800 hover:border-cyan-500 transition cursor-pointer" onclick="downloadDoc('08_Acceptable_Use_Policy.docx')">
@@ -240,7 +272,7 @@
                         <h3 class="font-semibold text-white">8. Acceptable Use Policy</h3>
                         <i data-lucide="download" class="w-4 h-4 text-slate-500 download-icon"></i>
                     </div>
-                    <p class="text-xs text-slate-400">POL-AUP-008 — Prohibited activities, AI governance rules, reporting obligations, personal device requirements.</p>
+                    <p class="text-xs text-slate-400">POL-AUP-008, Prohibited activities, AI governance rules, reporting obligations, personal device requirements.</p>
                 </div>
 
             </div>
@@ -259,7 +291,7 @@
                         <h3 class="font-semibold text-white">Security Awareness Training</h3>
                         <i data-lucide="download" class="w-4 h-4 text-slate-500 download-icon"></i>
                     </div>
-                    <p class="text-xs text-slate-400 mb-2">TRN-SAT-001 — Phishing identification, credential hygiene, secure coding, incident reporting, data handling, AI governance. Includes training completion log.</p>
+                    <p class="text-xs text-slate-400 mb-2">TRN-SAT-001, Phishing identification, credential hygiene, secure coding, incident reporting, data handling, AI governance. Includes training completion log.</p>
                     <div class="flex items-center gap-3 text-xs text-slate-500">
                         <span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded">Active</span>
                         <span>Annual refresher required</span>
@@ -271,7 +303,7 @@
                         <h3 class="font-semibold text-white">Data Retention & Deletion Procedures</h3>
                         <i data-lucide="download" class="w-4 h-4 text-slate-500 download-icon"></i>
                     </div>
-                    <p class="text-xs text-slate-400 mb-2">PRO-DRD-001 — 12-category retention schedule, organization termination procedures, GDPR/CCPA data subject request handling, data export/portability.</p>
+                    <p class="text-xs text-slate-400 mb-2">PRO-DRD-001, 12-category retention schedule, organization termination procedures, GDPR/CCPA data subject request handling, data export/portability.</p>
                     <div class="flex items-center gap-3 text-xs text-slate-500">
                         <span class="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded">Active</span>
                         <span>Supports Data Classification Policy</span>
@@ -427,7 +459,7 @@
         <!-- Footer -->
         <div class="border-t border-slate-800 pt-6 text-center text-xs text-slate-600">
             <p>This page is not indexed by search engines. Share the URL directly with authorized recipients only.</p>
-            <p class="mt-1">© 2026 CCO2go.ai | CCOPilot.ai — All rights reserved</p>
+            <p class="mt-1">© 2026 CCO2go.ai | CCOPilot.ai, All rights reserved</p>
         </div>
 
     </div>

@@ -10,19 +10,19 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --bg: #060810;
-  --surface: #0d1120;
-  --surface2: #131829;
-  --border: #1e2540;
-  --cyan: #00c9c8;
-  --cyan-dim: #007f7f;
-  --gold: #f0a500;
-  --gold-dim: #7a5300;
-  --green: #00c97a;
-  --green-dim: #005c37;
-  --text: #e8ecf4;
-  --text-muted: #6b7a9e;
-  --text-dim: #3a4460;
+  --bg: #FFFFFF;
+  --surface: #FFFFFF;
+  --surface2: #F4F8FD;
+  --border: #E4EBF5;
+  --cyan: #1E63D0;
+  --cyan-dim: #1A57BC;
+  --gold: #B26C0A;
+  --gold-dim: #8A5408;
+  --green: #15A04A;
+  --green-dim: #0E7A38;
+  --text: #14253F;
+  --text-muted: #54627C;
+  --text-dim: #8492A9;
 }
 
 body {
@@ -39,8 +39,8 @@ body::before {
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(0,201,200,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,201,200,0.03) 1px, transparent 1px);
+    linear-gradient(rgba(30,99,208,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30,99,208,0.03) 1px, transparent 1px);
   background-size: 60px 60px;
   pointer-events: none;
   z-index: 0;
@@ -53,7 +53,7 @@ body::before {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(6,8,16,0.92);
+  background: rgba(255,255,255,.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
@@ -100,10 +100,14 @@ body::before {
 
 /* ── TIER LOGO ── */
 .tier-logo {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 14px;
+  background: #0F2C57;
+  padding: 7px 12px;
+  border-radius: 8px;
+  width: fit-content;
 }
 
 .tier-logo img {
@@ -196,8 +200,8 @@ h1 em {
 
 .tier.featured {
   border-color: var(--cyan-dim);
-  background: linear-gradient(160deg, #0a1a2e 0%, #0d1120 100%);
-  box-shadow: 0 0 60px rgba(0,201,200,0.08), inset 0 1px 0 rgba(0,201,200,0.1);
+  background: linear-gradient(160deg,#FFFFFF 0%,#F1F6FC 100%);
+  box-shadow: 0 0 60px rgba(30,99,208,0.08), inset 0 1px 0 rgba(30,99,208,0.1);
 }
 
 .popular-badge {
@@ -206,7 +210,7 @@ h1 em {
   left: 50%;
   transform: translateX(-50%);
   background: linear-gradient(90deg, var(--cyan-dim), var(--cyan));
-  color: #000;
+  color: #fff;
   font-family: 'DM Mono', monospace;
   font-size: 10px;
   font-weight: 500;
@@ -232,8 +236,8 @@ h1 em {
 }
 
 .tier-badge.t1 { background: rgba(107,122,158,0.1); color: var(--text-muted); border: 1px solid var(--border); }
-.tier-badge.t2 { background: rgba(0,201,200,0.08); color: var(--cyan); border: 1px solid rgba(0,201,200,0.2); }
-.tier-badge.t3 { background: rgba(240,165,0,0.08); color: var(--gold); border: 1px solid rgba(240,165,0,0.2); }
+.tier-badge.t2 { background: rgba(30,99,208,0.08); color: var(--cyan); border: 1px solid rgba(30,99,208,0.2); }
+.tier-badge.t3 { background: rgba(178,108,10,0.08); color: var(--gold); border: 1px solid rgba(178,108,10,0.2); }
 
 .tier-name {
   font-family: 'Plus Jakarta Sans', sans-serif;
@@ -260,7 +264,7 @@ h1 em {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 34px;
   font-weight: 700;
-  color: #fff;
+  color: var(--text);
   line-height: 1;
 }
 
@@ -323,8 +327,8 @@ h1 em {
 }
 
 .t1 .check { background: rgba(107,122,158,0.15); color: var(--text-muted); }
-.t2 .check { background: rgba(0,201,200,0.1); color: var(--cyan); }
-.t3 .check { background: rgba(240,165,0,0.1); color: var(--gold); }
+.t2 .check { background: rgba(30,99,208,0.1); color: var(--cyan); }
+.t3 .check { background: rgba(178,108,10,0.1); color: var(--gold); }
 
 .feature-list li strong { color: var(--text); }
 
@@ -353,21 +357,21 @@ h1 em {
 
 .cta-btn.primary {
   background: var(--cyan);
-  color: #000;
+  color: #fff;
 }
-.cta-btn.primary:hover { background: #00e5e4; transform: translateY(-1px); }
+.cta-btn.primary:hover { background: #1A57BC; transform: translateY(-1px); }
 
 .cta-btn.gold-outline {
   background: transparent;
   border: 1px solid var(--gold-dim);
   color: var(--gold);
 }
-.cta-btn.gold-outline:hover { border-color: var(--gold); background: rgba(240,165,0,0.05); }
+.cta-btn.gold-outline:hover { border-color: var(--gold); background: rgba(178,108,10,0.05); }
 
 /* ── OUTCOME BAND ── */
 .outcome-band {
   background: var(--surface);
-  border: 1px solid rgba(0,201,122,0.2);
+  border: 1px solid rgba(21,160,74,0.2);
   border-radius: 14px;
   padding: 32px 36px;
   margin-bottom: 60px;
@@ -511,8 +515,8 @@ h1 em {
 
 /* ── CTA FOOTER ── */
 .cta-footer {
-  background: linear-gradient(135deg, #0a1a2a 0%, #0d1120 100%);
-  border: 1px solid rgba(0,201,200,0.15);
+  background: linear-gradient(135deg,#FFFFFF 0%,#F4F8FD 100%);
+  border: 1px solid rgba(30,99,208,0.15);
   border-radius: 16px;
   padding: 48px;
   text-align: center;
@@ -539,7 +543,7 @@ h1 em {
 .btn-primary {
   padding: 13px 28px;
   background: var(--cyan);
-  color: #000;
+  color: #fff;
   border-radius: 8px;
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 14px;
@@ -547,7 +551,7 @@ h1 em {
   text-decoration: none;
   transition: all 0.2s;
 }
-.btn-primary:hover { background: #00e5e4; transform: translateY(-1px); }
+.btn-primary:hover { background: #1A57BC; transform: translateY(-1px); }
 
 .btn-outline {
   padding: 13px 28px;
@@ -579,7 +583,7 @@ h1 em {
 <nav class="top-nav">
   <div class="top-nav-inner">
     <a href="/" class="nav-logo">
-      <img src="/CCO2go_logo.png" alt="CCO2go.ai" />
+      <img src="/CCO2go_logo_dark.svg" alt="CCO2go.ai" />
     </a>
     <a href="/marketing" class="nav-back">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
@@ -622,10 +626,10 @@ h1 em {
 
       <div class="includes-label">What's included</div>
       <ul class="feature-list t1">
-        <li><span class="check">✓</span><span><strong>CCOPilot platform</strong> — full access for your team</span></li>
-        <li><span class="check">✓</span><span><strong>15 AI agents</strong> — churn monitor, renewal prep, expansion finder + 12 more</span></li>
-        <li><span class="check">✓</span><span><strong>Intelligent health scoring</strong> — 4-component model</span></li>
-        <li><span class="check">✓</span><span><strong>Value Proof Conversation (VPC) builder</strong> — AI-generated with ROI data</span></li>
+        <li><span class="check">✓</span><span><strong>CCOPilot platform</strong>, full access for your team</span></li>
+        <li><span class="check">✓</span><span><strong>15 AI agents</strong>, churn monitor, renewal prep, expansion finder + 12 more</span></li>
+        <li><span class="check">✓</span><span><strong>Intelligent health scoring</strong>, 4-component model</span></li>
+        <li><span class="check">✓</span><span><strong>Value Proof Conversation (VPC) builder</strong>, AI-generated with ROI data</span></li>
         <li><span class="check">✓</span><span><strong>Email & sentiment intelligence</strong></span></li>
         <li><span class="check">✓</span><span><strong>Meeting prep AI</strong> + voice notes</span></li>
         <li><span class="check">✓</span><span>All upgrades + support included</span></li>
@@ -635,12 +639,12 @@ h1 em {
       <a href="https://scheduler.zoom.us/r-shane-james/hello-i-am-an-event-card" class="cta-btn outline">Book a Demo</a>
     </div>
 
-    <!-- TIER 2: Accelerator — FEATURED -->
+    <!-- TIER 2: Accelerator, FEATURED -->
     <div class="tier featured">
       <span class="popular-badge">Most Popular</span>
       <span class="tier-badge t2">Accelerator</span>
       <div class="tier-name">CCO + Platform</div>
-      <div class="tier-tagline">Fractional CCO expertise paired with the AI platform — the complete solution.</div>
+      <div class="tier-tagline">Fractional CCO expertise paired with the AI platform, the complete solution.</div>
 
       <div class="price-block">
         <div class="price-main">$12,000<span>/mo</span></div>
@@ -649,15 +653,15 @@ h1 em {
 
       <div class="includes-label">Everything in Platform, plus</div>
       <ul class="feature-list t2">
-        <li><span class="check">✓</span><span><strong>Fractional CCO hours</strong> — 30 hrs/mo, Shane James, 25+ yrs C-suite CS</span></li>
-        <li><span class="check">✓</span><span><strong>CCOPilot included</strong> — no additional cost during engagement; continues at $4K/mo after</span></li>
-        <li><span class="check">✓</span><span><strong>30/60/90 day plan</strong> — diagnosis → action → reporting</span></li>
-        <li><span class="check">✓</span><span><strong>Customer interviews</strong> — 10 strategic + 5 churned in first 30 days</span></li>
-        <li><span class="check">✓</span><span><strong>Radical candor readout</strong> — leadership team, day 30</span></li>
+        <li><span class="check">✓</span><span><strong>Fractional CCO hours</strong>, 30 hrs/mo, Shane James, 25+ yrs C-suite CS</span></li>
+        <li><span class="check">✓</span><span><strong>CCOPilot included</strong>, no additional cost during engagement; continues at $4K/mo after</span></li>
+        <li><span class="check">✓</span><span><strong>30/60/90 day plan</strong>, diagnosis → action → reporting</span></li>
+        <li><span class="check">✓</span><span><strong>Customer interviews</strong>, 10 strategic + 5 churned in first 30 days</span></li>
+        <li><span class="check">✓</span><span><strong>Radical candor readout</strong>, leadership team, day 30</span></li>
         <li><span class="check">✓</span><span><strong>Churn root cause analysis</strong> + intervention playbooks</span></li>
-        <li><span class="check">✓</span><span><strong>Board/investor meeting support</strong> — available on request</span></li>
-        <li><span class="check">✓</span><span><strong>CCOPilot setup & config</strong> — Shane's team handles it</span></li>
-        <li><span class="check">✓</span><span><strong>VoC program</strong> — email, calls, chat, web mentions unified</span></li>
+        <li><span class="check">✓</span><span><strong>Board/investor meeting support</strong>, available on request</span></li>
+        <li><span class="check">✓</span><span><strong>CCOPilot setup & config</strong>, Shane's team handles it</span></li>
+        <li><span class="check">✓</span><span><strong>VoC program</strong>, email, calls, chat, web mentions unified</span></li>
       </ul>
 
       <a href="https://scheduler.zoom.us/r-shane-james/hello-i-am-an-event-card" class="cta-btn primary">Book Discovery Call</a>
@@ -676,13 +680,13 @@ h1 em {
 
       <div class="includes-label">Everything in Accelerator, plus</div>
       <ul class="feature-list t3">
-        <li><span class="check">✓</span><span><strong>Expanded CCO hours</strong> — additional time for training delivery, org design & leadership sessions</span></li>
-        <li><span class="check">✓</span><span><strong>CSM Team training</strong> — 9-week program, 27 modules, 3 phases</span></li>
-        <li><span class="check">✓</span><span><strong>CS org design & hiring</strong> — role definitions, scorecards, onboarding</span></li>
-        <li><span class="check">✓</span><span><strong>Executive management reporting</strong> — board-ready dashboards monthly</span></li>
-        <li><span class="check">✓</span><span><strong>Custom playbook library</strong> — onboarding, risk intervention, expansion</span></li>
-        <li><span class="check">✓</span><span><strong>NRR & ARR expansion program</strong> — upsell signal identification</span></li>
-        <li><span class="check">✓</span><span><strong>Transition planning</strong> — built to hand off to a full-time hire</span></li>
+        <li><span class="check">✓</span><span><strong>Expanded CCO hours</strong>, additional time for training delivery, org design & leadership sessions</span></li>
+        <li><span class="check">✓</span><span><strong>CSM Team training</strong>, 9-week program, 27 modules, 3 phases</span></li>
+        <li><span class="check">✓</span><span><strong>CS org design & hiring</strong>, role definitions, scorecards, onboarding</span></li>
+        <li><span class="check">✓</span><span><strong>Executive management reporting</strong>, board-ready dashboards monthly</span></li>
+        <li><span class="check">✓</span><span><strong>Custom playbook library</strong>, onboarding, risk intervention, expansion</span></li>
+        <li><span class="check">✓</span><span><strong>NRR & ARR expansion program</strong>, upsell signal identification</span></li>
+        <li><span class="check">✓</span><span><strong>Transition planning</strong>, built to hand off to a full-time hire</span></li>
       </ul>
 
       <a href="https://scheduler.zoom.us/r-shane-james/hello-i-am-an-event-card" class="cta-btn gold-outline">Schedule Scoping Call</a>
@@ -694,7 +698,7 @@ h1 em {
   <div class="outcome-band">
     <div class="outcome-band-text">
       <h3>Proven results from real engagements</h3>
-      <p>These aren't projections — they're outcomes from actual CCO2go engagements. Your results will depend on your starting point, but this is what the work looks like when it lands.</p>
+      <p>These aren't projections, they're outcomes from actual CCO2go engagements. Your results will depend on your starting point, but this is what the work looks like when it lands.</p>
     </div>
     <div class="outcome-stats">
       <div class="ostat"><span class="num">22%→7%</span><span class="label">Churn Rate</span></div>
@@ -712,25 +716,25 @@ h1 em {
       <div class="addon-card">
         <div class="addon-icon">🎓</div>
         <div class="addon-name">CSM Training Cohort</div>
-        <div class="addon-desc">9-week structured program — 27 modules across Diagnose, Build, and Prove phases. Delivered live or async.</div>
+        <div class="addon-desc">9-week structured program, 27 modules across Diagnose, Build, and Prove phases. Delivered live or async.</div>
         <div class="addon-price">Custom pricing per cohort</div>
       </div>
       <div class="addon-card">
         <div class="addon-icon">🔍</div>
         <div class="addon-name">CS Diagnostic</div>
-        <div class="addon-desc">One-time 1-hour deep dive — root cause analysis of your churn, a written findings report, and a 90-day action plan.</div>
-        <div class="addon-price">$0 — included in discovery</div>
+        <div class="addon-desc">One-time 1-hour deep dive, root cause analysis of your churn, a written findings report, and a 90-day action plan.</div>
+        <div class="addon-price">$0, included in discovery</div>
       </div>
       <div class="addon-card">
         <div class="addon-icon">🎯</div>
         <div class="addon-name">Board Prep & Presentation</div>
-        <div class="addon-desc">Shane joins your board or investor call for up to 30 minutes — presenting CS health, churn analysis, and forward-looking plan.</div>
+        <div class="addon-desc">Shane joins your board or investor call for up to 30 minutes, presenting CS health, churn analysis, and forward-looking plan.</div>
         <div class="addon-price">Included with Accelerator+</div>
       </div>
       <div class="addon-card">
         <div class="addon-icon">⚡</div>
         <div class="addon-name">Hourly Advisory</div>
-        <div class="addon-desc">Ad hoc strategic advice — hiring decisions, pricing strategy, CS org design, or preparing for a raise. Billed in 1-hour blocks.</div>
+        <div class="addon-desc">Ad hoc strategic advice, hiring decisions, pricing strategy, CS org design, or preparing for a raise. Billed in 1-hour blocks.</div>
         <div class="addon-price">$250/hr</div>
       </div>
     </div>
@@ -746,7 +750,7 @@ h1 em {
         How many hours per month do I get from Shane?
         <span class="arrow">+</span>
       </div>
-      <div class="faq-a">The Accelerator engagement includes <strong>30 dedicated CCO hours per month</strong> — covering strategy sessions, customer interviews, leadership readouts, async reviews, and board prep. The Full Stack tier includes additional hours to cover the expanded scope (team training delivery, org design, and leadership sessions). Hours don't roll over but we're outcome-focused, not clock-watching. If a critical situation needs more time in a given month, we handle it.</div>
+      <div class="faq-a">The Accelerator engagement includes <strong>30 dedicated CCO hours per month</strong>, covering strategy sessions, customer interviews, leadership readouts, async reviews, and board prep. The Full Stack tier includes additional hours to cover the expanded scope (team training delivery, org design, and leadership sessions). Hours don't roll over but we're outcome-focused, not clock-watching. If a critical situation needs more time in a given month, we handle it.</div>
     </div>
 
     <div class="faq-item">
@@ -754,7 +758,7 @@ h1 em {
         What happens to CCOPilot when the engagement ends?
         <span class="arrow">+</span>
       </div>
-      <div class="faq-a">CCOPilot is included at no additional cost during your active engagement. When the engagement concludes, you can continue using the platform at $4,000/month — same full access, same 15 AI agents, same support. Most clients keep it running because the platform is doing ongoing work (health scoring, renewal monitoring, expansion signals) that doesn't stop when the engagement does. You own your data throughout. There's no lock-in beyond the engagement period.</div>
+      <div class="faq-a">CCOPilot is included at no additional cost during your active engagement. When the engagement concludes, you can continue using the platform at $4,000/month, same full access, same 15 AI agents, same support. Most clients keep it running because the platform is doing ongoing work (health scoring, renewal monitoring, expansion signals) that doesn't stop when the engagement does. You own your data throughout. There's no lock-in beyond the engagement period.</div>
     </div>
 
     <div class="faq-item">
@@ -762,7 +766,7 @@ h1 em {
         How is this different from hiring a full-time CCO?
         <span class="arrow">+</span>
       </div>
-      <div class="faq-a">A full-time CCO at Series A/B costs $280K–$380K in salary alone — $23K–$32K per month before benefits, equity, or 6-month ramp. You also inherit the hiring risk. With CCO2go, you get the same C-suite CS experience plus the AI platform built by that CCO, with a 6-month commitment and no long-term employment obligation. If the fit isn't right, you can exit. You can't un-hire a full-time executive.</div>
+      <div class="faq-a">A full-time CCO at Series A/B costs $280K-$380K in salary alone, $23K-$32K per month before benefits, equity, or 6-month ramp. You also inherit the hiring risk. With CCO2go, you get the same C-suite CS experience plus the AI platform built by that CCO, with a 6-month commitment and no long-term employment obligation. If the fit isn't right, you can exit. You can't un-hire a full-time executive.</div>
     </div>
 
     <div class="faq-item">
@@ -770,7 +774,7 @@ h1 em {
         How fast will we see results?
         <span class="arrow">+</span>
       </div>
-      <div class="faq-a">In the first 30 days, you'll have a diagnosis — root causes of churn, customer interview findings, and an action plan. By day 60, your CSMs are running CCOPilot daily and at-risk accounts are identified. By day 90, you have board-ready reports and meaningful leading indicators (health scores, NRR trajectory). Lagging indicators like churn rate take 3–6 months to visibly move, and that's the honest answer.</div>
+      <div class="faq-a">In the first 30 days, you'll have a diagnosis, root causes of churn, customer interview findings, and an action plan. By day 60, your CSMs are running CCOPilot daily and at-risk accounts are identified. By day 90, you have board-ready reports and meaningful leading indicators (health scores, NRR trajectory). Lagging indicators like churn rate take 3-6 months to visibly move, and that's the honest answer.</div>
     </div>
 
     <div class="faq-item">
@@ -778,7 +782,7 @@ h1 em {
         Do I need to sign a long contract?
         <span class="arrow">+</span>
       </div>
-      <div class="faq-a">Both the Accelerator and Full Stack packages require a 6-month minimum — not because we need to lock you in, but because meaningful CS change takes at least a quarter to demonstrate. We've done shorter engagements but they rarely get past diagnosis and into execution. The 6-month commitment gives us enough runway to deliver results you can actually take to your board.</div>
+      <div class="faq-a">Both the Accelerator and Full Stack packages require a 6-month minimum, not because we need to lock you in, but because meaningful CS change takes at least a quarter to demonstrate. We've done shorter engagements but they rarely get past diagnosis and into execution. The 6-month commitment gives us enough runway to deliver results you can actually take to your board.</div>
     </div>
 
     <div class="faq-item">
@@ -786,24 +790,24 @@ h1 em {
         Can we use CCOPilot without the fractional CCO engagement?
         <span class="arrow">+</span>
       </div>
-      <div class="faq-a">Yes — the Platform tier is exactly that. It's $4K/mo for full access to CCOPilot including all 15 AI agents, health scoring, VPC builder, and support. You configure and run it yourselves. If you later want strategic support layered on, you can upgrade to Accelerator at any time.</div>
+      <div class="faq-a">Yes, the Platform tier is exactly that. It's $4K/mo for full access to CCOPilot including all 15 AI agents, health scoring, VPC builder, and support. You configure and run it yourselves. If you later want strategic support layered on, you can upgrade to Accelerator at any time.</div>
     </div>
 
     <div class="faq-item">
       <div class="faq-q" onclick="toggleFAQ(this)">
-        Why do you also sell a platform — isn't that a conflict of interest?
+        Why do you also sell a platform, isn't that a conflict of interest?
         <span class="arrow">+</span>
       </div>
-      <div class="faq-a">Fair question. Most consultants recommend tools they don't understand. I built CCOPilot specifically because nothing on the market was designed for how fractional CCO work actually runs — the agents, the VPC builder, the health models reflect 25 years of doing this work. You're not paying for Gainsight with a consultant slapped on top. You're getting a system designed by the person executing it.</div>
+      <div class="faq-a">Fair question. Most consultants recommend tools they don't understand. I built CCOPilot specifically because nothing on the market was designed for how fractional CCO work actually runs, the agents, the VPC builder, the health models reflect 25 years of doing this work. You're not paying for Gainsight with a consultant slapped on top. You're getting a system designed by the person executing it.</div>
     </div>
 
   </div>
 
   <!-- CTA FOOTER -->
   <div class="cta-footer">
-    <img src="/CCO2go_logo.png" alt="CCO2go.ai" style="height:90px;width:auto;object-fit:contain;margin-bottom:20px;" />
+    <img src="/CCO2go_logo_dark.svg" alt="CCO2go.ai" style="height:90px;width:auto;object-fit:contain;margin-bottom:20px;" />
     <h2>Start with a free 1-hour diagnostic.</h2>
-    <p>No contract. No pitch. Walk away with a diagnosis of what's driving your churn and a 90-day plan — whether you hire us or not.</p>
+    <p>No contract. No pitch. Walk away with a diagnosis of what's driving your churn and a 90-day plan, whether you hire us or not.</p>
     <div class="cta-row">
       <a href="https://scheduler.zoom.us/r-shane-james/hello-i-am-an-event-card" class="btn-primary">Book Discovery Call →</a>
       <a href="/one-pager.html" class="btn-outline">View Executive One-Pager</a>
