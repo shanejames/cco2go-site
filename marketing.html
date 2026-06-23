@@ -10,6 +10,48 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         body { font-family: 'Inter', sans-serif; }
+            /* WHITE-BLUE REBRAND OVERRIDES (on top of Tailwind utilities) */
+        body { background:#FFFFFF !important; color:#14253F !important; }
+        [class*="bg-slate-950"], [class*="bg-slate-900"] { background-color:#FFFFFF !important; box-shadow:0 2px 12px rgba(15,44,87,.05); }
+        [class*="bg-slate-800"], [class*="bg-slate-700"], [class*="bg-slate-600"], [class*="bg-slate-500"] { background-color:#EEF3FA !important; }
+        [class*="bg-cyan-500/"] { background-color:rgba(30,99,208,.09) !important; }
+        [class*="bg-teal-500/"] { background-color:rgba(30,99,208,.09) !important; }
+        [class*="bg-blue-500/"] { background-color:rgba(59,130,246,.10) !important; }
+        [class*="bg-emerald-500/"] { background-color:rgba(21,160,74,.10) !important; }
+        [class*="bg-amber-500/"] { background-color:rgba(178,108,10,.10) !important; }
+        [class*="bg-orange-500/"] { background-color:rgba(194,116,11,.10) !important; }
+        [class*="bg-purple-500/"] { background-color:rgba(59,91,219,.10) !important; }
+        /* text */
+        .text-white { color:#14253F !important; }
+        .text-slate-200 { color:#2E3E57 !important; }
+        .text-slate-300, .text-slate-400 { color:#54627C !important; }
+        .text-slate-500, .text-slate-600 { color:#6B7A8F !important; }
+        .text-slate-950, .text-slate-900 { color:#14253F !important; }
+        .text-cyan-400, .text-cyan-300 { color:#1E63D0 !important; }
+        .text-blue-400 { color:#2563EB !important; }
+        .text-teal-400 { color:#0E7C8C !important; }
+        .text-emerald-400, .text-emerald-300 { color:#15A04A !important; }
+        .text-amber-400 { color:#B26C0A !important; }
+        .text-orange-400 { color:#C2740B !important; }
+        .text-purple-400 { color:#3B5BDB !important; }
+        .text-red-400 { color:#DC2626 !important; }
+        /* borders */
+        [class*="border-slate-700"], [class*="border-slate-800"] { border-color:#E4EBF5 !important; }
+        [class*="border-cyan-500"] { border-color:rgba(30,99,208,.35) !important; }
+        [class*="border-teal-500"] { border-color:rgba(14,124,140,.30) !important; }
+        [class*="border-emerald-500"], [class*="border-emerald-400"] { border-color:rgba(21,160,74,.35) !important; }
+        [class*="border-amber-500"], [class*="border-amber-400"] { border-color:rgba(178,108,10,.35) !important; }
+        [class*="border-purple-500"] { border-color:rgba(59,91,219,.30) !important; }
+        /* gradient tints */
+        [class*="from-cyan-500/"] { --tw-gradient-from:rgba(30,99,208,.07) !important; }
+        [class*="to-blue-500/"] { --tw-gradient-to:rgba(59,130,246,.07) !important; }
+        /* solid accent buttons keep white text (placed AFTER text rules to win) */
+        .bg-cyan-500, .bg-cyan-400 { background-color:#1E63D0 !important; }
+        .bg-cyan-400 { background-color:#3B82F6 !important; }
+        .bg-emerald-500, .bg-emerald-600 { background-color:#15A04A !important; }
+        .bg-purple-500, .bg-purple-600 { background-color:#3B5BDB !important; }
+        .bg-cyan-500, .bg-cyan-400, .bg-emerald-500, .bg-emerald-600, .bg-purple-500, .bg-purple-600 { color:#fff !important; }
+        .bg-cyan-500 *, .bg-cyan-400 *, .bg-emerald-500 *, .bg-emerald-600 *, .bg-purple-500 *, .bg-purple-600 * { color:#fff !important; }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-200 p-8">
@@ -330,7 +372,7 @@
                             <h3 class="font-bold text-white text-lg group-hover:text-cyan-400 transition">Manta → IBM Case Study</h3>
                             <i data-lucide="external-link" class="w-4 h-4 text-slate-500 group-hover:text-cyan-400 transition"></i>
                         </div>
-                        <p class="text-sm text-slate-400 mb-3">Built CS org from zero to acquisition — with CEO testimonial from Tomas Kratky</p>
+                        <p class="text-sm text-slate-400 mb-3">Built CS org from zero to acquisition, with CEO testimonial from Tomas Kratky</p>
                         <div class="space-y-1 text-xs text-slate-500">
                             <div class="flex items-start">
                                 <span class="font-semibold text-cyan-400 mr-2">Use for:</span>
@@ -345,7 +387,7 @@
 
                     <a href="/onapsis-case-study.html" class="bg-slate-900/40 p-6 rounded-xl border border-slate-800 hover:border-cyan-500 transition group">
                         <div class="flex justify-between items-start mb-3">
-                            <h3 class="font-bold text-white text-lg group-hover:text-cyan-400 transition">Onapsis — CS Transformation</h3>
+                            <h3 class="font-bold text-white text-lg group-hover:text-cyan-400 transition">Onapsis, CS Transformation</h3>
                             <i data-lucide="external-link" class="w-4 h-4 text-slate-500 group-hover:text-cyan-400 transition"></i>
                         </div>
                         <p class="text-sm text-slate-400 mb-3">Transformed reactive support into strategic CS function driving NRR and expansion</p>
@@ -366,7 +408,7 @@
                             <h3 class="font-bold text-white text-lg group-hover:text-cyan-400 transition">The CS Reckoning</h3>
                             <i data-lucide="external-link" class="w-4 h-4 text-slate-500 group-hover:text-cyan-400 transition"></i>
                         </div>
-                        <p class="text-sm text-slate-400 mb-3">White paper: why CS metrics, rituals, and revenue models are broken — and what top teams are doing now</p>
+                        <p class="text-sm text-slate-400 mb-3">White paper: why CS metrics, rituals, and revenue models are broken, and what top teams are doing now</p>
                         <div class="space-y-1 text-xs text-slate-500">
                             <div class="flex items-start">
                                 <span class="font-semibold text-cyan-400 mr-2">Use for:</span>
@@ -589,7 +631,7 @@
                                     Copy
                                 </button>
                             </div>
-                            <p class="text-sm text-slate-400 mb-3 leading-relaxed">Subject: "Following up — [Company] + CCO2go.ai next steps"</p>
+                            <p class="text-sm text-slate-400 mb-3 leading-relaxed">Subject: "Following up, [Company] + CCO2go.ai next steps"</p>
                             <div class="text-xs text-slate-500 space-y-1">
                                 <div><span class="text-teal-400">Timing:</span> Within 24 hours of discovery call</div>
                                 <div><span class="text-teal-400">Includes:</span> What you heard + 30-day plan + math + next steps</div>
@@ -610,7 +652,7 @@
                     <a href="/CCO2go_Sales_Playbook.html" class="bg-slate-900/40 p-6 rounded-xl border border-slate-800 hover:border-cyan-500 transition group">
                         <div class="flex justify-between items-start mb-3">
                             <div>
-                                <img src="/CCO2go_logo.png" alt="CCO2go.ai" class="h-7 mb-2 brightness-90">
+                                <img src="/CCO2go_logo_dark.svg" alt="CCO2go.ai" class="h-7 mb-2">
                                 <h3 class="font-bold text-white text-lg group-hover:text-cyan-400 transition">Sales Playbook</h3>
                             </div>
                             <i data-lucide="external-link" class="w-4 h-4 text-slate-500 group-hover:text-cyan-400 transition"></i>
@@ -648,7 +690,7 @@
                         </div>
                         <div class="flex gap-2 text-xs">
                             <span class="bg-cyan-500/10 text-cyan-400 px-2 py-1 rounded">Practice Mode:</span>
-                            <span class="text-slate-500">Hides Shane's responses — test yourself first</span>
+                            <span class="text-slate-500">Hides Shane's responses, test yourself first</span>
                         </div>
                         <div class="flex gap-2 text-xs mt-2">
                             <span class="bg-purple-500/10 text-purple-400 px-2 py-1 rounded">Patterns tab:</span>
@@ -662,7 +704,7 @@
                         </div>
                         <div class="flex justify-between items-start mb-3">
                             <div>
-                                <img src="/CCOPilot_logo.png" alt="CCOPilot.ai" class="h-7 mb-2 brightness-90">
+                                <img src="/CCOPilot_logo.png" alt="CCOPilot.ai" class="h-7 mb-2" style="background:#0F2C57;padding:5px 9px;border-radius:7px">
                                 <h3 class="font-bold text-white text-lg group-hover:text-amber-400 transition">Demo Playbook & Scripts</h3>
                             </div>
                             <i data-lucide="download" class="w-4 h-4 text-slate-500 group-hover:text-amber-400 transition"></i>
@@ -713,7 +755,7 @@
                             </div>
                             <span class="text-xs bg-slate-700 text-slate-400 px-2 py-1 rounded">Planned</span>
                         </div>
-                        <p class="text-sm text-slate-400 mb-4">5 SMB scenarios covering HVAC, plumbing, pest control, landscaping, and competitor comparisons — with practice mode.</p>
+                        <p class="text-sm text-slate-400 mb-4">5 SMB scenarios covering HVAC, plumbing, pest control, landscaping, and competitor comparisons, with practice mode.</p>
                         <div class="space-y-2 mb-4">
                             <div class="text-xs text-slate-500 flex items-start gap-2">
                                 <i data-lucide="user" class="w-3 h-3 mt-0.5 text-slate-600"></i>
@@ -739,7 +781,7 @@
                             <div class="text-xs text-slate-600">+2 more</div>
                         </div>
                         <div class="text-xs text-slate-600">
-                            Planned — build when CCO2go version is validated
+                            Planned, build when CCO2go version is validated
                         </div>
                     </div>
                 </div>
@@ -758,7 +800,7 @@
                         </div>
                         <div class="flex-grow">
                             <h3 class="text-2xl font-bold text-white mb-2">9-Week Training Portal</h3>
-                            <p class="text-slate-400 mb-4">Master directory for all 27 modules across 3 phases — every presentation, framework, and action set organized in one place for cohort students.</p>
+                            <p class="text-slate-400 mb-4">Master directory for all 27 modules across 3 phases, every presentation, framework, and action set organized in one place for cohort students.</p>
                             <div class="grid grid-cols-3 gap-3 mb-5">
                                 <div class="bg-slate-900/50 p-3 rounded-lg border border-slate-700">
                                     <div class="text-xs text-cyan-400 font-semibold mb-1">Phase 1: Diagnose</div>
@@ -936,23 +978,23 @@ Both times, retention metrics were the most scrutinized numbers in the data room
 
 Here's what I learned: The companies that survive due diligence can answer three questions with data, not hope:
 
-1. **Why are customers leaving?** (Not "competitor pricing"—the real root causes)
+1. **Why are customers leaving?** (Not "competitor pricing", the real root causes)
 2. **Which accounts are at risk right now?** (Before the customer tells you they're churning)
 3. **What's your NRR trajectory?** (And can you prove it's not inflated by price increases?)
 
 Most SaaS founders between Seed and Series C can't answer these questions. Their CS team exists on the org chart but not in practice. They're measuring NPS (which doesn't predict churn), running QBRs (which customers resent), and hoping problems don't surface before the next board meeting.
 
-Then their board asks: "What's our churn by cohort?" or "What's driving our NRR decline?"—and the founder realizes they've been running CS on spreadsheets and intuition.
+Then their board asks: "What's our churn by cohort?" or "What's driving our NRR decline?", and the founder realizes they've been running CS on spreadsheets and intuition.
 
 **That's the conversation I prevent.**
 
-I'm Shane James. I run CCO2go.ai—fractional Chief Customer Officer services for startups who need retention infrastructure built fast.
+I'm Shane James. I run CCO2go.ai, fractional Chief Customer Officer services for startups who need retention infrastructure built fast.
 
 **What makes this different:**
 
 You're not hiring a consultant who gives you a deck. You're getting:
 • **Strategic leadership** (me, 25+ years CCO experience, embedded 10-15 hrs/week)
-• **AI infrastructure** (CCOPilot.ai—15 agents I built for churn prediction, health scoring, workflow automation)
+• **AI infrastructure** (CCOPilot.ai, 15 agents I built for churn prediction, health scoring, workflow automation)
 • **Team training** (9-week program that turns CSMs into revenue engineers)
 
 **Recent results:**
@@ -962,7 +1004,7 @@ You're not hiring a consultant who gives you a deck. You're getting:
 
 **I also just published a book** about why most CS practices are broken. It's called *"Your Customers Are Lying to You"* and it makes the case that NPS, QBRs, and "checking in" are destroying customer relationships.
 
-If you reply, I'll send you Chapter 8 ("The 90-Day Takeover")—it's the exact playbook I use in engagements. No opt-in form, no marketing automation—just the PDF.
+If you reply, I'll send you Chapter 8 ("The 90-Day Takeover"), it's the exact playbook I use in engagements. No opt-in form, no marketing automation, just the PDF.
 
 **Three ways I can help (pick the one that fits):**
 
@@ -995,7 +1037,7 @@ No pitch. No obligation. If I can't help, I'll tell you in the first 15 minutes 
 
 I'll send you Chapter 8 and we'll schedule the diagnostic.
 
-— Shane James  
+,  Shane James  
 CCO2go.ai | CCOPilot.ai  
 Author, *"Your Customers Are Lying to You"*  
 2 exits to Fortune 500 companies (IBM, ServiceNow)  
@@ -1082,7 +1124,7 @@ https://calendar.app.google/USD96UTegZVa4EBt5
 
 Or reply with your current churn rate and ARR. I'll send you a custom breakdown of what you're losing and what it would take to fix it.
 
-— Shane James  
+,  Shane James  
 CCO2go.ai | CCOPilot.ai  
 2 exits, both retention-driven (IBM, ServiceNow)  
 (813) 666-8427  
@@ -1102,7 +1144,7 @@ The buyer's CFO asks for retention cohorts. NRR trending by segment. Health stat
 
 And the portfolio company can't produce the reports.
 
-I've walked two companies through Tier 1 acquisitions—Manta to IBM and data.world to ServiceNow. Both times, customer retention metrics were the most scrutinized numbers in the data room. Both times, the deals closed because we built the infrastructure before the buyer showed up.
+I've walked two companies through Tier 1 acquisitions, Manta to IBM and data.world to ServiceNow. Both times, customer retention metrics were the most scrutinized numbers in the data room. Both times, the deals closed because we built the infrastructure before the buyer showed up.
 
 **Here's what IBM actually asked for during 90 days of due diligence:**
 
@@ -1129,12 +1171,12 @@ This is the framework I built to protect company valuation during M&A processes.
 The "Rainmaker" score I built analyzes API consumption decay, feature orphaning, and support ticket velocity. Buyers trust data-driven models, not subjective health assessments.
 
 **2. Top 20% Focus**  
-Deploy predictive scoring and intensive monitoring on the accounts representing 80% of your valuation—the ones buyers scrutinize most.
+Deploy predictive scoring and intensive monitoring on the accounts representing 80% of your valuation, the ones buyers scrutinize most.
 
 **3. 60-Day Early Warning**  
-Detect churn risk 60 days before cancellation—enough time to execute retention plays before valuation impact.
+Detect churn risk 60 days before cancellation, enough time to execute retention plays before valuation impact.
 
-**By Day 45, you have mathematically validated health scores** for your Top 20% revenue accounts. You move from "hoping" customers are healthy to **knowing exactly which ones are at risk**—and your customer data becomes "Diligence-Ready" for the most rigorous Tier 1 buyers.
+**By Day 45, you have mathematically validated health scores** for your Top 20% revenue accounts. You move from "hoping" customers are healthy to **knowing exactly which ones are at risk**, and your customer data becomes "Diligence-Ready" for the most rigorous Tier 1 buyers.
 
 **Two Engagement Models:**
 
@@ -1157,7 +1199,7 @@ Ideal for: Active M&A processes or companies building for exit in 6-12 months
 
 **This is not advisory. This is operational.**
 
-I don't deliver a deck and disappear. I embed with the team, deploy CCOPilot.ai (the AI platform I built—15 agents, predictive churn models, automated health scoring), and build the infrastructure that IBM and ServiceNow demanded during due diligence.
+I don't deliver a deck and disappear. I embed with the team, deploy CCOPilot.ai (the AI platform I built, 15 agents, predictive churn models, automated health scoring), and build the infrastructure that IBM and ServiceNow demanded during due diligence.
 
 **For PE Operating Partners:**
 
@@ -1180,7 +1222,7 @@ Reply with the company stage, current churn/NRR if known, and timeline to exit. 
 
 No long sales cycle. No RFP process. Just: here's what the buyer will scrutinize, here's what you're missing, here's the fix.
 
-— Shane James  
+,  Shane James  
 The Exit Architect  
 CCO2go.ai | CCOPilot.ai  
 
@@ -1203,7 +1245,7 @@ I spent six months analyzing the difference between CS teams that achieve 115%+ 
 
 It's not headcount. It's not budget. It's not the product.
 
-It's that the high-performing teams operate with a fundamentally different set of methods—and those methods are teachable.
+It's that the high-performing teams operate with a fundamentally different set of methods, and those methods are teachable.
 
 **Here's what the 115%+ teams do differently:**
 
@@ -1256,10 +1298,10 @@ Metrics, AI architecture, and the 90-day war plan:
 Every framework comes from work that survived Fortune 500 due diligence. I didn't learn this from LinkedIn posts. I learned it by having IBM's CFO audit my retention metrics for 90 days.
 
 2. **It's designed for immediate deployment**  
-Every module ends with "Do This Monday"—specific actions your team takes before the next session. Learning without application doesn't transfer.
+Every module ends with "Do This Monday", specific actions your team takes before the next session. Learning without application doesn't transfer.
 
 3. **It teaches the AI layer**  
-Your CSMs need to understand what AI actually changes in CS operations—and how to deploy agents without being displaced by them. Phase 3 covers the 15-agent architecture in production at CCOPilot.ai.
+Your CSMs need to understand what AI actually changes in CS operations, and how to deploy agents without being displaced by them. Phase 3 covers the 15-agent architecture in production at CCOPilot.ai.
 
 4. **It builds financial fluency**  
 The CS leaders who become CROs in 2028 are the ones who can present an NRR compounding model to a board today. Week 7 teaches exactly that conversation.
@@ -1271,7 +1313,7 @@ Not because your CSMs got smarter. Because they're operating with a method that 
 **I also just published a book** that makes the full case for why CS is broken. It's called *"Your Customers Are Lying to You"* and it's basically a 14-chapter manifesto on everything wrong with NPS, QBRs, and the CS orthodoxy we built over the last decade.
 
 If you reply, I'll send you:
-• Chapter 8 ("The 90-Day Takeover")—the exact playbook used in fractional CCO engagements  
+• Chapter 8 ("The 90-Day Takeover"), the exact playbook used in fractional CCO engagements  
 • The CS Reckoning white paper (condensed version with data on NPS failure rates, QBR ROI, expansion motion impact)  
 • Full training curriculum breakdown (all 27 modules listed)  
 
@@ -1286,7 +1328,7 @@ No opt-in form. No marketing automation. Just the PDFs.
 
 I'll send the materials and we'll schedule a call to see if the program fits your team.
 
-— Shane James  
+,  Shane James  
 CCO2go.ai | CCOPilot.ai  
 Author, *"Your Customers Are Lying to You"*  
 25+ years CS leadership | 2 exits | Churn reduction 22% → 7%  
@@ -1349,15 +1391,15 @@ shane.james@cco2go.ai
         }
 
         function copyFollowUp() {
-            const text = `Subject: Following up — [Company] + CCO2go.ai next steps
+            const text = `Subject: Following up, [Company] + CCO2go.ai next steps
 
 [Name],
 
 Really enjoyed our conversation today. A few things I want to put in writing so you have them:
 
-What I heard: [1-2 sentence summary of their specific pain — churn rate, ARR, key challenge].
+What I heard: [1-2 sentence summary of their specific pain, churn rate, ARR, key challenge].
 
-What I'd do in the first 30 days: Interview your top 10 customers and the 5 most recent churns. Share what I find with your leadership team — radical candor, not a slide deck. Start connecting your data into CCOPilot so we have every customer visible in one place.
+What I'd do in the first 30 days: Interview your top 10 customers and the 5 most recent churns. Share what I find with your leadership team, radical candor, not a slide deck. Start connecting your data into CCOPilot so we have every customer visible in one place.
 
 The math: At [X]% churn on [Y ARR], you're losing roughly $[Z] per year. That's the number we're working against together.
 
