@@ -10,6 +10,56 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+            /* WHITE-BLUE REBRAND OVERRIDES (on top of Tailwind) */
+        body { background:#FFFFFF !important; color:#14253F !important; }
+        [class*="bg-slate-950"], [class*="bg-slate-900"] { background-color:#FFFFFF !important; box-shadow:0 2px 12px rgba(15,44,87,.05); }
+        [class*="bg-slate-800"], [class*="bg-slate-700"], [class*="bg-slate-600"], [class*="bg-slate-500"] { background-color:#EEF3FA !important; }
+        [class*="bg-cyan-500/"], [class*="bg-cyan-400/"], [class*="bg-teal-500/"] { background-color:rgba(30,99,208,.09) !important; }
+        [class*="bg-blue-500/"], [class*="bg-blue-400/"] { background-color:rgba(59,130,246,.10) !important; }
+        [class*="bg-indigo-500/"] { background-color:rgba(59,91,219,.10) !important; }
+        [class*="bg-emerald-500/"], [class*="bg-emerald-400/"] { background-color:rgba(21,160,74,.10) !important; }
+        [class*="bg-amber-500/"], [class*="bg-amber-400/"] { background-color:rgba(178,108,10,.10) !important; }
+        [class*="bg-orange-500/"] { background-color:rgba(194,116,11,.10) !important; }
+        [class*="bg-purple-500/"] { background-color:rgba(59,91,219,.10) !important; }
+        [class*="bg-red-500/"] { background-color:rgba(220,38,38,.09) !important; }
+        .text-white { color:#14253F !important; }
+        .text-slate-200 { color:#2E3E57 !important; }
+        .text-slate-300, .text-slate-400 { color:#54627C !important; }
+        .text-slate-500, .text-slate-600 { color:#6B7A8F !important; }
+        .text-slate-950, .text-slate-900 { color:#14253F !important; }
+        [class*="text-cyan-3"], [class*="text-cyan-4"] { color:#1E63D0 !important; }
+        [class*="text-blue-3"], [class*="text-blue-4"], [class*="text-blue-5"] { color:#2563EB !important; }
+        [class*="text-indigo-3"], [class*="text-indigo-4"] { color:#3B5BDB !important; }
+        [class*="text-teal-3"], [class*="text-teal-4"] { color:#0E7C8C !important; }
+        [class*="text-emerald-3"], [class*="text-emerald-4"], [class*="text-emerald-5"], [class*="text-emerald-6"] { color:#15A04A !important; }
+        [class*="text-amber-3"], [class*="text-amber-4"] { color:#B26C0A !important; }
+        [class*="text-orange-3"], [class*="text-orange-4"], [class*="text-orange-5"] { color:#C2740B !important; }
+        [class*="text-purple-3"], [class*="text-purple-4"] { color:#3B5BDB !important; }
+        [class*="text-red-3"], [class*="text-red-4"] { color:#DC2626 !important; }
+        [class*="border-slate-700"], [class*="border-slate-800"], [class*="border-slate-900"] { border-color:#E4EBF5 !important; }
+        [class*="border-cyan-"] { border-color:rgba(30,99,208,.35) !important; }
+        [class*="border-blue-"] { border-color:rgba(59,130,246,.35) !important; }
+        [class*="border-teal-"] { border-color:rgba(14,124,140,.30) !important; }
+        [class*="border-emerald-"] { border-color:rgba(21,160,74,.35) !important; }
+        [class*="border-amber-"] { border-color:rgba(178,108,10,.35) !important; }
+        [class*="border-orange-"] { border-color:rgba(194,116,11,.35) !important; }
+        [class*="border-purple-"], [class*="border-indigo-"] { border-color:rgba(59,91,219,.30) !important; }
+        [class*="border-red-"] { border-color:rgba(220,38,38,.30) !important; }
+        [class*="from-cyan-500/"] { --tw-gradient-from:rgba(30,99,208,.07) !important; }
+        [class*="from-blue-500/"] { --tw-gradient-from:rgba(59,130,246,.07) !important; }
+        [class*="from-indigo-500/"] { --tw-gradient-from:rgba(59,91,219,.07) !important; }
+        [class*="from-emerald-500/"] { --tw-gradient-from:rgba(21,160,74,.07) !important; }
+        [class*="to-blue-500/"] { --tw-gradient-to:rgba(59,130,246,.07) !important; }
+        [class*="to-cyan-500/"] { --tw-gradient-to:rgba(30,99,208,.07) !important; }
+        [class*="to-purple-500/"] { --tw-gradient-to:rgba(59,91,219,.07) !important; }
+        [class*="to-emerald-500/"] { --tw-gradient-to:rgba(21,160,74,.07) !important; }
+        .bg-cyan-500 { background-color:#1E63D0 !important; }
+        .bg-cyan-400 { background-color:#3B82F6 !important; }
+        .bg-blue-500, .bg-blue-600 { background-color:#2563EB !important; }
+        .bg-emerald-400, .bg-emerald-500, .bg-emerald-600 { background-color:#15A04A !important; }
+        .bg-purple-500, .bg-purple-600 { background-color:#3B5BDB !important; }
+        .bg-cyan-500, .bg-cyan-400, .bg-blue-500, .bg-blue-600, .bg-emerald-400, .bg-emerald-500, .bg-emerald-600, .bg-purple-500, .bg-purple-600 { color:#fff !important; }
+        .bg-cyan-500 *, .bg-cyan-400 *, .bg-blue-500 *, .bg-blue-600 *, .bg-emerald-400 *, .bg-emerald-500 *, .bg-emerald-600 *, .bg-purple-500 *, .bg-purple-600 * { color:#fff !important; }
     </style>
 </head>
 <body class="bg-[#020617] text-slate-200">
@@ -426,7 +476,7 @@
 
             <div class="mt-8 bg-slate-900/60 p-6 rounded-xl border border-slate-800 text-center">
                 <p class="text-slate-300">
-                    <strong class="text-white">The result:</strong> When the buyer's CFO asks for retention data, you email the report in 5 minutes—not scramble for 2 weeks.
+                    <strong class="text-white">The result:</strong> When the buyer's CFO asks for retention data, you email the report in 5 minutes, not scramble for 2 weeks.
                 </p>
             </div>
         </div>
